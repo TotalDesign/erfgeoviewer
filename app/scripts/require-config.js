@@ -37,6 +37,7 @@ require.config( {
     "backbone.wreqr": "../bower_components/backbone.wreqr/lib/backbone.wreqr",
     "backbone.babysitter": "../bower_components/backbone.babysitter/lib/backbone.babysitter",
     "bootstrap": "vendor/bootstrap",
+    "config": "config/dev",
     "d3": "../bower_components/d3/d3",
     "jquery": "../bower_components/jquery/jquery",
     "mapbox": "../bower_components/mapbox.js/mapbox.uncompressed",

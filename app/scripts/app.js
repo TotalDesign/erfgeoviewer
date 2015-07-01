@@ -1,9 +1,11 @@
 define([
 	'backbone', 'backbone.marionette', 'communicator',
+  'models/routes',
 	'views/map', 'views/header'
 ],
 
 function( Backbone, Marionette, Communicator,
+          RoutesModel,
 					MapView, HeaderView ) {
     'use strict';
 
@@ -26,8 +28,14 @@ function( Backbone, Marionette, Communicator,
 		layout.render();
 		container.show(layout);
 
-    layout.getRegion( 'header' ).show( new HeaderView() );
     layout.getRegion( 'content' ).show( new MapView( {layout: layout} ) );
+
+    var routes_model = new RoutesModel();
+    routes_model.fetch({
+      success: function() {
+        layout.getRegion( 'header' ).show( new HeaderView() );
+      }
+    });
 
 	});
 
