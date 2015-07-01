@@ -1,0 +1,25 @@
+{
+  "name": "erfgeoviewer",
+  "version": "0.0.1",
+  "dependencies": {
+    "sass-bootstrap": "~2.3.0",
+    "jquery": "~1.9.0",
+    "requirejs": "~2.1.5",
+    "requirejs-text": "~2.0.5",
+    "backbone.marionette": "~2.4.2",
+    "backbone.wreqr": "~0.2.0",
+    "backbone.babysitter": "~0.0.6",
+    "mocha": "~1.12.0",
+    "chai": "~1.7.2",
+    "sinon": "~1.7.3",
+    "backbone": "~1.2.1",
+    "marionette": "~2.4.1",
+    "requirejs-tpl": "*",
+    "mapbox.js": "~2.1.6",
+    "d3": "~3.5.5"
+  },
+  "devDependencies": {
+    "susy": "~2.2.2"
+  },
+  "directory": "bower_components"
+}

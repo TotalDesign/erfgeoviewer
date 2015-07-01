@@ -1,0 +1,23 @@
+@import "init";
+@import "../bower_components/mapbox.js/mapbox.css";
+
+.marker-sluis {
+  white-space: nowrap;
+  background-color: $color_yellow;
+  font-family: $font_serif;
+  font-size: 14px;
+  padding: 5px 8px;
+  text-align: center;
+  @include box-shadow(rgba(50,50,50,0.5) 1px 1px 5px);
+  &:after {
+    content: '▲';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -6px;
+    color: #f9e11e;
+    text-shadow: rgba(50, 50, 50, 0.5) -1px -3px 2px;
+    transform: rotate(180deg);
+    margin-top: -6px;
+  }
+}
