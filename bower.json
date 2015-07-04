@@ -21,5 +21,9 @@
   "devDependencies": {
     "susy": "~2.2.2"
   },
-  "directory": "bower_components"
+  "directory": "bower_components",
+  "resolutions": {
+    "backbone.wreqr": "^1.0.0",
+    "backbone.babysitter": "^0.1.0"
+  }
 }
