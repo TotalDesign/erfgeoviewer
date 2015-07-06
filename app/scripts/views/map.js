@@ -29,6 +29,8 @@ define(["backbone.marionette", "mapbox", "d3", "communicator",
         this.map.setZoom(this.map.getZoom() - 1);
       }, this);
 
+      Communicator.reqres.setHandler( "getMap", function() { return self.map; });
+
       this.registerAutoWidthMarker();
       this.registerLeafletZoomThrottle(200);
 

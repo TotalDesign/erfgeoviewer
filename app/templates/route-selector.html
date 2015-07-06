@@ -1,0 +1,9 @@
+<h1>ErfGeoviewer</h1>
+
+<label>Route:</label>
+<select id="edit-route">
+  <option value="0">Kies een route</option>
+  <% _.each(routes, function(r) { %>
+    <option value="<%= r.get('id') %>"><%= r.get('name').nl %></option>
+  <% }); %>
+</select>

@@ -1,12 +1,12 @@
 define([
 	'backbone', 'backbone.marionette', 'communicator',
   'models/routes',
-	'views/map', 'views/header'
+	'views/map', 'views/route-selector'
 ],
 
 function( Backbone, Marionette, Communicator,
-          RoutesModel,
-					MapView, HeaderView ) {
+          RoutesCollection,
+					MapView, RouteSelector ) {
     'use strict';
 
 	var App = new Marionette.Application();
@@ -30,10 +30,12 @@ function( Backbone, Marionette, Communicator,
 
     layout.getRegion( 'content' ).show( new MapView( {layout: layout} ) );
 
-    var routes_model = new RoutesModel();
-    routes_model.fetch({
-      success: function() {
-        layout.getRegion( 'header' ).show( new HeaderView() );
+    var routes_collection = new RoutesCollection();
+    routes_collection.fetch({
+      success: function(c) {
+        layout.getRegion( 'header' ).show( new RouteSelector( {
+          collection: c
+        }) );
       }
     });
 

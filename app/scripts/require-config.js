@@ -25,6 +25,10 @@ require.config( {
     "bootstrap": {
       "deps": ["jquery"],
       "exports": "jquery"
+    },
+
+    "polyline": {
+      "exports": "polyline"
     }
 
   },
@@ -41,6 +45,7 @@ require.config( {
     "d3": "../bower_components/d3/d3",
     "jquery": "../bower_components/jquery/jquery",
     "mapbox": "../bower_components/mapbox.js/mapbox.uncompressed",
+    "polyline": "../bower_components/polyline/src/polyline",
     "underscore": "../bower_components/underscore/underscore",
 
     /* Shortcut paths */

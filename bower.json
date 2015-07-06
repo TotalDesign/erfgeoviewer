@@ -16,7 +16,8 @@
     "marionette": "~2.4.1",
     "requirejs-tpl": "*",
     "mapbox.js": "~2.1.6",
-    "d3": "~3.5.5"
+    "d3": "~3.5.5",
+    "polyline": "~0.1.0"
   },
   "devDependencies": {
     "susy": "~2.2.2"
