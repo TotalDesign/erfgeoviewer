@@ -5,7 +5,9 @@ define( ["backbone.marionette", "config"],
 
       defaults: {
         latlongField: "delving_locationLatLong_location",
-        searchDistance: 100
+        numfound: 0,
+        searchDistance: 100,
+        terms: ''
       },
       urlRoot: Config.delving.uri + '/search',
       url: function() {

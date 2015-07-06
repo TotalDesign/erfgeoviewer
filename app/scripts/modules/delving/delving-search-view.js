@@ -11,9 +11,11 @@ define(["backbone.marionette",
     initialize: function(o) {
       this.model = o.model;
       _.bindAll( this, 'search' );
+
+      this.model.on( 'change:numfound', this.render );
     },
 
-    onShow: function() {
+    onRender: function() {
       var self = this;
       $( '.search-box', this.$el ).keyup( function( e ) {
         if (e.keyCode == 13) {
@@ -26,6 +28,10 @@ define(["backbone.marionette",
     search: function(e) {
       var $t = $( e.target );
       var term = $t.val();
+      if (this.model.get('terms') == term) {
+        // hack to force a change event
+        term = term + ' ';
+      }
       this.model.set( 'terms', term );
     }
 
