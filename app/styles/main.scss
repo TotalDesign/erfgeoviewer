@@ -1,9 +1,11 @@
 @import "init";
 @import "map";
+@import "delving";
 
 body {
   margin: 0;
   padding: 0;
+  height: 100%;
   font-family: $font_serif;
   text-rendering: geometricPrecision;
   font-size: 15px;
@@ -35,5 +37,35 @@ ul.menu {
   display: none;
   &.visible {
     display: block;
+  }
+}
+
+#header {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: #f3f3f3;
+  z-index: 1;
+  width: 100%;
+  h1 {
+    margin: 0;
+  }
+  > div {
+    padding: 10px 15px;
+  }
+}
+
+#flyout {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background-color: #222;
+  color: #f3f3f3;
+  width: 40%;
+  height: 100%;
+  z-index: 3;
+  overflow-y: scroll;
+  > div {
+    padding: 15px;
   }
 }

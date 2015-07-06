@@ -1,6 +1,10 @@
 define("config", function () {
   return {
 
+    "delving": {
+      "uri": "http://onh-prod.delving.org/api"
+    },
+
     "mapbox": {
       "accessToken": "",
       "baseLayerId": ""

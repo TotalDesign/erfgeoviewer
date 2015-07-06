@@ -1,10 +1,12 @@
 define([
 	'backbone', 'backbone.marionette', 'communicator',
-	'views/map', 'views/header', 'modules/routeyou/routeyou'
+	'views/map', 'views/header',
+  'modules/routeyou/routeyou', 'modules/delving/delving'
 ],
 
 function( Backbone, Marionette, Communicator,
-					MapView, HeaderView, RouteyouModule ) {
+					MapView, HeaderView,
+          RouteyouModule, DelvingModule ) {
     'use strict';
 
 	var App = new Marionette.Application();
@@ -19,7 +21,8 @@ function( Backbone, Marionette, Communicator,
 				header: "#header",
         routeyou: "#routeyou",
 				content: "#content",
-        tooltip: "#tooltip"
+        tooltip: "#tooltip",
+        flyout: "#flyout"
 			}
 		});
 
@@ -29,7 +32,7 @@ function( Backbone, Marionette, Communicator,
 
     // Initialize modules.
     layout.getRegion( 'content' ).show( new MapView( {layout: layout} ) );
-    layout.getRegion( 'header' ).show( new HeaderView() );
+    //layout.getRegion( 'header' ).show( new HeaderView() );
 
     // All modules are passed this
     var moduleOptions = {
@@ -37,7 +40,10 @@ function( Backbone, Marionette, Communicator,
       region: null
     };
 
-    new RouteyouModule( {region: layout.getRegion( 'routeyou' )} );
+    new DelvingModule( {
+      region: layout.getRegion( 'flyout' )
+    } );
+    //new RouteyouModule( {region: layout.getRegion( 'routeyou' )} );
 
 	});
 
