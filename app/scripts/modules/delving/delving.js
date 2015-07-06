@@ -1,10 +1,10 @@
 /**
  * Controller for Delving module.
  */
-define( ['backbone.marionette',
+define( ['backbone.marionette', 'communicator',
     'tpl!modules/delving/templates/layout.html',
     'modules/delving/results-view', 'modules/delving/delving-model', 'modules/delving/delving-search-view'],
-  function(Marionette,
+  function(Marionette, Communicator,
            LayoutTemplate,
            ResultsView, DelvingSearchModel, DelvingSearchView) {
 
@@ -48,6 +48,16 @@ define( ['backbone.marionette',
         });
 
         search_model.on("change:terms", function() {
+          // Update model with current map location before executing the search.
+          var map = Communicator.reqres.request( 'getMap' );
+          var center = map.getCenter();
+          var bounds = map.getBounds();
+          var distance = bounds.getSouthWest().distanceTo(bounds.getNorthEast()) / 1000 / 2;
+
+          this.set( 'lat', center.lat );
+          this.set( 'lng', center.lng );
+          this.set( 'searchDistance', distance );
+
           this.fetch({
             success: function(model) {
               var r = model.get('result');

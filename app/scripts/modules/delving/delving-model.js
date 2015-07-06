@@ -3,9 +3,19 @@ define( ["backbone.marionette", "config"],
 
     return Backbone.Model.extend( {
 
+      defaults: {
+        latlongField: "delving_locationLatLong_location",
+        searchDistance: 100
+      },
       urlRoot: Config.delving.uri + '/search',
       url: function() {
-        return this.urlRoot + '?format=json&query=' + this.get( 'terms' )
+        var filters = '';
+        if (this.get('lat') && this.get('lng')) {
+          filters += '&pt=' + this.get('lat') + ',' + this.get('lng')
+            + '&d=' + this.get('searchDistance')
+            + '&sfield=' + this.get('latlongField');
+        }
+        return this.urlRoot + '?format=json&query=' + this.get( 'terms' ) + filters;
       }
 
     } )
