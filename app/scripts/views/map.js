@@ -19,7 +19,10 @@ define(["backbone.marionette", "mapbox", "d3", "communicator", "config",
     popup: null,
 
     initialize: function(o) {
+
       var self = this;
+      _.bindAll(this, 'updateMapSize');
+
       this.layout = o.layout;
 
       Communicator.mediator.on("MAP:ZOOM_IN_REQUESTED", function() {
@@ -28,10 +31,11 @@ define(["backbone.marionette", "mapbox", "d3", "communicator", "config",
       Communicator.mediator.on("MAP:ZOOM_OUT_REQUESTED", function() {
         this.map.setZoom(this.map.getZoom() - 1);
       }, this);
-
       Communicator.reqres.setHandler( "getMap", function() { return self.map; });
 
-      this.registerAutoWidthMarker();
+      $( window ).resize( _.throttle( this.updateMapSize, 150 ) );
+
+      // this.registerAutoWidthMarker();
       this.registerLeafletZoomThrottle(200);
 
     },
@@ -125,9 +129,7 @@ define(["backbone.marionette", "mapbox", "d3", "communicator", "config",
     onShow: function() {
 
       // Load map.
-      this.height = $( window ).height();
-      this.width = $( window ).width();
-      $( '#' + this.mapboxContainer ).css( 'height', this.height );
+      this.updateMapSize();
       L.mapbox.accessToken = Config.mapbox.accessToken;
       this.map = L.mapbox.map(this.mapboxContainer, Config.mapbox.baseLayerId, { zoomControl: false })
       //  .setView([52.052074, 5.108049], 17);
@@ -140,6 +142,14 @@ define(["backbone.marionette", "mapbox", "d3", "communicator", "config",
       this.g = this.svg.append("g");
 
       this.showMarkers();
+
+    },
+
+    updateMapSize: function() {
+
+      this.height = $( window ).height();
+      this.width = $( window ).width();
+      $( '#' + this.mapboxContainer ).css( 'height', this.height );
 
     },
 
