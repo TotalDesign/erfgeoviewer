@@ -1,4 +1,4 @@
-define(["backbone", "config"],
+define(["../../../bower_components/backbone/backbone", "config"],
   function(Backbone, Config) {
 
     return Backbone.Collection.extend({

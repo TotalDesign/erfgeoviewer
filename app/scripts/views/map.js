@@ -1,6 +1,6 @@
-define(["backbone.marionette", "mapbox", "d3", "communicator",
+define(["backbone.marionette", "mapbox", "d3", "communicator", "config",
         "views/popup", "tpl!template/map.html"],
-  function(Marionette, Mapbox, d3, Communicator,
+  function(Marionette, Mapbox, d3, Communicator, Config,
            PopupView, Template) {
 
   return Marionette.ItemView.extend({
@@ -128,8 +128,8 @@ define(["backbone.marionette", "mapbox", "d3", "communicator",
       this.height = $( window ).height();
       this.width = $( window ).width();
       $( '#' + this.mapboxContainer ).css( 'height', this.height );
-      L.mapbox.accessToken = "pk.eyJ1IjoidG90YWxhY3RpdmVtZWRpYSIsImEiOiJTMl95V3Y0In0.qAmXxIKEnUpX6D6YvAvu2g";
-      this.map = L.mapbox.map(this.mapboxContainer, 'totalactivemedia.c9ff1169', { zoomControl: false })
+      L.mapbox.accessToken = Config.mapbox.accessToken;
+      this.map = L.mapbox.map(this.mapboxContainer, Config.mapbox.baseLayerId, { zoomControl: false })
       //  .setView([52.052074, 5.108049], 17);
         .setView([52.121580, 5.6304], 8);
       //this.map.scrollWheelZoom.disable();

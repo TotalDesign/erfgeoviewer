@@ -1,12 +1,10 @@
 define([
 	'backbone', 'backbone.marionette', 'communicator',
-  'models/routes',
-	'views/map', 'views/route-selector'
+	'views/map', 'views/header', 'modules/routeyou/routeyou'
 ],
 
 function( Backbone, Marionette, Communicator,
-          RoutesCollection,
-					MapView, RouteSelector ) {
+					MapView, HeaderView, RouteyouModule ) {
     'use strict';
 
 	var App = new Marionette.Application();
@@ -19,6 +17,7 @@ function( Backbone, Marionette, Communicator,
 			template: "#template-layout",
 			regions: {
 				header: "#header",
+        routeyou: "#routeyou",
 				content: "#content",
         tooltip: "#tooltip"
 			}
@@ -28,16 +27,17 @@ function( Backbone, Marionette, Communicator,
 		layout.render();
 		container.show(layout);
 
+    // Initialize modules.
     layout.getRegion( 'content' ).show( new MapView( {layout: layout} ) );
+    layout.getRegion( 'header' ).show( new HeaderView() );
 
-    var routes_collection = new RoutesCollection();
-    routes_collection.fetch({
-      success: function(c) {
-        layout.getRegion( 'header' ).show( new RouteSelector( {
-          collection: c
-        }) );
-      }
-    });
+    // All modules are passed this
+    var moduleOptions = {
+      // If module includes a View, it will be shown in this region
+      region: null
+    };
+
+    new RouteyouModule( {region: layout.getRegion( 'routeyou' )} );
 
 	});
 
