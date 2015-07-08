@@ -147,7 +147,7 @@ define(["backbone.marionette", "mapbox", "d3", "communicator", "config",
 
     updateMapSize: function() {
 
-      this.height = $( window ).height();
+      this.height = $( window ).height() - $( 'header' ).height();
       this.width = $( window ).width();
       $( '#' + this.mapboxContainer ).css( 'height', this.height );
 

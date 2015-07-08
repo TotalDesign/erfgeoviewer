@@ -1,11 +1,11 @@
 define([
-	'backbone', 'backbone.marionette', 'communicator',
-	'views/map', 'views/header',
+	'backbone', 'backbone.marionette', 'communicator', 'velocity',
+	'views/map', 'views/header', 'views/toolbar',
   'modules/routeyou/routeyou', 'modules/delving/delving'
 ],
 
-function( Backbone, Marionette, Communicator,
-					MapView, HeaderView,
+function( Backbone, Marionette, Communicator, $,
+					MapView, HeaderView, ToolbarView,
           RouteyouModule, DelvingModule ) {
     'use strict';
 
@@ -19,10 +19,8 @@ function( Backbone, Marionette, Communicator,
 			template: "#template-layout",
 			regions: {
 				header: "#header",
-        routeyou: "#routeyou",
 				content: "#content",
-        tooltip: "#tooltip",
-        flyout: "#flyout"
+        toolbar: "#toolbar"
 			}
 		});
 
@@ -30,20 +28,28 @@ function( Backbone, Marionette, Communicator,
 		layout.render();
 		container.show(layout);
 
+
     // Initialize modules.
+
+    var modules = [];
+    //modules.push(new RouteyouModule());
+    modules.push(new DelvingModule());
+
+    // App-wide regions.
     layout.getRegion( 'content' ).show( new MapView( {layout: layout} ) );
-    //layout.getRegion( 'header' ).show( new HeaderView() );
+    layout.getRegion( 'header' ).show( new HeaderView() );
 
-    // All modules are passed this
-    var moduleOptions = {
-      // If module includes a View, it will be shown in this region
-      region: null
-    };
+    //layout.getRegion( 'toolbar' ).show(
+    //  new ToolbarView( {
+    //    region: layout.getRegion( 'toolbar' ),
+    //    modules: modules
+    //  } )
+    //);
 
-    new DelvingModule( {
-      region: layout.getRegion( 'flyout' )
-    } );
-    //new RouteyouModule( {region: layout.getRegion( 'routeyou' )} );
+    // Event handlers.
+    Communicator.mediator.on( "menu:open", function() {
+      console.log('menu open');
+    } )
 
 	});
 

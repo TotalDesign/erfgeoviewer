@@ -17,7 +17,10 @@
     "requirejs-tpl": "*",
     "mapbox.js": "~2.1.6",
     "d3": "~3.5.5",
-    "polyline": "~0.1.0"
+    "polyline": "~0.1.0",
+    "materialize": "~0.97.0",
+    "velocity": "~1.2.2",
+    "hammerjs": "~2.0.4"
   },
   "devDependencies": {
     "susy": "~2.2.2"
@@ -25,6 +28,7 @@
   "directory": "bower_components",
   "resolutions": {
     "backbone.wreqr": "^1.0.0",
-    "backbone.babysitter": "^0.1.0"
+    "backbone.babysitter": "^0.1.0",
+    "jquery": ">=2.1.1"
   }
 }

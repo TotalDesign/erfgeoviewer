@@ -29,6 +29,14 @@ require.config( {
 
     "polyline": {
       "exports": "polyline"
+    },
+
+    // jquery plugins
+    "velocity": ["jquery"],
+
+    "jquery.hammer": {
+      "deps": ["jquery", "hammerjs"],
+      "exports": "jquery"
     }
 
   },
@@ -43,10 +51,16 @@ require.config( {
     "bootstrap": "vendor/bootstrap",
     "config": "config/dev",
     "d3": "../bower_components/d3/d3",
-    "jquery": "../bower_components/jquery/jquery",
+    "hammerjs": "../bower_components/hammerjs/hammer",
+    "jquery": "../bower_components/jquery/dist/jquery",
+    "jquery.hammer": "../bower_components/materialize/js/jquery.hammer",
     "mapbox": "../bower_components/mapbox.js/mapbox.uncompressed",
+    "materialize.tabs": "../bower_components/materialize/js/tabs",
+    "materialize.sidenav": "../bower_components/materialize/js/sideNav",
     "polyline": "../bower_components/polyline/src/polyline",
+    "react": "../bower_components/react/react",
     "underscore": "../bower_components/underscore/underscore",
+    "velocity": "../bower_components/velocity/velocity",
 
     /* Shortcut paths */
     "template": "../templates",
