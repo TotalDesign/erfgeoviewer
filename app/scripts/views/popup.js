@@ -1,6 +1,6 @@
-define( ["backbone", "backbone.marionette", "communicator", "views/tooltip",
+define( ["backbone", "backbone.marionette", "communicator",
     "tpl!template/popup.html"],
-  function( Backbone, Marionette, Communicator, TooltipView,
+  function( Backbone, Marionette, Communicator,
             Template ) {
 
     return Marionette.ItemView.extend( {

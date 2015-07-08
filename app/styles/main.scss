@@ -3,7 +3,7 @@
 @import "delving";
 
 @import '../bower_components/materialize/sass/materialize.scss';
-@import "toolbar";
+@import "layers";
 
 body {
   margin: 0;
@@ -55,18 +55,28 @@ $header-height: 64px;
     font-weight: bold;
   }
 
-}
+  #slide-out {
+    li:hover {
+      background-color: white;
+      a {
+        color: $primary_500;
+      }
+    }
+    .menu-title {
+      height: $header-height;
+      border-bottom: solid 1px #ccc;
+      color: white;
+      line-height: $header-height;
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+      background-color: $primary_500;
+      &:hover {
+        background-color: $primary_500 !important;
+      }
+    }
 
-.menu-title {
-  height: $header-height;
-  border-bottom: solid 1px #ccc;
-  color: white;
-  line-height: $header-height;
-  font-size: 24px;
-  font-weight: bold;
-  text-align: center;
-  background-color: $primary_500;
-  &:hover {
-    background-color: $primary_500 !important;
   }
+
+
 }
