@@ -7,6 +7,12 @@
   "ascent": 850,
   "glyphs": [
     {
+      "uid": "559647a6f430b3aeadbecd67194451dd",
+      "css": "menu",
+      "code": 59395,
+      "src": "fontawesome"
+    },
+    {
       "uid": "11e664deed5b2587456a4f9c01d720b6",
       "css": "cancel",
       "code": 59393,
