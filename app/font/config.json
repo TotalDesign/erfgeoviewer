@@ -13,6 +13,12 @@
       "src": "fontawesome"
     },
     {
+      "uid": "0805cca616b3c12714f35af4d0912c10",
+      "css": "up-open-big",
+      "code": 59396,
+      "src": "entypo"
+    },
+    {
       "uid": "11e664deed5b2587456a4f9c01d720b6",
       "css": "cancel",
       "code": 59393,
@@ -23,6 +29,12 @@
       "css": "plus",
       "code": 59394,
       "src": "iconic"
+    },
+    {
+      "uid": "c21d309f797d3644dc8d28c4617738ce",
+      "css": "left",
+      "code": 59397,
+      "src": "mfglabs"
     },
     {
       "uid": "aab7e7622e6ee1ed8166fb73f20e8c9a",
