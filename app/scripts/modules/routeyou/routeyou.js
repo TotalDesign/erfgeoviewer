@@ -1,11 +1,16 @@
-define( ['backbone.marionette',
+define( ['backbone.marionette', 'modules/prototype',
     'modules/routeyou/route-collection', 'modules/routeyou/route-view'],
-  function(Marionette,
+  function(Marionette, ErfGeoviewerModule,
     RouteCollection, RouteSelector) {
 
-    return Marionette.Object.extend( {
+    return ErfGeoviewerModule.extend({
 
       region: null,
+
+      module: {
+        'type': 'library',
+        'title': 'RouteYou'
+      },
 
       initialize: function( o ) {
 

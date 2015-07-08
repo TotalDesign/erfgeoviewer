@@ -24,7 +24,7 @@ body {
   height: 100%;
 }
 
-$header-height: 64px;
+// Solid bar at top of app.
 #header {
 
   background-color: $primary_500;
@@ -40,7 +40,7 @@ $header-height: 64px;
     color: white;
     top: 0;
     font-size: 24px;
-    line-height: 64px;
+    line-height: $header-height;
     cursor: pointer;
     &:hover {
       color: $accent_500;
@@ -55,6 +55,7 @@ $header-height: 64px;
     font-weight: bold;
   }
 
+  // Main menu.
   #slide-out {
     li:hover {
       background-color: white;
@@ -77,6 +78,5 @@ $header-height: 64px;
     }
 
   }
-
 
 }

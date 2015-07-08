@@ -4,6 +4,7 @@ define(['backbone', 'backbone.marionette', 'communicator', 'velocity', 'material
             LayoutTemplate ) {
 
     return Marionette.LayoutView.extend({
+
       template: LayoutTemplate,
 
       regions: {
@@ -25,6 +26,11 @@ define(['backbone', 'backbone.marionette', 'communicator', 'velocity', 'material
 
       onShow: function() {
         $('ul.tabs', this.$el).tabs();
+        this.$el.parent().addClass( "visible" );
+      },
+
+      onBeforeDestroy: function() {
+        this.$el.parent().removeClass( "visible" );
       }
 
     });

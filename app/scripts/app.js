@@ -10,19 +10,6 @@ function( Backbone, Marionette, Communicator, $,
     'use strict';
 
 	var App = new Marionette.Application();
-  var Router = Marionette.AppRouter.extend({
-    routes : {
-      "layers" : function() {
-        console.log('layers');
-      },
-      "base": function() {
-        console.log('base');
-      },
-      "features": function() {
-        console.log('features');
-      }
-    }
-  });
 
 	var container = new Marionette.Region({
 		el: "#application"
@@ -53,13 +40,29 @@ function( Backbone, Marionette, Communicator, $,
     // App-wide regions.
     layout.getRegion( 'content' ).show( new MapView( {layout: layout} ) );
     layout.getRegion( 'header' ).show( new HeaderView() );
-    layout.getRegion( 'layerAdd' ).show(
-      new LayerAddView( {
-        region: layout.getRegion( 'toolbar' ),
-        modules: modules
-      } )
-    );
 
+    var Router = Marionette.AppRouter.extend({
+      routes : {
+        "" : function() {
+          layout.getRegion( 'layerAdd' ).reset();
+        },
+        "layers" : function() {
+          console.log('route:layers');
+          layout.getRegion( 'layerAdd' ).show(
+            new LayerAddView( {
+              region: layout.getRegion( 'toolbar' ),
+              modules: modules
+            } )
+          );
+        },
+        "base": function() {
+          console.log('base');
+        },
+        "features": function() {
+          console.log('features');
+        }
+      }
+    });
     new Router();
 
 	});
