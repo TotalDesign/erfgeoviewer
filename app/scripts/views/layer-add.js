@@ -7,8 +7,9 @@ define(['backbone', 'backbone.marionette', 'communicator', 'velocity', 'material
 
       template: LayoutTemplate,
 
+      // A region for the content of each tab.
+      // Tabs themselves are contained in the layout template.
       regions: {
-        tabs: "#toolbar-tabs",
         search: "#toolbar-search",
         library: "#toolbar-library"
       },
@@ -16,12 +17,20 @@ define(['backbone', 'backbone.marionette', 'communicator', 'velocity', 'material
       initialize: function(o) {
 
         console.log('Initialized layers view.');
+        var self = this;
+        this.render();
         this.container = o.region;
         this.modules = o.modules;
-        _.each(this.modules, function(m) {
-          console.log(m.module);
-        });
 
+      },
+
+      onRender: function() {
+        var self = this;
+        _.each(this.modules, function(m) {
+          if ( m.module.type == "search" ) {
+            m.showModule( self.search );
+          }
+        });
       },
 
       onShow: function() {

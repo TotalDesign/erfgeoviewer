@@ -1,5 +1,5 @@
 /**
- * Controller for Delving module.
+ * Controller for Delving search module.
  */
 define( ['backbone.marionette', 'communicator', 'modules/prototype',
     'tpl!modules/delving/templates/layout.html',
@@ -11,17 +11,20 @@ define( ['backbone.marionette', 'communicator', 'modules/prototype',
     return ErfGeoviewerModule.extend({
 
       module: {
-        'type': 'layer',
+        'type': 'search',
         'title': 'Zoek ONH'
       },
 
       layoutView: Marionette.LayoutView.extend({
+        initialize: function() {
+          console.log('initializing delving layout view');
+        },
         template: LayoutTemplate,
         regions: {
-          search: "#search",
-          facets: "#search-facets",
-          pagination: "#search-pagination",
-          results: "#search-results"
+          search: "#delving-search",
+          facets: "#delving-facets",
+          pagination: "#delving-pagination",
+          results: "#delving-results"
         }
       }),
 
@@ -70,8 +73,12 @@ define( ['backbone.marionette', 'communicator', 'modules/prototype',
 
       render: function() {
         this.layout.getRegion('search').show(new DelvingSearchView({
-          model: search_model
+          model: this.model
         }) );
+      },
+
+      onRender: function() {
+        this.layout.render();
       }
 
     });

@@ -1,9 +1,9 @@
 /**
  * CollectionView for displaying search results.
  */
-define( ['backbone.marionette',
+define( ['backbone.marionette', "materialize.cards",
          "tpl!modules/delving/templates/results.html"],
-  function(Marionette,
+  function(Marionette, Materialize,
            ResultItemTemplate) {
 
     var ResultItemView = Marionette.ItemView.extend({

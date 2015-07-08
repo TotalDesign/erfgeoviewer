@@ -1,7 +1,16 @@
-<div class="result-item">
-  <h3><%= item.fields.dc_title %></h3>
-  <ul>
-    <li>Description: <%= item.fields.dc_description %></li>
-    <li>Creator: <%= item.fields.dc_creator %></li>
-  </ul>
+<div class="card">
+  <div class="card-image waves-effect waves-block waves-light">
+    <% if (_.isArray(item.fields.delving_resourceUri)) { %>
+    <img class="activator" src="<%= item.fields.delving_resourceUri[0] %>">
+    <% } %>
+  </div>
+  <div class="card-content">
+    <a class="btn-floating btn-large waves-effect waves-light red"><i class="icon-plus"></i></a>
+    <span class="card-title activator grey-text text-darken-4"><%= item.fields.dc_title %></span>
+    <p><a href="#">Toevoegen aan kaart</a></p>
+  </div>
+  <div class="card-reveal">
+    <span class="card-title grey-text text-darken-4"><%= item.fields.dc_title %><i class="icon-cancel right"></i></span>
+    <p><%= item.fields.dc_description %></p>
+  </div>
 </div>

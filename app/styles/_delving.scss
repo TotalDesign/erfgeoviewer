@@ -1,20 +1,22 @@
 @import "init";
 
-#search {
-  padding: 15px;
-  label {
-    margin-right: 5px;
-  }
+#delving-search {
+  width: 100%;
+  border: solid 1px black;
   input {
-    padding: 3px 5px;
-    font-size: 16px;
-    border: solid 1px black;
+    padding: 0;
+    font-size: 20px;
+    border: none;
+    margin: 3px 8px;
   }
 }
-#search-results {
-  background-color: #f3f3f3;
-  color: #222;
-  > div {
-    padding: 15px;
+#delving-results {
+  .btn-floating {
+    position: relative;
+    top: 0px;
+    left: 50%;
+    display: block;
+    margin-left: -23px;
+    margin-top: -52px;
   }
 }

@@ -55,6 +55,7 @@ require.config( {
     "jquery": "../bower_components/jquery/dist/jquery",
     "jquery.hammer": "../bower_components/materialize/js/jquery.hammer",
     "mapbox": "../bower_components/mapbox.js/mapbox.uncompressed",
+    "materialize.cards": "../bower_components/materialize/js/cards",
     "materialize.tabs": "../bower_components/materialize/js/tabs",
     "materialize.sidenav": "../bower_components/materialize/js/sideNav",
     "polyline": "../bower_components/polyline/src/polyline",

@@ -2,7 +2,7 @@ define(["backbone.marionette"], function(Marionette) {
 
   return Marionette.Object.extend({
 
-    // Module should define its own layout
+    // Module must override this with a LayoutView
     layoutView: Marionette.LayoutView,
 
     // Defines module
@@ -23,9 +23,8 @@ define(["backbone.marionette"], function(Marionette) {
     showModule: function(region) {
 
       this.container = region;
-      this.layout = new LayoutView();
-      this.layout.render();
-      this.container.show( layout );
+      this.layout = new this.layoutView();
+      this.container.show( this.layout );
       this.render();
 
     }
