@@ -18,12 +18,26 @@ define(["backbone.marionette", "mapbox", "d3", "communicator", "config",
     // Instance of a PopupView.
     popup: null,
 
+    // Collections
+    layerCollection: null,
+    markerCollection: null,
+
     initialize: function(o) {
 
       var self = this;
       _.bindAll(this, 'updateMapSize');
 
       this.layout = o.layout;
+      this.layerCollection = o.layers;
+      this.markerCollection = o.markers;
+
+      this.markerCollection.on("add", function(m) {
+        // TODO: find out why attributes are so nested
+        console.log(m.get('attributes' ).latitude);
+        self.layer_markers.addLayer(
+          L.marker([m.get('attributes' ).latitude[0], m.get('attributes' ).longitude[0]])
+        );
+      });
 
       Communicator.mediator.on("MAP:ZOOM_IN_REQUESTED", function() {
         this.map.setZoom(this.map.getZoom() + 1);
@@ -34,6 +48,8 @@ define(["backbone.marionette", "mapbox", "d3", "communicator", "config",
       Communicator.reqres.setHandler( "getMap", function() { return self.map; });
 
       $( window ).resize( _.throttle( this.updateMapSize, 150 ) );
+
+
 
       // this.registerAutoWidthMarker();
       this.registerLeafletZoomThrottle(200);
@@ -136,12 +152,15 @@ define(["backbone.marionette", "mapbox", "d3", "communicator", "config",
         .setView([52.121580, 5.6304], 8);
       //this.map.scrollWheelZoom.disable();
 
+      this.layer_markers = L.layerGroup().addTo(this.map);
+
+
       // SVG from Leaflet.
       this.map._initPathRoot();
       this.svg = d3.select('#' + this.mapboxContainer).select("svg");
       this.g = this.svg.append("g");
 
-      this.showMarkers();
+      //this.showMarkers();
 
     },
 

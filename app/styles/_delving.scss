@@ -45,12 +45,14 @@
   p.actions {
     margin-top: 16px;
     margin-bottom: 0;
+    span,
     a {
       padding: 8px 8px 8px 0;
       padding-top: 16px;
       margin-right: 16px;
       text-transform: uppercase;
       color: $primary_900;
+      cursor: pointer;
       &:hover { color: $accent_900; }
     }
   }

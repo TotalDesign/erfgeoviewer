@@ -28,15 +28,17 @@ define( ['backbone.marionette', 'communicator', 'modules/prototype',
         }
       }),
 
+      markers: null,
       facets: null,
       items: null,
       pagination: null,
       query: null,
 
-      initialize: function() {
+      initialize: function(o) {
 
         var self = this;
 
+        this.markers = o.markers_collection;
         this.facets = new Backbone.Collection();
         var ResultCollection = Backbone.Collection.extend({
           model: ResultModel
@@ -46,6 +48,22 @@ define( ['backbone.marionette', 'communicator', 'modules/prototype',
 
         this.model = new DelvingSearchModel({
           terms: this.query
+        });
+
+        // Event triggered by "VOEG TOE" action on search result card.
+        Communicator.mediator.on( "marker:addModelId", function(cid) {
+          var result = self.items.find( {cid: cid} );
+
+          // The record model contains a lot of extra information that the marker doesn't need,
+          // and the essential info (a unique ID) is not available. Here we extra the useful info
+          // so the result model can be destroyed with pagination, etc.
+          var attrs = ['title', 'image', 'description', 'youtube', 'externalUrl', 'longitude', 'latitude'];
+          var vars = {};
+          _.each(attrs, function(key) {
+            vars[key] = result.get(key);
+          });
+          var model = new Backbone.Model(vars);
+          self.markers.push(model);
         });
 
         this.listenTo(this.model, "change:terms", function() {

@@ -1,10 +1,12 @@
 define([
 	'backbone', 'backbone.marionette', 'communicator', 'velocity',
+  'models/layers', 'models/markers',
 	'views/map', 'views/header', 'views/markers',
   'modules/routeyou/routeyou', 'modules/delving/delving'
 ],
 
 function( Backbone, Marionette, Communicator, $,
+          LayerCollection, MarkerCollection,
 					MapView, HeaderView, MarkerAddView,
           RouteyouModule, DelvingModule ) {
     'use strict';
@@ -17,6 +19,9 @@ function( Backbone, Marionette, Communicator, $,
 
 	App.addInitializer( function () {
 
+    /**
+     * Layout
+     */
 		var AppLayoutView = Marionette.LayoutView.extend({
 			template: "#template-layout",
 			regions: {
@@ -30,17 +35,31 @@ function( Backbone, Marionette, Communicator, $,
 		layout.render();
 		container.show(layout);
 
+    var marker_collection = new MarkerCollection();
+    var layer_collection = new LayerCollection();
 
-    // Initialize modules.
-
-    var modules = [];
-    //modules.push(new RouteyouModule());
-    modules.push(new DelvingModule());
-
-    // App-wide regions.
-    layout.getRegion( 'content' ).show( new MapView( {layout: layout} ) );
+    var map_view = new MapView( {
+      layout: layout,
+      layers: layer_collection,
+      markers: marker_collection
+    } );
+    layout.getRegion( 'content' ).show( map_view );
     layout.getRegion( 'header' ).show( new HeaderView() );
 
+
+    /**
+     * Modules
+     */
+    var modules = [];
+    //modules.push(new RouteyouModule());
+    modules.push(new DelvingModule({
+      markers_collection: marker_collection
+    }));
+
+
+    /**
+     * Routes
+     */
     var Router = Marionette.AppRouter.extend({
       routes : {
         "" : function() {

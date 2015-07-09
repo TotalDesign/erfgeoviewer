@@ -7,16 +7,16 @@
   </div>
 
   <div class="card-content">
-    <span class="card-title activator grey-text text-darken-4"><%= item.fields.dc_title %></span>
+    <span class="card-title activator grey-text text-darken-4"><%= title %></span>
     <p class="actions">
-      <a href="#">Voeg toe</a>
-      <a href="#">Beschrijving</a>
+      <a href="#" class="add-marker" data-model-id="<%= cid %>">Voeg toe</a>
+      <span class="activator">Beschrijving</span>
     </p>
   </div>
 
   <div class="card-reveal">
-    <span class="card-title grey-text text-darken-4"><%= item.fields.dc_title %><i class="icon-cancel right"></i></span>
-    <p><%= item.fields.dc_description %></p>
+    <span class="card-title grey-text text-darken-4"><%= title %><i class="icon-cancel right"></i></span>
+    <p><%= description %></p>
   </div>
 
 </div>
