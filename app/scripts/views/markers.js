@@ -1,5 +1,5 @@
 define(['backbone', 'backbone.marionette', 'communicator', 'velocity', 'materialize.tabs',
-    'tpl!template/layer-add.html'],
+    'tpl!template/markers.html'],
   function( Backbone, Marionette, Communicator, Velocity, MaterializeTabs,
             LayoutTemplate ) {
 

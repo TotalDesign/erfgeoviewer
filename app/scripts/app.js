@@ -1,11 +1,11 @@
 define([
 	'backbone', 'backbone.marionette', 'communicator', 'velocity',
-	'views/map', 'views/header', 'views/layer-add',
+	'views/map', 'views/header', 'views/markers',
   'modules/routeyou/routeyou', 'modules/delving/delving'
 ],
 
 function( Backbone, Marionette, Communicator, $,
-					MapView, HeaderView, LayerAddView,
+					MapView, HeaderView, MarkerAddView,
           RouteyouModule, DelvingModule ) {
     'use strict';
 
@@ -46,11 +46,10 @@ function( Backbone, Marionette, Communicator, $,
         "" : function() {
           layout.getRegion( 'layerAdd' ).reset();
         },
-        "layers" : function() {
-          console.log('route:layers');
+        "markers" : function() {
+          console.log('route:markers');
           layout.getRegion( 'layerAdd' ).show(
-            new LayerAddView( {
-              region: layout.getRegion( 'toolbar' ),
+            new MarkerAddView( {
               modules: modules
             } )
           );
