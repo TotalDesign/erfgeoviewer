@@ -45,18 +45,18 @@ define( ['backbone.marionette', 'communicator', 'modules/prototype',
           terms: this.query
         });
 
-        this.model.on("change:terms", function() {
+        this.listenTo(this.model, "change:terms", function() {
           // Update model with current map location before executing the search.
           var map = Communicator.reqres.request( 'getMap' );
           var center = map.getCenter();
           var bounds = map.getBounds();
           var distance = bounds.getSouthWest().distanceTo(bounds.getNorthEast()) / 1000 / 2;
 
-          this.set( 'lat', center.lat );
-          this.set( 'lng', center.lng );
-          this.set( 'searchDistance', distance );
+          self.model.set( 'lat', center.lat );
+          self.model.set( 'lng', center.lng );
+          self.model.set( 'searchDistance', distance );
 
-          this.fetch({
+          self.model.fetch({
             success: function(model) {
               var r = model.get('result');
               model.set( 'breadcrumbs', r.query.breadCrumbs );
