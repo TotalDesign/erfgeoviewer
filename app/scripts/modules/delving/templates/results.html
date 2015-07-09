@@ -1,9 +1,11 @@
 <div class="card">
+
   <div class="card-image waves-effect waves-block waves-light">
-    <% if (_.isArray(item.fields.delving_resourceUri) && item.fields.delving_resourceUri.length ) { %>
-    <img class="activator" src="<%= item.fields.delving_resourceUri[0] %>">
+    <% if (image) { %>
+      <img class="activator" src="<%= image %>">
     <% } %>
   </div>
+
   <div class="card-content">
     <span class="card-title activator grey-text text-darken-4"><%= item.fields.dc_title %></span>
     <p class="actions">
@@ -11,8 +13,10 @@
       <a href="#">Beschrijving</a>
     </p>
   </div>
+
   <div class="card-reveal">
     <span class="card-title grey-text text-darken-4"><%= item.fields.dc_title %><i class="icon-cancel right"></i></span>
     <p><%= item.fields.dc_description %></p>
   </div>
+
 </div>

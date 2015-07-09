@@ -2,10 +2,10 @@
  * Controller for Delving search module.
  */
 define( ['backbone.marionette', 'communicator', 'modules/prototype',
-    'tpl!modules/delving/templates/layout.html',
+    'tpl!modules/delving/templates/layout.html', 'modules/delving/delving-result-model',
     'modules/delving/results-view', 'modules/delving/delving-model', 'modules/delving/delving-search-view'],
   function(Marionette, Communicator, ErfGeoviewerModule,
-           LayoutTemplate,
+           LayoutTemplate, ResultModel,
            ResultsView, DelvingSearchModel, DelvingSearchView) {
 
     return ErfGeoviewerModule.extend({
@@ -38,7 +38,10 @@ define( ['backbone.marionette', 'communicator', 'modules/prototype',
         var self = this;
 
         this.facets = new Backbone.Collection();
-        this.items = new Backbone.Collection();
+        var ResultCollection = Backbone.Collection.extend({
+          model: ResultModel
+        });
+        this.items = new ResultCollection();
         this.pagination = new Backbone.Model();
 
         this.model = new DelvingSearchModel({
