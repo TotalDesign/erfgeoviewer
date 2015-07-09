@@ -19,6 +19,18 @@
       "src": "entypo"
     },
     {
+      "uid": "gjt8ba5q0n3nn8ptw6324sflr8qoaeam",
+      "css": "location",
+      "code": 59398,
+      "src": "typicons"
+    },
+    {
+      "uid": "87d337fee4866c2c28f6082994ce0f41",
+      "css": "map",
+      "code": 59401,
+      "src": "typicons"
+    },
+    {
       "uid": "11e664deed5b2587456a4f9c01d720b6",
       "css": "cancel",
       "code": 59393,
@@ -28,6 +40,12 @@
       "uid": "dbd39eb5a1d67beb54cfcb535e840e0f",
       "css": "plus",
       "code": 59394,
+      "src": "iconic"
+    },
+    {
+      "uid": "d2c499942f8a7c037d5a94f123eeb478",
+      "css": "layers",
+      "code": 59399,
       "src": "iconic"
     },
     {
@@ -41,6 +59,12 @@
       "css": "bicycle",
       "code": 59392,
       "src": "maki"
+    },
+    {
+      "uid": "26aba7edd46944209b4961670675a813",
+      "css": "cog",
+      "code": 59400,
+      "src": "websymbols"
     }
   ]
 }

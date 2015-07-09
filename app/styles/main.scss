@@ -57,6 +57,21 @@ body {
 
   // Main menu.
   #slide-out {
+    li {
+      padding: 0 16px;
+      a {
+        padding: 0;
+      }
+      // Menu item: icon
+      i {
+        font-size: 22px;
+      }
+      // Menu item: text
+      span {
+        position: absolute;
+        left: 72px;
+      }
+    }
     li:hover {
       background-color: white;
       a {
@@ -70,7 +85,7 @@ body {
       line-height: $header-height;
       font-size: 24px;
       font-weight: bold;
-      text-align: center;
+      //text-align: center;
       background-color: $primary_500;
       &:hover {
         background-color: $primary_500 !important;
