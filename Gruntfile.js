@@ -93,11 +93,30 @@ module.exports = function( grunt ) {
         options: {
           script: 'server/app.js'
         }
+      }
+    },
+
+    env: {
+      options: {
+        /* Shared Options Hash */
+        //globalOption : 'foo'
       },
-      test: {
-        options: {
-          script: 'server/app.js'
-        }
+      dev: {
+        NODE_ENV: 'PRODUCTION'/*'DEVELOPMENT'
+      },
+      prod: {
+        NODE_ENV: 'PRODUCTION'
+      }
+    },
+
+    preprocess: {
+      dev: {
+        src: 'app/templates/index.html',
+        dest: 'app/index.html'
+      },
+      prod: {
+        src: 'app/templates/index.html',
+        dest: '<%= yeoman.dist %>/index.html'
       }
     },
 
@@ -128,6 +147,23 @@ module.exports = function( grunt ) {
       ]
     },
 
+    // deployment to test environment
+    'sftp-deploy': {
+      build: {
+        auth: {
+          host: 'erfgeo.acc.totalactivemedia.nl',
+          port: 22,
+          authKey: 'privateKey'
+        },
+        cache: 'deployment-cache.json',
+        src: '/Users/jasony/livereload/erfgeoviewer/dist',
+        dest: '/home/erfgeo/public_html',
+        exclusions: ['/path/to/source/folder/**/.DS_Store', '/path/to/source/folder/**/Thumbs.db', 'dist/tmp'],
+        serverSep: '/',
+        concurrency: 4,
+        progress: true
+      }
+    },
 
     // compass
     compass: {
@@ -158,7 +194,8 @@ module.exports = function( grunt ) {
           baseUrl: 'app/scripts',
           optimize: 'none',
           paths: {
-            'templates': '../../.tmp/scripts/templates'
+            'templates': '../../.tmp/scripts/templates',
+            'config': 'config/acc'
           },
           // TODO: Figure out how to make sourcemaps work with grunt-usemin
           // https://github.com/yeoman/grunt-usemin/issues/30
@@ -251,11 +288,10 @@ module.exports = function( grunt ) {
           src: [
             '*.{ico,txt}',
             '.htaccess',
+            'scripts/config/acc.js',
             'images/{,*/}*.{webp,gif}',
             'bower_components/requirejs/require.js',
-            'geo/*',
-            'fonts/*',
-            'sounds/*'
+            'font/**'
           ]
         }]
       }
@@ -281,6 +317,7 @@ module.exports = function( grunt ) {
     }
   } );
 
+  grunt.loadNpmTasks('grunt-sftp-deploy');
   grunt.registerTask( 'createDefaultTemplate', function() {
     grunt.file.write( '.tmp/scripts/templates.js', 'this.JST = this.JST || {};' );
   } );
@@ -298,6 +335,8 @@ module.exports = function( grunt ) {
     grunt.task.run( [
       'clean:server',
       'compass:server',
+      'env:dev',
+      'preprocess:dev',
       'connect:testserver',
       'express:dev',
       //'exec',
@@ -318,7 +357,8 @@ module.exports = function( grunt ) {
 
   grunt.registerTask( 'build', [
     'createDefaultTemplate',
-    'handlebars',
+    'clean:dist',
+    'env:prod',
     'compass:dist',
     'useminPrepare',
     'requirejs',
@@ -326,8 +366,9 @@ module.exports = function( grunt ) {
     'htmlmin',
     'concat',
     'cssmin',
-    'uglify',
+    //'uglify',
     'copy',
+    'preprocess:prod',
     'usemin'
   ] );
 

@@ -37,9 +37,17 @@
 <script data-main="scripts/require-config" src="bower_components/requirejs/require.js"></script>
 <!-- endbuild -->
 
+<!-- @if NODE_ENV == 'PRODUCTION' -->
+<script src="scripts/config/acc.js"></script>
+<!-- @endif -->
+
+<!-- @if NODE_ENV == 'DEVELOPMENT' -->
+<script src="scripts/config/dev.js"></script>
 <script>document.write( '<script src="http://'
 + (location.host || 'localhost').split( ':' )[0]
 + ':35729/livereload.js?snipver=1"><\/script>' );
+<!-- @endif -->
+
 </script>
 </body>
 </html>
