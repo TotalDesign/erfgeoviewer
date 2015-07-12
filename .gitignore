@@ -6,3 +6,4 @@ app/bower_components
 .tmp/
 app/scripts/config/dev.js
 deployment-cache.json
+.ftppass
