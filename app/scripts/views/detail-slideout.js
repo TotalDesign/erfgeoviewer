@@ -28,6 +28,10 @@ define([
           self.region.show( new DetailView( { model: m } ));
         });
 
+        Communicator.mediator.on( "map:tile-layer-clicked", function() {
+          self.hideFlyout();
+        } );
+
       },
 
       onShow: function() {
@@ -41,7 +45,7 @@ define([
       // --
 
       hideFlyout: function() {
-        this.$container.addClass('visible');
+        this.$container.removeClass('visible');
       },
 
       showFlyout: function() {

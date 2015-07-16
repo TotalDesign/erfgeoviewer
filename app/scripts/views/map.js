@@ -32,7 +32,7 @@ define(["backbone.marionette", "mapbox", "d3", "communicator", "config",
       this.markerCollection = o.markers;
 
       this.markerCollection.on("add", function(m) {
-        console.log('why nested??', m);
+        console.log('model added to marker collection', m);
         // TODO: find out why attributes are so nested
         var marker = L.marker( [m.get( 'latitude')[0], m.get( 'longitude')[0]] );
         marker.on("click", function() {
@@ -155,6 +155,10 @@ define(["backbone.marionette", "mapbox", "d3", "communicator", "config",
       //this.map.scrollWheelZoom.disable();
 
       this.layer_markers = L.layerGroup().addTo(this.map);
+
+      $( '.leaflet-overlay-pane' ).click( function() {
+        Communicator.mediator.trigger( "map:tile-layer-clicked" );
+      } );
 
 
       // SVG from Leaflet.
