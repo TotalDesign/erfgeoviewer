@@ -54,7 +54,7 @@ define( ['backbone.marionette', 'communicator', 'modules/prototype',
         Communicator.mediator.on( "marker:addModelId", function(cid) {
           var result = self.items.find( {cid: cid} );
 
-          // The record model contains a lot of extra information that the marker doesn't need,
+          // The record model contains a lot of extract information that the marker doesn't need,
           // and the essential info (a unique ID) is not available. Here we extra the useful info
           // so the result model can be destroyed with pagination, etc.
           var attrs = ['title', 'image', 'description', 'youtube', 'externalUrl', 'longitude', 'latitude'];
@@ -62,7 +62,13 @@ define( ['backbone.marionette', 'communicator', 'modules/prototype',
           _.each(attrs, function(key) {
             vars[key] = result.get(key);
           });
-          self.markers.push([vars]);
+          if ( !self.markers.findWhere({
+              longitude: vars.longitude,
+              latitude: vars.latitude,
+              title: vars.title
+            })) {
+            self.markers.push( [vars] );
+          }
         });
 
         this.listenTo(this.model, "change:terms", function() {
