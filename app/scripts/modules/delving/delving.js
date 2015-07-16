@@ -62,8 +62,7 @@ define( ['backbone.marionette', 'communicator', 'modules/prototype',
           _.each(attrs, function(key) {
             vars[key] = result.get(key);
           });
-          var model = new Backbone.Model(vars);
-          self.markers.push(model);
+          self.markers.push([vars]);
         });
 
         this.listenTo(this.model, "change:terms", function() {

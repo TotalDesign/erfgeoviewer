@@ -1,10 +1,8 @@
-define(["backbone"], function(Backbone) {
-
-  var MarkerModel = Backbone.Model.extend({});
+define(["backbone", "models/search-result"], function(Backbone, SearchResult) {
 
   return Backbone.Collection.extend({
 
-    model: MarkerModel
+    model: SearchResult
 
   });
 

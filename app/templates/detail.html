@@ -1,0 +1,20 @@
+
+<% if (title) { %>
+<h3><%= title %></h3>
+<% } %>
+
+<% if (youtubeid) { %>
+  youtube id
+  <iframe width="640" height="390" src="https://www.youtube.com/embed/<%= youtubeid %>" frameborder="0" allowfullscreen></iframe>
+<% } %>
+
+<% if (image) { %>
+  <img src="<%= image %>" />
+<% } %>
+
+<% if (description) { %>
+<p class="description"><%= description %></p>
+<% } %>
+<% if (externalUrl) { %>
+  <p><a href="externalUrl">Meer info</a></p>
+<% } %>

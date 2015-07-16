@@ -1,13 +1,13 @@
 define([
 	'backbone', 'backbone.marionette', 'communicator', 'velocity',
   'models/layers', 'models/markers',
-	'views/map', 'views/header', 'views/markers',
-  'modules/routeyou/routeyou', 'modules/delving/delving'
+	'views/map', 'views/header', 'views/markers', "views/detail-slideout",
+    'modules/routeyou/routeyou', 'modules/delving/delving'
 ],
 
 function( Backbone, Marionette, Communicator, $,
           LayerCollection, MarkerCollection,
-					MapView, HeaderView, MarkerAddView,
+					MapView, HeaderView, MarkerAddView, DetailSlideoutView,
           RouteyouModule, DelvingModule ) {
     'use strict';
 
@@ -27,7 +27,8 @@ function( Backbone, Marionette, Communicator, $,
 			regions: {
 				header: "#header",
 				content: "#content",
-        layerAdd: "#layer-add"
+        layerAdd: "#layer-add",
+        details: "#details"
 			}
 		});
 
@@ -45,12 +46,14 @@ function( Backbone, Marionette, Communicator, $,
     } );
     layout.getRegion( 'content' ).show( map_view );
     layout.getRegion( 'header' ).show( new HeaderView() );
-
+    layout.getRegion( 'details' ).show( new DetailSlideoutView() );
 
     /**
      * Modules
      */
     var modules = [];
+
+    // TODO: assemble this automatically
     //modules.push(new RouteyouModule());
     modules.push(new DelvingModule({
       markers_collection: marker_collection

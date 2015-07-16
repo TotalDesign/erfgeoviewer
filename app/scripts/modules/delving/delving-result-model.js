@@ -1,19 +1,9 @@
 /**
  * Functions as an adaptor for field names from results to what the ErfGeoviewer expects
  */
-define( ["backbone"], function( Backbone ) {
+define( ["backbone", "models/search-result"], function( Backbone, SearchResultModel ) {
 
-  return Backbone.Model.extend( {
-
-    defaults: {
-      title: "Geen titel",
-      image: false,
-      description: false,
-      youtube: false,
-      externalUrl: false,
-      longitude: null,
-      latitude: null
-    },
+  return SearchResultModel.extend( {
 
     initialize: function() {
 
@@ -41,6 +31,7 @@ define( ["backbone"], function( Backbone ) {
         var reg = /v=([^&]*)/;
         if ( youtube.match(reg ) ) {
           this.set('image', "http://img.youtube.com/vi/" + youtube.match(reg)[1] + "/0.jpg");
+          this.set( 'youtubeid', youtube.match( reg )[1] );
         }
         this.set('youtube', youtube);
       }

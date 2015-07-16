@@ -102,7 +102,7 @@ module.exports = function( grunt ) {
         //globalOption : 'foo'
       },
       dev: {
-        NODE_ENV: 'PRODUCTION'/*'DEVELOPMENT'
+        NODE_ENV: 'DEVELOPMENT'
       },
       prod: {
         NODE_ENV: 'PRODUCTION'

@@ -1,6 +1,6 @@
-define( ["backbone", "backbone.marionette", "communicator",
-    "tpl!template/popup.html"],
-  function( Backbone, Marionette, Communicator,
+define( ["backbone", "backbone.marionette", "communicator", "models/search-result",
+    "tpl!template/detail.html"],
+  function( Backbone, Marionette, Communicator, SearchResultModel,
             Template ) {
 
     return Marionette.ItemView.extend( {
@@ -13,8 +13,8 @@ define( ["backbone", "backbone.marionette", "communicator",
       },
 
       initialize: function( o ) {
+        console.log( o.model );
         this.model = o.model;
-        this.layout = o.layout;
       }
 
     } );

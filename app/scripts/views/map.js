@@ -1,7 +1,7 @@
 define(["backbone.marionette", "mapbox", "d3", "communicator", "config",
-        "views/popup", "tpl!template/map.html"],
+        "tpl!template/map.html"],
   function(Marionette, Mapbox, d3, Communicator, Config,
-           PopupView, Template) {
+           Template) {
 
   return Marionette.ItemView.extend({
 
@@ -32,11 +32,13 @@ define(["backbone.marionette", "mapbox", "d3", "communicator", "config",
       this.markerCollection = o.markers;
 
       this.markerCollection.on("add", function(m) {
+        console.log('why nested??', m);
         // TODO: find out why attributes are so nested
-        console.log(m.get('attributes' ).latitude);
-        self.layer_markers.addLayer(
-          L.marker([m.get('attributes' ).latitude[0], m.get('attributes' ).longitude[0]])
-        );
+        var marker = L.marker( [m.get( 'latitude')[0], m.get( 'longitude')[0]] );
+        marker.on("click", function() {
+          Communicator.mediator.trigger("marker:click", m)
+        });
+        self.layer_markers.addLayer(marker);
       });
 
       Communicator.mediator.on("MAP:ZOOM_IN_REQUESTED", function() {

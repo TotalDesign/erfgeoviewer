@@ -1,9 +1,10 @@
 @import "init";
-@import "map";
+@import "mapbox.scss";
 @import "delving";
 
 @import '../bower_components/materialize/sass/materialize.scss';
-@import "layers";
+@import "pane-search";
+@import "pane-detail-view";
 
 body {
   margin: 0;

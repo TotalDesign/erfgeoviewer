@@ -1,3 +1,6 @@
+/**
+ * View for adding markers.
+ */
 define(['backbone', 'backbone.marionette', 'communicator', 'velocity', 'materialize.tabs',
     'tpl!template/markers.html'],
   function( Backbone, Marionette, Communicator, Velocity, MaterializeTabs,
@@ -16,7 +19,7 @@ define(['backbone', 'backbone.marionette', 'communicator', 'velocity', 'material
 
       initialize: function(o) {
 
-        console.log('Initialized layers view.');
+        console.log('Initialized markers view.');
         var self = this;
         this.render();
         this.container = o.region;
@@ -26,6 +29,7 @@ define(['backbone', 'backbone.marionette', 'communicator', 'velocity', 'material
 
       onRender: function() {
         var self = this;
+
         _.each(this.modules, function(m) {
           if ( m.module.type == "search" ) {
             m.showModule( self.search );
