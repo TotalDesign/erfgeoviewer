@@ -1,4 +1,5 @@
 define( ["backbone", "backbone.marionette", "communicator", "models/search-result",
+
     "tpl!template/detail.html"],
   function( Backbone, Marionette, Communicator, SearchResultModel,
             Template ) {

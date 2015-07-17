@@ -9,8 +9,14 @@ $color_blue: #007bc7;
 $color_text_dark: #535353;
 $font_serif: 'Roboto', serif;
 
-$material-primary:   "materialize-red";
-$material-secondary: "blue-grey";
+/*
+materialize-red, red, pink, purple, deep-purple, indigo,
+blue, light-blue, cyan, teal, green, light-green, lime, yellow,
+amber, orange, deep-orange, brown, blue-grey, grey, shades
+*/
+
+$material-primary:   "deep-purple";
+$material-secondary: "teal";
 
 $primary_50:  color($material-primary, "lighten-5");
 $primary_100: color($material-primary, "lighten-4");

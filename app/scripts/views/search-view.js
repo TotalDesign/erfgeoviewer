@@ -1,5 +1,5 @@
 define(["backbone.marionette",
-  "tpl!modules/delving/templates/search-box.html"],
+  "tpl!template/search-box.html"],
   function(Marionette, SearchTemplate) {
 
   return Marionette.ItemView.extend({

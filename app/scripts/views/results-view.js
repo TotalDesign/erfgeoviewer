@@ -1,9 +1,10 @@
 /**
  * CollectionView for displaying search results.
  */
-define( ['backbone.marionette', "communicator", "materialize.cards",
-         "tpl!modules/delving/templates/results.html"],
-  function(Marionette, Communicator, Materialize,
+define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
+
+         "tpl!template/results.html"],
+  function(Backbone, Marionette, Communicator, Materialize,
            ResultItemTemplate) {
 
     var ResultItemView = Marionette.ItemView.extend({
@@ -20,9 +21,7 @@ define( ['backbone.marionette', "communicator", "materialize.cards",
         }
       },
 
-      childView: ResultItemView,
-      initialize: function() {
-      }
+      childView: ResultItemView
 
     });
 
