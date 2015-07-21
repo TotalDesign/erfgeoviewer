@@ -24,8 +24,8 @@
 <script id="template-layout" type="text/template">
   <div id="tooltip"></div>
   <aside class="z-depth-2" id="layer-add"></aside>
-  <aside id="details" class="z-depth-3"></aside>
   <header id="header" class="z-depth-1"></header>
+  <aside id="details"></aside>
   <div id="body">
     <aside id="routeyou"></aside>
     <article id="content"></article>
@@ -38,6 +38,7 @@
 <script data-main="scripts/require-config" src="bower_components/requirejs/require.js"></script>
 <!-- endbuild -->
 
+<script src="scripts/config/dev.js"></script>
 <script>document.write( '<script src="http://'
 + (location.host || 'localhost').split( ':' )[0]
 + ':35729/livereload.js?snipver=1"><\/script>' );

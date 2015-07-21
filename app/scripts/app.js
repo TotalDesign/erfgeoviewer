@@ -17,9 +17,10 @@ function( Backbone, Marionette, Communicator, $,
 		el: "#application"
 	});
 
+
 	App.addInitializer( function () {
 
-    /**
+   /**
      * Layout
      */
 		var AppLayoutView = Marionette.LayoutView.extend({
@@ -36,34 +37,38 @@ function( Backbone, Marionette, Communicator, $,
 		layout.render();
 		container.show(layout);
 
-    var marker_collection = new MarkerCollection();
-    var layer_collection = new LayerCollection();
+   var marker_collection = new MarkerCollection();
+   var layer_collection = new LayerCollection();
 
-    var map_view = new MapView( {
+   var map_view = new MapView( {
       layout: layout,
       layers: layer_collection,
       markers: marker_collection
-    } );
-    layout.getRegion( 'content' ).show( map_view );
-    layout.getRegion( 'header' ).show( new HeaderView() );
-    layout.getRegion( 'details' ).show( new DetailSlideoutView() );
+   } );
+   layout.getRegion( 'content' ).show( map_view );
+   layout.getRegion( 'header' ).show( new HeaderView() );
+   layout.getRegion( 'details' ).show( new DetailSlideoutView() );
 
-    /**
+   Communicator.mediator.on( "all", function(e, a) {
+      console.log("event", e);
+   });
+
+   /**
      * Modules
      */
-    var modules = [];
+   var modules = [];
 
-    // TODO: assemble this automatically
-    //modules.push(new RouteyouModule());
-    modules.push(new DelvingModule({
+   // TODO: assemble this automatically
+   //modules.push(new RouteyouModule());
+   modules.push(new DelvingModule({
       markers_collection: marker_collection
-    }));
+   }));
 
 
-    /**
+   /**
      * Routes
      */
-    var Router = Marionette.AppRouter.extend({
+   var Router = Marionette.AppRouter.extend({
       routes : {
         "" : function() {
           layout.getRegion( 'layerAdd' ).reset();
@@ -83,8 +88,8 @@ function( Backbone, Marionette, Communicator, $,
           console.log('features');
         }
       }
-    });
-    new Router();
+   });
+   new Router();
 
 	});
 

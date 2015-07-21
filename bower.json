@@ -20,7 +20,10 @@
     "polyline": "~0.1.0",
     "materialize": "~0.97.0",
     "velocity": "~1.2.2",
-    "hammerjs": "~2.0.4"
+    "hammerjs": "~2.0.4",
+    "react": "~0.13.3",
+    "backbone-react-component": "~0.8.1",
+    "requirejs-react-jsx": "~0.14.2"
   },
   "devDependencies": {
     "susy": "~2.2.2"
@@ -29,6 +32,8 @@
   "resolutions": {
     "backbone.wreqr": "^1.0.0",
     "backbone.babysitter": "^0.1.0",
-    "jquery": ">=2.1.1"
+    "jquery": ">=2.1.1",
+    "underscore": ">=1.7.0",
+    "backbone": "~1.2.1"
   }
 }
