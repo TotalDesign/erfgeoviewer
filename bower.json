@@ -1,0 +1,39 @@
+{
+  "name": "erfgeoviewer",
+  "version": "0.0.1",
+  "dependencies": {
+    "sass-bootstrap": "~2.3.0",
+    "jquery": "~1.9.0",
+    "requirejs": "~2.1.5",
+    "requirejs-text": "~2.0.5",
+    "backbone.marionette": "~2.4.2",
+    "backbone.wreqr": "~0.2.0",
+    "backbone.babysitter": "~0.0.6",
+    "mocha": "~1.12.0",
+    "chai": "~1.7.2",
+    "sinon": "~1.7.3",
+    "backbone": "~1.2.1",
+    "marionette": "~2.4.1",
+    "requirejs-tpl": "*",
+    "mapbox.js": "~2.1.6",
+    "d3": "~3.5.5",
+    "polyline": "~0.1.0",
+    "materialize": "~0.97.0",
+    "velocity": "~1.2.2",
+    "hammerjs": "~2.0.4",
+    "react": "~0.13.3",
+    "backbone-react-component": "~0.8.1",
+    "requirejs-react-jsx": "~0.14.2"
+  },
+  "devDependencies": {
+    "susy": "~2.2.2"
+  },
+  "directory": "bower_components",
+  "resolutions": {
+    "backbone.wreqr": "^1.0.0",
+    "backbone.babysitter": "^0.1.0",
+    "jquery": ">=2.1.1",
+    "underscore": ">=1.7.0",
+    "backbone": "~1.2.1"
+  }
+}

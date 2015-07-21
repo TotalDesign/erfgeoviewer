@@ -1,0 +1,28 @@
+@import "init";
+
+#details {
+
+  @include transition-property(right);
+  @include transition-duration(400ms);
+  @include transition-timing-function(ease-in-out);
+
+  $width: 490px;
+
+  position: fixed;
+  right: $width * -1;
+  width: $width;
+  height: 100%;
+  background-color: white;
+  overflow-x: hidden;
+  z-index: 4;
+  // overflow-y: scroll;
+  &.visible {
+    right: 0;
+  }
+
+  h3.result-title {
+    margin: 20px 0 0 0;
+    font-size: 24px;
+  }
+
+}

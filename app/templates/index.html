@@ -1,0 +1,54 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title>RWS Innovatieprogramma</title>
+
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+  <link rel="stylesheet" href="styles/main.css">
+
+</head>
+
+<body>
+
+<script id="template-layout" type="text/template">
+  <div id="tooltip"></div>
+  <aside class="z-depth-2" id="layer-add"></aside>
+  <header id="header" class="z-depth-1"></header>
+  <aside id="details"></aside>
+  <div id="body">
+    <aside id="routeyou"></aside>
+    <article id="content"></article>
+    <div id="map"></div>
+  </div>
+</script>
+<div id="application"></div>
+
+<!-- build:js scripts/main.js -->
+<script data-main="scripts/require-config" src="bower_components/requirejs/require.js"></script>
+<!-- endbuild -->
+
+<!-- @if NODE_ENV == 'PRODUCTION' -->
+<script src="scripts/config/acc.js"></script>
+<!-- @endif -->
+
+<!-- @if NODE_ENV == 'DEVELOPMENT' -->
+<script src="scripts/config/dev.js"></script>
+<script>document.write( '<script src="http://'
++ (location.host || 'localhost').split( ':' )[0]
++ ':35729/livereload.js?snipver=1"><\/script>' );
+<!-- @endif -->
+
+</script>
+</body>
+</html>

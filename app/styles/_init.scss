@@ -1,0 +1,43 @@
+@charset "UTF-8";
+@import "susy";
+@import "fontello";
+@import "compass";
+@import "../bower_components/materialize/sass/components/color";
+
+$color_yellow: #f9e11e;
+$color_blue: #007bc7;
+$color_text_dark: #535353;
+$font_serif: 'Roboto', serif;
+
+/*
+materialize-red, red, pink, purple, deep-purple, indigo,
+blue, light-blue, cyan, teal, green, light-green, lime, yellow,
+amber, orange, deep-orange, brown, blue-grey, grey, shades
+*/
+
+$material-primary:   "deep-purple";
+$material-secondary: "teal";
+
+$primary_50:  color($material-primary, "lighten-5");
+$primary_100: color($material-primary, "lighten-4");
+$primary_200: color($material-primary, "lighten-3");
+$primary_300: color($material-primary, "lighten-2");
+$primary_400: color($material-primary, "lighten-1");
+$primary_500: color($material-primary, "base");
+$primary_600: color($material-primary, "darken-1");
+$primary_700: color($material-primary, "darken-2");
+$primary_800: color($material-primary, "darken-3");
+$primary_900: color($material-primary, "darken-4");
+
+$accent_50:  color($material-secondary, "lighten-5");
+$accent_100: color($material-secondary, "lighten-4");
+$accent_200: color($material-secondary, "lighten-3");
+$accent_300: color($material-secondary, "lighten-2");
+$accent_400: color($material-secondary, "lighten-1");
+$accent_500: color($material-secondary, "base");
+$accent_600: color($material-secondary, "darken-1");
+$accent_700: color($material-secondary, "darken-2");
+$accent_800: color($material-secondary, "darken-3");
+$accent_900: color($material-secondary, "darken-4");
+
+$header-height: 64px;
