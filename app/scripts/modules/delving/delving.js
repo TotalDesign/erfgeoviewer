@@ -3,10 +3,10 @@
  */
 define( ['backbone.marionette', 'communicator', 'modules/prototype',
     'tpl!modules/delving/templates/layout.html', 'modules/delving/delving-result-model',
-    'views/results-view', 'modules/delving/delving-model', 'views/search-view', 'jsx!modules/delving/paginator-view'],
+    'views/results-view', 'modules/delving/delving-model', 'views/search-view'],
   function(Marionette, Communicator, ErfGeoviewerModule,
            LayoutTemplate, ResultModel,
-           ResultsView, DelvingSearchModel, DelvingSearchView, PaginatorView) {
+           ResultsView, DelvingSearchModel, DelvingSearchView) {
 
     return ErfGeoviewerModule.extend({
 
@@ -92,7 +92,7 @@ define( ['backbone.marionette', 'communicator', 'modules/prototype',
               self.pagination.set( r.pagination );
               self.layout.getRegion( 'results' ).show( new ResultsView({ collection: self.items } ));
               if ( r.query.numfound > self.items.length ) {
-                self.layout.getRegion( 'pagination' ).show( new PaginatorView( { model: self.pagination }) );
+                //self.layout.getRegion( 'pagination' ).show( new PaginatorView( { model: self.pagination }) );
               } else {
                 console.log('no paginator required');
               }
