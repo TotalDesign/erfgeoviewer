@@ -22,7 +22,10 @@ require.config( {
     "backbone.marionette": "../bower_components/backbone.marionette/lib/core/backbone.marionette",
     "backbone.wreqr": "../bower_components/backbone.wreqr/lib/backbone.wreqr",
     "backbone.babysitter": "../bower_components/backbone.babysitter/lib/backbone.babysitter",
+    "backbone.pageable.collection": "../bower_components/backbone.paginator/lib/backbone.paginator",
     "backbone.react.component": "../bower_components/backbone-react-component/lib/component",
+    "backgrid": "../bower_components/backgrid/lib/backgrid",
+    "backgrid.paginator": "../bower_components/backgrid-paginator/backgrid-paginator",
     "bootstrap": "vendor/bootstrap",
     "config": "config/dev",
     "d3": "../bower_components/d3/d3",
@@ -65,6 +68,16 @@ require.config( {
       "deps": [
         "backbone"
       ]
+    },
+
+    'backgrid': {
+      deps: ['jquery', 'underscore', 'backbone'],
+      exports: 'Backgrid'
+    },
+
+    'backgrid.paginator': {
+      deps: ['backgrid'],
+      exports: 'Backgrid'
     },
 
     "bootstrap": {
