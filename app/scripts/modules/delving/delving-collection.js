@@ -65,13 +65,12 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'models/search-res
         }
       },
       parseRecords: function(resp) {
-        this.state.facets = resp.result.facets;
-        this.state.pagination = resp.result.pagination;
         return resp.result.items;
       },
       parseState: function(resp) {
-        console.log(resp.result.pagination);
         return {
+          pagination: resp.result.pagination,
+          facets: resp.result.facets,
           totalRecords: resp.result.pagination.numFound
         }
       },

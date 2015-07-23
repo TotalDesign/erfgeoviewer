@@ -2,8 +2,8 @@
  * Controller for Delving search module.
  */
 define( ['backbone.marionette', 'communicator', 'modules/prototype', 'backgrid', 'backgrid.paginator',
-    'modules/delving/delving-collection',
-    'tpl!modules/delving/templates/layout.html', 'views/results-view', 'views/search-view'],
+    'modules/zev/zev-collection',
+    'tpl!template/layout-search.html', 'views/results-view', 'views/search-view'],
   function(Marionette, Communicator, ErfGeoviewerModule, Backgrid, PaginatorView,
            DelvingCollection,
            LayoutTemplate, ResultsView, DelvingSearchView) {
@@ -17,7 +17,7 @@ define( ['backbone.marionette', 'communicator', 'modules/prototype', 'backgrid',
 
       layoutView: Marionette.LayoutView.extend({
         initialize: function() {
-          console.log('initializing delving layout view');
+          console.log('initializing zoek en vind layout view');
         },
         template: LayoutTemplate,
         regions: {

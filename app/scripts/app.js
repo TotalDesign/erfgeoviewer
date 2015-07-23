@@ -2,13 +2,18 @@ define([
 	'backbone', 'backbone.marionette', 'communicator', 'velocity',
   'models/layers', 'models/markers',
 	'views/map', 'views/header', 'views/markers', "views/detail-slideout",
-    'modules/routeyou/routeyou', 'modules/delving/delving'
+    'modules/routeyou/routeyou'
+
+    // Search modules
+    ,'modules/zev/zev'
+    //,'modules/delving/delving'
 ],
 
 function( Backbone, Marionette, Communicator, $,
           LayerCollection, MarkerCollection,
 					MapView, HeaderView, MarkerAddView, DetailSlideoutView,
-          RouteyouModule, DelvingModule ) {
+          RouteyouModule,
+          SearchModule ) {
     'use strict';
 
 	var App = new Marionette.Application();
@@ -58,9 +63,8 @@ function( Backbone, Marionette, Communicator, $,
      */
    var modules = [];
 
-   // TODO: assemble this automatically
    //modules.push(new RouteyouModule());
-   modules.push(new DelvingModule({
+   modules.push(new SearchModule({
       markers_collection: marker_collection
    }));
 
