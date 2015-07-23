@@ -22,7 +22,10 @@ require.config( {
     "backbone.marionette": "../bower_components/backbone.marionette/lib/core/backbone.marionette",
     "backbone.wreqr": "../bower_components/backbone.wreqr/lib/backbone.wreqr",
     "backbone.babysitter": "../bower_components/backbone.babysitter/lib/backbone.babysitter",
+    "backbone.pageable.collection": "../bower_components/backbone.paginator/lib/backbone.paginator",
     "backbone.react.component": "../bower_components/backbone-react-component/lib/component",
+    "backgrid": "../bower_components/backgrid/lib/backgrid",
+    "backgrid.paginator": "../bower_components/backgrid-paginator/backgrid-paginator",
     "bootstrap": "vendor/bootstrap",
     "config": "config/dev",
     "d3": "../bower_components/d3/d3",
@@ -31,6 +34,7 @@ require.config( {
     "jquery.hammer": "../bower_components/materialize/js/jquery.hammer",
     "jsx": "../bower_components/requirejs-react-jsx/jsx",
     "JSXTransformer": "../bower_components/react/JSXTransformer",
+    "leaflet.markercluster": "../bower_components/leaflet.markercluster/dist/leaflet.markercluster",
     "mapbox": "../bower_components/mapbox.js/mapbox.uncompressed",
     "materialize.cards": "../bower_components/materialize/js/cards",
     "materialize.tabs": "../bower_components/materialize/js/tabs",
@@ -67,9 +71,28 @@ require.config( {
       ]
     },
 
+    'backgrid': {
+      deps: ['jquery', 'underscore', 'backbone'],
+      exports: 'Backgrid'
+    },
+
+    'backgrid.paginator': {
+      deps: ['backgrid'],
+      exports: 'Backgrid'
+    },
+
     "bootstrap": {
       "deps": ["jquery"],
       "exports": "jquery"
+    },
+
+    "leaflet.markercluster": {
+      deps: ["mapbox"],
+      exports: "L"
+    },
+
+    "mapbox": {
+      "exports": "L"
     },
 
     "polyline": {
@@ -78,6 +101,10 @@ require.config( {
 
     // jquery plugins
     "velocity": ["jquery"],
+
+    "underscore": {
+      "exports": "_"
+    },
 
     "jquery.hammer": {
       "deps": ["jquery", "hammerjs"],
