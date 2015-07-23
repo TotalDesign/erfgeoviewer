@@ -69,6 +69,12 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'models/search-res
         this.state.pagination = resp.result.pagination;
         return resp.result.items;
       },
+      parseState: function(resp) {
+        console.log(resp.result.pagination);
+        return {
+          totalRecords: resp.result.pagination.numFound
+        }
+      },
       state: {
         d: 100,
         firstPage: 1,
