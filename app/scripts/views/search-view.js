@@ -17,7 +17,8 @@ define(["backbone.marionette",
 
     onRender: function() {
       var self = this;
-      $( '.search-box', this.$el ).keyup( function( e ) {
+      $search = $( '.search-box', this.$el );
+      $search.keyup( function( e ) {
         if (e.keyCode == 13) {
           e.preventDefault();
           self.search(e);

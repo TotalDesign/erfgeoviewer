@@ -1,14 +1,12 @@
 /**
  * Controller for Delving search module.
  */
-define( ['backbone.marionette', 'communicator', 'modules/prototype', 'config', //'backgrid', 'backgrid.paginator',
-    'backbone.pageable.collection',
-    'tpl!modules/delving/templates/layout.html', 'views/results-view', 'views/search-view',
-    'modules/delving/delving-result-model'],
-  function(Marionette, Communicator, ErfGeoviewerModule, Config, //Backgrid, PaginatorView,
-           BackbonePageableCollection,
-           LayoutTemplate, ResultsView, DelvingSearchView,
-           ResultModel) {
+define( ['backbone.marionette', 'communicator', 'modules/prototype', 'backgrid', 'backgrid.paginator',
+    'modules/delving/delving-collection',
+    'tpl!modules/delving/templates/layout.html', 'views/results-view', 'views/search-view'],
+  function(Marionette, Communicator, ErfGeoviewerModule, Backgrid, PaginatorView,
+           DelvingCollection,
+           LayoutTemplate, ResultsView, DelvingSearchView) {
 
     return ErfGeoviewerModule.extend({
 
@@ -41,40 +39,7 @@ define( ['backbone.marionette', 'communicator', 'modules/prototype', 'config', /
 
         this.markers = o.markers_collection;
         this.facets = new Backbone.Collection();
-        var PageableCollection = BackbonePageableCollection.extend({
-          model: ResultModel,
-          state: {
-            d: 100,
-            firstPage: 1,
-            terms: "*"
-          },
-          url: Config.delving.uri + '/search',
-          queryParams: {
-            currentPage: null,
-            pageSize: null,
-            format: 'json',
-            pt: function() {
-              return this.state.lat + ',' + this.state.lng;
-            },
-            d: function() {
-              return Math.round(this.state.searchDistance);
-            },
-            sfield: "delving_locationLatLong_location",
-            query: function() {
-              return this.state.terms;
-            },
-            start: function() {
-              return (this.state.currentPage - this.state.firstPage) * this.state.pageSize;
-            }
-          },
-          parseRecords: function(resp) {
-            this.state.facets = resp.result.facets;
-            this.state.pagination = resp.result.pagination;
-            return resp.result.items;
-          }
-        });
-
-        this.results = new PageableCollection();
+        this.results = new DelvingCollection();
         var SearchModel = Backbone.Model.extend( {
           defaults: {
             terms: '*',
@@ -85,7 +50,7 @@ define( ['backbone.marionette', 'communicator', 'modules/prototype', 'config', /
 
         // Event triggered by "VOEG TOE" action on search result card.
         Communicator.mediator.on( "marker:addModelId", function(cid) {
-          var result = self.results.find( {cid: cid} );
+          var result = self.results.findWhere( {cid: cid} );
 
           // The record model contains a lot of extract information that the marker doesn't need,
           // and the essential info (a unique ID) is not available. Here we extra the useful info
@@ -119,7 +84,7 @@ define( ['backbone.marionette', 'communicator', 'modules/prototype', 'config', /
           self.results.fetch({
             success: function(collection) {
               self.layout.getRegion( 'results' ).show( new ResultsView( {collection: collection} ) );
-              //self.layout.getRegion( 'pagination' ).show( new PaginatorView( {collection: collection} ) );
+              self.layout.getRegion( 'pagination' ).show( new Backgrid.Extension.Paginator( {collection: collection} ) );
             }
           });
         });

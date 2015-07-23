@@ -14,6 +14,10 @@ define( ["backbone"], function( Backbone ) {
       externalUrl: false,
       longitude: null,
       latitude: null
+    },
+
+    initialize: function() {
+      this.set('cid', this.cid );
     }
 
   } );
