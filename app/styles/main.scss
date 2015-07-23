@@ -4,7 +4,9 @@
 
 @import '../bower_components/materialize/sass/materialize.scss';
 @import '../bower_components/leaflet.markercluster/dist/MarkerCluster.css';
-@import '../bower_components/leaflet.markercluster/dist/MarkerCluster.Default.css';
+@import '../bower_components/backgrid-paginator/backgrid-paginator.css';
+
+@import "markers";
 @import "pane-search";
 @import "pane-detail-view";
 
