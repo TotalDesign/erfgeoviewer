@@ -34,6 +34,7 @@ require.config( {
     "jquery.hammer": "../bower_components/materialize/js/jquery.hammer",
     "jsx": "../bower_components/requirejs-react-jsx/jsx",
     "JSXTransformer": "../bower_components/react/JSXTransformer",
+    "leaflet.markercluster": "../bower_components/leaflet.markercluster/dist/leaflet.markercluster",
     "mapbox": "../bower_components/mapbox.js/mapbox.uncompressed",
     "materialize.cards": "../bower_components/materialize/js/cards",
     "materialize.tabs": "../bower_components/materialize/js/tabs",
@@ -85,12 +86,25 @@ require.config( {
       "exports": "jquery"
     },
 
+    "leaflet.markercluster": {
+      deps: ["mapbox"],
+      exports: "L"
+    },
+
+    "mapbox": {
+      "exports": "L"
+    },
+
     "polyline": {
       "exports": "polyline"
     },
 
     // jquery plugins
     "velocity": ["jquery"],
+
+    "underscore": {
+      "exports": "_"
+    },
 
     "jquery.hammer": {
       "deps": ["jquery", "hammerjs"],

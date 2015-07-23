@@ -24,10 +24,10 @@
     "react": "~0.13.3",
     "backbone-react-component": "~0.8.1",
     "requirejs-react-jsx": "~0.14.2",
-    "backbone.simple-paginator": "~0.1.3",
     "backbone.paginator": "~2.0.2",
     "backgrid": "~0.3.5",
-    "backgrid-paginator": "~0.3.5"
+    "backgrid-paginator": "~0.3.5",
+    "leaflet.markercluster": "~0.4.0"
   },
   "devDependencies": {
     "susy": "~2.2.2"

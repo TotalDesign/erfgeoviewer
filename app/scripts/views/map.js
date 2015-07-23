@@ -1,6 +1,6 @@
-define(["backbone.marionette", "mapbox", "d3", "communicator", "config",
+define(["backbone.marionette", "mapbox", "d3", "communicator", "config", "leaflet.markercluster",
         "tpl!template/map.html"],
-  function(Marionette, Mapbox, d3, Communicator, Config,
+  function(Marionette, Mapbox, d3, Communicator, Config, LeafletMarkerCluster,
            Template) {
 
   return Marionette.ItemView.extend({
@@ -154,7 +154,7 @@ define(["backbone.marionette", "mapbox", "d3", "communicator", "config",
         .setView([52.121580, 5.6304], 8);
       //this.map.scrollWheelZoom.disable();
 
-      this.layer_markers = L.layerGroup().addTo(this.map);
+      this.layer_markers = new L.MarkerClusterGroup().addTo(this.map);
 
       $( '.leaflet-overlay-pane' ).click( function() {
         Communicator.mediator.trigger( "map:tile-layer-clicked" );
