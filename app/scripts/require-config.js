@@ -40,6 +40,7 @@ require.config( {
     "materialize.cards": "../bower_components/materialize/js/cards",
     "materialize.tabs": "../bower_components/materialize/js/tabs",
     "materialize.sidenav": "../bower_components/materialize/js/sideNav",
+    "medium.editor": "../bower_components/medium-editor/dist/js/medium-editor",
     "polyline": "../bower_components/polyline/src/polyline",
     "react": "../bower_components/react/react",
     "react.paginate": "../bower_components/react-paginate/index",

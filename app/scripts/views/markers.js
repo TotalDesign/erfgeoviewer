@@ -38,6 +38,7 @@ define(['backbone', 'backbone.marionette', 'communicator', 'velocity', 'material
       },
 
       onShow: function() {
+        var self = this;
         $('ul.tabs', this.$el).tabs();
         this.$el.parent().addClass( "visible" );
       },

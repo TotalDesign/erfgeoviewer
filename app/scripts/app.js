@@ -5,8 +5,8 @@ define([
     'modules/routeyou/routeyou'
 
     // Search modules
-    ,'modules/zev/zev'
-    //,'modules/delving/delving'
+    //,'modules/zev/zev'
+    ,'modules/delving/delving'
 ],
 
 function( Backbone, Marionette, Communicator, $,
