@@ -1,4 +1,4 @@
-define( ['backbone.marionette', 'modules/prototype',
+define( ['backbone.marionette', 'modules/module',
     'modules/routeyou/route-collection', 'modules/routeyou/route-view'],
   function(Marionette, ErfGeoviewerModule,
     RouteCollection, RouteSelector) {

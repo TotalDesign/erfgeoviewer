@@ -1,5 +1,5 @@
 /**
- * View for adding markers.
+ * Slideout view "Add markers".
  */
 define(['backbone', 'backbone.marionette', 'communicator', 'velocity', 'materialize.tabs',
     'tpl!template/markers.html'],

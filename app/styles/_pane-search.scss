@@ -1,6 +1,65 @@
 @import 'init';
 @import '../bower_components/materialize/sass/components/tabs.scss';
-@import 'delving';
+
+
+#search-field {
+  width: 100%;
+  margin: 2em 0 0;
+
+  .input-border {
+    border: solid 1px color('grey', "lighten-2");
+    //@extend .z-depth-1;
+  }
+  .input-padding {
+    margin: 2px 15px;
+  }
+  input {
+    padding: 0;
+    font-size: 20px;
+    border: none;
+    margin: 0;
+  }
+  .results-summary {
+    margin-left: 15px;
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+}
+
+#search-results {
+  margin: 1em;
+
+  .card-title {
+    line-height: 100%;
+    padding-bottom: 16px;
+    display: block;
+  }
+
+  .btn-floating {
+    position: relative;
+    top: 0;
+    left: 50%;
+    display: block;
+    margin-left: -23px;
+    margin-top: -52px;
+  }
+
+  p.actions {
+    margin-top: 16px;
+    margin-bottom: 0;
+    span,
+    a {
+      padding: 8px 8px 8px 0;
+      padding-top: 16px;
+      margin-right: 16px;
+      text-transform: uppercase;
+      color: $primary_900;
+      cursor: pointer;
+      &:hover { color: $accent_900; }
+    }
+  }
+
+}
 
 .flyout-title {
   background-color: $accent_500;

@@ -1,45 +1,13 @@
-/**
- * Controller for Delving search module.
- */
-define( ['backbone.marionette', 'communicator', 'modules/module-search', 'backgrid', 'backgrid.paginator',
-    'modules/zev/zev-collection',
-    'tpl!template/layout-search.html', 'views/results-view', 'views/search-view'],
-  function(Marionette, Communicator, SearchModule, Backgrid, PaginatorView,
-           DelvingCollection,
-           LayoutTemplate, ResultsView, DelvingSearchView) {
+define(["backbone.marionette", "communicator", "modules/module", 'views/results-view'],
+  function(Marionette, Communicator, ErfgeoModule, ResultsView) {
 
-    return SearchModule.extend({
-
-      module: {
-        'type': 'search',
-        'title': 'Zoek ONH'
-      },
-
-      layoutView: Marionette.LayoutView.extend({
-        initialize: function() {
-          console.log('initializing zoek en vind layout view');
-        },
-        template: LayoutTemplate,
-        regions: {
-          search: "#search-field",
-          facets: "#search-facets",
-          pagination: "#search-pagination",
-          results: "#search-results"
-        }
-      }),
-
-      markers: null,
-      facets: null,
-      items: null,
-      query: null,
+    return ErfgeoModule.extend({
 
       initialize: function(o) {
 
         var self = this;
 
         this.markers = o.markers_collection;
-        this.facets = new Backbone.Collection();
-        this.results = new DelvingCollection();
         var SearchModel = Backbone.Model.extend( {
           defaults: {
             terms: '*',
@@ -66,6 +34,11 @@ define( ['backbone.marionette', 'communicator', 'modules/module-search', 'backgr
               title: vars.title
             })) {
             self.markers.push( [vars] );
+          } else {
+            Communicator.mediator.trigger( "map:panTo", {
+              longitude: vars.longitude[0],
+              latitude: vars.latitude[0]
+            } );
           }
         });
 
@@ -74,7 +47,7 @@ define( ['backbone.marionette', 'communicator', 'modules/module-search', 'backgr
           var map = Communicator.reqres.request( 'getMap' );
           var center = map.getCenter();
           var bounds = map.getBounds();
-          var distance = bounds.getSouthWest().distanceTo(bounds.getNorthEast()) / 1000 / 2;
+          var distance = Math.round(bounds.getSouthWest().distanceTo(bounds.getNorthEast()) / 1000 / 4);
 
           self.results.state.terms = self.model.get('terms');
           self.results.state.lat = center.lat;
@@ -89,19 +62,8 @@ define( ['backbone.marionette', 'communicator', 'modules/module-search', 'backgr
           });
         });
 
-      },
-
-      render: function() {
-        this.layout.getRegion('search').show(new DelvingSearchView({
-          model: this.model
-        }) );
-      },
-
-      onRender: function() {
-        this.layout.render();
       }
 
-    });
+  });
 
-  }
-);
+});

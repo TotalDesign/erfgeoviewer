@@ -1,6 +1,8 @@
-define(["backbone.marionette", "mapbox", "d3", "communicator", "config", "leaflet.markercluster",
+define(["backbone.marionette", "mapbox", "d3", "communicator", "config",
+        "leaflet.markercluster", "leaflet.smoothmarkerbouncing",
         "tpl!template/map.html"],
-  function(Marionette, Mapbox, d3, Communicator, Config, LeafletMarkerCluster,
+  function(Marionette, Mapbox, d3, Communicator, Config,
+           LeafletMarkerCluster, LeafletBouncing,
            Template) {
 
   return Marionette.ItemView.extend({
@@ -32,27 +34,29 @@ define(["backbone.marionette", "mapbox", "d3", "communicator", "config", "leafle
       this.markerCollection = o.markers;
 
       this.markerCollection.on("add", function(m) {
-        console.log('model added to marker collection', m);
-        // TODO: find out why attributes are so nested
-        var marker = L.marker( [m.get( 'latitude')[0], m.get( 'longitude')[0]] );
+        var latlng = L.latLng( [m.get( 'latitude' )[0], m.get( 'longitude' )[0]] );
+        var marker = L.marker( latlng );
         marker.on("click", function() {
           Communicator.mediator.trigger("marker:click", m)
         });
         self.layer_markers.addLayer(marker);
+        self.map.panTo( latlng );
       });
 
-      Communicator.mediator.on("MAP:ZOOM_IN_REQUESTED", function() {
+      Communicator.mediator.on("map:panTo", function(o) {
+        var latlng = L.latLng( [o.latitude, o.longitude] );
+        self.map.panTo(latlng);
+      });
+      Communicator.mediator.on("map:zoomIn", function() {
         this.map.setZoom(this.map.getZoom() + 1);
       }, this);
-      Communicator.mediator.on("MAP:ZOOM_OUT_REQUESTED", function() {
+      Communicator.mediator.on("map:zoomOut", function() {
         this.map.setZoom(this.map.getZoom() - 1);
       }, this);
       Communicator.reqres.setHandler( "getMap", function() { return self.map; });
 
       $( window ).resize( _.throttle( this.updateMapSize, 150 ) );
-
-
-
+      
       // this.registerAutoWidthMarker();
       this.registerLeafletZoomThrottle(200);
 
@@ -150,7 +154,6 @@ define(["backbone.marionette", "mapbox", "d3", "communicator", "config", "leafle
       this.updateMapSize();
       L.mapbox.accessToken = Config.mapbox.accessToken;
       this.map = L.mapbox.map(this.mapboxContainer, Config.mapbox.baseLayerId, { zoomControl: false })
-      //  .setView([52.052074, 5.108049], 17);
         .setView([52.121580, 5.6304], 8);
       //this.map.scrollWheelZoom.disable();
 
@@ -160,13 +163,10 @@ define(["backbone.marionette", "mapbox", "d3", "communicator", "config", "leafle
         Communicator.mediator.trigger( "map:tile-layer-clicked" );
       } );
 
-
       // SVG from Leaflet.
       this.map._initPathRoot();
       this.svg = d3.select('#' + this.mapboxContainer).select("svg");
       this.g = this.svg.append("g");
-
-      //this.showMarkers();
 
     },
 
@@ -175,10 +175,6 @@ define(["backbone.marionette", "mapbox", "d3", "communicator", "config", "leafle
       this.height = $( window ).height() - $( 'header' ).height();
       this.width = $( window ).width();
       $( '#' + this.mapboxContainer ).css( 'height', this.height );
-
-    },
-
-    showMarkers: function() {
 
     }
 

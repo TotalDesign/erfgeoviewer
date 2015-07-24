@@ -35,6 +35,7 @@ require.config( {
     "jsx": "../bower_components/requirejs-react-jsx/jsx",
     "JSXTransformer": "../bower_components/react/JSXTransformer",
     "leaflet.markercluster": "../bower_components/leaflet.markercluster/dist/leaflet.markercluster",
+    "leaflet.smoothmarkerbouncing": "../bower_components/Leaflet.SmoothMarkerBouncing/leaflet.smoothmarkerbouncing",
     "mapbox": "../bower_components/mapbox.js/mapbox.uncompressed",
     "materialize.cards": "../bower_components/materialize/js/cards",
     "materialize.tabs": "../bower_components/materialize/js/tabs",
@@ -87,6 +88,11 @@ require.config( {
     },
 
     "leaflet.markercluster": {
+      deps: ["mapbox"],
+      exports: "L"
+    },
+
+    "leaflet.smoothmarkerbouncing": {
       deps: ["mapbox"],
       exports: "L"
     },

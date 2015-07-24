@@ -17,13 +17,19 @@ define(["backbone.marionette",
 
     onRender: function() {
       var self = this;
-      $search = $( '.search-box', this.$el );
+      var $search = $( '.search-box', this.$el );
       $search.keyup( function( e ) {
         if (e.keyCode == 13) {
           e.preventDefault();
           self.search(e);
         }
       });
+      _.delay(function() {
+        $search.focus();
+        var t = $search.val();
+        $search.val('');
+        $search.val(t);
+      }, 100 );
     },
 
     search: function(e) {
