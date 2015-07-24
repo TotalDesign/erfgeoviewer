@@ -3,7 +3,7 @@
  */
 define( ['backbone.marionette', 'communicator', 'modules/prototype', 'backgrid', 'backgrid.paginator',
     'modules/delving/delving-collection',
-    'tpl!modules/delving/templates/layout.html', 'views/results-view', 'views/search-view'],
+    'tpl!template/layout-search.html', 'views/results-view', 'views/search-view'],
   function(Marionette, Communicator, ErfGeoviewerModule, Backgrid, PaginatorView,
            DelvingCollection,
            LayoutTemplate, ResultsView, DelvingSearchView) {
