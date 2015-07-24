@@ -65,7 +65,10 @@
   background-color: $accent_500;
   color: white;
   height: $header_height;
-  position: relative;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  position: fixed;
   a {
     color: white;
     &:hover {
