@@ -65,10 +65,8 @@
   background-color: $accent_500;
   color: white;
   height: $header_height;
-  top: 0;
   width: 100%;
-  z-index: 100;
-  position: fixed;
+  position: relative;
   a {
     color: white;
     &:hover {
@@ -107,7 +105,7 @@
   background-color: white;
   overflow-x: hidden;
   z-index: 3;
-  padding-top: 67px;
+  //padding-top: 67px;
 
   // overflow-y: scroll;
   &.visible {

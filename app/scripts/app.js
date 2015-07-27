@@ -1,8 +1,8 @@
 define([
 	'backbone', 'backbone.marionette', 'communicator', 'velocity',
   'models/layers', 'models/markers',
-	'views/map', 'views/header', 'views/markers', "views/detail-slideout",
-    'modules/routeyou/routeyou'
+	'views/map', 'views/header', 'views/markers', 'views/detail-slideout', 'views/publish',
+  'modules/routeyou/routeyou'
 
     // Search modules
     //,'modules/zev/zev'
@@ -11,7 +11,7 @@ define([
 
 function( Backbone, Marionette, Communicator, $,
           LayerCollection, MarkerCollection,
-					MapView, HeaderView, MarkerAddView, DetailSlideoutView,
+					MapView, HeaderView, MarkerAddView, DetailSlideoutView, PublishView,
           RouteyouModule,
           SearchModule ) {
     'use strict';
@@ -33,6 +33,7 @@ function( Backbone, Marionette, Communicator, $,
 			regions: {
 				header: "#header",
 				content: "#content",
+        publish: "#publish",
         layerAdd: "#layer-add",
         details: "#details"
 			}
@@ -43,11 +44,9 @@ function( Backbone, Marionette, Communicator, $,
 		container.show(layout);
 
    var marker_collection = new MarkerCollection();
-   var layer_collection = new LayerCollection();
 
    var map_view = new MapView( {
       layout: layout,
-      layers: layer_collection,
       markers: marker_collection
    } );
    layout.getRegion( 'content' ).show( map_view );
@@ -90,6 +89,11 @@ function( Backbone, Marionette, Communicator, $,
         },
         "features": function() {
           console.log('features');
+        },
+        "save": function() {
+          layout.getRegion( 'publish' ).show(
+            new PublishView()
+          );
         }
       }
    });

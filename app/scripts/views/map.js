@@ -21,7 +21,6 @@ define(["backbone.marionette", "mapbox", "d3", "communicator", "config",
     popup: null,
 
     // Collections
-    layerCollection: null,
     markerCollection: null,
 
     initialize: function(o) {
@@ -30,7 +29,6 @@ define(["backbone.marionette", "mapbox", "d3", "communicator", "config",
       _.bindAll(this, 'updateMapSize');
 
       this.layout = o.layout;
-      this.layerCollection = o.layers;
       this.markerCollection = o.markers;
 
       this.markerCollection.on("add", function(m) {

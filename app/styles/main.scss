@@ -36,6 +36,7 @@ body {
   z-index: 1;
   width: 100%;
   height: $header-height;
+  position: relative;
 
   // Burger icon.
   #menu-button {
@@ -57,6 +58,25 @@ body {
     font-size: 24px;
     line-height: 64px;
     font-weight: bold;
+  }
+
+  // Save and open.
+  #primary-actions {
+    position: absolute;
+    right: 0;
+    top: 0;
+    li {
+      float: left;
+      a {
+        color: white;
+        font-weight: bold;
+        background-color: $primary_700;
+        &:hover {
+          background-color: $primary_900;
+        }
+        margin-right: 15px;
+      }
+    }
   }
 
   // Main menu.
