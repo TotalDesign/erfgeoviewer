@@ -24,7 +24,8 @@ define(["backbone.marionette", "tpl!template/publish.html",
       onShow: function() {
         $('.modal', this.$el).openModal();
         $download = $('.download', this.$el);
-        var link = "data:application/octet-stream,field1%2Cfield2%0Afoo%2Cbar%0Agoo%2Cgai%0A";
+        var serialized = JSON.stringify(this.model.toJSON());
+        var link = "data:text/json;charset=utf-8," + encodeURIComponent(serialized);
         $download.prop('href', link);
         $download.prop('download', 'erfgeoviewer.json');
       }

@@ -1,12 +1,29 @@
 define( ["backbone", "backbone.marionette", "materialize.sidenav", "jquery.hammer", "communicator",
-    "tpl!template/header.html"],
+    'views/publish', "tpl!template/header.html"],
   function( Backbone, Marionette, Materialize, jQueryHammer, Communicator,
-            Template ) {
+            PublishView, Template ) {
 
     return Marionette.ItemView.extend( {
 
       template: Template,
       layout: null,
+
+      events: {
+        'click .save': function(e) {
+          e.preventDefault();
+          this.modalRegion.show(
+            new PublishView( {
+              state: this.state
+            } )
+          );
+          return false;
+        }
+      },
+
+      initialize: function(o) {
+        this.modalRegion = o.modalRegion;
+        this.state = o.state;
+      },
 
       onShow: function() {
         $( '#menu-button' ).sideNav( {

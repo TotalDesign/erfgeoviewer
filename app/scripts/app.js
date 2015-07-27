@@ -1,7 +1,7 @@
 define( [
     'backbone', 'backbone.marionette', 'communicator', 'velocity',
     'models/layers', 'models/markers',
-    'views/map', 'views/header', 'views/markers', 'views/detail-slideout', 'views/publish',
+    'views/map', 'views/header', 'views/markers', 'views/detail-slideout',
     'modules/routeyou/routeyou'
 
     // Search modules
@@ -11,7 +11,7 @@ define( [
 
   function( Backbone, Marionette, Communicator, $,
             LayerCollection, MarkerCollection,
-            MapView, HeaderView, MarkerAddView, DetailSlideoutView, PublishView,
+            MapView, HeaderView, MarkerAddView, DetailSlideoutView,
             RouteyouModule,
             SearchModule ) {
     'use strict';
@@ -33,7 +33,7 @@ define( [
         regions: {
           header: "#header",
           content: "#content",
-          publish: "#publish",
+          modal: "#modal",
           layerAdd: "#layer-add",
           details: "#details"
         }
@@ -53,7 +53,10 @@ define( [
         markers: state.get( 'markers' )
       } );
       layout.getRegion( 'content' ).show( map_view );
-      layout.getRegion( 'header' ).show( new HeaderView() );
+      layout.getRegion( 'header' ).show( new HeaderView( {
+        modalRegion: layout.getRegion('modal'),
+        state: state
+      } ) );
       layout.getRegion( 'details' ).show( new DetailSlideoutView() );
 
       Communicator.mediator.on( "all", function( e, a ) {
@@ -92,13 +95,6 @@ define( [
           },
           "features": function() {
             console.log( 'features' );
-          },
-          "save": function() {
-            layout.getRegion( 'publish' ).show(
-              new PublishView( {
-                state: state
-              } )
-            );
           }
         }
       } );
