@@ -1,109 +1,114 @@
-define([
-	'backbone', 'backbone.marionette', 'communicator', 'velocity',
-  'models/layers', 'models/markers',
-	'views/map', 'views/header', 'views/markers', 'views/detail-slideout', 'views/publish',
-  'modules/routeyou/routeyou'
+define( [
+    'backbone', 'backbone.marionette', 'communicator', 'velocity',
+    'models/layers', 'models/markers',
+    'views/map', 'views/header', 'views/markers', 'views/detail-slideout', 'views/publish',
+    'modules/routeyou/routeyou'
 
     // Search modules
     //,'modules/zev/zev'
-    ,'modules/delving/delving'
-],
+    , 'modules/delving/delving'
+  ],
 
-function( Backbone, Marionette, Communicator, $,
-          LayerCollection, MarkerCollection,
-					MapView, HeaderView, MarkerAddView, DetailSlideoutView, PublishView,
-          RouteyouModule,
-          SearchModule ) {
+  function( Backbone, Marionette, Communicator, $,
+            LayerCollection, MarkerCollection,
+            MapView, HeaderView, MarkerAddView, DetailSlideoutView, PublishView,
+            RouteyouModule,
+            SearchModule ) {
     'use strict';
 
-	var App = new Marionette.Application();
+    var App = new Marionette.Application();
 
-	var container = new Marionette.Region({
-		el: "#application"
-	});
-
-
-	App.addInitializer( function () {
-
-   /**
-     * Layout
-     */
-		var AppLayoutView = Marionette.LayoutView.extend({
-			template: "#template-layout",
-			regions: {
-				header: "#header",
-				content: "#content",
-        publish: "#publish",
-        layerAdd: "#layer-add",
-        details: "#details"
-			}
-		});
-
-		var layout = new AppLayoutView();
-		layout.render();
-		container.show(layout);
-
-   var marker_collection = new MarkerCollection();
-
-   var map_view = new MapView( {
-      layout: layout,
-      markers: marker_collection
-   } );
-   layout.getRegion( 'content' ).show( map_view );
-   layout.getRegion( 'header' ).show( new HeaderView() );
-   layout.getRegion( 'details' ).show( new DetailSlideoutView() );
-
-   Communicator.mediator.on( "all", function(e, a) {
-      console.log("event", e);
-   });
-
-   /**
-     * Modules
-     */
-   var modules = [];
-
-   //modules.push(new RouteyouModule());
-   modules.push(new SearchModule({
-      markers_collection: marker_collection
-   }));
+    var container = new Marionette.Region( {
+      el: "#application"
+    } );
 
 
-   /**
-     * Routes
-     */
-   var Router = Marionette.AppRouter.extend({
-      routes : {
-        "" : function() {
-          layout.getRegion( 'layerAdd' ).reset();
-        },
-        "markers" : function() {
-          console.log('route:markers');
-          layout.getRegion( 'layerAdd' ).show(
-            new MarkerAddView( {
-              modules: modules
-            } )
-          );
-        },
-        "base": function() {
-          console.log('base');
-        },
-        "features": function() {
-          console.log('features');
-        },
-        "save": function() {
-          layout.getRegion( 'publish' ).show(
-            new PublishView()
-          );
+    App.addInitializer( function() {
+
+      /**
+       * Layout
+       */
+      var AppLayoutView = Marionette.LayoutView.extend( {
+        template: "#template-layout",
+        regions: {
+          header: "#header",
+          content: "#content",
+          publish: "#publish",
+          layerAdd: "#layer-add",
+          details: "#details"
         }
-      }
-   });
-   new Router();
+      } );
 
-	});
+      var layout = new AppLayoutView();
+      layout.render();
+      container.show( layout );
 
-  App.on("start", function() {
-    Backbone.history.start();
-  });
+      // This object will be serialized and used for storing/restoring a map.
+      var state = new Backbone.Model( {
+        'markers': new MarkerCollection()
+      } );
 
-	return App;
-});
+      var map_view = new MapView( {
+        layout: layout,
+        markers: state.get( 'markers' )
+      } );
+      layout.getRegion( 'content' ).show( map_view );
+      layout.getRegion( 'header' ).show( new HeaderView() );
+      layout.getRegion( 'details' ).show( new DetailSlideoutView() );
+
+      Communicator.mediator.on( "all", function( e, a ) {
+        console.log( "event", e );
+      } );
+
+      /**
+       * Modules
+       */
+      var modules = [];
+
+      //modules.push(new RouteyouModule());
+      modules.push( new SearchModule( {
+        markers_collection: state.get( 'markers' )
+      } ) );
+
+
+      /**
+       * Routes
+       */
+      var Router = Marionette.AppRouter.extend( {
+        routes: {
+          "": function() {
+            layout.getRegion( 'layerAdd' ).reset();
+          },
+          "markers": function() {
+            console.log( 'route:markers' );
+            layout.getRegion( 'layerAdd' ).show(
+              new MarkerAddView( {
+                modules: modules
+              } )
+            );
+          },
+          "base": function() {
+            console.log( 'base' );
+          },
+          "features": function() {
+            console.log( 'features' );
+          },
+          "save": function() {
+            layout.getRegion( 'publish' ).show(
+              new PublishView( {
+                state: state
+              } )
+            );
+          }
+        }
+      } );
+      new Router();
+
+    } );
+
+    App.on( "start", function() {
+      Backbone.history.start();
+    } );
+
+    return App;
+  } );

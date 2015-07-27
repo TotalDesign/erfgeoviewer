@@ -17,12 +17,16 @@ define(["backbone.marionette", "tpl!template/publish.html",
         }
       },
 
-      initialize: function() {
-        console.log('initailize materialize');
+      initialize: function(o) {
+        this.model = o.state;
       },
 
       onShow: function() {
         $('.modal', this.$el).openModal();
+        $download = $('.download', this.$el);
+        var link = "data:application/octet-stream,field1%2Cfield2%0Afoo%2Cbar%0Agoo%2Cgai%0A";
+        $download.prop('href', link);
+        $download.prop('download', 'erfgeoviewer.json');
       }
     });
 
