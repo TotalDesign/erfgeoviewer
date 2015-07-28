@@ -37,8 +37,10 @@ require.config( {
     "leaflet.markercluster": "../bower_components/leaflet.markercluster/dist/leaflet.markercluster",
     "leaflet.smoothmarkerbouncing": "../bower_components/Leaflet.SmoothMarkerBouncing/leaflet.smoothmarkerbouncing",
     "mapbox": "../bower_components/mapbox.js/mapbox.uncompressed",
+    "materialize": "../bower_components/materialize/js/global",
     "materialize.cards": "../bower_components/materialize/js/cards",
     "materialize.modal": "../bower_components/materialize/js/leanModal",
+    "materialize.forms": "../bower_components/materialize/js/forms",
     "materialize.tabs": "../bower_components/materialize/js/tabs",
     "materialize.sidenav": "../bower_components/materialize/js/sideNav",
     "materialize.waves": "../bower_components/materialize/js/waves",
@@ -107,6 +109,11 @@ require.config( {
     "materialize.modal": {
       deps: ["jquery"],
       exports: "jquery"
+    },
+
+    "materialize.forms": {
+      deps: ["materialize"],
+      exports: "Materialize"
     },
 
     "polyline": {

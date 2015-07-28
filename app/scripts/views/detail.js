@@ -20,6 +20,7 @@ define( ["backbone", "backbone.marionette", "communicator", "medium.editor",
         var editables = $(".editable", this.$el).get();
         var self = this;
         this.editor = new MediumEditor(editables, {
+          buttons: ['bold', 'italic', 'underline'],
           disableReturn: true
         });
         this.editor.subscribe('editableInput', function (event, editable) {

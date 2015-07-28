@@ -32,6 +32,10 @@ define(["backbone.marionette", "mapbox", "d3", "communicator", "config",
       this.markerCollection = o.markers;
 
       this.markerCollection.on("add", function(m) {
+        if (!m.get( 'latitude' ) || !m.get( 'longitude' )) {
+          console.log('invalid marker:', m);
+          return false;
+        }
         var latlng = L.latLng( [m.get( 'latitude' )[0], m.get( 'longitude' )[0]] );
         var marker = L.marker( latlng );
         marker.on("click", function() {

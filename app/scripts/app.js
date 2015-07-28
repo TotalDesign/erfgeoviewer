@@ -1,6 +1,6 @@
 define( [
     'backbone', 'backbone.marionette', 'communicator', 'velocity',
-    'models/layers', 'models/markers',
+    'models/layers', 'models/state',
     'views/map', 'views/header', 'views/markers', 'views/detail-slideout',
     'modules/routeyou/routeyou'
 
@@ -10,7 +10,7 @@ define( [
   ],
 
   function( Backbone, Marionette, Communicator, $,
-            LayerCollection, MarkerCollection,
+            LayerCollection, StateModel,
             MapView, HeaderView, MarkerAddView, DetailSlideoutView,
             RouteyouModule,
             SearchModule ) {
@@ -44,9 +44,7 @@ define( [
       container.show( layout );
 
       // This object will be serialized and used for storing/restoring a map.
-      var state = new Backbone.Model( {
-        'markers': new MarkerCollection()
-      } );
+      var state = new StateModel();
 
       var map_view = new MapView( {
         layout: layout,
@@ -83,7 +81,6 @@ define( [
             layout.getRegion( 'layerAdd' ).reset();
           },
           "markers": function() {
-            console.log( 'route:markers' );
             layout.getRegion( 'layerAdd' ).show(
               new MarkerAddView( {
                 modules: modules

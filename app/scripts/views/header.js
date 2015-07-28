@@ -1,7 +1,7 @@
 define( ["backbone", "backbone.marionette", "materialize.sidenav", "jquery.hammer", "communicator",
-    'views/publish', "tpl!template/header.html"],
+    'views/publish', 'views/open', "tpl!template/header.html"],
   function( Backbone, Marionette, Materialize, jQueryHammer, Communicator,
-            PublishView, Template ) {
+            PublishView, OpenView, Template ) {
 
     return Marionette.ItemView.extend( {
 
@@ -17,6 +17,14 @@ define( ["backbone", "backbone.marionette", "materialize.sidenav", "jquery.hamme
             } )
           );
           return false;
+        },
+        'click .open': function(e) {
+          e.preventDefault();
+          this.modalRegion.show(
+            new OpenView( {
+              state: this.state
+            } )
+          );
         }
       },
 
