@@ -1,6 +1,5 @@
-define(["backbone.marionette",
-  "tpl!template/search-box.html"],
-  function(Marionette, SearchTemplate) {
+define(["backbone", "backbone.marionette", "jquery", "tpl!template/search-box.html"],
+  function(Backbone, Marionette, $, SearchTemplate) {
 
   return Marionette.ItemView.extend({
 

@@ -1,7 +1,7 @@
-define(["backbone.marionette", "mapbox", "d3", "communicator", "config",
+define(["backbone", "backbone.marionette", "mapbox", "d3", "communicator", "config", "jquery",
         "leaflet.markercluster", "leaflet.smoothmarkerbouncing",
         "tpl!template/map.html"],
-  function(Marionette, Mapbox, d3, Communicator, Config,
+  function(Backbone, Marionette, Mapbox, d3, Communicator, Config, $,
            LeafletMarkerCluster, LeafletBouncing,
            Template) {
 

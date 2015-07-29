@@ -1,5 +1,5 @@
-define(["backbone.marionette", "communicator", "modules/module", 'views/results-view'],
-  function(Marionette, Communicator, ErfgeoModule, ResultsView) {
+define(["backbone", "backbone.marionette", "communicator", "modules/module", 'views/results-view'],
+  function(Backbone, Marionette, Communicator, ErfgeoModule, ResultsView) {
 
     return ErfgeoModule.extend({
 

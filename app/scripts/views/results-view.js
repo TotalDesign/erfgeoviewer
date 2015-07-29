@@ -1,10 +1,9 @@
 /**
  * CollectionView for displaying search results.
  */
-define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
-
+define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards", "jquery",
          "tpl!template/results.html"],
-  function(Backbone, Marionette, Communicator, Materialize,
+  function(Backbone, Marionette, Communicator, Materialize, $,
            ResultItemTemplate) {
 
     var ResultItemView = Marionette.ItemView.extend({

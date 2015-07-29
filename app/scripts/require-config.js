@@ -3,7 +3,7 @@ require.config( {
   baseUrl: "/scripts",
 
   /* starting point for application */
-  deps: ["backbone.marionette", "boot"],
+  deps: ["backbone.marionette", "boot", "jquery"],
 
   jsx: {
     fileExtension: ".jsx",
@@ -61,6 +61,8 @@ require.config( {
 
   },
 
+  wrapShim: true,
+
   shim: {
 
     "backbone": {
@@ -78,19 +80,11 @@ require.config( {
     },
 
     'backgrid': {
-      deps: ['jquery', 'underscore', 'backbone'],
+      deps: ['backbone'],
       exports: 'Backgrid'
     },
 
-    'backgrid.paginator': {
-      deps: ['backgrid'],
-      exports: 'Backgrid'
-    },
-
-    "bootstrap": {
-      "deps": ["jquery"],
-      "exports": "jquery"
-    },
+    'backgrid.paginator': { deps: ['backgrid'] },
 
     "leaflet.markercluster": {
       deps: ["mapbox"],
@@ -107,8 +101,7 @@ require.config( {
     },
 
     "materialize.modal": {
-      deps: ["jquery"],
-      exports: "jquery"
+      deps: ["jquery"]
     },
 
     "materialize.forms": {
@@ -128,8 +121,7 @@ require.config( {
     },
 
     "jquery.hammer": {
-      "deps": ["jquery", "hammerjs"],
-      "exports": "jquery"
+      "deps": ["jquery", "hammerjs"]
     }
 
   }

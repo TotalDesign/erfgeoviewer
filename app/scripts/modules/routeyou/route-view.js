@@ -1,7 +1,7 @@
-define( ["backbone", "backbone.marionette", "communicator", "config", "polyline",
+define( ["backbone", "backbone.marionette", "communicator", "config", "polyline", "jquery",
          "tpl!modules/routeyou/route-selector.html"],
 
-  function( Backbone, Marionette, Communicator, Config, Polyline,
+  function( Backbone, Marionette, Communicator, Config, Polyline, $,
             RouteSelectorTemplate ) {
 
     return Marionette.ItemView.extend( {

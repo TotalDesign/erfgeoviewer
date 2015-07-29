@@ -1,9 +1,9 @@
 /**
  * Slideout view "Add markers".
  */
-define(['backbone', 'backbone.marionette', 'communicator', 'velocity', 'materialize.tabs',
+define(['backbone', 'backbone.marionette', 'communicator', 'velocity', 'materialize.tabs', 'jquery',
     'tpl!template/markers.html'],
-  function( Backbone, Marionette, Communicator, Velocity, MaterializeTabs,
+  function( Backbone, Marionette, Communicator, Velocity, MaterializeTabs, $,
             LayoutTemplate ) {
 
     return Marionette.LayoutView.extend({

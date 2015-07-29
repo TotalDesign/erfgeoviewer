@@ -1,6 +1,5 @@
-define(["backbone.marionette", "tpl!template/publish.html",
-  "materialize.modal", "materialize.waves"],
-  function(Marionette, PublishTemplate, MaterializeModal, MaterializeWaves) {
+define(["backbone", "backbone.marionette", "tpl!template/publish.html", "jquery", "materialize.modal"],
+  function(Backbone, Marionette, PublishTemplate, $, MaterializeModal) {
 
     return Marionette.ItemView.extend({
       template: PublishTemplate,

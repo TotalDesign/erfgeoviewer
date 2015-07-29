@@ -1,6 +1,6 @@
-define( ['backbone.marionette', 'modules/module',
+define( ["backbone", 'backbone.marionette', 'modules/module',
     'modules/routeyou/route-collection', 'modules/routeyou/route-view'],
-  function(Marionette, ErfGeoviewerModule,
+  function(Backbone, Marionette, ErfGeoviewerModule,
     RouteCollection, RouteSelector) {
 
     return ErfGeoviewerModule.extend({
@@ -15,7 +15,6 @@ define( ['backbone.marionette', 'modules/module',
       initialize: function( o ) {
 
         var self = this;
-        console.log(o);
         this.region = o.region;
         var route_collection = new RouteCollection();
         route_collection.fetch( {

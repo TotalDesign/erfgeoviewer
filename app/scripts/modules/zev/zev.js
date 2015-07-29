@@ -1,10 +1,10 @@
 /**
  * Controller for Delving search module.
  */
-define( ['backbone.marionette', 'communicator', 'modules/module-search', 'backgrid', 'backgrid.paginator',
+define( ['backbone', 'backbone.marionette', 'communicator', 'modules/module-search', 'backgrid', 'backgrid.paginator',
     'modules/zev/zev-collection',
     'tpl!template/layout-search.html', 'views/results-view', 'views/search-view'],
-  function(Marionette, Communicator, SearchModule, Backgrid, PaginatorView,
+  function(Backbone, Marionette, Communicator, SearchModule, Backgrid, PaginatorView,
            DelvingCollection,
            LayoutTemplate, ResultsView, DelvingSearchView) {
 

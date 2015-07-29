@@ -1,6 +1,6 @@
-define( ["backbone", "backbone.marionette", "communicator", "medium.editor",
+define( ["backbone", "backbone.marionette", "communicator", "medium.editor", "jquery",
     "tpl!template/detail.html"],
-  function( Backbone, Marionette, Communicator, MediumEditor,
+  function( Backbone, Marionette, Communicator, MediumEditor, $,
             Template ) {
 
     return Marionette.ItemView.extend( {

@@ -1,6 +1,6 @@
-define( ["backbone", "backbone.marionette", "materialize.sidenav", "jquery.hammer", "communicator",
+define( ["backbone", "backbone.marionette", "materialize.sidenav", "jquery.hammer", "communicator", "jquery",
     'views/publish', 'views/open', "tpl!template/header.html"],
-  function( Backbone, Marionette, Materialize, jQueryHammer, Communicator,
+  function( Backbone, Marionette, Materialize, jQueryHammer, Communicator, $,
             PublishView, OpenView, Template ) {
 
     return Marionette.ItemView.extend( {
