@@ -1,9 +1,9 @@
 @import "init";
-@import "mapbox.scss";
 
-@import '../bower_components/materialize/sass/materialize.scss';
-@import '../bower_components/leaflet.markercluster/dist/MarkerCluster.css';
-@import '../bower_components/backgrid-paginator/backgrid-paginator.css';
+@import "bower/mapbox.scss";
+@import 'bower/materialize';
+@import 'bower/leaflet.markercluster';
+@import 'bower/backgrid-paginator';
 
 @import "markers";
 @import "pane-search";
