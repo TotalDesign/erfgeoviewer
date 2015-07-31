@@ -1,6 +1,6 @@
-@import "init";
+@import 'init';
 
-#details {
+#flyout-detail {
 
   @include transition-property(right);
   @include transition-duration(400ms);

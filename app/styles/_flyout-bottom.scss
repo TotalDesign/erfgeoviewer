@@ -1,0 +1,21 @@
+@import 'init';
+
+#flyout-bottom {
+
+  @include transition-property(bottom);
+  @include transition-duration(400ms);
+  @include transition-timing-function(ease-out);
+
+  position: fixed;
+  bottom: -500px;
+  left: 0;
+  height: 300px;
+  width: 100%;
+  background-color: white;
+  overflow-x: hidden;
+  overflow-y: hidden; // scroll
+  z-index: 1004;
+  &.visible {
+    bottom: 0;
+  }
+}

@@ -6,8 +6,9 @@
 @import 'bower/backgrid-paginator';
 
 @import "markers";
-@import "pane-search";
-@import "pane-detail-view";
+@import "flyout-right";
+@import "flyout-detail";
+@import "flyout-bottom";
 
 body {
   margin: 0;

@@ -14,13 +14,14 @@ define( ["backbone", "backbone.marionette", "communicator", "medium.editor", "jq
 
       initialize: function( o ) {
         this.model = o.model;
+        Communicator.mediator.on( "map:tile-layer-clicked", this.hideFlyout, this);
       },
 
       onShow: function() {
         var editables = $(".editable", this.$el).get();
         var self = this;
         this.editor = new MediumEditor(editables, {
-          buttons: ['bold', 'italic', 'underline'],
+          buttons: ['bold', 'italic', 'underline', 'anchor'],
           disableReturn: true
         });
         this.editor.subscribe('editableInput', function (event, editable) {
