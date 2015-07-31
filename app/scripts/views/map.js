@@ -1,7 +1,7 @@
-define(["backbone", "backbone.marionette", "mapbox", "d3", "communicator", "config", "jquery",
+define(["backbone", "backbone.marionette", "mapbox", "d3", "communicator", "config", "jquery", "underscore",
         "leaflet.markercluster", "leaflet.smoothmarkerbouncing",
         "tpl!template/map.html"],
-  function(Backbone, Marionette, Mapbox, d3, Communicator, Config, $,
+  function(Backbone, Marionette, Mapbox, d3, Communicator, Config, $, _,
            LeafletMarkerCluster, LeafletBouncing,
            Template) {
 
@@ -28,6 +28,7 @@ define(["backbone", "backbone.marionette", "mapbox", "d3", "communicator", "conf
       var self = this;
       _.bindAll(this, 'updateMapSize');
 
+      this.mapUri = o.state.get('mapUri') || Config.mapbox.baseLayerId;
       this.layout = o.layout;
       this.markerCollection = o.markers;
 
@@ -55,6 +56,14 @@ define(["backbone", "backbone.marionette", "mapbox", "d3", "communicator", "conf
       Communicator.mediator.on("map:zoomOut", function() {
         this.map.setZoom(this.map.getZoom() - 1);
       }, this);
+      Communicator.mediator.on("map:changeBase", function(id) {
+        var tile = _.findWhere( Config.tiles, {id: id} );
+        if (!tile) return;
+        if (tile.type == "mapbox") {
+          self.map.removeLayer(self.baseLayer);
+          self.baseLayer = L.mapbox.tileLayer(tile.id).addTo(self.map);
+        }
+      });
       Communicator.reqres.setHandler( "getMap", function() { return self.map; });
 
       $( window ).resize( _.throttle( this.updateMapSize, 150 ) );
@@ -155,8 +164,9 @@ define(["backbone", "backbone.marionette", "mapbox", "d3", "communicator", "conf
       // Load map.
       this.updateMapSize();
       L.mapbox.accessToken = Config.mapbox.accessToken;
-      this.map = L.mapbox.map(this.mapboxContainer, Config.mapbox.baseLayerId, { zoomControl: false })
-        .setView([52.121580, 5.6304], 8);
+      this.map = L.mapbox.map(this.mapboxContainer);
+      this.baseLayer = L.mapbox.tileLayer(this.mapUri).addTo(this.map);
+      this.map.setView([52.121580, 5.6304], 8);
       //this.map.scrollWheelZoom.disable();
 
       this.layer_markers = new L.MarkerClusterGroup().addTo(this.map);

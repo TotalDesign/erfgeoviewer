@@ -81,6 +81,7 @@ body {
 
   // Main menu.
   #slide-out {
+    z-index: 1004;
     li {
       padding: 0 16px;
       a {

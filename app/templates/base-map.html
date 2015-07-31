@@ -1,0 +1,13 @@
+<div class="wrapper">
+  <ul>
+  <% for (var i = 0; i < tiles.length; i++) { %>
+    <li>
+    <% if (tiles[i].type == 'mapbox') { %>
+      <img src="https://api.mapbox.com/v3/<%= tiles[i].id %>/thumb.png" class="base" data-id="<%= tiles[i].id %>" />
+    <% } else { %>
+      <img src="<%= tiles[i].previewImage %>" class="base" data-id="<%= tiles[i].id %>" />
+    <% } %>
+    </li>
+  <% } %>
+  </ul>
+</div>

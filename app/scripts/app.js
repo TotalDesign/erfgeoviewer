@@ -1,7 +1,7 @@
 define( [
     'backbone', 'backbone.marionette', 'communicator', 'velocity',
     'models/layers', 'models/state',
-    'views/map', 'views/header', 'views/markers', 'views/layout/flyout', 'views/detail',
+    'views/map', 'views/header', 'views/markers', 'views/layout/flyout', 'views/detail', 'views/base-map',
     'modules/routeyou/routeyou'
 
     // Search modules
@@ -11,7 +11,7 @@ define( [
 
   function( Backbone, Marionette, Communicator, $,
             LayerCollection, StateModel,
-            MapView, HeaderView, MarkerAddView, FlyoutRegion, DetailView,
+            MapView, HeaderView, MarkerAddView, FlyoutRegion, DetailView, BaseMapSelector,
             RouteyouModule,
             SearchModule ) {
     'use strict';
@@ -89,7 +89,8 @@ define( [
 
       var map_view = new MapView( {
         layout: layout,
-        markers: state.get( 'markers' )
+        markers: state.get( 'markers' ),
+        state: state
       } );
       layout.getRegion( 'content' ).show( map_view );
       layout.getRegion( 'header' ).show( new HeaderView( {
@@ -126,7 +127,7 @@ define( [
             flyouts.getRegion( 'right' ).show( marker_view );
           },
           "base": function() {
-            console.log( 'base' );
+            flyouts.getRegion( 'bottom' ).show( new BaseMapSelector( {state: state} ) );
           },
           "features": function() {
             console.log( 'features' );
@@ -150,7 +151,7 @@ define( [
       });
       Communicator.mediator.on( "all", function( e, a ) {
         // Debugging:
-        console.log( "event", e );
+        console.log( "event: " + e, a );
       } );
 
 

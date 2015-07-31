@@ -6,16 +6,38 @@
   @include transition-duration(400ms);
   @include transition-timing-function(ease-out);
 
+  $height: 276px;
+
   position: fixed;
-  bottom: -500px;
+  bottom: $height * -1;
   left: 0;
-  height: 300px;
+  height: $height;
   width: 100%;
-  background-color: white;
+  background-color: $primary_700;
   overflow-x: hidden;
   overflow-y: hidden; // scroll
   z-index: 1004;
   &.visible {
     bottom: 0;
   }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    li {
+      float: left;
+      margin-right: 10px;
+    }
+    img {
+      cursor: pointer;
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
+
+  .wrapper {
+    margin: 10px;
+  }
+
 }
