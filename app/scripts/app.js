@@ -144,6 +144,7 @@ define( [
           flyouts.getRegion('right').hideFlyout();
           router.navigate("");
         }
+        flyouts.getRegion('bottom').hideFlyout();
         flyouts.getRegion('detail').hideFlyout();
       });
       Communicator.mediator.on("marker:click", function(m) {
