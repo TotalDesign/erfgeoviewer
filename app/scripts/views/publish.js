@@ -22,6 +22,7 @@ define(["backbone", "backbone.marionette", "tpl!template/publish.html", "jquery"
 
       onShow: function() {
         $('.modal', this.$el).openModal();
+        this.model.save();
         $download = $('.download', this.$el);
         var serialized = JSON.stringify(this.model.toJSON());
         var link = "data:text/json;charset=utf-8," + encodeURIComponent(serialized);

@@ -29,7 +29,6 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       _.bindAll(this, 'updateMapSize');
 
       this.state = o.state;
-      this.mapUri = this.state.get('mapUri') || Config.mapbox.baseLayerId;
       this.layout = o.layout;
       this.markerCollection = o.markers;
 
@@ -47,6 +46,15 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
         self.map.panTo( latlng );
       });
 
+      $( window ).resize( _.throttle( this.updateMapSize, 150 ) );
+
+      // this.registerAutoWidthMarker();
+      this.registerLeafletZoomThrottle(200);
+
+      /**
+       * Event listeners
+       */
+
       Communicator.mediator.on("map:panTo", function(o) {
         var latlng = L.latLng( [o.latitude, o.longitude] );
         self.map.panTo(latlng);
@@ -57,26 +65,17 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       Communicator.mediator.on("map:zoomOut", function() {
         this.map.setZoom(this.map.getZoom() - 1);
       }, this);
-      Communicator.mediator.on("map:changeBase", function(id) {
-        var tile = _.findWhere( Config.tiles, {id: id} );
-        if (!tile) return;
-        self.map.removeLayer(self.baseLayer);
-        if (tile.type == "mapbox") {
-          self.baseLayer = L.mapbox.tileLayer( tile.id ).addTo( self.map );
-          self.state.set('mapUri', tile.id );
-        } else {
-          self.baseLayer = L.mapbox.tileLayer( tile.tilejson ).addTo( self.map );
-          self.state.set('mapUri', tile.tilejson );
-        }
+      Communicator.mediator.on("map:changeBase", function(tileId) {
+        self.setBaseMap(tileId);
+        self.state.save();
       });
       Communicator.reqres.setHandler( "getMap", function() { return self.map; });
-
-      $( window ).resize( _.throttle( this.updateMapSize, 150 ) );
-      
-      // this.registerAutoWidthMarker();
-      this.registerLeafletZoomThrottle(200);
+      this.state.on("change:baseMap", function(model) {
+        self.setBaseMap(model.get('baseMap'));
+      })
 
     },
+
 
     /**
      * Create an alternative to the L.divIcon marker, which does not support variable widths
@@ -170,8 +169,8 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       this.updateMapSize();
       L.mapbox.accessToken = Config.mapbox.accessToken;
       this.map = L.mapbox.map(this.mapboxContainer);
-      this.baseLayer = L.mapbox.tileLayer(this.mapUri).addTo(this.map);
-      this.map.setView([52.121580, 5.6304], 8);
+      this.setBaseMap( this.state.get('baseMap') || "osm" );
+      this.map.setView( [52.121580, 5.6304], 8 );
       //this.map.scrollWheelZoom.disable();
 
       this.layer_markers = new L.MarkerClusterGroup().addTo(this.map);
@@ -185,6 +184,19 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       this.svg = d3.select('#' + this.mapboxContainer).select("svg");
       this.g = this.svg.append("g");
 
+    },
+
+    setBaseMap: function(tileId) {
+      var self = this;
+      var tile = _.findWhere( Config.tiles, {id: tileId} );
+      if (!tile) return;
+      if (self.baseLayer) self.map.removeLayer(self.baseLayer);
+      if (tile.type == "mapbox") {
+        self.baseLayer = L.mapbox.tileLayer( tile.id ).addTo( self.map );
+      } else {
+        self.baseLayer = L.mapbox.tileLayer( tile.tilejson ).addTo( self.map );
+      }
+      self.state.set('baseMap', tile.id );
     },
 
     updateMapSize: function() {

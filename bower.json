@@ -30,7 +30,8 @@
     "leaflet.markercluster": "~0.4.0",
     "Leaflet.SmoothMarkerBouncing": "~1.1.2",
     "medium-editor": "~5.5.1",
-    "proj4leaflet": "~0.7.1"
+    "proj4leaflet": "~0.7.1",
+    "backbone.localstorage": "~1.1.16"
   },
   "devDependencies": {
     "susy": "~2.2.2"

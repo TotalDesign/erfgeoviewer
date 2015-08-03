@@ -85,7 +85,9 @@ define( [
        */
 
       // This object will be serialized and used for storing/restoring a map.
-      var state = new StateModel();
+      var state = new StateModel({ id: 1 });
+      state.fetch();
+      console.log(state.get('baseMap'));
 
       var map_view = new MapView( {
         layout: layout,
@@ -116,9 +118,6 @@ define( [
       var Router = Marionette.AppRouter.extend( {
         routes: {
           "": function() {
-            //flyouts.getRegion( 'left' ).reset();
-            //flyouts.getRegion( 'right' ).reset();
-            //flyouts.getRegion( 'bottom' ).reset();
           },
           "markers": function() {
             var marker_view = new MarkerAddView( {

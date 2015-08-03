@@ -21,6 +21,7 @@ require.config( {
 
     /* Libraries */
     "backbone": "../bower_components/backbone/backbone",
+    "backbone.localstorage": "../bower_components/backbone.localstorage/backbone.localStorage",
     "backbone.marionette": "../bower_components/backbone.marionette/lib/core/backbone.marionette",
     "backbone.wreqr": "../bower_components/backbone.wreqr/lib/backbone.wreqr",
     "backbone.babysitter": "../bower_components/backbone.babysitter/lib/backbone.babysitter",
@@ -73,6 +74,10 @@ require.config( {
         "jquery"
       ],
       "exports": "Backbone"
+    },
+
+    "backbone.localstorage": {
+      "deps": ["backbone"]
     },
 
     "backbone.marionette": {

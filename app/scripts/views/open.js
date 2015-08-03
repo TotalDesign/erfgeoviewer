@@ -71,6 +71,7 @@ define(["underscore", "backbone.marionette", "jquery",
         }
         this.state.get('markers').reset();
         this.state.get('markers').add(this.newState.markers);
+        this.state.set('baseMap', this.newState.baseMap);
       }
 
     });
