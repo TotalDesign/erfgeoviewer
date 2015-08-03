@@ -5,6 +5,8 @@ require.config( {
   /* starting point for application */
   deps: ["backbone.marionette", "boot", "jquery"],
 
+  enforceDefine: false,
+
   jsx: {
     fileExtension: ".jsx",
     transformOptions: {
@@ -35,8 +37,9 @@ require.config( {
     "jsx": "../bower_components/requirejs-react-jsx/jsx",
     "JSXTransformer": "../bower_components/react/JSXTransformer",
     "leaflet.markercluster": "../bower_components/leaflet.markercluster/dist/leaflet.markercluster",
+    "leaflet.proj": "../bower_components/proj4leaflet/src/proj4leaflet",
     "leaflet.smoothmarkerbouncing": "../bower_components/Leaflet.SmoothMarkerBouncing/leaflet.smoothmarkerbouncing",
-    "mapbox": "../bower_components/mapbox.js/mapbox.uncompressed",
+    "leaflet": "../bower_components/mapbox.js/mapbox.uncompressed",
     "materialize": "../bower_components/materialize/js/global",
     "materialize.cards": "../bower_components/materialize/js/cards",
     "materialize.modal": "../bower_components/materialize/js/leanModal",
@@ -46,6 +49,7 @@ require.config( {
     "materialize.waves": "../bower_components/materialize/js/waves",
     "medium.editor": "../bower_components/medium-editor/dist/js/medium-editor",
     "polyline": "../bower_components/polyline/src/polyline",
+    "proj4": "../bower_components/proj4/dist/proj4",
     "react": "../bower_components/react/react",
     "react.paginate": "../bower_components/react-paginate/index",
     "underscore": "../bower_components/underscore/underscore",
@@ -60,8 +64,6 @@ require.config( {
     "tpl": "../bower_components/requirejs-tpl/tpl"
 
   },
-
-  wrapShim: true,
 
   shim: {
 
@@ -86,17 +88,24 @@ require.config( {
 
     'backgrid.paginator': { deps: ['backgrid'] },
 
-    "leaflet.markercluster": {
-      deps: ["mapbox"],
+    "leaflet": {
+      deps: ["leaflet"],
       exports: "L"
+    },
+
+    "leaflet.markercluster": {
+      deps: ["leaflet"]
+    },
+
+    "leaflet.proj": {
+      deps: ["leaflet", "proj4"]
     },
 
     "leaflet.smoothmarkerbouncing": {
-      deps: ["mapbox"],
-      exports: "L"
+      deps: ["leaflet"]
     },
 
-    "mapbox": {
+    "leaflet": {
       "exports": "L"
     },
 
@@ -113,6 +122,8 @@ require.config( {
       "exports": "polyline"
     },
 
+    "proj4": { deps: ["leaflet"] },
+
     // jquery plugins
     "velocity": ["jquery"],
 
@@ -124,6 +135,8 @@ require.config( {
       "deps": ["jquery", "hammerjs"]
     }
 
-  }
+  },
+
+  wrapShim: true
 
 } );

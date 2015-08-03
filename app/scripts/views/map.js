@@ -1,8 +1,8 @@
-define(["backbone", "backbone.marionette", "mapbox", "d3", "communicator", "config", "jquery", "underscore",
-        "leaflet.markercluster", "leaflet.smoothmarkerbouncing",
+define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "config", "jquery", "underscore",
+        "leaflet.markercluster", "leaflet.smoothmarkerbouncing", "leaflet.proj",
         "tpl!template/map.html"],
-  function(Backbone, Marionette, Mapbox, d3, Communicator, Config, $, _,
-           LeafletMarkerCluster, LeafletBouncing,
+  function(Backbone, Marionette, L, d3, Communicator, Config, $, _,
+           LeafletMarkerCluster, LeafletBouncing, LeafletProjections,
            Template) {
 
   return Marionette.ItemView.extend({
@@ -28,7 +28,8 @@ define(["backbone", "backbone.marionette", "mapbox", "d3", "communicator", "conf
       var self = this;
       _.bindAll(this, 'updateMapSize');
 
-      this.mapUri = o.state.get('mapUri') || Config.mapbox.baseLayerId;
+      this.state = o.state;
+      this.mapUri = this.state.get('mapUri') || Config.mapbox.baseLayerId;
       this.layout = o.layout;
       this.markerCollection = o.markers;
 
@@ -59,9 +60,28 @@ define(["backbone", "backbone.marionette", "mapbox", "d3", "communicator", "conf
       Communicator.mediator.on("map:changeBase", function(id) {
         var tile = _.findWhere( Config.tiles, {id: id} );
         if (!tile) return;
+        self.map.removeLayer(self.baseLayer);
         if (tile.type == "mapbox") {
-          self.map.removeLayer(self.baseLayer);
-          self.baseLayer = L.mapbox.tileLayer(tile.id).addTo(self.map);
+          self.baseLayer = L.mapbox.tileLayer( tile.id ).addTo( self.map );
+          self.state.set('mapUri', tile.id );
+        } else {
+          self.map.remove();
+          var RD = new L.Proj.CRS.TMS(
+            'EPSG:28992',
+            '+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +towgs84=565.2369,50.0087,465.658,-0.406857330322398,0.350732676542563,-1.8703473836068,4.0812 +no_defs',
+            [-285401.92,22598.08,595401.9199999999,903401.9199999999], {
+              resolutions: [3440.640, 1720.320, 860.160, 430.080, 215.040, 107.520, 53.760, 26.880, 13.440, 6.720, 3.360, 1.680, 0.840, 0.420]
+            });
+          self.map = new L.Map(self.mapboxContainer, {
+            continuousWorld: true,
+            crs: RD,
+            layers: [
+              new L.TileLayer(tile.tilejson.tiles[0], tile.tilejson)
+            ],
+            center: new L.LatLng(52, 5.3),
+            zoom: 8
+          });
+          self.state.set('mapUri', tile.tilejson );
         }
       });
       Communicator.reqres.setHandler( "getMap", function() { return self.map; });

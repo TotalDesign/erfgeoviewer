@@ -29,7 +29,8 @@
     "backgrid-paginator": "~0.3.5",
     "leaflet.markercluster": "~0.4.0",
     "Leaflet.SmoothMarkerBouncing": "~1.1.2",
-    "medium-editor": "~5.5.1"
+    "medium-editor": "~5.5.1",
+    "proj4leaflet": "~0.7.1"
   },
   "devDependencies": {
     "susy": "~2.2.2"
