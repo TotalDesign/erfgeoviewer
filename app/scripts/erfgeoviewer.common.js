@@ -1,5 +1,5 @@
 define( ['backbone', 'backbone.marionette', 'communicator', 'velocity',
-         'views/layout/app.layout', 'views/layout/flyouts.layout',],
+         'views/layout/app.layout', 'views/layout/flyouts.layout'],
 
   function( Backbone, Marionette, Communicator, V,
             AppLayout, FlyoutsLayout ) {
@@ -18,6 +18,15 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'velocity',
     App.flyouts = new FlyoutsLayout();
     App.flyouts.render();
     App.layout.getRegion('flyout').show( App.flyouts );
+
+    Communicator.mediator.on("map:tile-layer-clicked", function() {
+      if (!App.flyouts.getRegion('detail').hasView() || !App.flyouts.getRegion('detail').isVisible() ) {
+        App.flyouts.getRegion('right').hideFlyout();
+        App.router.navigate("");
+      }
+      App.flyouts.getRegion('bottom').hideFlyout();
+      App.flyouts.getRegion('detail').hideFlyout();
+    });
 
     App.on( "start", function() {
       Backbone.history.start();

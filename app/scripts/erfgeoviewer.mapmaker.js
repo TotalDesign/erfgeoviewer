@@ -5,7 +5,7 @@ function ( RequireJSConfig ) {
     'use strict';
 
 	require(['backbone', 'erfgeoviewer.common', 'communicator',
-    'views/map', 'views/header', 'views/markers', 'views/detail', 'views/base-map',
+    'views/map', 'views/header', 'views/markers', 'views/detail', 'views/basemap',
     'modules/routeyou/routeyou', 'erfgeoviewer.search',
     'models/layers', 'models/state'],
 
@@ -14,13 +14,11 @@ function ( RequireJSConfig ) {
            RouteyouModule, SearchModule,
            LayerCollection, StateModel) {
 
-    var container = new Marionette.Region( {
-      el: "#erfgeoviewer"
-    } );
-
     /**
      * Init.
      */
+
+    console.log('Erfgeoviewer: mapmaker mode.');
 
     // This object will be serialized and used for storing/restoring a map.
     var state = new StateModel({ id: 1 });
@@ -38,7 +36,7 @@ function ( RequireJSConfig ) {
 
     App.layout.getRegion( 'content' ).show( map_view );
     App.layout.getRegion( 'header' ).show( new HeaderView( {
-      modalRegion: App.layout.getRegion('modal'),
+      modalRegion: App.layout.getRegion( 'modal' ),
       state: state
     } ) );
 

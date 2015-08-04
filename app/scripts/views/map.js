@@ -69,6 +69,9 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
         self.setBaseMap(tileId);
         self.state.save();
       });
+      Communicator.mediator.on("map:updateSize", function() {
+        _.throttle( self.updateMapSize, 150 )
+      });
       Communicator.reqres.setHandler( "getMap", function() { return self.map; });
       this.state.on("change:baseMap", function(model) {
         self.setBaseMap(model.get('baseMap'));
@@ -201,7 +204,10 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
 
     updateMapSize: function() {
 
-      this.height = $( window ).height() - $( 'header' ).height();
+      this.height = $( window ).height();
+      if ($('header').css('display') != 'none') {
+        this.height -= $( 'header' ).height();
+      }
       this.width = $( window ).width();
       $( '#' + this.mapboxContainer ).css( 'height', this.height );
 
