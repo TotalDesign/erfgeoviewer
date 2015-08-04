@@ -19,22 +19,16 @@ define(['backbone', 'backbone.marionette', 'communicator', 'velocity', 'material
 
       initialize: function(o) {
 
-        console.log('Initialized markers view.');
+        console.log('Initialized Add Markers search view.');
         var self = this;
-        this.render();
         this.container = o.region;
-        this.modules = o.modules;
+        this.searchModule = o.searchModule;
+        this.render();
 
       },
 
       onRender: function() {
-        var self = this;
-
-        _.each(this.modules, function(m) {
-          if ( m.module.type == "search" ) {
-            m.showModule( self.search );
-          }
-        });
+        this.searchModule.showModule( this.search );
       },
 
       onShow: function() {

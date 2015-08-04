@@ -16,9 +16,6 @@ define( ['backbone.marionette', 'communicator', 'modules/module-search', 'backgr
       },
 
       layoutView: Marionette.LayoutView.extend({
-        initialize: function() {
-          console.log('initializing delving layout view');
-        },
         template: LayoutTemplate,
         regions: {
           search: "#search-field",

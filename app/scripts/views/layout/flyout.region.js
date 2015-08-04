@@ -14,7 +14,6 @@ define([
       $container: null,
 
       onShow: function() {
-        console.log('showing');
         this.$el.addClass('visible');
         this.$container = this.$el;
       },

@@ -3,7 +3,7 @@ require.config( {
   baseUrl: "/scripts",
 
   /* starting point for application */
-  deps: ["backbone.marionette", "boot", "jquery"],
+  deps: ["backbone.marionette", "jquery"],
 
   enforceDefine: false,
 
@@ -32,6 +32,7 @@ require.config( {
     "bootstrap": "vendor/bootstrap",
     "config": "config/dev",
     "d3": "../bower_components/d3/d3",
+    "erfgeoviewer.search": "modules/delving/delving",
     "hammerjs": "../bower_components/hammerjs/hammer",
     "jquery": "../bower_components/jquery/dist/jquery",
     "jquery.hammer": "../bower_components/materialize/js/jquery.hammer",
@@ -45,8 +46,9 @@ require.config( {
     "materialize.cards": "../bower_components/materialize/js/cards",
     "materialize.modal": "../bower_components/materialize/js/leanModal",
     "materialize.forms": "../bower_components/materialize/js/forms",
-    "materialize.tabs": "../bower_components/materialize/js/tabs",
     "materialize.sidenav": "../bower_components/materialize/js/sideNav",
+    "materialize.tabs": "../bower_components/materialize/js/tabs",
+    "materialize.toasts": "../bower_components/materialize/js/toasts",
     "materialize.waves": "../bower_components/materialize/js/waves",
     "medium.editor": "../bower_components/medium-editor/dist/js/medium-editor",
     "polyline": "../bower_components/polyline/src/polyline",
@@ -121,6 +123,11 @@ require.config( {
     "materialize.forms": {
       deps: ["materialize"],
       exports: "Materialize"
+    },
+
+    "materialize.toasts": {
+      deps: ["materialize", "jquery.hammer"]
+      //exports: "Materialize"
     },
 
     "polyline": {

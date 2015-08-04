@@ -1,7 +1,7 @@
-define(["underscore", "backbone.marionette", "jquery",
-    "models/state", "tpl!template/open.html", "materialize.modal"],
-  function(_, Marionette, $,
-           StateModel, PublishTemplate, MaterializeModal) {
+define(["underscore", "backbone.marionette", "jquery", "jquery.hammer",
+    "models/state", "tpl!template/open.html", "materialize.modal", "materialize.toasts"],
+  function(_, Marionette, $, jqueryHammer,
+           StateModel, PublishTemplate, MaterializeModal, MaterializeToasts) {
 
     return Marionette.ItemView.extend({
 
