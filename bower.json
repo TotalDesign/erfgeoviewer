@@ -31,7 +31,8 @@
     "Leaflet.SmoothMarkerBouncing": "~1.1.2",
     "medium-editor": "~5.5.1",
     "proj4leaflet": "~0.7.1",
-    "backbone.localstorage": "~1.1.16"
+    "backbone.localstorage": "~1.1.16",
+    "underscore": "~1.8.3"
   },
   "devDependencies": {
     "susy": "~2.2.2"
@@ -41,7 +42,7 @@
     "backbone.wreqr": "^1.0.0",
     "backbone.babysitter": "^0.1.0",
     "jquery": "2.1.4",
-    "underscore": "1.4.4 - 1.8.3",
+    "underscore": "~1.8.3",
     "backbone": "1.0.0 - 1.2.1"
   }
 }
