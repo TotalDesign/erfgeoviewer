@@ -26,25 +26,11 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
     initialize: function(o) {
 
       var self = this;
-      _.bindAll(this, 'updateMapSize');
+      _.bindAll(this, 'updateMapSize', 'addMarker');
 
       this.state = o.state;
       this.layout = o.layout;
       this.markerCollection = o.markers;
-
-      this.markerCollection.on("add", function(m) {
-        if (!m.get( 'latitude' ) || !m.get( 'longitude' )) {
-          console.log('invalid marker:', m);
-          return false;
-        }
-        var latlng = L.latLng( [m.get( 'latitude' )[0], m.get( 'longitude' )[0]] );
-        var marker = L.marker( latlng );
-        marker.on("click", function() {
-          Communicator.mediator.trigger("marker:click", m)
-        });
-        self.layer_markers.addLayer(marker);
-        self.map.panTo( latlng );
-      });
 
       $( window ).resize( _.throttle( this.updateMapSize, 150 ) );
 
@@ -77,6 +63,24 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
         self.setBaseMap(model.get('baseMap'));
       })
 
+    },
+
+    /**
+     * Take model of marker and add to map.
+     * @param m - model
+     */
+    addMarker: function(m) {
+      var self = this;
+      if (!m.get( 'latitude' ) || !m.get( 'longitude' )) {
+        console.log('invalid marker:', m);
+        return false;
+      }
+      var latlng = L.latLng( [m.get( 'latitude' )[0], m.get( 'longitude' )[0]] );
+      var marker = L.marker( latlng );
+      marker.on("click", function() {
+        Communicator.mediator.trigger("marker:click", m)
+      });
+      this.layer_markers.addLayer(marker);
     },
 
 
@@ -168,6 +172,8 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
 
     onShow: function() {
 
+      var self = this;
+
       // Load map.
       this.updateMapSize();
       L.mapbox.accessToken = Config.mapbox.accessToken;
@@ -176,8 +182,19 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       this.map.setView( [52.121580, 5.6304], 8 );
       //this.map.scrollWheelZoom.disable();
 
+      // Initialize markers
       this.layer_markers = new L.MarkerClusterGroup().addTo(this.map);
+      if (this.markerCollection.length > 0) {
+        this.markerCollection.each(function(m) {
+          self.addMarker(m);
+        });
+      }
+      this.markerCollection.on("add", function(m) {
+        self.addMarker(m);
+        self.map.panTo( latlng );
+      });
 
+      // Event handlers
       $( '.leaflet-overlay-pane' ).click( function() {
         Communicator.mediator.trigger( "map:tile-layer-clicked" );
       } );

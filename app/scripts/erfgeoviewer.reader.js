@@ -72,7 +72,6 @@ require( [
         if ( typeof erfgeofileDataFile !== "undefined" ) {
           $.ajax(erfgeofileDataFile).done(function(data) {
             state = new StateModel( data );
-            console.log(data);
             init(state);
           });
         } else {
