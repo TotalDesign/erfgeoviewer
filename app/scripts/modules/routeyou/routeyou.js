@@ -39,7 +39,7 @@ define( ["backbone", 'backbone.marionette', 'modules/module', 'communicator',
           var routeyou_view = new RouteSelector( {
             collection: this.route_collection
           } );
-          this.app.flyouts.getRegion( 'right' ).show( routeyou_view );
+          this.app.flyouts.getRegion( 'right' ).show( routeyou_view, { someOpt: true } );
         } else {
           // TODO: Replace wait screen.
           var Waiting = Marionette.ItemView.extend({
