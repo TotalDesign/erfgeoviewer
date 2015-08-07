@@ -20,6 +20,18 @@ body {
   color: $color_text_dark;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  #map {
+    @include transition-property(transform);
+    @include transition-duration(400ms);
+    @include transition-timing-function(ease-out);
+  }
+  &.flyout-right-visible {
+    #map { transform: translate(-250px); }
+  }
+  &.flyout-left-visible {
+    #map { transform: translate(250px); }
+  }
 }
 .hidden { display: none; }
 
