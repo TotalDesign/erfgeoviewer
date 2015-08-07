@@ -75,8 +75,20 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
         console.log('invalid marker:', m);
         return false;
       }
-      var latlng = L.latLng( [m.get( 'latitude' )[0], m.get( 'longitude' )[0]] );
-      var marker = L.marker( latlng );
+      var geojson = {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [m.get( 'longitude' )[0], m.get( 'latitude' )[0]]
+        },
+        properties: {
+          title: m.get('title'),
+          'marker-color': Config.colors.primary
+        }
+      };
+      //var latlng = L.latLng( [m.get( 'latitude' )[0], m.get( 'longitude' )[0]] );
+      var marker = L.mapbox.featureLayer();
+      marker.setGeoJSON(geojson);
       marker.on("click", function() {
         Communicator.mediator.trigger("marker:click", m)
       });
@@ -177,7 +189,10 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       // Load map.
       this.updateMapSize();
       L.mapbox.accessToken = Config.mapbox.accessToken;
-      this.map = L.mapbox.map(this.mapboxContainer);
+      this.map = L.mapbox.map(this.mapboxContainer, null, {
+        boxZoom: true,
+        worldCopyJump: true
+      });
       this.setBaseMap( this.state.get('baseMap') || "osm" );
       this.map.setView( [52.121580, 5.6304], 8 );
       //this.map.scrollWheelZoom.disable();
@@ -198,6 +213,18 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       $( '.leaflet-overlay-pane' ).click( function() {
         Communicator.mediator.trigger( "map:tile-layer-clicked" );
       } );
+
+      this.map.on('boxzoomend', function(e) {
+
+        _.each(self.layer_markers.getLayers(), function(marker) {
+          if (e.boxZoomBounds.contains(marker.getLatLng())) {
+            marker.feature.properties['marker-color'] = Config.colors.secondary;
+          } else {
+            marker.feature.properties['marker-color'] = Config.colors.primary;
+          }
+          //marker.setGeoJSON
+        });
+      });
 
       // SVG from Leaflet.
       this.map._initPathRoot();

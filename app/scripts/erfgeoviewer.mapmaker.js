@@ -72,7 +72,7 @@ function ( RequireJSConfig ) {
     /**
      * Optional modules.
      */
-    new RouteyouModule();
+    new RouteyouModule( { state: state } );
 
     /**
      * Event handlers.

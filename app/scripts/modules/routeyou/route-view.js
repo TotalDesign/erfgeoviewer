@@ -47,6 +47,34 @@ define( ["backbone", "backbone.marionette", "communicator", "config", "polyline"
               self.collection.set( model, {remove: false} );
             } );
         }
+      },
+
+      togglePOIs: function(e) {
+
+        var self = this;
+        var id = $( e.target ).val();
+
+        // Do not show POIs if there is no route.
+        if ( !this.layers.route || !$( e.target ).is(':checked') ) {
+          if ( this.layers.pois ) this.map.removeLayer( this.layers.pois );
+          return;
+        }
+
+        var pois = this.model.get('pois');
+        if (pois.length > 0) {
+          if ( this.layers.pois ) this.map.removeLayer( this.layers.pois );
+          var markers = [];
+          _.each(pois, function(poi) {
+            var re = /POINT\((-?\d+\.[0-9]+)\s(-?[0-9]+\.[0-9]+)/;
+            var point = poi.location.centroid.wkt.match(re);
+            markers.push(
+              L.marker([point[2], point[1]] ).bindPopup(poi.text.description.nl)
+            );
+          });
+          this.layers.pois = L.layerGroup(markers ).addTo( this.map );
+        }
+
+
       }
 
     } );

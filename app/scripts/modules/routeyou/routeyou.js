@@ -17,6 +17,7 @@ define( ["backbone", 'backbone.marionette', 'modules/module', 'communicator',
         var self = this;
         _.bindAll(this, 'showSelector');
 
+        this.state = o.state;
         this.route_collection = new RouteCollection();
         var promise = this.route_collection.fetch();
 
