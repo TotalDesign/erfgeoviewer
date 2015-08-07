@@ -1,29 +1,53 @@
-define( ["backbone", 'backbone.marionette', 'modules/module',
+define( ["backbone", 'backbone.marionette', 'modules/module', 'communicator',
     'modules/routeyou/route-collection', 'modules/routeyou/route-view'],
-  function(Backbone, Marionette, ErfGeoviewerModule,
+  function(Backbone, Marionette, ErfGeoviewerModule, Communicator,
     RouteCollection, RouteSelector) {
 
     return ErfGeoviewerModule.extend({
-
-      region: null,
 
       module: {
         'type': 'library',
         'title': 'RouteYou'
       },
 
+      selector_view: false,
+
       initialize: function( o ) {
 
         var self = this;
-        this.region = o.region;
-        var route_collection = new RouteCollection();
-        route_collection.fetch( {
-          success: function( c ) {
-            self.region.show( new RouteSelector( {
-              collection: c
-            } ) );
+        _.bindAll(this, 'showSelector');
+
+        this.route_collection = new RouteCollection();
+        var promise = this.route_collection.fetch();
+
+        this.app = Communicator.reqres.request("app:get");
+        this.router = Communicator.reqres.request("router:get");
+        this.router.route("routes", "routeyou");
+        this.router.on('route:routeyou', this.showSelector, this);
+
+        promise.done(function() {
+          if (Backbone.history.getFragment() == 'routes') {
+            self.showSelector();
           }
-        } );
+        });
+
+
+      },
+
+      showSelector: function() {
+        if ( this.route_collection.length > 0 ) {
+          var routeyou_view = new RouteSelector( {
+            collection: this.route_collection
+          } );
+          this.app.flyouts.getRegion( 'right' ).show( routeyou_view );
+        } else {
+          // TODO: Replace wait screen.
+          var Waiting = Marionette.ItemView.extend({
+            template: _.template('Even wachten...')
+          });
+          this.app.flyouts.getRegion( 'right' ).show( new Waiting() );
+        }
+
       }
 
     } );

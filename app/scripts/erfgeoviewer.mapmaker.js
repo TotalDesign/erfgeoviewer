@@ -59,32 +59,28 @@ function ( RequireJSConfig ) {
         },
         "features": function() {
           console.log( 'features' );
-        },
-        "routes": function() {
-          console.log('routes');
-          //var marker_view = new RouteyouView();
-          //flyouts.getRegion( 'right' ).show( marker_view );
         }
       }
     } );
     var router = new Router();
+    Communicator.reqres.setHandler("app:get", function() { return App; });
+    Communicator.reqres.setHandler("router:get", function() { return router; });
+
 
     App.start();
 
     /**
+     * Optional modules.
+     */
+    new RouteyouModule();
+
+    /**
      * Event handlers.
      */
-
-    Communicator.reqres.on("router:get", function() {
-      return router;
-    });
     Communicator.mediator.on("map:tile-layer-clicked", function() {
       if (!App.flyouts.getRegion('detail').hasView() || !App.flyouts.getRegion('detail').isVisible() ) {
-        App.flyouts.getRegion('right').hideFlyout();
         router.navigate("");
       }
-      App.flyouts.getRegion('bottom').hideFlyout();
-      App.flyouts.getRegion('detail').hideFlyout();
     });
     Communicator.mediator.on("marker:click", function(m) {
       App.flyouts.getRegion('detail').show( new DetailView( { model: m } ));
