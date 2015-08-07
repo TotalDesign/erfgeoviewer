@@ -1,5 +1,8 @@
+/**
+ * Header view which is used in "reader" mode.
+ */
 define( ["backbone", "backbone.marionette"],
-  function( Backbone, Marionette, Template ) {
+  function( Backbone, Marionette ) {
 
     return Marionette.ItemView.extend( {
 

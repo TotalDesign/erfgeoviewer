@@ -10,6 +10,12 @@ define(['backbone', 'backbone.marionette', 'communicator', 'velocity', 'material
 
       template: LayoutTemplate,
 
+      events: {
+        'click .hide-flyout': function(e) {
+          Communicator.mediator.trigger('flyouts:hideRegionById', $(e.target).closest('.region').attr('id'));
+        }
+      },
+
       // A region for the content of each tab.
       // Tabs themselves are contained in the layout template.
       regions: {

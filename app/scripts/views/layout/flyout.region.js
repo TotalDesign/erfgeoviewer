@@ -16,11 +16,21 @@ define([
       onShow: function() {
         this.$el.addClass('visible');
         this.$container = this.$el;
+        this.$body = $('body');
+        this.$body.addClass( this.$container.attr('id') + '-visible' );
       },
 
       hideFlyout: function() {
-        if (this.$container)
-          this.$container.removeClass('visible');
+        if (this.$container) {
+          this.$body.removeClass( this.$container.attr('id') + '-visible' );
+          this.$container.removeClass( 'visible' );
+        }
+      },
+
+      onBeforeDestroy: function() {
+        if (this.$container) {
+          this.$body.removeClass( this.$container.attr('id') + '-visible' );
+        }
       },
 
       isVisible: function() {
