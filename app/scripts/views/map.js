@@ -195,7 +195,6 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       });
       this.setBaseMap( this.state.get('baseMap') || "osm" );
       this.map.setView( [52.121580, 5.6304], 8 );
-      //this.map.scrollWheelZoom.disable();
 
       // Initialize markers
       this.layer_markers = new L.MarkerClusterGroup().addTo(this.map);
@@ -222,7 +221,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
           } else {
             marker.feature.properties['marker-color'] = Config.colors.primary;
           }
-          //marker.setGeoJSON
+          marker.setGeoJSON(marker.fe)
         });
       });
 
