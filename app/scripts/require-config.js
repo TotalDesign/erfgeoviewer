@@ -3,7 +3,7 @@ require.config( {
   baseUrl: "/scripts",
 
   /* starting point for application */
-  deps: ["backbone.marionette", "jquery"],
+  deps: ["backbone.marionette", "jquery", "erfgeoviewer.mapmaker"],
 
   enforceDefine: false,
 
@@ -88,16 +88,15 @@ require.config( {
       ]
     },
 
-    'backgrid': {
-      deps: ['backbone'],
-      exports: 'Backgrid'
+    "backgrid": {
+      deps: ["backbone"],
+      exports: "Backgrid"
     },
 
-    'backgrid.paginator': { deps: ['backgrid'] },
+    "backgrid.paginator": { deps: ["backgrid"] },
 
     "leaflet": {
-      deps: ["leaflet"],
-      exports: "L"
+      "exports": "L"
     },
 
     "leaflet.markercluster": {
@@ -110,10 +109,6 @@ require.config( {
 
     "leaflet.smoothmarkerbouncing": {
       deps: ["leaflet"]
-    },
-
-    "leaflet": {
-      "exports": "L"
     },
 
     "materialize.modal": {
