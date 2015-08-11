@@ -1,3 +1,9 @@
+<div class="row flyout-title">
+  <div class="col s12">
+    <a href="#"><i class="icon-left action hide-flyout"></i></a>
+    <h2>Routes</h2>
+  </div>
+</div>
 <div class="routeyou-selector">
   <label>Route:</label>
   <select id="edit-route" class="browser-default">
@@ -6,4 +12,10 @@
       <option value="<%= r.get('id') %>"><%= r.get('name').nl %></option>
     <% }); %>
   </select>
+
+  <p>
+    <a class="waves-effect waves-light btn disabled button-add-route"><i class="material-icons left"></i>Route Toevoegen</a>
+    <a class="waves-effect waves-light btn disabled button-add-points"><i class="material-icons right"></i>POIs Importeren</a>
+  </p>
+
 </div>

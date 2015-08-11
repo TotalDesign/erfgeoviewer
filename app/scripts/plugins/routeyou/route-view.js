@@ -6,11 +6,22 @@ define( ["backbone", "backbone.marionette", "communicator", "config", "polyline"
 
     return Marionette.ItemView.extend( {
 
-      routeLayer: null,
+      els: {},
+      previewLayer: null,
       template: RouteSelectorTemplate,
 
       events: {
-        "change #edit-route": "getGeo"
+        "change #edit-route": "getGeo",
+        "click .button-add-route": function(e) {
+          e.preventDefault();
+          if ($(e.target).hasClass('disabled')) return;
+          console.log('add route');
+        },
+        "click .button-add-points": function(e) {
+          e.preventDefault();
+          if ($(e.target).hasClass('disabled')) return;
+          console.log('add points');
+        }
       },
 
       initialize: function(o) {
@@ -20,18 +31,29 @@ define( ["backbone", "backbone.marionette", "communicator", "config", "polyline"
         this.model.set('routes', this.collection.toArray());
 
         this.collection.on("change:geo", function(model) {
-          self.drawRoute( model.get( 'geo' ) );
-        })
+          self.showPreviewRoute( model.get( 'geo' ) );
+        });
       },
 
-      drawRoute: function( route ) {
-        var map = Communicator.reqres.request( "getMap" );
+      onShow: function() {
+        this.els.addRouteButton = $('.button-add-route', this.$el);
+        this.els.addPointsButton = $('.button-add-points', this.$el);
+        this.map = Communicator.reqres.request( "getMap" );
+      },
+
+      showPreviewRoute: function( route ) {
+        if (route) {
+          this.els.addRouteButton.removeClass( 'disabled' );
+          this.els.addPointsButton.removeClass( 'disabled' );
+        }
         var o = {
-          color: '#000'
+          color: '#000',
+          dashArray: "5, 5",
+          opacity: 0.4
         };
-        if (this.routeLayer) map.removeLayer(this.routeLayer);
-        this.routeLayer = L.polyline( route, o ).addTo( map );
-        map.fitBounds( this.routeLayer.getBounds() );
+        if (this.previewLayer) this.map.removeLayer(this.previewLayer);
+        this.previewLayer = L.polyline( route, o ).addTo( this.map );
+        this.map.fitBounds( this.previewLayer.getBounds() );
       },
 
       getGeo: function(e) {
@@ -46,6 +68,13 @@ define( ["backbone", "backbone.marionette", "communicator", "config", "polyline"
               model.set(msg);
               self.collection.set( model, {remove: false} );
             } );
+        } else {
+          if (this.previewLayer) {
+            this.map.removeLayer(this.previewLayer);
+            this.previewLayer = null;
+          }
+          this.els.addRouteButton.addClass( 'disabled' );
+          this.els.addPointsButton.addClass( 'disabled' );
         }
       },
 
