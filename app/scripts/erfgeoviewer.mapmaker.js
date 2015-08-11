@@ -1,12 +1,11 @@
-require([
-	'require-config'
-],
-function ( RequireJSConfig ) {
-    'use strict';
+require( [
+    'require-config'
+  ],
+  function() {
 
-	require(['backbone', 'erfgeoviewer.common', 'communicator',
+  require(['backbone', 'erfgeoviewer.common', 'communicator',
     'views/map', 'views/header', 'views/markers', 'views/detail', 'views/basemap',
-    'modules/routeyou/routeyou', 'erfgeoviewer.search',
+    'plugins/routeyou/routeyou', 'erfgeoviewer.search',
     'models/layers', 'models/state'],
 
   function(Backbone, App, Communicator,
@@ -92,6 +91,6 @@ function ( RequireJSConfig ) {
 
 
 
-  })
+  });
 
 });

@@ -1,5 +1,5 @@
 define( ["backbone", "backbone.marionette", "communicator", "config", "polyline", "jquery",
-         "tpl!modules/routeyou/route-selector.html"],
+         "tpl!plugins/routeyou/route-selector.html"],
 
   function( Backbone, Marionette, Communicator, Config, Polyline, $,
             RouteSelectorTemplate ) {

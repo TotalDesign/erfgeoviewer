@@ -32,7 +32,7 @@ require.config( {
     "bootstrap": "vendor/bootstrap",
     "config": "config/dev",
     "d3": "../bower_components/d3/d3",
-    "erfgeoviewer.search": "modules/delving/delving",
+    "erfgeoviewer.search": "plugins/delving/delving",
     "hammerjs": "../bower_components/hammerjs/hammer",
     "jquery": "../bower_components/jquery/dist/jquery",
     "jquery.hammer": "../bower_components/materialize/js/jquery.hammer",

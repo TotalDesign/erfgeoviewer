@@ -6,7 +6,7 @@ require( [
 
     require( ['backbone', 'erfgeoviewer.common', 'communicator', 'underscore', 'jquery',
         'views/map', 'views/header.reader', 'views/detail',
-        'modules/routeyou/routeyou', 'erfgeoviewer.search',
+        'plugins/routeyou/routeyou', 'erfgeoviewer.search',
         'models/layers', 'models/state'],
 
       function( Backbone, App, Communicator, _, $,

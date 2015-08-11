@@ -1,5 +1,5 @@
-define( ["backbone", 'backbone.marionette', 'modules/module', 'communicator',
-    'modules/routeyou/route-collection', 'modules/routeyou/route-view'],
+define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator',
+    'plugins/routeyou/route-collection', 'plugins/routeyou/route-view'],
   function(Backbone, Marionette, ErfGeoviewerModule, Communicator,
     RouteCollection, RouteSelector) {
 

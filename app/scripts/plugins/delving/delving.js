@@ -1,8 +1,8 @@
 /**
  * Controller for Delving search module.
  */
-define( ['backbone.marionette', 'communicator', 'modules/module-search', 'backgrid', 'backgrid.paginator',
-    'modules/delving/delving-collection',
+define( ['backbone.marionette', 'communicator', 'plugins/module-search', 'backgrid', 'backgrid.paginator',
+    'plugins/delving/delving-collection',
     'tpl!template/layout-search.html', 'views/search-view'],
   function(Marionette, Communicator, ErfGeoSearchModule, Backgrid, PaginatorView,
            DelvingCollection,
