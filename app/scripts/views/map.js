@@ -209,9 +209,9 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       });
 
       // Event handlers
-      $( '.leaflet-overlay-pane' ).click( function() {
+      this.map.on('click', function(e) {
         Communicator.mediator.trigger( "map:tile-layer-clicked" );
-      } );
+      });
 
       this.map.on('boxzoomend', function(e) {
 
