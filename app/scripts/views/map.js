@@ -14,6 +14,9 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
     // ID of dom element where Leaflet will be rendered.
     mapboxContainer: "map",
 
+    // Keyed layers
+    layers: {},
+
     // Marionette layout instance.
     layout: null,
 
@@ -86,15 +89,19 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
           'marker-color': Config.colors.primary
         }
       };
-      //var latlng = L.latLng( [m.get( 'latitude' )[0], m.get( 'longitude' )[0]] );
       var marker = L.mapbox.featureLayer();
       marker.setGeoJSON(geojson);
       marker.on("click", function() {
         Communicator.mediator.trigger("marker:click", m)
       });
-      this.layer_markers.addLayer(marker);
+      this.layers.markers.addLayer(marker);
+      return marker;
     },
 
+    addLayer: function(layer, key) {
+      var key = key || 'default';
+      this.layers[key].push(layer);
+    },
 
     /**
      * Create an alternative to the L.divIcon marker, which does not support variable widths
@@ -197,15 +204,15 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       this.map.setView( [52.121580, 5.6304], 8 );
 
       // Initialize markers
-      this.layer_markers = new L.MarkerClusterGroup().addTo(this.map);
+      this.layers.markers = new L.MarkerClusterGroup().addTo(this.map);
       if (this.markerCollection.length > 0) {
         this.markerCollection.each(function(m) {
           self.addMarker(m);
         });
       }
       this.markerCollection.on("add", function(m) {
-        self.addMarker(m);
-        self.map.panTo( latlng );
+        var marker = self.addMarker(m);
+        self.map.panTo( L.latLng( [m.get( 'latitude' )[0], m.get( 'longitude' )[0]] ) );
       });
 
       // Event handlers
@@ -215,7 +222,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
 
       this.map.on('boxzoomend', function(e) {
 
-        _.each(self.layer_markers.getLayers(), function(marker) {
+        _.each(self.layers.markers.getLayers(), function(marker) {
           if (e.boxZoomBounds.contains(marker.getLatLng())) {
             marker.feature.properties['marker-color'] = Config.colors.secondary;
           } else {
