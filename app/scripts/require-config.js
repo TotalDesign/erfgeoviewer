@@ -38,6 +38,7 @@ require.config( {
     "jquery.hammer": "../bower_components/materialize/js/jquery.hammer",
     "jsx": "../bower_components/requirejs-react-jsx/jsx",
     "JSXTransformer": "../bower_components/react/JSXTransformer",
+    "leaflet.draw": "../bower_components/leaflet.draw/dist/leaflet.draw",
     "leaflet.markercluster": "../bower_components/leaflet.markercluster/dist/leaflet.markercluster",
     "leaflet.proj": "../bower_components/proj4leaflet/src/proj4leaflet",
     "leaflet.smoothmarkerbouncing": "../bower_components/Leaflet.SmoothMarkerBouncing/leaflet.smoothmarkerbouncing",
