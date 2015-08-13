@@ -32,7 +32,8 @@
     "medium-editor": "~5.5.1",
     "proj4leaflet": "~0.7.1",
     "backbone.localstorage": "~1.1.16",
-    "underscore": "~1.8.3"
+    "underscore": "~1.8.3",
+    "leaflet.draw": "~0.2.4"
   },
   "devDependencies": {
     "susy": "~2.2.2"
