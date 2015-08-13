@@ -3,12 +3,12 @@ require( [
   ],
   function() {
 
-  require(['backbone', 'erfgeoviewer.common', 'communicator',
+  require(['backbone', 'erfgeoviewer.common', 'communicator', 'jquery',
     'views/map', 'views/header', 'views/markers', 'views/detail', 'views/basemap',
     'plugins/routeyou/routeyou', 'erfgeoviewer.search',
     'models/layers', 'models/state'],
 
-  function(Backbone, App, Communicator,
+  function(Backbone, App, Communicator, $,
            MapView, HeaderView, MarkerAddView, DetailView, BaseMapSelector,
            RouteyouModule, SearchModule,
            LayerCollection, StateModel) {
@@ -22,6 +22,7 @@ require( [
     // This object will be serialized and used for storing/restoring a map.
     var state = new StateModel({ id: 1 });
     state.fetch();
+
 
     var search_module = new SearchModule( {
       markers_collection: state.get( 'markers' )
