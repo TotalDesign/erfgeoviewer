@@ -42,7 +42,9 @@ require( [
       state: state
     } ) );
 
-    var draw_module = new DrawModule();
+    var draw_module = new DrawModule({
+      map_view: map_view
+    });
 
     /**
      * Router.
@@ -56,6 +58,7 @@ require( [
           var marker_view = new MarkerAddView( {
             searchModule: search_module
           } );
+          App.flyouts.getRegion( 'bottom' ).hideFlyout();
           App.flyouts.getRegion( 'right' ).show( marker_view );
         },
         "base": function() {
