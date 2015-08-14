@@ -1,3 +1,7 @@
+/**
+ * Responsible for registering route, creating the view for selecting a route,
+ * maintaining state of routes (storing/restoring).
+ */
 define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator',
     'plugins/routeyou/route-list', 'plugins/routeyou/route-view'],
   function(Backbone, Marionette, ErfGeoviewerModule, Communicator,
@@ -10,9 +14,22 @@ define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator',
         'title': 'RouteYou'
       },
 
+      routeLayerGroup: null,
       routeyou_view: false,
       selector_view: false,
       state: null,
+      style: {
+        previewRoute: {
+          color: '#000',
+          dashArray: "10, 10",
+          opacity: 0.4
+        },
+        savedRoute: {
+          color: '#000',
+          dashArray: false,
+          opacity: 0.7
+        }
+      },
 
       initialize: function( o ) {
 
@@ -20,65 +37,112 @@ define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator',
         _.bindAll(this, 'showSelector');
 
         this.state = o.state;
-        this.state.registerParser('routeyou');
+        this.state.registerPlugin('routeyou');
 
-        this.available_routes = new RouteListCollection();
-        this.added_routes = new Backbone.Collection();
+        this.availableRoutes_collection = new RouteListCollection();
+        this.addedRoutes_collection = new Backbone.Collection();
 
-        var promise = this.available_routes.fetch();
+        this.availableRoutes_collection.fetch().done(function() {
+          if (Backbone.history.getFragment() == 'routes') {
+            self.showSelector();
+          }
+        });
 
         this.app = Communicator.reqres.request("app:get");
         this.router = Communicator.reqres.request("router:get");
         this.router.route("routes", "routeyou");
         this.router.on('route:routeyou', this.showSelector, this);
 
-        promise.done(function() {
-          if (Backbone.history.getFragment() == 'routes') {
-            self.showSelector();
-          }
+        this.map = Communicator.reqres.request( "getMap" );
+        this.routeLayerGroup = L.layerGroup().addTo(this.map);
+
+
+
+        /**
+         * Event handlers.
+         *
+         */
+        this.availableRoutes_collection.on("change:geo", function(model) {
+          self.showPreview( model );
         });
 
         // Called during save.
         Communicator.reqres.setHandler("saving:routeyou", function() {
-          return JSON.stringify(self.added_routes.toJSON());
+          return JSON.stringify(self.addedRoutes_collection.toJSON());
         });
 
         // Called during restore.
         Communicator.reqres.setHandler("restoring:routeyou", function(request) {
           if (request.routeyou) {
             var ry = JSON.parse(request.routeyou);
-            return new Backbone.Collection(ry);
+            self.addedRoutes_collection = new Backbone.Collection(ry);
+            self.resetRoutes();
+            return (self.addedRoutes_collection);
           } else
             return false;
         });
 
-        // Called when file is opened.
-        // TODO
-        Communicator.mediator.on("state:reset", function() {
-          console.log('routeyou initializing after file is opened');
-          self.availableRoutes = self.state.get('routeyou');
-          if (self.routeyou_view) {
-            self.routeyou_view.resetRoutes();
-          }
-        });
+      },
 
+      /**
+       * Redraws routes based on collection.
+       */
+      resetRoutes: function() {
+        console.log('reset routes');
+        var self = this;
+        this.routeLayerGroup.clearLayers();
+        this.addedRoutes_collection.each(function(route) {
+          console.log('add route', route);
+          L.polyline( route, self.style.savedRoute ).addTo( self.routeLayerGroup );
+        });
+      },
+
+      removePreview: function(beingSaved) {
+        this.previewingModel = null;
+        if (this.previewLayer) {
+          if (!beingSaved) this.map.removeLayer(this.previewLayer);
+          this.previewLayer = null;
+        }
+        this.routeyou_view.els.addRouteButton.addClass( 'disabled' );
+        this.routeyou_view.els.addPointsButton.addClass( 'disabled' );
+      },
+
+      /**
+       * Once user clicks "Route Toevoegen", this is called.
+       */
+      saveRoute: function() {
+        this.previewLayer.setStyle(this.style.savedRoute);
+        this.routeLayerGroup.addLayer( this.previewLayer );
+        this.addedRoutes_collection.add( this.previewingModel.clone() );
+        this.removePreview(true);
+      },
+
+      /**
+       * A route is previewed after selected from a drop down, but is not officially
+       * added to the saveable map.
+       */
+      showPreview: function( model ) {
+        this.previewingModel = model;
+        var route = model.get('geo');
+        if (route) {
+          this.routeyou_view.els.addRouteButton.removeClass( 'disabled' );
+          this.routeyou_view.els.addPointsButton.removeClass( 'disabled' );
+        }
+        if (this.previewLayer) this.map.removeLayer(this.previewLayer);
+        this.previewLayer = L.polyline( route, this.style.previewRoute ).addTo( this.map );
+        this.map.fitBounds( this.previewLayer.getBounds() );
       },
 
       showSelector: function() {
-        if ( this.available_routes.length > 0 ) {
-          this.routeyou_view = new RouteSelector( {
-            available_routes: this.available_routes,
-            added_routes: this.added_routes
+        var self = this;
+        this.availableRoutes_collection.fetch().done(function() {
+          self.routeyou_view = new RouteSelector( {
+            availableRoutes_collection: self.availableRoutes_collection,
+            map: self.map,
+            controller: self
           } );
-          this.app.flyouts.getRegion( 'right' ).show( this.routeyou_view, { someOpt: true } );
-        } else {
-          // TODO: Replace wait screen.
-          var Waiting = Marionette.ItemView.extend({
-            template: _.template('Even wachten...')
-          });
-          this.app.flyouts.getRegion( 'right' ).show( new Waiting() );
-        }
-
+          self.app.flyouts.getRegion( 'right' ).show( self.routeyou_view, { someOpt: true } );
+        });
       }
 
     } );
