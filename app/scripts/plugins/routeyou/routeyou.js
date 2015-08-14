@@ -40,14 +40,16 @@ define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator',
 
         // Called during save.
         Communicator.reqres.setHandler("saving:routeyou", function() {
-          return self.added_routes.toJSON();
+          return JSON.stringify(self.added_routes.toJSON());
         });
 
         // Called during restore.
-        Communicator.reqres.setHandler("restoring:routeyou", function() {
-          return function(request) {
-            return new Backbone.Collection(request.routeyou);
-          }
+        Communicator.reqres.setHandler("restoring:routeyou", function(request) {
+          if (request.routeyou) {
+            var ry = JSON.parse(request.routeyou);
+            return new Backbone.Collection(ry);
+          } else
+            return false;
         });
 
         // Called when file is opened.
