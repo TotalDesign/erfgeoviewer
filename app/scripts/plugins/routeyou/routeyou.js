@@ -135,14 +135,19 @@ define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator',
 
       showSelector: function() {
         var self = this;
-        this.availableRoutes_collection.fetch().done(function() {
+        var isFetched = function() {
           self.routeyou_view = new RouteSelector( {
             availableRoutes_collection: self.availableRoutes_collection,
             map: self.map,
             controller: self
           } );
           self.app.flyouts.getRegion( 'right' ).show( self.routeyou_view, { someOpt: true } );
-        });
+        };
+        if (this.availableRoutes_collection.length > 0) {
+          isFetched();
+        } else {
+          this.availableRoutes_collection.fetch().done(isFetched);
+        }
       }
 
     } );
