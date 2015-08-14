@@ -5,12 +5,12 @@ require( [
 
   require(['backbone', 'erfgeoviewer.common', 'communicator', 'jquery',
     'views/map', 'views/header', 'views/markers', 'views/detail', 'views/basemap',
-    'plugins/routeyou/routeyou', 'erfgeoviewer.search',
+    'plugins/routeyou/routeyou', 'erfgeoviewer.search', 'plugins/draw/draw',
     'models/layers', 'models/state'],
 
   function(Backbone, App, Communicator, $,
            MapView, HeaderView, MarkerAddView, DetailView, BaseMapSelector,
-           RouteyouModule, SearchModule,
+           RouteyouModule, SearchModule, DrawModule,
            LayerCollection, StateModel) {
 
     /**
@@ -21,8 +21,10 @@ require( [
 
     // This object will be serialized and used for storing/restoring a map.
     var state = new StateModel({ id: 1 });
-    state.fetch();
+    state.fetch().done(function() {
+      console.log('done fetching', state.get('baseMap'));
 
+    });
 
     var search_module = new SearchModule( {
       markers_collection: state.get( 'markers' )
@@ -39,6 +41,8 @@ require( [
       modalRegion: App.layout.getRegion( 'modal' ),
       state: state
     } ) );
+
+    var draw_module = new DrawModule();
 
     /**
      * Router.

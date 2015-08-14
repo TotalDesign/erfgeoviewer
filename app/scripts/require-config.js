@@ -100,6 +100,10 @@ require.config( {
       "exports": "L"
     },
 
+    "leaflet.draw": {
+      deps: ["leaflet"]
+    },
+
     "leaflet.markercluster": {
       deps: ["leaflet"]
     },
