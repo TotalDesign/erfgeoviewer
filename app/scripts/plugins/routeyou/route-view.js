@@ -9,13 +9,26 @@ define( ["backbone", "backbone.marionette", "communicator", "config", "polyline"
       els: {},
       previewLayer: null,
       template: RouteSelectorTemplate,
+      routeLayerGroup: null,
+      style: {
+        previewRoute: {
+          color: '#000',
+          dashArray: "10, 10",
+          opacity: 0.4
+        },
+        savedRoute: {
+          color: '#000',
+          dashArray: false,
+          opacity: 0.7
+        }
+      },
 
       events: {
         "change #edit-route": "getGeo",
         "click .button-add-route": function(e) {
           e.preventDefault();
           if ($(e.target).hasClass('disabled')) return;
-          console.log('add route');
+          this.saveRoute();
         },
         "click .button-add-points": function(e) {
           e.preventDefault();
@@ -26,12 +39,13 @@ define( ["backbone", "backbone.marionette", "communicator", "config", "polyline"
 
       initialize: function(o) {
         var self = this;
-        this.collection = o.collection;
+        this.available_routes = o.available_routes;
+        this.added_routes = o.added_routes;
         this.model = new Backbone.Model();
-        this.model.set('routes', this.collection.toArray());
+        this.model.set('routes', this.available_routes.toArray());
 
-        this.collection.on("change:geo", function(model) {
-          self.showPreviewRoute( model.get( 'geo' ) );
+        this.available_routes.on("change:geo", function(model) {
+          self.showPreview( model );
         });
       },
 
@@ -39,22 +53,11 @@ define( ["backbone", "backbone.marionette", "communicator", "config", "polyline"
         this.els.addRouteButton = $('.button-add-route', this.$el);
         this.els.addPointsButton = $('.button-add-points', this.$el);
         this.map = Communicator.reqres.request( "getMap" );
+        this.routeLayerGroup = L.layerGroup().addTo(this.map);
+        this.added_routes.add()
       },
 
-      showPreviewRoute: function( route ) {
-        if (route) {
-          this.els.addRouteButton.removeClass( 'disabled' );
-          this.els.addPointsButton.removeClass( 'disabled' );
-        }
-        var o = {
-          color: '#000',
-          dashArray: "5, 5",
-          opacity: 0.4
-        };
-        if (this.previewLayer) this.map.removeLayer(this.previewLayer);
-        this.previewLayer = L.polyline( route, o ).addTo( this.map );
-        this.map.fitBounds( this.previewLayer.getBounds() );
-      },
+      /* ---- end marionette functions ---- */
 
       getGeo: function(e) {
         var self = this;
@@ -64,18 +67,62 @@ define( ["backbone", "backbone.marionette", "communicator", "config", "polyline"
             .done( function( msg ) {
               msg.geo = Polyline.decode( msg.geo );
               id = parseInt(id);
-              var model = self.collection.findWhere( { id: id });
+              var model = self.available_routes.findWhere( { id: id });
               model.set(msg);
-              self.collection.set( model, {remove: false} );
+              self.available_routes.set( model, {remove: false} );
             } );
         } else {
-          if (this.previewLayer) {
-            this.map.removeLayer(this.previewLayer);
-            this.previewLayer = null;
-          }
-          this.els.addRouteButton.addClass( 'disabled' );
-          this.els.addPointsButton.addClass( 'disabled' );
+          this.removePreview();
         }
+      },
+
+      removePreview: function(beingSaved) {
+        this.previewingModel = null;
+        if (this.previewLayer) {
+          if (!beingSaved) this.map.removeLayer(this.previewLayer);
+          this.previewLayer = null;
+        }
+        this.els.addRouteButton.addClass( 'disabled' );
+        this.els.addPointsButton.addClass( 'disabled' );
+      },
+
+      /**
+       * Redraws routes based on collection.
+       */
+      resetRoutes: function() {
+        console.log('reset routes');
+        var self = this;
+        this.routeLayerGroup.clearLayers();
+        this.added_routes.each(function(route) {
+          console.log('add route', route);
+          L.polyline( route, self.style.savedRoute ).addTo( self.routeLayerGroup );
+        });
+      },
+
+      /**
+       * Once user clicks "Route Toevoegen", this is called.
+       */
+      saveRoute: function() {
+        this.previewLayer.setStyle(this.style.savedRoute);
+        this.routeLayerGroup.addLayer( this.previewLayer );
+        this.added_routes.add( this.previewingModel.clone() );
+        this.removePreview(true);
+      },
+
+      /**
+       * A route is previewed after selected from a drop down, but is not officially
+       * added to the saveable map.
+       */
+      showPreview: function( model ) {
+        this.previewingModel = model;
+        var route = model.get('geo');
+        if (route) {
+          this.els.addRouteButton.removeClass( 'disabled' );
+          this.els.addPointsButton.removeClass( 'disabled' );
+        }
+        if (this.previewLayer) this.map.removeLayer(this.previewLayer);
+        this.previewLayer = L.polyline( route, this.style.previewRoute ).addTo( this.map );
+        this.map.fitBounds( this.previewLayer.getBounds() );
       },
 
       togglePOIs: function(e) {
