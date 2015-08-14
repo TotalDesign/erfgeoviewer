@@ -17,14 +17,14 @@ define(["backbone", "backbone.marionette", "tpl!template/publish.html", "jquery"
       },
 
       initialize: function(o) {
-        this.model = o.state;
+        this.state = o.state;
       },
 
       onShow: function() {
         $('.modal', this.$el).openModal();
-        this.model.save();
+        this.state.save();
         $download = $('.download', this.$el);
-        var serialized = JSON.stringify(this.model.toJSON());
+        var serialized = JSON.stringify(this.state.toJSON());
         var link = "data:text/json;charset=utf-8," + encodeURIComponent(serialized);
         $download.prop('href', link);
         $download.prop('download', 'erfgeoviewer.json');

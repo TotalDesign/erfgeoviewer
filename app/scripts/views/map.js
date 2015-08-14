@@ -1,9 +1,13 @@
+/**
+ * Map control, shared between mapmaker and reader modes.
+ * Functionality specific to mapmaker or reader should be placed in separte plugins.
+ */
 define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "config", "jquery", "underscore",
         "leaflet.markercluster", "leaflet.smoothmarkerbouncing", "leaflet.proj",
-        "tpl!template/map.html"],
+        "models/markers", "tpl!template/map.html"],
   function(Backbone, Marionette, L, d3, Communicator, Config, $, _,
            LeafletMarkerCluster, LeafletBouncing, LeafletProjections,
-           Template) {
+           MarkersCollection, Template) {
 
   return Marionette.ItemView.extend({
 
@@ -14,7 +18,6 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
     // ID of dom element where Leaflet will be rendered.
     mapboxContainer: "map",
 
-    // Keyed layers
     layers: {},
 
     // Marionette layout instance.
@@ -56,12 +59,30 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       }, this);
       Communicator.mediator.on("map:changeBase", function(tileId) {
         self.setBaseMap(tileId);
-        self.state.save();
       });
       Communicator.mediator.on("map:updateSize", function() {
         _.throttle( self.updateMapSize, 150 )
       });
+      Communicator.mediator.on("state:reset", this.resetMap, this);
+
       Communicator.reqres.setHandler( "getMap", function() { return self.map; });
+      Communicator.reqres.setHandler( "saving:markers", function() {
+        return JSON.stringify(self.markerCollection.toJSON());
+      });
+
+      Communicator.reqres.setHandler( "restoring:baseMap", function(response) {
+        if (response.baseMap)
+          return response.baseMap;
+        else return false;
+      });
+      Communicator.reqres.setHandler( "restoring:markers", function(response) {
+        if (response.markers) {
+          var m = new MarkersCollection(JSON.parse(response.markers));
+          return m;
+        }
+        else return false;
+      });
+
       this.state.on("change:baseMap", function(model) {
         self.setBaseMap(model.get('baseMap'));
       })
@@ -98,13 +119,72 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       return marker;
     },
 
+    /**
+     * Adds a layer to a layergroup. If layergroup {key} doesn't exist, it will
+     * be created.
+     * @param layer - layer to be added
+     * @param key - id of layergroup
+     */
     addLayer: function(layer, key) {
-      var key = key || 'default';
-      this.layers[key].push(layer);
+      key = key || 'default';
+      if ( _.isUndefined(this.layers[key]) )
+        this.layers[key] = L.layerGroup().addTo(map);
+      this.layers[key].addLayer(layer);
+    },
+
+    onShow: function() {
+
+      var self = this;
+
+      // Load map.
+      this.updateMapSize();
+      L.mapbox.accessToken = Config.mapbox.accessToken;
+      this.map = L.mapbox.map(this.mapboxContainer, null, {
+        boxZoom: true,
+        worldCopyJump: true
+      });
+      this.setBaseMap( this.state.get('baseMap') || "osm" );
+      this.map.setView( [52.121580, 5.6304], 8 );
+
+      // Initialize markers
+      this.layers.markers = new L.MarkerClusterGroup().addTo(this.map);
+      if (this.markerCollection.length > 0) {
+        this.markerCollection.each(function(m) {
+          self.addMarker(m);
+        });
+      }
+      this.markerCollection.on("add", function(m) {
+        if (!m.get('latitude') || !m.get('longitude')) return false;
+        self.addMarker(m);
+        self.map.panTo( L.latLng( [m.get( 'latitude' )[0], m.get( 'longitude' )[0]] ) );
+      });
+
+      // Event handlers
+      this.map.on('click', function(e) {
+        Communicator.mediator.trigger( "map:tile-layer-clicked" );
+      });
+
+      this.map.on('boxzoomend', function(e) {
+
+        _.each(self.layers.markers.getLayers(), function(marker) {
+          if (e.boxZoomBounds.contains(marker.getLatLng())) {
+            marker.feature.properties['marker-color'] = Config.colors.secondary;
+          } else {
+            marker.feature.properties['marker-color'] = Config.colors.primary;
+          }
+          marker.setGeoJSON(marker.fe)
+        });
+      });
+
+      // SVG from Leaflet.
+      this.map._initPathRoot();
+      this.svg = d3.select('#' + this.mapboxContainer).select("svg");
+      this.g = this.svg.append("g");
+
     },
 
     /**
-     * Create an alternative to the L.divIcon marker, which does not support variable widths
+     * Create an alternative to the L.divIcon marker, which does not support variablee widths
      */
     registerAutoWidthMarker: function() {
       var self = this;
@@ -189,53 +269,12 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       }
     },
 
-    onShow: function() {
-
-      var self = this;
-
-      // Load map.
-      this.updateMapSize();
-      L.mapbox.accessToken = Config.mapbox.accessToken;
-      this.map = L.mapbox.map(this.mapboxContainer, null, {
-        boxZoom: true,
-        worldCopyJump: true
-      });
-      this.setBaseMap( this.state.get('baseMap') || "osm" );
-      this.map.setView( [52.121580, 5.6304], 8 );
-
-      // Initialize markers
-      this.layers.markers = new L.MarkerClusterGroup().addTo(this.map);
-      if (this.markerCollection.length > 0) {
-        this.markerCollection.each(function(m) {
-          self.addMarker(m);
-        });
-      }
-      this.markerCollection.on("add", function(m) {
-        var marker = self.addMarker(m);
-        self.map.panTo( L.latLng( [m.get( 'latitude' )[0], m.get( 'longitude' )[0]] ) );
-      });
-
-      // Event handlers
-      this.map.on('click', function(e) {
-        Communicator.mediator.trigger( "map:tile-layer-clicked" );
-      });
-
-      this.map.on('boxzoomend', function(e) {
-
-        _.each(self.layers.markers.getLayers(), function(marker) {
-          if (e.boxZoomBounds.contains(marker.getLatLng())) {
-            marker.feature.properties['marker-color'] = Config.colors.secondary;
-          } else {
-            marker.feature.properties['marker-color'] = Config.colors.primary;
-          }
-          marker.setGeoJSON(marker.fe)
-        });
-      });
-
-      // SVG from Leaflet.
-      this.map._initPathRoot();
-      this.svg = d3.select('#' + this.mapboxContainer).select("svg");
-      this.g = this.svg.append("g");
+    /**
+     * Update markers and base map based on stored data.
+     * @param object
+     */
+    resetMap: function(storedData) {
+      console.log(storedData);
 
     },
 

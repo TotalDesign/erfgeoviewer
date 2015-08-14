@@ -1,6 +1,6 @@
-define(["underscore", "backbone.marionette", "jquery", "jquery.hammer",
+define(["underscore", "backbone.marionette", "jquery", "jquery.hammer", "communicator",
     "models/state", "tpl!template/open.html", "materialize.modal", "materialize.toasts"],
-  function(_, Marionette, $, jqueryHammer,
+  function(_, Marionette, $, jqueryHammer, Communicator,
            StateModel, PublishTemplate, MaterializeModal, MaterializeToasts) {
 
     return Marionette.ItemView.extend({
@@ -69,9 +69,8 @@ define(["underscore", "backbone.marionette", "jquery", "jquery.hammer",
           console.log('no map file uploaded, or it was invalid.');
           return;
         }
-        this.state.get('markers').reset();
-        this.state.get('markers').add(this.newState.markers);
-        this.state.set('baseMap', this.newState.baseMap);
+        this.state.parse(this.newState);
+        Communicator.mediator.trigger('state:reset');
       }
 
     });
