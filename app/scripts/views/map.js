@@ -29,7 +29,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
     // Collections
     markerCollection: null,
 
-    initialize: function(o) {
+    initialize: function(o) {{}
 
       var self = this;
       _.bindAll(this, 'updateMapSize', 'addMarker');
@@ -63,22 +63,27 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       Communicator.mediator.on("map:updateSize", function() {
         _.throttle( self.updateMapSize, 150 )
       });
-      Communicator.mediator.on("state:reset", this.resetMap, this);
+      //Communicator.mediator.on("state:reset", this.resetMap, this);
 
       Communicator.reqres.setHandler( "getMap", function() { return self.map; });
+
       Communicator.reqres.setHandler( "saving:markers", function() {
         return JSON.stringify(self.markerCollection.toJSON());
       });
-
       Communicator.reqres.setHandler( "restoring:baseMap", function(response) {
+        // model attribute will change, triggering map reload. do not need to
+        // trigger it again here.
         if (response.baseMap)
           return response.baseMap;
         else return false;
       });
       Communicator.reqres.setHandler( "restoring:markers", function(response) {
         if (response.markers) {
-          var m = new MarkersCollection(JSON.parse(response.markers));
-          return m;
+          self.layers.markers.clearLayers();
+          self.markerCollection = new MarkersCollection(JSON.parse(response.markers));
+          self.markerCollection.each(function(m) {
+            self.addMarker(m);
+          })
         }
         else return false;
       });

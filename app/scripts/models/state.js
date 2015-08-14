@@ -15,6 +15,7 @@ define(["backbone", "models/markers", 'backbone.localstorage', 'communicator'],
      */
     parse: function(response, options) {
       var self = this;
+
       _.each(this.plugins, function(p) {
         var parsed = Communicator.reqres.request('restoring:' + p, response);
         if (parsed)

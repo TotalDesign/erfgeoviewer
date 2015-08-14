@@ -21,10 +21,6 @@ require( [
 
     // This object will be serialized and used for storing/restoring a map.
     var state = new StateModel({ id: 1 });
-    state.fetch().done(function() {
-      console.log('done fetching', state.get('baseMap'));
-
-    });
 
     var search_module = new SearchModule( {
       markers_collection: state.get( 'markers' )
@@ -74,12 +70,13 @@ require( [
     Communicator.reqres.setHandler("router:get", function() { return router; });
 
 
-    App.start();
-
     /**
      * Optional modules.
      */
     new RouteyouModule( { state: state } );
+
+    state.fetch();
+    App.start();
 
     /**
      * Event handlers.
