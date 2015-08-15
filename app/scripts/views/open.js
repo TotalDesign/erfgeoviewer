@@ -46,7 +46,8 @@ define(["underscore", "backbone.marionette", "jquery", "jquery.hammer", "communi
           }
           var reader = new FileReader();
           reader.onload = function(e) {
-            self.newState = JSON.parse(e.target.result)
+            self.newState = JSON.parse(e.target.result);
+            //self.newState = e.target.result
           };
           reader.readAsText(file);
         }

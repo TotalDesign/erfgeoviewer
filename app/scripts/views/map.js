@@ -84,7 +84,10 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       Communicator.reqres.setHandler( "restoring:markers", function(response) {
         if (response.markers) {
           self.markerCollection.reset();
-          self.markerCollection.add(JSON.parse(response.markers));
+          if ( _.isString( response.markers ) ) {
+            response.markers = JSON.parse( response.markers );
+          }
+          self.markerCollection.add(response.markers);
           self.layers.markers.clearLayers();
           self.markerCollection.each(function(m) {
             self.addMarker(m);

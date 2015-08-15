@@ -75,7 +75,8 @@ define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator',
         // Called during restore.
         Communicator.reqres.setHandler("restoring:routeyou", function(request) {
           if (request.routeyou) {
-            var ry = JSON.parse(request.routeyou);
+            var ry = request.routeyou;
+            if ( _.isString( ry) ) ry = JSON.parse(ry);
             self.addedRoutes_collection = new Backbone.Collection(ry);
             self.resetRoutes();
             return (self.addedRoutes_collection);
