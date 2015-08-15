@@ -53,11 +53,6 @@ define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator',
         this.router.route("routes", "routeyou");
         this.router.on('route:routeyou', this.showSelector, this);
 
-        this.map = Communicator.reqres.request( "getMap" );
-        this.routeLayerGroup = L.layerGroup().addTo(this.map);
-
-
-
         /**
          * Event handlers.
          *
@@ -65,6 +60,12 @@ define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator',
         this.availableRoutes_collection.on("change:geo", function(model) {
           self.showPreview( model );
         });
+
+        Communicator.mediator.on('map:ready', function(map) {
+          self.map = map;
+          self.routeLayerGroup = L.layerGroup().addTo(map);
+          self.resetRoutes();
+        }, this);
 
         // Called during save.
         Communicator.reqres.setHandler("saving:routeyou", function() {
@@ -88,12 +89,15 @@ define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator',
        * Redraws routes based on collection.
        */
       resetRoutes: function() {
-        console.log('reset routes');
         var self = this;
+        if (!this.routeLayerGroup) {
+          console.log('map not yet available, no routes to reset.');
+          return;
+        }
         this.routeLayerGroup.clearLayers();
+        console.log('adding routes', this.addedRoutes_collection);
         this.addedRoutes_collection.each(function(route) {
-          console.log('add route', route);
-          L.polyline( route, self.style.savedRoute ).addTo( self.routeLayerGroup );
+          L.polyline( route.get('geo'), self.style.savedRoute ).addTo( self.routeLayerGroup );
         });
       },
 

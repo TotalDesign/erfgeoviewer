@@ -26,21 +26,27 @@ require( [
       markers_collection: state.get( 'markers' )
     } );
 
-    var map_view = new MapView( {
-      layout: App.layout,
-      markers: state.get( 'markers' ),
-      state: state
+
+    /**
+     * Event handlers.
+     */
+
+    Communicator.mediator.on('map:ready', function() {
+      state.fetch();
+    });
+    Communicator.mediator.on("map:tile-layer-clicked", function() {
+      if (!App.flyouts.getRegion('detail').hasView() || !App.flyouts.getRegion('detail').isVisible() ) {
+        router.navigate("");
+      }
+    });
+    Communicator.mediator.on("marker:click", function(m) {
+      App.flyouts.getRegion('detail').show( new DetailView( { model: m } ));
+    });
+    Communicator.mediator.on( "all", function( e, a ) {
+      // Debugging:
+      console.log( "EVENT '" + e + "'", a );
     } );
 
-    App.layout.getRegion( 'content' ).show( map_view );
-    App.layout.getRegion( 'header' ).show( new HeaderView( {
-      modalRegion: App.layout.getRegion( 'modal' ),
-      state: state
-    } ) );
-
-    var draw_module = new DrawModule({
-      map_view: map_view
-    });
 
     /**
      * Router.
@@ -69,32 +75,29 @@ require( [
     Communicator.reqres.setHandler("app:get", function() { return App; });
     Communicator.reqres.setHandler("router:get", function() { return router; });
 
-
     /**
      * Optional modules.
      */
-    new RouteyouModule( { state: state } );
 
-    state.fetch();
-    App.start();
+    new DrawModule();
+    new RouteyouModule( {state: state} );
+
 
     /**
-     * Event handlers.
+     * Initialize map.
      */
-    Communicator.mediator.on("map:tile-layer-clicked", function() {
-      if (!App.flyouts.getRegion('detail').hasView() || !App.flyouts.getRegion('detail').isVisible() ) {
-        router.navigate("");
-      }
-    });
-    Communicator.mediator.on("marker:click", function(m) {
-      App.flyouts.getRegion('detail').show( new DetailView( { model: m } ));
-    });
-    Communicator.mediator.on( "all", function( e, a ) {
-      // Debugging:
-      console.log( "event: " + e, a );
+
+    var map_view = new MapView( {
+      layout: App.layout,
+      state: state
     } );
 
-
+    App.layout.getRegion( 'content' ).show( map_view );
+    App.layout.getRegion( 'header' ).show( new HeaderView( {
+      modalRegion: App.layout.getRegion( 'modal' ),
+      state: state
+    } ) );
+    App.start();
 
   });
 

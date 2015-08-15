@@ -29,14 +29,15 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
     // Collections
     markerCollection: null,
 
-    initialize: function(o) {{}
+    initialize: function(o) {
 
       var self = this;
       _.bindAll(this, 'updateMapSize', 'addMarker');
 
       this.state = o.state;
       this.layout = o.layout;
-      this.markerCollection = o.markers;
+      this.layers.markers = new L.MarkerClusterGroup();
+      this.markerCollection = this.state.get('markers');
 
       $( window ).resize( _.throttle( this.updateMapSize, 150 ) );
 
@@ -46,7 +47,6 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       /**
        * Event listeners
        */
-
       Communicator.mediator.on("map:panTo", function(o) {
         var latlng = L.latLng( [o.latitude, o.longitude] );
         self.map.panTo(latlng);
@@ -63,10 +63,14 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       Communicator.mediator.on("map:updateSize", function() {
         _.throttle( self.updateMapSize, 150 )
       });
-      //Communicator.mediator.on("state:reset", this.resetMap, this);
-
       Communicator.reqres.setHandler( "getMap", function() { return self.map; });
+      this.state.on("change:baseMap", function(model) {
+        self.setBaseMap(model.get('baseMap'));
+      });
 
+      /**
+       * State management.
+       */
       Communicator.reqres.setHandler( "saving:markers", function() {
         return JSON.stringify(self.markerCollection.toJSON());
       });
@@ -79,18 +83,16 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       });
       Communicator.reqres.setHandler( "restoring:markers", function(response) {
         if (response.markers) {
+          self.markerCollection.reset();
+          self.markerCollection.add(JSON.parse(response.markers));
           self.layers.markers.clearLayers();
-          self.markerCollection = new MarkersCollection(JSON.parse(response.markers));
           self.markerCollection.each(function(m) {
             self.addMarker(m);
-          })
+          });
+          return self.markerCollection;
         }
         else return false;
       });
-
-      this.state.on("change:baseMap", function(model) {
-        self.setBaseMap(model.get('baseMap'));
-      })
 
     },
 
@@ -150,6 +152,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       });
       this.setBaseMap( this.state.get('baseMap') || "osm" );
       this.map.setView( [52.121580, 5.6304], 8 );
+      Communicator.mediator.trigger('map:ready', this.map);
 
       // Initialize markers
       this.layers.markers = new L.MarkerClusterGroup().addTo(this.map);
@@ -158,6 +161,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
           self.addMarker(m);
         });
       }
+      this.layers.markers.addTo(this.map);
       this.markerCollection.on("add", function(m) {
         if (!m.get('latitude') || !m.get('longitude')) return false;
         self.addMarker(m);
@@ -271,15 +275,6 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
 
         L.DomEvent.stop(e);
       }
-    },
-
-    /**
-     * Update markers and base map based on stored data.
-     * @param object
-     */
-    resetMap: function(storedData) {
-      console.log(storedData);
-
     },
 
     setBaseMap: function(tileId) {
