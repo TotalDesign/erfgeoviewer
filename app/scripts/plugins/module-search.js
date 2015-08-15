@@ -34,12 +34,11 @@ define(["backbone", "backbone.marionette", "communicator", "plugins/module", 'vi
               title: vars.title
             })) {
             self.markers.push( [vars] );
-          } else {
-            Communicator.mediator.trigger( "map:panTo", {
-              longitude: vars.longitude[0],
-              latitude: vars.latitude[0]
-            } );
           }
+          Communicator.mediator.trigger( "map:panTo", {
+            longitude: vars.longitude[0],
+            latitude: vars.latitude[0]
+          } );
         });
 
         this.listenTo(this.model, "change:terms", function() {

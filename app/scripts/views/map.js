@@ -161,7 +161,6 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       this.markerCollection.on("add", function(m) {
         if (!m.get('latitude') || !m.get('longitude')) return false;
         self.addMarker(m);
-        self.map.panTo( L.latLng( [m.get( 'latitude' )[0], m.get( 'longitude' )[0]] ) );
       });
 
       // Event handlers
