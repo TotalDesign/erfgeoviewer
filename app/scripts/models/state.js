@@ -28,7 +28,7 @@ define(["backbone", "models/markers", 'backbone.localstorage', 'communicator'],
      * The implementing plugin can then provide functions to maintain state.
      * @param p
      */
-    registerParser: function(p) {
+    registerPlugin: function(p) {
       this.plugins.push(p);
     },
 
