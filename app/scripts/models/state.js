@@ -1,5 +1,5 @@
-define(["backbone", "models/markers", 'backbone.localstorage', 'communicator'],
-  function(Backbone, MarkersCollection, LS, Communicator) {
+define(["backbone", "models/markers", 'backbone.localstorage', 'communicator', 'underscore'],
+  function(Backbone, MarkersCollection, LS, Communicator, _) {
 
   return Backbone.Model.extend({
 
@@ -11,6 +11,7 @@ define(["backbone", "models/markers", 'backbone.localstorage', 'communicator'],
 
     initialize: function() {
       this.set('markers', new MarkersCollection());
+      _.bindAll(this, 'parse');
     },
 
     /**
@@ -18,7 +19,7 @@ define(["backbone", "models/markers", 'backbone.localstorage', 'communicator'],
      */
     parse: function(response, options) {
       var self = this;
-
+      if (!response) return;
       _.each(this.plugins, function(p) {
         var parsed = Communicator.reqres.request('restoring:' + p, response);
         //if (parsed)

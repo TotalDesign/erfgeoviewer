@@ -14,13 +14,15 @@ require( [
                 RouteyouModule, SearchModule,
                 LayerCollection, StateModel ) {
 
-
         console.log('Erfgeoviewer: reader mode.');
-        /**
-         * Init.
-         */
 
-        var init = function(state) {
+        var state;
+        var init = function(state, stateData) {
+
+
+          /**
+           * Header.
+           */
 
           if (state.get('title')) {
             App.layout.getRegion( 'header' ).show( new HeaderView( {
@@ -31,12 +33,22 @@ require( [
             $(App.layout.getRegion( 'header' ).el).hide();
           }
 
-          var map_view = new MapView( {
-            layout: App.layout,
-            markers: state.get( 'markers' ),
-            state: state
+
+          /**
+           * Event handlers.
+           */
+          Communicator.reqres.setHandler("app:get", function() { return App; });
+          Communicator.reqres.setHandler("router:get", function() { return App.router; });
+          Communicator.mediator.on('map:ready', function() {
+            if (stateData) state.parse(stateData);
+          });
+          Communicator.mediator.on( "marker:click", function( m ) {
+            App.flyouts.getRegion( 'detail' ).show( new DetailView( {model: m} ) );
           } );
-          App.layout.getRegion( 'content' ).show( map_view );
+          Communicator.mediator.on( "all", function( e, a ) {
+            // Debugging:
+            console.log( "event: " + e, a );
+          } );
 
 
           /**
@@ -46,33 +58,34 @@ require( [
           var Router = Marionette.AppRouter.extend( {
             routes: {
               "": function() {
-                console.log( 'Erfgeoviewer Home' );
+                console.log( 'ErfGeoviewer Home' );
               }
             }
           } );
           App.router = new Router();
 
-          App.start();
 
           /**
-           * Event handlers.
+           * Init.
            */
 
-          Communicator.mediator.on( "marker:click", function( m ) {
-            App.flyouts.getRegion( 'detail' ).show( new DetailView( {model: m} ) );
+          new RouteyouModule( {state: state} );
+          var map_view = new MapView( {
+            layout: App.layout,
+            state: state
           } );
-          Communicator.mediator.on( "all", function( e, a ) {
-            // Debugging:
-            console.log( "event: " + e, a );
-          } );
+          App.layout.getRegion( 'content' ).show( map_view );
+
+          App.start();
+
+
         };
 
         // Look for global configuration object.
-        var state;
         if ( typeof erfgeofileDataFile !== "undefined" ) {
           $.ajax(erfgeofileDataFile).done(function(data) {
-            state = new StateModel( data );
-            init(state);
+            state = new StateModel();
+            init(state, data);
           });
         } else {
           state = new StateModel( {id: 1} );
