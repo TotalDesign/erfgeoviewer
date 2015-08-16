@@ -71,15 +71,24 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       /**
        * State management.
        */
+      Communicator.reqres.setHandler( "saving:mapSettings", function() {
+        var settings = {
+          centerPoint: self.map.getCenter(),
+          zoom: self.map.getZoom()
+        };
+        return settings;
+      });
       Communicator.reqres.setHandler( "saving:markers", function() {
-        return JSON.stringify(self.markerCollection.toJSON());
+        return self.markerCollection.toJSON();
+      });
+
+      Communicator.reqres.setHandler( "restoring:mapSettings", function(response) {
+        if ( _.isString( response.mapSettings ) )
+          response.mapSettings = JSON.parse( response.mapSettings );
+        self.map.setView( response.mapSettings.centerPoint, response.mapSettings.zoom );
       });
       Communicator.reqres.setHandler( "restoring:baseMap", function(response) {
-        // model attribute will change, triggering map reload. do not need to
-        // trigger it again here.
-        if (response.baseMap)
-          return response.baseMap;
-        else return false;
+        if (response.baseMap) self.setBaseMap(response.baseMap);
       });
       Communicator.reqres.setHandler( "restoring:markers", function(response) {
         if (response.markers) {
@@ -92,9 +101,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
           self.markerCollection.each(function(m) {
             self.addMarker(m);
           });
-          return self.markerCollection;
         }
-        else return false;
       });
 
     },

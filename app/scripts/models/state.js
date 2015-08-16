@@ -4,7 +4,10 @@ define(["backbone", "models/markers", 'backbone.localstorage', 'communicator'],
   return Backbone.Model.extend({
 
     localStorage: new Backbone.LocalStorage("state"),
-    plugins: ['markers', 'baseMap'],
+
+    // These aren't really plugins, but core components that operate the same way.
+    // Additions will be added by actual plugins via registerPlugin(),
+    plugins: ['mapSettings', 'markers', 'baseMap'],
 
     initialize: function() {
       this.set('markers', new MarkersCollection());
@@ -18,8 +21,8 @@ define(["backbone", "models/markers", 'backbone.localstorage', 'communicator'],
 
       _.each(this.plugins, function(p) {
         var parsed = Communicator.reqres.request('restoring:' + p, response);
-        if (parsed)
-          self.set(p, parsed );
+        //if (parsed)
+          //self.set(p, parsed );
       });
     },
 

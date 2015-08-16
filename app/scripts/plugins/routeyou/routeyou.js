@@ -69,7 +69,7 @@ define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator',
 
         // Called during save.
         Communicator.reqres.setHandler("saving:routeyou", function() {
-          return JSON.stringify(self.addedRoutes_collection.toJSON());
+          return self.addedRoutes_collection.toJSON();
         });
 
         // Called during restore.
@@ -79,9 +79,7 @@ define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator',
             if ( _.isString( ry) ) ry = JSON.parse(ry);
             self.addedRoutes_collection = new Backbone.Collection(ry);
             self.resetRoutes();
-            return (self.addedRoutes_collection);
-          } else
-            return false;
+          }
         });
 
       },
