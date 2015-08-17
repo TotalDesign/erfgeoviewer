@@ -9,7 +9,7 @@
   $width: 490px;
 
   position: fixed;
-  right: $width * -1;
+  right: ($width + 50) * -1;
   width: $width;
   height: 100%;
   background-color: white;
