@@ -1,4 +1,4 @@
-define(["backbone", "models/search-result"], function(Backbone, SearchResult) {
+define(["backbone", "models/marker"], function(Backbone, SearchResult) {
 
   return Backbone.Collection.extend({
 

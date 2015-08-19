@@ -1,4 +1,4 @@
-define(['backbone', 'backbone.pageable.collection', 'config', 'models/search-result'],
+define(['backbone', 'backbone.pageable.collection', 'config', 'models/marker'],
   function(Backbone, PageableCollection, Config, ResultModel) {
 
     var DelvingResultModel = ResultModel.extend({
