@@ -87,12 +87,12 @@ require( [
      * Initialize map.
      */
 
-    var map_view = new MapView( {
+    App.map_view = new MapView( {
       layout: App.layout,
       state: state
     } );
 
-    App.layout.getRegion( 'content' ).show( map_view );
+    App.layout.getRegion( 'content' ).show( App.map_view );
     App.layout.getRegion( 'header' ).show( new HeaderView( {
       modalRegion: App.layout.getRegion( 'modal' ),
       state: state

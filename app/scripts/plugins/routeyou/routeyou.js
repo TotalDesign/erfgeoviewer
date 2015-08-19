@@ -3,8 +3,10 @@
  * maintaining state of routes (storing/restoring).
  */
 define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator',
+    'models/marker',
     'plugins/routeyou/route-list', 'plugins/routeyou/route-view'],
   function(Backbone, Marionette, ErfGeoviewerModule, Communicator,
+    MarkerModel,
     RouteListCollection, RouteSelector) {
 
     return ErfGeoviewerModule.extend({
@@ -14,7 +16,9 @@ define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator',
         'title': 'RouteYou'
       },
 
+
       routeLayerGroup: null,
+
       routeyou_view: false,
       selector_view: false,
       state: null,
@@ -84,6 +88,31 @@ define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator',
 
       },
 
+      previewPOIs: function(e) {
+
+        var self = this;
+        var pois = this.previewingModel.get('pois'),
+          routeId = 'route-' + this.previewingModel.get('id');
+
+        if (pois.length > 0) {
+          var markers = [];
+          _.each(pois, function(poi) {
+            var re = /POINT\((-?\d+\.[0-9]+)\s(-?[0-9]+\.[0-9]+)/;
+            var point = poi.location.centroid.wkt.match(re);
+            markers.push(new MarkerModel({
+              title: poi.location.name.nl,
+              description: poi.text.description.nl,
+              externalUrl: '',
+              longitude: [point[1]],
+              latitude: [point[2]]
+            }));
+          });
+
+          this.app.map_view.addMarker(markers, routeId);
+        }
+
+      },
+
       /**
        * Redraws routes based on collection.
        */
@@ -94,7 +123,6 @@ define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator',
           return;
         }
         this.routeLayerGroup.clearLayers();
-        console.log('adding routes', this.addedRoutes_collection);
         this.addedRoutes_collection.each(function(route) {
           L.polyline( route.get('geo'), self.style.savedRoute ).addTo( self.routeLayerGroup );
         });

@@ -110,30 +110,33 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
      * Take model of marker and add to map.
      * @param m - model
      */
-    addMarker: function(m) {
+    addMarker: function(marker, layer) {
       var self = this;
-      if (!m.get( 'latitude' ) || !m.get( 'longitude' )) {
-        console.log('invalid marker:', m);
-        return false;
-      }
-      var geojson = {
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: [m.get( 'longitude' )[0], m.get( 'latitude' )[0]]
-        },
-        properties: {
-          title: m.get('title'),
-          'marker-color': Config.colors.primary
+      var layerId = layer || 'markers';
+      var markers = (_.isArray(marker)) ? marker : [marker];
+      _.each(markers, function(m) {
+        if (!m.get( 'latitude' ) || !m.get( 'longitude' )) {
+          console.log('invalid marker:', m);
+          return false;
         }
-      };
-      var marker = L.mapbox.featureLayer();
-      marker.setGeoJSON(geojson);
-      marker.on("click", function() {
-        Communicator.mediator.trigger("marker:click", m)
+        var geojson = {
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [m.get( 'longitude' )[0], m.get( 'latitude' )[0]]
+          },
+          properties: {
+            title: m.get('title'),
+            'marker-color': Config.colors.primary
+          }
+        };
+        var marker = L.mapbox.featureLayer();
+        marker.setGeoJSON(geojson);
+        marker.on("click", function() {
+          Communicator.mediator.trigger("marker:click", m)
+        });
+        self.addMarkerGroup(marker, layerId);
       });
-      this.layers.markers.addLayer(marker);
-      return marker;
     },
 
     /**
@@ -145,7 +148,14 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
     addLayer: function(layer, key) {
       key = key || 'default';
       if ( _.isUndefined(this.layers[key]) )
-        this.layers[key] = L.layerGroup().addTo(map);
+        this.layers[key] = L.layerGroup().addTo(this.map);
+      this.layers[key].addLayer(layer);
+    },
+
+    addMarkerGroup: function(layer, key) {
+      key = key || 'default';
+      if ( _.isUndefined(this.layers[key]) )
+        this.layers[key] = new L.MarkerClusterGroup().addTo(this.map);
       this.layers[key].addLayer(layer);
     },
 
