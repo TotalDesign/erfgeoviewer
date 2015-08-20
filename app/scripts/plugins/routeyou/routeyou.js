@@ -90,7 +90,6 @@ define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator',
 
       previewPOIs: function(e) {
 
-        var self = this;
         var pois = this.previewingModel.get('pois'),
           routeId = 'route-' + this.previewingModel.get('id');
 
@@ -128,14 +127,14 @@ define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator',
         });
       },
 
-      removePreview: function(beingSaved) {
-        this.previewingModel = null;
+      removePreview: function(o) {
         if (this.previewLayer) {
-          if (!beingSaved) this.map.removeLayer(this.previewLayer);
+          if (!o.saving) {
+            this.map.removeLayer(this.previewLayer);
+            this.routeyou_view.disableActions();
+          }
           this.previewLayer = null;
         }
-        this.routeyou_view.els.addRouteButton.addClass( 'disabled' );
-        this.routeyou_view.els.addPointsButton.addClass( 'disabled' );
       },
 
       /**
@@ -145,7 +144,7 @@ define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator',
         this.previewLayer.setStyle(this.style.savedRoute);
         this.routeLayerGroup.addLayer( this.previewLayer );
         this.addedRoutes_collection.add( this.previewingModel.clone() );
-        this.removePreview(true);
+        this.removePreview({ saving: true });
       },
 
       /**
@@ -156,8 +155,9 @@ define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator',
         this.previewingModel = model;
         var route = model.get('geo');
         if (route) {
-          this.routeyou_view.els.addRouteButton.removeClass( 'disabled' );
-          this.routeyou_view.els.addPointsButton.removeClass( 'disabled' );
+          this.routeyou_view.enableActions();
+        } else {
+          this.routeyou_view.disableActions();
         }
         if (this.previewLayer) this.map.removeLayer(this.previewLayer);
         this.previewLayer = L.polyline( route, this.style.previewRoute ).addTo( this.map );
