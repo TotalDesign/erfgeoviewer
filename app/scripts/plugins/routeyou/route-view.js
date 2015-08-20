@@ -22,6 +22,9 @@ define( ["backbone", "backbone.marionette", "communicator", "config", "polyline"
           if ($(e.target).hasClass('disabled')) return;
           this.els.addPointsButton.addClass( 'disabled' );
           this.controller.previewPOIs();
+        },
+        'click .hide-flyout': function(e) {
+          Communicator.mediator.trigger('flyouts:hideRegionById', $(e.target).closest('.region').attr('id'));
         }
       },
 
