@@ -17,6 +17,7 @@ define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator', 'u
       },
 
       markers: null,
+      regexPoint: /POINT\((-?\d+\.[0-9]+)\s(-?[0-9]+\.[0-9]+)/,
       routeLayerGroup: null,
       routeyou_view: false,
       selector_view: false,
@@ -88,7 +89,7 @@ define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator', 'u
 
       },
 
-      previewPOIs: function(e) {
+      importPOIs: function(e) {
 
         var self = this,
             pois = this.previewingModel.get('pois'),
@@ -96,8 +97,7 @@ define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator', 'u
 
         if (pois.length > 0) {
           _.each(pois, function(poi) {
-            var re = /POINT\((-?\d+\.[0-9]+)\s(-?[0-9]+\.[0-9]+)/;
-            var point = poi.location.centroid.wkt.match(re);
+            var point = poi.location.centroid.wkt.match(self.regexPoint);
             var markerObj = {
               title: poi.location.name.nl,
               description: poi.text.description.nl,
@@ -107,7 +107,6 @@ define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator', 'u
               layerGroup: routeId
             };
             if (_.getPath(poi, "text.type.id") == 1) {
-              console.log(poi, _.getPath(poi, "text.media"));
               markerObj.image = _.getPath(poi, "text.media.url.nl");
             }
             self.markers.push(new MarkerModel(markerObj));
@@ -147,7 +146,31 @@ define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator', 'u
       saveRoute: function() {
         this.previewLayer.setStyle(this.style.savedRoute);
         this.routeLayerGroup.addLayer( this.previewLayer );
-        this.addedRoutes_collection.add( this.previewingModel.clone() );
+        var route = this.previewingModel.clone();
+        this.addedRoutes_collection.add( route );
+
+        console.log(route);
+        var begin = route.get('begin').wkt.match(this.regexPoint),
+          end = route.get('end').wkt.match(this.regexPoint),
+          layerGroup = 'route-' + route.get('id');
+
+        var startMarker = {
+          title: 'Begin',
+          description: 'Begin van route: ' + route.get('name').nl,
+          externalUrl: 'http://www.routeyou.com/nl-nl/route/view/' + route.get('id'),
+          longitude: [begin[1]],
+          latitude: [begin[2]],
+          layerGroup: layerGroup
+        };
+        var endMarker = _.defaults({
+          title: 'Eind',
+          description: 'Eind van route: ' + route.get('name').nl,
+          longitude: [end[1]],
+          latitude: [end[2]]
+        }, startMarker);
+        this.markers.push(new MarkerModel(startMarker));
+        this.markers.push(new MarkerModel(endMarker));
+
         this.removePreview({ saving: true });
       },
 
