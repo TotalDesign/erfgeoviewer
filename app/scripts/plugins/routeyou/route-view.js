@@ -65,6 +65,7 @@ define( ["backbone", "backbone.marionette", "communicator", "config", "polyline"
               var model = self.availableRoutes_collection.findWhere( { id: id });
               model.set(msg);
               self.availableRoutes_collection.set( model, {remove: false} );
+              Communicator.mediator.trigger("routeyou:showPreview", model);
             } );
         } else {
           this.controller.removePreview();

@@ -61,7 +61,7 @@ define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator', 'u
          * Event handlers.
          *
          */
-        this.availableRoutes_collection.on("change:geo", function(model) {
+        Communicator.mediator.on("routeyou:showPreview", function(model) {
           self.showPreview( model );
         });
 
