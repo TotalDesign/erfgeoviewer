@@ -20,6 +20,7 @@ define( ["backbone", "backbone.marionette", "communicator", "config", "polyline"
         "click .button-add-points": function(e) {
           e.preventDefault();
           if ($(e.target).hasClass('disabled')) return;
+          this.els.addPointsButton.addClass( 'disabled' );
           this.controller.previewPOIs();
         }
       },
