@@ -14,6 +14,7 @@ define( ["backbone", "backbone.marionette", "communicator", "config", "polyline"
         "click .button-add-route": function(e) {
           e.preventDefault();
           if ($(e.target).hasClass('disabled')) return;
+          this.els.addRouteButton.addClass( 'disabled' );
           this.controller.saveRoute();
         },
         "click .button-add-points": function(e) {
@@ -38,6 +39,16 @@ define( ["backbone", "backbone.marionette", "communicator", "config", "polyline"
       },
 
       /* ---- end marionette functions ---- */
+
+      disableActions: function() {
+        this.els.addRouteButton.addClass('disabled');
+        this.els.addPointsButton.addClass('disabled');
+      },
+
+      enableActions: function() {
+        this.els.addRouteButton.removeClass('disabled');
+        this.els.addPointsButton.removeClass('disabled');
+      },
 
       getGeo: function(e) {
         var self = this;
