@@ -2,10 +2,10 @@
  * Responsible for registering route, creating the view for selecting a route,
  * maintaining state of routes (storing/restoring).
  */
-define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator',
+define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator', 'underscore',
     'models/marker',
     'plugins/routeyou/route-list', 'plugins/routeyou/route-view'],
-  function(Backbone, Marionette, ErfGeoviewerModule, Communicator,
+  function(Backbone, Marionette, ErfGeoviewerModule, Communicator, _,
     MarkerModel,
     RouteListCollection, RouteSelector) {
 
@@ -16,9 +16,8 @@ define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator',
         'title': 'RouteYou'
       },
 
-
+      markers: null,
       routeLayerGroup: null,
-
       routeyou_view: false,
       selector_view: false,
       state: null,
@@ -42,6 +41,7 @@ define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator',
 
         this.state = o.state;
         this.state.registerPlugin('routeyou');
+        this.markers = this.state.get('markers');
 
         this.availableRoutes_collection = new RouteListCollection();
         this.addedRoutes_collection = new Backbone.Collection();
@@ -90,24 +90,28 @@ define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator',
 
       previewPOIs: function(e) {
 
-        var pois = this.previewingModel.get('pois'),
-          routeId = 'route-' + this.previewingModel.get('id');
+        var self = this,
+            pois = this.previewingModel.get('pois'),
+            routeId = 'route-' + this.previewingModel.get('id');
 
         if (pois.length > 0) {
-          var markers = [];
           _.each(pois, function(poi) {
             var re = /POINT\((-?\d+\.[0-9]+)\s(-?[0-9]+\.[0-9]+)/;
             var point = poi.location.centroid.wkt.match(re);
-            markers.push(new MarkerModel({
+            var markerObj = {
               title: poi.location.name.nl,
               description: poi.text.description.nl,
               externalUrl: '',
               longitude: [point[1]],
-              latitude: [point[2]]
-            }));
+              latitude: [point[2]],
+              layerGroup: routeId
+            };
+            if (_.getPath(poi, "text.type.id") == 1) {
+              console.log(poi, _.getPath(poi, "text.media"));
+              markerObj.image = _.getPath(poi, "text.media.url.nl");
+            }
+            self.markers.push(new MarkerModel(markerObj));
           });
-
-          this.app.map_view.addMarker(markers, routeId);
         }
 
       },

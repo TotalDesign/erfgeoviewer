@@ -6,14 +6,15 @@ define( ["backbone"], function( Backbone ) {
   return Backbone.Model.extend( {
 
     defaults: {
-      title: "Geen titel",
-      image: false,
       description: false,
-      youtube: false,
-      youtubeid: false,
       externalUrl: false,
+      image: false,
       longitude: null,
-      latitude: null
+      latitude: null,
+      layerGroup: "default",
+      title: "Geen titel",
+      youtube: false,
+      youtubeid: false
     },
 
     initialize: function() {

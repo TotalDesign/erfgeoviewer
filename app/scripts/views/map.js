@@ -110,9 +110,8 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
      * Take model of marker and add to map.
      * @param m - model
      */
-    addMarker: function(marker, layer) {
+    addMarker: function(marker) {
       var self = this;
-      var layerId = layer || 'markers';
       var markers = (_.isArray(marker)) ? marker : [marker];
       _.each(markers, function(m) {
         if (!m.get( 'latitude' ) || !m.get( 'longitude' )) {
@@ -135,7 +134,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
         marker.on("click", function() {
           Communicator.mediator.trigger("marker:click", m)
         });
-        self.addMarkerGroup(marker, layerId);
+        self.addMarkerGroup(marker, m.get('layerGroup'));
       });
     },
 

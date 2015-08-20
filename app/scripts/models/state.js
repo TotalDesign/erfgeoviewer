@@ -17,13 +17,10 @@ define(["backbone", "models/markers", 'backbone.localstorage', 'communicator', '
     /**
      * Called when initializing data.
      */
-    parse: function(response, options) {
-      var self = this;
+    parse: function(response) {
       if (!response) return;
       _.each(this.plugins, function(p) {
-        var parsed = Communicator.reqres.request('restoring:' + p, response);
-        //if (parsed)
-          //self.set(p, parsed );
+        Communicator.reqres.request('restoring:' + p, response);
       });
     },
 
