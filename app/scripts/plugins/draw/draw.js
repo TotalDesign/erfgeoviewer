@@ -24,6 +24,10 @@ define(['backbone', 'backbone.marionette', 'communicator', 'leaflet', 'leaflet.d
         map.addLayer(drawnItems);
 
         var drawControl = new L.Control.Draw({
+          draw: {
+            rectangle: false,
+            circle: false,
+          },
           edit: {
             featureGroup: drawnItems
           }
