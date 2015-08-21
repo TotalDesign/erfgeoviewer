@@ -39,6 +39,7 @@ require.config( {
     "jsx": "../bower_components/requirejs-react-jsx/jsx",
     "JSXTransformer": "../bower_components/react/JSXTransformer",
     "leaflet.draw": "../bower_components/leaflet.draw/dist/leaflet.draw",
+    "leaflet.fullscreen": "../bower_components/leaflet.fullscreen/Control.FullScreen",
     "leaflet.markercluster": "../bower_components/leaflet.markercluster/dist/leaflet.markercluster",
     "leaflet.proj": "../bower_components/proj4leaflet/src/proj4leaflet",
     "leaflet.smoothmarkerbouncing": "../bower_components/Leaflet.SmoothMarkerBouncing/leaflet.smoothmarkerbouncing",
@@ -96,25 +97,19 @@ require.config( {
 
     "backgrid.paginator": { deps: ["backgrid"] },
 
+    "jquery.hammer": {
+      "deps": ["jquery", "hammerjs"]
+    },
+
     "leaflet": {
       "exports": "L"
     },
 
-    "leaflet.draw": {
-      deps: ["leaflet"]
-    },
-
-    "leaflet.markercluster": {
-      deps: ["leaflet"]
-    },
-
-    "leaflet.proj": {
-      deps: ["leaflet", "proj4"]
-    },
-
-    "leaflet.smoothmarkerbouncing": {
-      deps: ["leaflet"]
-    },
+    "leaflet.draw": { deps: ["leaflet"] },
+    "leaflet.fullscreen": { deps: ["leaflet"] },
+    "leaflet.markercluster": { deps: ["leaflet"] },
+    "leaflet.proj": { deps: ["leaflet", "proj4"] },
+    "leaflet.smoothmarkerbouncing": { deps: ["leaflet"] },
 
     "materialize.modal": {
       deps: ["jquery"]
@@ -127,24 +122,20 @@ require.config( {
 
     "materialize.toasts": {
       deps: ["materialize", "jquery.hammer"]
-      //exports: "Materialize"
     },
 
     "polyline": {
       "exports": "polyline"
     },
 
-    "proj4": { deps: ["leaflet"] },
+    "proj4": {
+      deps: ["leaflet"]
+    },
 
-    // jquery plugins
     "velocity": ["jquery"],
 
     "underscore": {
       "exports": "_"
-    },
-
-    "jquery.hammer": {
-      "deps": ["jquery", "hammerjs"]
     }
 
   },

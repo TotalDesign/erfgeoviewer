@@ -3,10 +3,10 @@
  * Functionality specific to mapmaker or reader should be placed in separte plugins.
  */
 define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "config", "jquery", "underscore",
-        "leaflet.markercluster", "leaflet.smoothmarkerbouncing", "leaflet.proj",
+        "leaflet.markercluster", "leaflet.smoothmarkerbouncing", "leaflet.proj", "leaflet.fullscreen",
         "models/markers", "tpl!template/map.html"],
   function(Backbone, Marionette, L, d3, Communicator, Config, $, _,
-           LeafletMarkerCluster, LeafletBouncing, LeafletProjections,
+           LeafletMarkerCluster, LeafletBouncing, LeafletProjections, LeafletFullscreen,
            MarkersCollection, Template) {
 
   return Marionette.ItemView.extend({
@@ -167,7 +167,8 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       L.mapbox.accessToken = Config.mapbox.accessToken;
       this.map = L.mapbox.map(this.mapboxContainer, null, {
         boxZoom: true,
-        worldCopyJump: true
+        worldCopyJump: true,
+        fullscreenControl: true
       });
       this.setBaseMap( this.state.get('baseMap') || "osm" );
       this.map.setView( [52.121580, 5.6304], 8 );
