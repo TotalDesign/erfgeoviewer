@@ -34,7 +34,8 @@
     "backbone.localstorage": "~1.1.16",
     "underscore": "~1.8.3",
     "leaflet.draw": "~0.2.4",
-    "leaflet.fullscreen": "~1.1.4"
+    "leaflet.fullscreen": "~1.1.4",
+    "uri.js": "~1.16.0"
   },
   "devDependencies": {
     "susy": "~2.2.2"
