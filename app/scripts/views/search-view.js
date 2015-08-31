@@ -34,11 +34,9 @@ define(["backbone", "backbone.marionette", "jquery", "tpl!template/search-box.ht
     search: function(e) {
       var $t = $( e.target );
       var term = $t.val();
-      if (this.model.get('terms') == term) {
-        // hack to force a change event
-        term = term + ' ';
-      }
+
       this.model.set( 'terms', term );
+      this.model.trigger( 'change:terms' );
     }
 
   });

@@ -32,7 +32,7 @@ require.config( {
     "bootstrap": "vendor/bootstrap",
     "config": "config/dev",
     "d3": "../bower_components/d3/d3",
-    "erfgeoviewer.search": "plugins/delving/delving",
+    "erfgeoviewer.search": "plugins/zev/zev",
     "hammerjs": "../bower_components/hammerjs/hammer",
     "jquery": "../bower_components/jquery/dist/jquery",
     "jquery.hammer": "../bower_components/materialize/js/jquery.hammer",
@@ -63,6 +63,7 @@ require.config( {
     /* Shortcut paths */
     "template": "../templates",
     "geo": "../geo",
+    "URIjs": "../bower_components/uri.js/src",
 
     /* Pre-processors: tpl!template/filename.html */
     "text": "../bower_components/requirejs-text/text",

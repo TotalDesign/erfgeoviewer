@@ -35,8 +35,15 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'models/marker'],
         pageSize: null,
         totalPages: null,
         totalRecords: null,
+//        maxRecords: function() {
+//          return this.state.maxRecords;
+//        },
+        startRecord: function() {
+          return (this.state.currentPage -1) * this.state.pageSize +1;
+        },
         query: function() {
-          return this.state.terms;
+          var query = [this.state.terms].concat(this.state.facets);
+          return query.join(' AND ');
         }
       },
       parseRecords: function(resp) {
@@ -44,14 +51,32 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'models/marker'],
       },
       parseState: function(resp) {
         return {
-          facets: resp.result.facets,
+          facetConfig: this.getFacetState(resp),
           totalRecords: resp.result.total
         }
+      },
+      getFacetState: function(resp) {
+        var facetConfig = [];
+
+        _.each(resp.result.facets, function(options, name) {
+          facetConfig.push({
+            name: name,
+            options: options
+          });
+        });
+
+        return facetConfig;
+      },
+      getFacetConfig: function() {
+        return new Backbone.Collection(this.state.facetConfig);
       },
       state: {
         d: 100,
         firstPage: 1,
-        terms: "*"
+        pageSize: 10,
+        maxRecords: 10,
+        terms: "*",
+        facets: []
       },
       url: Config.zoek_en_vind.uri + '/search'
     });

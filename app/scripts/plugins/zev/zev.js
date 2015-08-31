@@ -3,10 +3,10 @@
  */
 define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-search', 'backgrid', 'backgrid.paginator',
     'plugins/zev/zev-collection',
-    'tpl!template/layout-search.html', 'views/results-view', 'views/search-view'],
+    'tpl!template/layout-search.html', 'views/results-view', 'views/search-view', 'views/zev-facets-view'],
   function(Backbone, Marionette, Communicator, SearchModule, Backgrid, PaginatorView,
            DelvingCollection,
-           LayoutTemplate, ResultsView, DelvingSearchView) {
+           LayoutTemplate, ResultsView, DelvingSearchView, ZevFacetsView) {
 
     return SearchModule.extend({
 
@@ -43,6 +43,7 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
         var SearchModel = Backbone.Model.extend( {
           defaults: {
             terms: '*',
+            facets: [],
             numfound: 0
           }
         });
@@ -81,14 +82,26 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
           self.results.state.lng = center.lng;
           self.results.state.searchDistance = distance;
 
-          self.results.fetch({
-            success: function(collection) {
-              self.layout.getRegion( 'results' ).show( new ResultsView( {collection: collection} ) );
-              self.layout.getRegion( 'pagination' ).show( new Backgrid.Extension.Paginator( {collection: collection} ) );
-            }
-          });
+          self.getResults();
         });
 
+        this.listenTo(this.model, "change:facets", function() {
+          self.results.state.facets = self.model.get('facets');
+
+          self.getResults();
+        });
+      },
+
+      getResults: function() {
+        var self = this;
+
+        self.results.fetch({
+          success: function(collection) {
+            self.layout.getRegion( 'facets' ).show( new ZevFacetsView({ collection: collection.getFacetConfig(), searchModel: self.model }) );
+            self.layout.getRegion( 'results' ).show( new ResultsView( {collection: collection} ) );
+            self.layout.getRegion( 'pagination' ).show( new Backgrid.Extension.Paginator( {collection: collection} ) );
+          }
+        });
       },
 
       render: function() {

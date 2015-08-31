@@ -1,0 +1,15 @@
+<div class="input-border">
+  <div class="input-padding">
+    <h2><%= name %></h2>
+
+    <% _.each(options, function(option) { %>
+      <p>
+      <% if(_.isEmpty(option.href)) { %>
+        <span class="facet-link"><%= option.value %> (<%= option.count %>)</span>
+      <% } else { %>
+        <a href="#" class="facet-link" data-facet-href="<%= option.href %>"><%= option.value %> (<%= option.count %>)</a>
+      <% } %>
+      </p>
+    <% }); %>
+  </div>
+</div>
