@@ -30,6 +30,7 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'models/marker'],
         pageSize: null,
         totalPages: null,
         totalRecords: null,
+//        facets: 'dc:subject:4,dc:type:4,edm:dataProvider:4',
         maximumRecords: function() {
           return this.state.maxRecords;
         },
