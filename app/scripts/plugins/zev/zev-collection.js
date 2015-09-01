@@ -23,21 +23,16 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'models/marker'],
     });
 
     return PageableCollection.extend({
-      hasPrevious: function() {
-        return this.hasPreviousPage();
-      },
-      hasNext: function() {
-        return this.hasNextPage();
-      },
+
       model: DelvingResultModel,
       queryParams: {
         currentPage: null,
         pageSize: null,
         totalPages: null,
         totalRecords: null,
-//        maxRecords: function() {
-//          return this.state.maxRecords;
-//        },
+        maximumRecords: function() {
+          return this.state.maxRecords;
+        },
         startRecord: function() {
           return (this.state.currentPage -1) * this.state.pageSize +1;
         },
@@ -46,14 +41,18 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'models/marker'],
           return query.join(' AND ');
         }
       },
-      parseRecords: function(resp) {
-        return resp.result.items;
+      state: {
+        d: 100,
+        firstPage: 1,
+        pageSize: 10,
+        maxRecords: 10,
+        terms: "*",
+        facets: []
       },
-      parseState: function(resp) {
-        return {
-          facetConfig: this.getFacetState(resp),
-          totalRecords: resp.result.total
-        }
+      url: Config.zoek_en_vind.uri + '/search',
+
+      getFacetConfig: function() {
+        return new Backbone.Collection(this.state.facetConfig);
       },
       getFacetState: function(resp) {
         var facetConfig = [];
@@ -67,18 +66,22 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'models/marker'],
 
         return facetConfig;
       },
-      getFacetConfig: function() {
-        return new Backbone.Collection(this.state.facetConfig);
+      hasNext: function() {
+        return this.hasNextPage();
       },
-      state: {
-        d: 100,
-        firstPage: 1,
-        pageSize: 10,
-        maxRecords: 10,
-        terms: "*",
-        facets: []
+      hasPrevious: function() {
+        return this.hasPreviousPage();
       },
-      url: Config.zoek_en_vind.uri + '/search'
+      parseRecords: function(resp) {
+        return resp.result.items;
+      },
+      parseState: function(resp) {
+        return {
+          facetConfig: this.getFacetState(resp),
+          totalRecords: resp.result.total
+        }
+      }
+
     });
 
   });
