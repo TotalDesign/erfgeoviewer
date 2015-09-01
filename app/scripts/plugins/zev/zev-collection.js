@@ -55,6 +55,10 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'models/marker'],
             });
           }
 
+          if (!_.isEmpty(this.state.geoFence)) {
+            query.values.push(this.state.geoFence);
+          }
+
           return this.renderQuery(query);
         }
       },
@@ -65,7 +69,8 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'models/marker'],
         maxRecords: 10,
         terms: "*",
         facets: [], // Always AND
-        facetConfig: null
+        facetConfig: null,
+        geoFence: null
       },
       url: Config.zoek_en_vind.uri + '/search',
 

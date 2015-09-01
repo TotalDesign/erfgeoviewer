@@ -1,7 +1,11 @@
 <div class="input-border">
   <div class="input-padding">
-    <input type="text" class="search-box" value="<%= terms %>"/>
+    <input type="text" class="search-box" value="<%= terms %>" />
   </div>
+</div>
+<div class="input-padding">
+  <input type="checkbox" id="filter-viewport" />
+  <label for="filter-viewport">Filter on viewport</label>
 </div>
 <div class="results-summary">
   <% if (numfound) { %>Resultaten: <%= numfound %><% } %>

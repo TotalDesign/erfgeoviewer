@@ -42,16 +42,33 @@ define(["backbone", "backbone.marionette", "communicator", "plugins/module", 'vi
         });
 
         this.listenTo(this.model, "change:terms", function() {
-          // Update model with current map location before executing the search.
-          var map = Communicator.reqres.request( 'getMap' );
-          var center = map.getCenter();
-          var bounds = map.getBounds();
-          var distance = Math.round(bounds.getSouthWest().distanceTo(bounds.getNorthEast()) / 1000 / 4);
-
           self.results.state.terms = self.model.get('terms');
-          self.results.state.lat = center.lat;
-          self.results.state.lng = center.lng;
-          self.results.state.searchDistance = distance;
+
+          self.results.fetch({
+            success: function(collection) {
+              self.layout.getRegion( 'results' ).show( new ResultsView( {collection: collection} ) );
+              self.layout.getRegion( 'pagination' ).show( new Backgrid.Extension.Paginator( {collection: collection} ) );
+            }
+          });
+        });
+
+        this.listenTo(this.model, "change:viewportFilter", function() {
+          if (self.model.get('viewportFilter')) {
+            // Update model with current map location before executing the search.
+            var map = Communicator.reqres.request( 'getMap' );
+            var center = map.getCenter();
+            var bounds = map.getBounds();
+            var distance = Math.round(bounds.getSouthWest().distanceTo(bounds.getNorthEast()) / 1000 / 4);
+
+            self.results.state.lat = center.lat;
+            self.results.state.lng = center.lng;
+            self.results.state.searchDistance = distance;
+          }
+          else {
+            self.results.state.lat = null;
+            self.results.state.lng = null;
+            self.results.state.searchDistance = null;
+          }
 
           self.results.fetch({
             success: function(collection) {

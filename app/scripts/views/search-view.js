@@ -15,14 +15,23 @@ define(["backbone", "backbone.marionette", "jquery", "tpl!template/search-box.ht
     },
 
     onRender: function() {
-      var self = this;
-      var $search = $( '.search-box', this.$el );
+      var self = this,
+        $search = $( '.search-box', this.$el),
+        $viewportFilter = $( '#filter-viewport', this.$el );
+
+      $viewportFilter.change( function( e ) {
+        e.preventDefault();
+        console.log('checked: ' + $viewportFilter.is(':checked'));
+        self.model.set( 'viewportFilter', $viewportFilter.is(':checked') );
+      });
+
       $search.keyup( function( e ) {
         if (e.keyCode == 13) {
           e.preventDefault();
           self.search(e);
         }
       });
+
       _.delay(function() {
         $search.focus();
         var t = $search.val();
