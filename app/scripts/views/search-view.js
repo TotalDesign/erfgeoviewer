@@ -35,7 +35,7 @@ define(["backbone", "backbone.marionette", "jquery", "tpl!template/search-box.ht
       var $t = $( e.target );
       var term = $t.val();
 
-      this.model.set( 'terms', term );
+      this.model.set( 'terms', term, { silent: true } );
       this.model.trigger( 'change:terms' );
     }
 

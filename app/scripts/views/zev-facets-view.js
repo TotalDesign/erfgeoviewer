@@ -29,7 +29,7 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
 
           facetArray = facetString.split(/ AND /);
 
-          searchModel.set( 'facets', facetArray );
+          searchModel.set( 'facets', facetArray, { silent: true } );
           searchModel.trigger( 'change:facets' );
         }
       }
