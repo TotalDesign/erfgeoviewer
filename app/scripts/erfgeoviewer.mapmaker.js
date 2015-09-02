@@ -3,12 +3,12 @@ require( [
   ],
   function() {
 
-  require(['backbone', 'erfgeoviewer.common', 'communicator', 'jquery',
+  require(['backbone', 'erfgeoviewer.common', 'communicator', 'jquery', 'config',
     'views/map', 'views/header', 'views/markers', 'views/settings', 'views/detail', 'views/basemap', 'views/publish',
     'plugins/routeyou/routeyou', 'erfgeoviewer.search', 'plugins/draw/draw',
     'models/layers', 'models/state'],
 
-  function(Backbone, App, Communicator, $,
+  function(Backbone, App, Communicator, $, Config,
            MapView, HeaderView, MarkerAddView, SettingsView, DetailView, BaseMapSelector, PublishView,
            RouteyouModule, SearchModule, DrawModule,
            LayerCollection, StateModel) {
@@ -20,7 +20,13 @@ require( [
     console.log('Erfgeoviewer: mapmaker mode.');
 
     // This object will be serialized and used for storing/restoring a map.
-    var state = new StateModel({ id: 1 });
+    var state = new StateModel({
+      id: 1,
+      mapSettings: {
+        primaryColor: Config.colors.primary,
+        secondaryColor: Config.colors.secondary
+      }
+    });
 
     var search_module = new SearchModule( {
       markers_collection: state.get( 'markers' )
