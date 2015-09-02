@@ -4,12 +4,12 @@ require( [
   function() {
 
   require(['backbone', 'erfgeoviewer.common', 'communicator', 'jquery',
-    'views/map', 'views/header', 'views/markers', 'views/detail', 'views/basemap',
+    'views/map', 'views/header', 'views/markers', 'views/detail', 'views/basemap', 'views/publish',
     'plugins/routeyou/routeyou', 'erfgeoviewer.search', 'plugins/draw/draw',
     'models/layers', 'models/state'],
 
   function(Backbone, App, Communicator, $,
-           MapView, HeaderView, MarkerAddView, DetailView, BaseMapSelector,
+           MapView, HeaderView, MarkerAddView, DetailView, BaseMapSelector, PublishView,
            RouteyouModule, SearchModule, DrawModule,
            LayerCollection, StateModel) {
 
@@ -34,11 +34,6 @@ require( [
     Communicator.mediator.on('map:ready', function() {
       state.fetch();
     });
-    Communicator.mediator.on("map:tile-layer-clicked", function() {
-      if (!App.flyouts.getRegion('detail').hasView() || !App.flyouts.getRegion('detail').isVisible() ) {
-        router.navigate("");
-      }
-    });
     Communicator.mediator.on("marker:click", function(m) {
       App.flyouts.getRegion('detail').show( new DetailView( { model: m } ));
     });
@@ -55,6 +50,14 @@ require( [
     var Router = Marionette.AppRouter.extend( {
       routes: {
         "": function() {
+          App.flyouts.getRegion( 'bottom' ).hideFlyout();
+          App.flyouts.getRegion( 'right' ).hideFlyout();
+        },
+        "export": function() {
+          App.flyouts.getRegion( 'bottom' ).hideFlyout();
+          App.flyouts.getRegion( 'right' ).show(new PublishView({
+            state: state
+          }));
         },
         "markers": function() {
           var marker_view = new MarkerAddView( {

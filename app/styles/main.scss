@@ -133,3 +133,27 @@ body {
   }
 
 }
+
+.crosshair {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -50px;
+  margin-top: -50px;
+  stroke: $primary_500;
+  stroke-width: 2px;
+}
+
+.border-box-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: 10px 260px;
+
+  .border-box {
+    text-align: center;
+    border: 2px dashed $primary_500;
+    width: 100%;
+    height: 100%;
+  }
+}

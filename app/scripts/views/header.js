@@ -9,15 +9,6 @@ define( ["backbone", "backbone.marionette", "materialize.sidenav", "jquery.hamme
       layout: null,
 
       events: {
-        'click .save': function(e) {
-          e.preventDefault();
-          this.modalRegion.show(
-            new PublishView( {
-              state: this.state
-            } )
-          );
-          return false;
-        },
         'click .open': function(e) {
           e.preventDefault();
           this.modalRegion.show(
