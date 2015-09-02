@@ -5,11 +5,11 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'velocity',
             AppLayout, FlyoutsLayout ) {
     'use strict';
 
-    var App = new Marionette.Application();
-
-    var container = new Marionette.Region( {
-      el: "#erfgeoviewer"
-    } );
+    var App = new Marionette.Application(),
+      container = new Marionette.Region( {
+        el: "#erfgeoviewer"
+      }),
+      closeOnClick = true;
 
     App.layout = new AppLayout();
     App.layout.render();
@@ -19,7 +19,15 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'velocity',
     App.flyouts.render();
     App.layout.getRegion('flyout').show( App.flyouts );
 
+    Communicator.mediator.on('map:setCloseOnClick', function(value) {
+      closeOnClick = value;
+    });
+
     Communicator.mediator.on("map:tile-layer-clicked", function() {
+      if (!closeOnClick) {
+        return;
+      }
+
       if (!App.flyouts.getRegion('detail').hasView() || !App.flyouts.getRegion('detail').isVisible() ) {
         App.flyouts.getRegion('right').hideFlyout();
       }
