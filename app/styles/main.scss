@@ -157,3 +157,23 @@ body {
     height: 100%;
   }
 }
+
+.settings {
+  .collapsible-body {
+    > div {
+      margin: 0;
+      padding: 2rem;
+
+      > .row:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+  #settings-map-style {
+    .col {
+      img {
+        width: 100%;
+      }
+    }
+  }
+}

@@ -35,6 +35,7 @@ require.config( {
     "erfgeoviewer.search": "plugins/zev/zev",
     "hammerjs": "../bower_components/hammerjs/hammer",
     "jquery": "../bower_components/jquery/dist/jquery",
+    "jquery.easing": "../bower_components/materialize/js/jquery.easing.1.3",
     "jquery.hammer": "../bower_components/materialize/js/jquery.hammer",
     "jsx": "../bower_components/requirejs-react-jsx/jsx",
     "JSXTransformer": "../bower_components/react/JSXTransformer",
@@ -45,9 +46,12 @@ require.config( {
     "leaflet.smoothmarkerbouncing": "../bower_components/Leaflet.SmoothMarkerBouncing/leaflet.smoothmarkerbouncing",
     "leaflet": "../bower_components/mapbox.js/mapbox.uncompressed",
     "materialize": "../bower_components/materialize/js/global",
+    "materialize.animation": "../bower_components/materialize/js/animation",
     "materialize.cards": "../bower_components/materialize/js/cards",
-    "materialize.modal": "../bower_components/materialize/js/leanModal",
+    "materialize.collapsible": "../bower_components/materialize/js/collapsible",
+    "materialize.dropdown": "../bower_components/materialize/js/dropdown",
     "materialize.forms": "../bower_components/materialize/js/forms",
+    "materialize.modal": "../bower_components/materialize/js/leanModal",
     "materialize.sidenav": "../bower_components/materialize/js/sideNav",
     "materialize.tabs": "../bower_components/materialize/js/tabs",
     "materialize.toasts": "../bower_components/materialize/js/toasts",
@@ -98,6 +102,10 @@ require.config( {
 
     "backgrid.paginator": { deps: ["backgrid"] },
 
+    "jquery.easing": {
+      "deps": ["jquery"]
+    },
+
     "jquery.hammer": {
       "deps": ["jquery", "hammerjs"]
     },
@@ -112,12 +120,16 @@ require.config( {
     "leaflet.proj": { deps: ["leaflet", "proj4"] },
     "leaflet.smoothmarkerbouncing": { deps: ["leaflet"] },
 
+    "materialize.collapsible": {
+      deps: ["jquery.easing", "materialize.animation"]
+    },
+
     "materialize.modal": {
       deps: ["jquery"]
     },
 
     "materialize.forms": {
-      deps: ["materialize"],
+      deps: ["materialize", "materialize.dropdown"],
       exports: "Materialize"
     },
 

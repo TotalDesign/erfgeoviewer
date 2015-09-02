@@ -1,0 +1,16 @@
+<div class="row">
+  <input type="checkbox" id="allow-map-style-change" />
+  <label for="allow-map-style-change">Allow viewer to change</label>
+</div>
+
+<div class="row">
+  <% for (var i = 0; i < tiles.length; i++) { %>
+  <div class="col s4">
+    <% if (tiles[i].type == 'mapbox') { %>
+    <img src="https://api.mapbox.com/v3/<%= tiles[i].id %>/thumb.png" class="base" data-id="<%= tiles[i].id %>" />
+    <% } else { %>
+    <img src="<%= tiles[i].previewImage %>" class="base" data-id="<%= tiles[i].id %>" />
+    <% } %>
+  </div>
+  <% } %>
+</div>

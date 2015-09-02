@@ -4,12 +4,12 @@ require( [
   function() {
 
   require(['backbone', 'erfgeoviewer.common', 'communicator', 'jquery',
-    'views/map', 'views/header', 'views/markers', 'views/detail', 'views/basemap', 'views/publish',
+    'views/map', 'views/header', 'views/markers', 'views/settings', 'views/detail', 'views/basemap', 'views/publish',
     'plugins/routeyou/routeyou', 'erfgeoviewer.search', 'plugins/draw/draw',
     'models/layers', 'models/state'],
 
   function(Backbone, App, Communicator, $,
-           MapView, HeaderView, MarkerAddView, DetailView, BaseMapSelector, PublishView,
+           MapView, HeaderView, MarkerAddView, SettingsView, DetailView, BaseMapSelector, PublishView,
            RouteyouModule, SearchModule, DrawModule,
            LayerCollection, StateModel) {
 
@@ -58,6 +58,16 @@ require( [
           App.flyouts.getRegion( 'right' ).show(new PublishView({
             state: state
           }));
+        },
+        "settings": function() {
+          App.flyouts.getRegion( 'bottom' ).hideFlyout();
+          App.flyouts.getRegion( 'right' ).show(new SettingsView({
+            state: state
+        }));
+        },
+        "add": function() {
+          App.flyouts.getRegion( 'bottom' ).hideFlyout();
+          App.flyouts.getRegion( 'right' ).hideFlyout();
         },
         "markers": function() {
           var marker_view = new MarkerAddView( {

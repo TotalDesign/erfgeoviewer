@@ -70,6 +70,14 @@ define(["backbone", "backbone.marionette", "d3", "communicator", "tpl!template/p
       },
 
       onHide: function() {
+        this.reset();
+      },
+
+      onDestroy: function() {
+        this.reset();
+      },
+
+      reset: function() {
         $(this.crosshair.node()).remove();
         this.$borderBox.remove();
 
