@@ -86,6 +86,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
         if ( _.isString( response.mapSettings ) )
           response.mapSettings = JSON.parse( response.mapSettings );
         self.map.setView( response.mapSettings.centerPoint, response.mapSettings.zoom );
+        return response.mapSettings;
       });
       Communicator.reqres.setHandler( "restoring:baseMap", function(response) {
         if (response.baseMap) self.setBaseMap(response.baseMap);

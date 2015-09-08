@@ -1,19 +1,17 @@
 <div class="row">
   <label>Primary color</label>
-  <select id="setting-color-primary" class="browser-default">
-    <option value="" disabled selected>Choose your option</option>
-    <option value="1">Option 1</option>
-    <option value="2">Option 2</option>
-    <option value="3">Option 3</option>
+  <select id="setting-color-primary" class="browser-default" data-property="primaryColor">
+    <% _.each(availableColors, function(hex, name) { var selected = hex == primaryColor; %>
+      <option value="<%= hex %>" <% if (selected) { %>selected<% } %> ><%= name %></option>
+    <% });%>
   </select>
 </div>
 
 <div class="row">
   <label>Secondary color</label>
-  <select id="setting-color-secondary" class="browser-default">
-    <option value="" disabled selected>Choose your option</option>
-    <option value="1">Option 1</option>
-    <option value="2">Option 2</option>
-    <option value="3">Option 3</option>
+  <select id="setting-color-secondary" class="browser-default" data-property="secondaryColor">
+    <% _.each(availableColors, function(hex, name) { var selected = hex == secondaryColor; %>
+    <option value="<%= hex %>" <% if (selected) { %>selected<% } %> ><%= name %></option>
+    <% });%>
   </select>
 </div>
