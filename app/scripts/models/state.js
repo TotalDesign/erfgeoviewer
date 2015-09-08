@@ -18,10 +18,14 @@ define(["backbone", "models/markers", 'backbone.localstorage', 'communicator', '
      * Called when initializing data.
      */
     parse: function(response) {
+      var data = {};
+
       if (!response) return;
       _.each(this.plugins, function(p) {
-        Communicator.reqres.request('restoring:' + p, response);
+        data[p] = Communicator.reqres.request('restoring:' + p, response);
       });
+
+      return data;
     },
 
     /**
@@ -43,7 +47,7 @@ define(["backbone", "models/markers", 'backbone.localstorage', 'communicator', '
         var data = Communicator.reqres.request('saving:' + p);
         if (data) {
           //console.log('setting ' + p, data);
-          self.set( p, data );
+          self.set( p, _.extend( self.get( p ), data) );
         }
       });
       Backbone.Model.prototype.save.apply(this, arguments);

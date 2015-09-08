@@ -25,7 +25,9 @@ define(['backbone.marionette', 'jquery', 'materialize.collapsible', 'tpl!templat
       },
 
       onShow: function() {
-        this.interfaceSettings.show(new InterfaceSettingsView());
+        this.interfaceSettings.show(new InterfaceSettingsView({
+          state: this.state
+        }));
         this.colorSettings.show(new ColorSettingsView({
           state: this.state
         }));
