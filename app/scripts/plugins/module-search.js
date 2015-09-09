@@ -36,8 +36,8 @@ define(["backbone", "backbone.marionette", "communicator", "plugins/module", 'vi
             self.markers.push( [vars] );
           }
           Communicator.mediator.trigger( "map:panTo", {
-            longitude: vars.longitude[0],
-            latitude: vars.latitude[0]
+            lng: vars.longitude[0],
+            lat: vars.latitude[0]
           } );
         });
 

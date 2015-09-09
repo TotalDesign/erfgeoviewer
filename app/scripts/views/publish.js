@@ -40,6 +40,9 @@ define(["backbone", "backbone.marionette", "d3", "communicator", "tpl!template/p
           .attr("y2", 100);
 
         this.$borderBox = $('<div class="border-box-container"><div class="border-box"><p>Default center and zoom level</p></div></div>');
+
+        this.onChangePosition = _.bind( this._onChangePosition, this );
+        Communicator.mediator.on( 'map:moveend', this.onChangePosition );
       },
 
       onShow: function() {
@@ -48,25 +51,38 @@ define(["backbone", "backbone.marionette", "d3", "communicator", "tpl!template/p
           serialized,
           self = this;
 
+        // Remove close on click behavior from map
+        Communicator.mediator.trigger('map:setCloseOnClick', false);
+        Communicator.mediator.trigger('map:setUpdateOnPositionChange', false);
+
+        // Position and zoom map to stored export settings if any
+        if (this.state.get( 'mapSettings' ).centerPoint) {
+          Communicator.mediator.trigger( 'map:setPosition', {
+            centerPoint: this.state.get( 'mapSettings' ).centerPoint,
+            zoom: this.state.get( 'mapSettings' ).zoom
+          });
+        }
+        else {
+          // Store initial center point and zoom level by triggering map move
+          Communicator.mediator.trigger( 'map:move' );
+        }
+
+        // Append crosshair and border box
         $('.leaflet-control-container')
           .append(this.crosshair.node())
           .append(this.$borderBox);
 
-        // Remove close on click behavior from map
-        Communicator.mediator.trigger('map:setCloseOnClick', false);
+        $download = $('.download', this.$el)
+          .on('click', function() {
+            self.state.save();
 
-        $download = $('.download', this.$el);
+            serialized = JSON.stringify(self.state.toJSON());
 
-        $download.on('click', function() {
-          self.state.save();
+            link = "data:text/json;charset=utf-8," + encodeURIComponent(serialized);
 
-          serialized = JSON.stringify(self.state.toJSON());
-
-          link = "data:text/json;charset=utf-8," + encodeURIComponent(serialized);
-
-          $download.prop('href', link)
-            .prop('download', 'erfgeoviewer.json');
-        });
+            $download.prop('href', link)
+              .prop('download', 'erfgeoviewer.json');
+          });
       },
 
       onHide: function() {
@@ -81,8 +97,25 @@ define(["backbone", "backbone.marionette", "d3", "communicator", "tpl!template/p
         $(this.crosshair.node()).remove();
         this.$borderBox.remove();
 
+        Communicator.mediator.off( 'map:moveend', this.onChangePosition );
+
         // Attach close on click behavior to map
         Communicator.mediator.trigger('map:setCloseOnClick', true);
+        Communicator.mediator.trigger('map:setUpdateOnPositionChange', true);
+        Communicator.mediator.trigger('map:resetEditorPosition');
+      },
+
+      _onChangePosition: function(map) {
+        var mapSettings = this.state.get( 'mapSettings' ),
+          override = {
+            centerPoint: map.getCenter(),
+            zoom: map.getZoom()
+          };
+
+        mapSettings = _.extend( mapSettings, override );
+
+        this.state.set( 'mapSettings', mapSettings );
+        this.state.save();
       }
 
     });

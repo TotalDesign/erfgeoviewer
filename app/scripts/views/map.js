@@ -29,6 +29,8 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
     // Collections
     markerCollection: null,
 
+    updateOnPositionChange: true,
+
     initialize: function(o) {
 
       var self = this;
@@ -47,9 +49,40 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       /**
        * Event listeners
        */
+      Communicator.mediator.on('map:setPosition', function(options) {
+        self.map.setView(options.centerPoint, options.zoom);
+      });
+      Communicator.mediator.on('map:resetEditorPosition', function() {
+        if (self.state.get( 'mapSettings').editorCenterPoint) {
+          self.map.setView(self.state.get( 'mapSettings').editorCenterPoint, self.state.get( 'mapSettings').editorZoom);
+        }
+      });
+      Communicator.mediator.on('map:setUpdateOnPositionChange', function(value) {
+        self.updateOnPositionChange = value;
+      });
+      Communicator.mediator.on( 'map:moveend', function(map) {
+        if (self.updateOnPositionChange) {
+          var mapSettings = self.state.get( 'mapSettings' ),
+            override = {
+              editorCenterPoint: map.getCenter(),
+              editorZoom: map.getZoom()
+            };
+
+          mapSettings = _.extend( mapSettings, override );
+
+          self.state.set( 'mapSettings', mapSettings );
+          self.state.save();
+        }
+      });
+      Communicator.mediator.on( 'map:move', function() {
+        self.map.fireEvent('moveend');
+      });
       Communicator.mediator.on("map:panTo", function(o) {
-        var latlng = L.latLng( [o.latitude, o.longitude] );
+        var latlng = L.latLng( [o.lat, o.lng] );
         self.map.panTo(latlng);
+      });
+      Communicator.mediator.on("map:zoomTo", function(zoom) {
+        self.map.setZoom(zoom);
       });
       Communicator.mediator.on("map:zoomIn", function() {
         this.map.setZoom(this.map.getZoom() + 1);
@@ -71,13 +104,6 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       /**
        * State management.
        */
-      Communicator.reqres.setHandler( "saving:mapSettings", function() {
-        var settings = {
-          centerPoint: self.map.getCenter(),
-          zoom: self.map.getZoom()
-        };
-        return settings;
-      });
       Communicator.reqres.setHandler( "saving:markers", function() {
         return self.markerCollection.toJSON();
       });
@@ -85,7 +111,6 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       Communicator.reqres.setHandler( "restoring:mapSettings", function(response) {
         if ( _.isString( response.mapSettings ) )
           response.mapSettings = JSON.parse( response.mapSettings );
-        self.map.setView( response.mapSettings.centerPoint, response.mapSettings.zoom );
         return response.mapSettings;
       });
       Communicator.reqres.setHandler( "restoring:baseMap", function(response) {
@@ -105,6 +130,15 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
         }
       });
 
+      this.initMap = _.bind(this._initMap, this);
+
+      this.state.on('change:mapSettings', this.initMap)
+    },
+
+    _initMap: function() {
+      this.state.off('change:mapSettings', this.initMap);
+
+      this.map.setView( this.state.get( 'mapSettings' ).editorCenterPoint || [52.121580, 5.6304], this.state.get( 'mapSettings' ).editorZoom || 8 );
     },
 
     /**
@@ -172,7 +206,8 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
         fullscreenControl: true
       });
       this.setBaseMap( this.state.get('baseMap') || "osm" );
-      this.map.setView( [52.121580, 5.6304], 8 );
+
+      this.map.setView( this.state.get( 'mapSettings').editorCenterPoint || [52.121580, 5.6304], this.state.get( 'mapSettings').editorZoom || 8 );
       Communicator.mediator.trigger('map:ready', this.map);
 
       // Initialize markers
@@ -191,6 +226,10 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       // Event handlers
       this.map.on('click', function(e) {
         Communicator.mediator.trigger( "map:tile-layer-clicked" );
+      });
+
+      this.map.on('moveend', function(e) {
+        Communicator.mediator.trigger( "map:moveend", self.map );
       });
 
       this.map.on('boxzoomend', function(e) {
