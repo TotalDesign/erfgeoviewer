@@ -1,15 +1,9 @@
-define(["backbone", "backbone.marionette", "jquery", "tpl!template/settings/interface.html"],
-  function(Backbone, Marionette, $, SettingsTemplate) {
+define(['backbone', 'views/settings/abstract-settings', 'tpl!template/settings/interface.html'],
+  function(Backbone, ParentView, SettingsTemplate) {
 
-    return Marionette.ItemView.extend({
-
-      events: {
-        'change input': 'change'
-      },
+    return ParentView.extend({
 
       model: null,
-
-      state: null,
 
       template: SettingsTemplate,
 
@@ -22,20 +16,7 @@ define(["backbone", "backbone.marionette", "jquery", "tpl!template/settings/inte
           showLegend: o.state.get( 'mapSettings' ).showLegend
         });
 
-        this.state = o.state;
-      },
-
-      change: function(e) {
-        var mapSettings = this.state.get( 'mapSettings' ),
-          $input = $(e.currentTarget),
-          override = {};
-
-        override[$input.data('property')] = $input.is(":checked") ;
-
-        mapSettings = _.extend( mapSettings, override );
-
-        this.state.set( 'mapSettings', mapSettings );
-        this.state.save();
+        ParentView.prototype.initialize.apply(this, arguments);
       }
 
     });

@@ -31,7 +31,9 @@ define(['backbone.marionette', 'jquery', 'materialize.collapsible', 'tpl!templat
         this.colorSettings.show(new ColorSettingsView({
           state: this.state
         }));
-        this.mapStyleSettings.show(new MapStyleSettingsView());
+        this.mapStyleSettings.show(new MapStyleSettingsView({
+          state: this.state
+        }));
 
         $('.collapsible', this.$el).collapsible();
       }

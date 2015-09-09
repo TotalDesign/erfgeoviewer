@@ -173,6 +173,10 @@ body {
     .col {
       img {
         width: 100%;
+        cursor: pointer;
+        &:hover {
+          opacity: 0.7;
+        }
       }
     }
   }

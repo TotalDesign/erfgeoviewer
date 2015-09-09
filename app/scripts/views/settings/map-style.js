@@ -1,21 +1,25 @@
-define(["backbone.marionette", "communicator", "config", "tpl!template/settings/map-style.html"],
-  function(Marionette, Communicator, Config, SettingsTemplate) {
+define(['views/settings/abstract-settings', 'communicator', 'config', 'tpl!template/settings/map-style.html'],
+  function(ParentView, Communicator, Config, SettingsTemplate) {
 
-    return Marionette.ItemView.extend({
+    return ParentView.extend({
+
+      events: _.extend({}, ParentView.prototype.events, {
+        'click img': function(e) {
+          Communicator.mediator.trigger('map:changeBase', $(e.target).data('id'));
+        }
+      }),
 
       model: null,
 
       template: SettingsTemplate,
 
-      events: {
-        'click img': function(e) {
-          Communicator.mediator.trigger('map:changeBase', $(e.target).data('id'));
-        }
-      },
-
       initialize: function(o) {
-        this.model = new Backbone.Model();
-        this.model.set('tiles', Config.tiles);
+        this.model = new Backbone.Model({
+          tiles: Config.tiles,
+          allowStyleChange: o.state.get( 'mapSettings' ).allowStyleChange
+        });
+
+        ParentView.prototype.initialize.apply(this, arguments);
       }
 
     });
