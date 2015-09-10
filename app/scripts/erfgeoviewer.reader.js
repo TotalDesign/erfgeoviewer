@@ -87,6 +87,9 @@ require( [
             state = new StateModel();
             init(state, data);
           });
+        } else if ( typeof erfgeoviewerData !== "undefined" ) {
+          state = new StateModel();
+          init(state, erfgeoviewerData);
         } else {
           state = new StateModel( {id: 1} );
           init(state);
