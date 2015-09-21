@@ -57,7 +57,7 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
           // The record model contains a lot of extract information that the marker doesn't need,
           // and the essential info (a unique ID) is not available. Here we extra the useful info
           // so the result model can be destroyed with pagination, etc.
-          var attrs = ['title', 'image', 'description', 'youtube', 'externalUrl', 'longitude', 'latitude'];
+          var attrs = ['title', 'image', 'description', 'youtube', 'externalUrl', 'spatial'];
           var vars = {};
           _.each(attrs, function(key) {
             vars[key] = result.get(key);

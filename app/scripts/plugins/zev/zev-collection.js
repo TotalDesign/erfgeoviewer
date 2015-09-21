@@ -6,9 +6,8 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'models/marker'],
 
         var f = {
           title: fields['dc:title'],
-          description: fields['dc:description']
-          //latitude: fields['dcterms:spactial:']delving_locationLat,
-          //longitude: fields.delving_locationLong
+          description: fields['dc:description'],
+          spatial: this.parseDctermsSpatial(fields)
         };
 
         // Image
@@ -19,6 +18,29 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'models/marker'],
         if (img) f.image = img;
 
         return f;
+      },
+
+      parseDctermsSpatial: function(fields) {
+        var geoJSON = [],
+          dcTermsSpatial,
+          geosHasGeometry,
+          geosAsWKT;
+
+        if ( _.isArray(dcTermsSpatial = _.property('dcterms:spatial')(fields)) ) {
+          _.each(dcTermsSpatial, function(term) {
+            if ( _.isArray(geosHasGeometry = _.property('geos:hasGeometry')(term)) ) {
+              _.each(geosHasGeometry, function(geometry) {
+                if ( _.isArray(geosAsWKT = _.property('geos:asWKT')(geometry)) ) {
+                  _.each(geosAsWKT, function(wkt) {
+                    geoJSON.push(wkt);
+                  });
+                }
+              });
+            }
+          });
+        }
+
+        return geoJSON;
       }
     });
 

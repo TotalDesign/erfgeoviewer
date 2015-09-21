@@ -4,7 +4,7 @@
  */
 define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "config", "jquery", "underscore",
         "leaflet.markercluster", "leaflet.smoothmarkerbouncing", "leaflet.proj", "leaflet.fullscreen",
-        "models/markers", "tpl!template/map.html"],
+        "models/markers", "tpl!template/map.html", "vendor/sparql-geojson"],
   function(Backbone, Marionette, L, d3, Communicator, Config, $, _,
            LeafletMarkerCluster, LeafletBouncing, LeafletProjections, LeafletFullscreen,
            MarkersCollection, Template) {
@@ -146,24 +146,37 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
      * @param m - model
      */
     addMarker: function(marker) {
-      var self = this;
-      var markers = (_.isArray(marker)) ? marker : [marker];
+      var self = this,
+        markers = (_.isArray(marker)) ? marker : [marker],
+        geojson,
+        spatial;
+
       _.each(markers, function(m) {
-        if (!m.get( 'latitude' ) || !m.get( 'longitude' )) {
+        if (_.isEmpty(m.get( 'spatial' )) && (!m.get( 'latitude' ) || !m.get( 'longitude' ))) {
           console.log('invalid marker:', m);
           return false;
         }
-        var geojson = {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [m.get( 'longitude' )[0], m.get( 'latitude' )[0]]
-          },
-          properties: {
+
+        if (spatial = m.get( 'spatial' )) {
+          geojson = _.extend({ properties: {
             title: m.get('title'),
             'marker-color': Config.colors.primary
-          }
-        };
+          }}, sparqlToGeoJSON(m.get( 'spatial' )[0]));
+        }
+        else {
+          geojson = {
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [m.get( 'longitude' )[0], m.get( 'latitude' )[0]]
+            },
+            properties: {
+              title: m.get('title'),
+              'marker-color': Config.colors.primary
+            }
+          };
+        }
+
         var marker = L.mapbox.featureLayer();
         marker.setGeoJSON(geojson);
         marker.on("click", function() {
@@ -219,7 +232,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       }
       this.layers.markers.addTo(this.map);
       this.markerCollection.on("add", function(m) {
-        if (!m.get('latitude') || !m.get('longitude')) return false;
+        if (!m.get('spatial') && (!m.get('latitude') || !m.get('longitude'))) return false;
         self.addMarker(m);
       });
 
