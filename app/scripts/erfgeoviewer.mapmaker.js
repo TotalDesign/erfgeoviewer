@@ -4,12 +4,12 @@ require( [
   function() {
 
   require(['backbone', 'erfgeoviewer.common', 'communicator', 'jquery', 'config',
-    'views/map', 'views/header', 'views/markers', 'views/settings', 'views/detail', 'views/basemap', 'views/publish',
+    'views/map', 'views/header', 'views/markers', 'views/settings', 'views/detail', 'views/detail-settings', 'views/basemap', 'views/publish', 'views/layout/detail.layout',
     'plugins/routeyou/routeyou', 'erfgeoviewer.search', 'plugins/draw/draw',
     'models/layers', 'models/state'],
 
   function(Backbone, App, Communicator, $, Config,
-           MapView, HeaderView, MarkerAddView, SettingsView, DetailView, BaseMapSelector, PublishView,
+           MapView, HeaderView, MarkerAddView, SettingsView, DetailView, DetailSettingsView, BaseMapSelector, PublishView, DetailLayout,
            RouteyouModule, SearchModule, DrawModule,
            LayerCollection, StateModel) {
 
@@ -41,12 +41,20 @@ require( [
       state.fetch();
     });
     Communicator.mediator.on("marker:click", function(m) {
-      App.flyouts.getRegion('detail').show( new DetailView( { model: m } ));
+      var detailLayout = new DetailLayout();
+
+      App.flyouts.getRegion('detail').show( detailLayout );
+
+      detailLayout.getRegion('container').show( new DetailView( { model: m } ) );
+      detailLayout.getRegion('footer').show( new DetailSettingsView( { model: m } ) );
     });
     Communicator.mediator.on( "all", function( e, a ) {
       // Debugging:
       console.log( "EVENT '" + e + "'", a );
     } );
+    Communicator.mediator.on( 'marker:removeModelByCid', function() {
+      App.flyouts.getRegion('detail').hideFlyout();
+    });
 
 
     /**

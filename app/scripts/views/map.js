@@ -18,6 +18,9 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
     // ID of dom element where Leaflet will be rendered.
     mapboxContainer: "map",
 
+    // Map models to geometry by cid
+    geometryMap: [],
+
     layers: {},
 
     // Marionette layout instance.
@@ -183,7 +186,25 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
           Communicator.mediator.trigger("marker:click", m)
         });
         self.addMarkerGroup(marker, m.get('layerGroup'));
+
+        self.geometryMap.push({
+          cid: m.cid,
+          featureLayer: marker
+        });
       });
+    },
+
+    /**
+     * Take model of marker and remove it from the map.
+     */
+    removeMarker: function(m) {
+      // Retrieve object from geometry mapping
+      var marker = _.findWhere(this.geometryMap, { cid: m.cid });
+
+      if (_.isObject(marker)) {
+        this.removeMarkerGroup(marker.featureLayer, m.get('layerGroup'));
+        this.geometryMap = _.without(this.geometryMap, marker);
+      }
     },
 
     /**
@@ -204,6 +225,11 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       if ( _.isUndefined(this.layers[key]) )
         this.layers[key] = new L.MarkerClusterGroup().addTo(this.map);
       this.layers[key].addLayer(layer);
+    },
+
+    removeMarkerGroup: function(layer, key) {
+      key = key || 'default';
+      this.layers[key].removeLayer(layer);
     },
 
     onShow: function() {
@@ -234,6 +260,10 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       this.markerCollection.on("add", function(m) {
         if (!m.get('spatial') && (!m.get('latitude') || !m.get('longitude'))) return false;
         self.addMarker(m);
+      });
+      this.markerCollection.on("remove", function(m) {
+        if (!m.get('spatial') && (!m.get('latitude') || !m.get('longitude'))) return false;
+        self.removeMarker(m);
       });
 
       // Event handlers
