@@ -21,7 +21,6 @@ define(["backbone", "backbone.marionette", "jquery", "tpl!template/search-box.ht
 
       $viewportFilter.change( function( e ) {
         e.preventDefault();
-        console.log('checked: ' + $viewportFilter.is(':checked'));
         self.model.set( 'viewportFilter', $viewportFilter.is(':checked') );
       });
 
