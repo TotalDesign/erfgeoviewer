@@ -51,10 +51,10 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'models/marker'],
         pageSize: null,
         format: 'json',
         pt: function() {
-          return this.state.lat + ',' + this.state.lng;
+          return _.isNumber(this.state.lat) && _.isNumber(this.state.lat) ? this.state.lat + ',' + this.state.lng : null;
         },
         d: function() {
-          return Math.round(this.state.searchDistance);
+          return _.isNumber(this.state.searchDistance) ? Math.round(this.state.searchDistance) : null;
         },
         sfield: "delving_locationLatLong_location",
         query: function() {
