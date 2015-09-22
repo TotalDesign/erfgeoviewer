@@ -1,5 +1,5 @@
 /**
- * Slideout view "Add markers".
+ * Flyout view "Zoeken". A search module is loaded inside of here.
  */
 define(['backbone', 'backbone.marionette', 'communicator', 'jquery',
     'tpl!template/search/layout-flyout.html'],
