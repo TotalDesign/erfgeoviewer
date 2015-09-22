@@ -6,12 +6,12 @@ require( [
   require(['backbone', 'erfgeoviewer.common', 'communicator', 'jquery', 'config',
     'views/map', 'views/header', 'views/markers', 'views/settings', 'views/detail', 'views/detail-settings', 'views/basemap', 'views/publish', 'views/layout/detail.layout',
     'plugins/routeyou/routeyou', 'erfgeoviewer.search', 'plugins/draw/draw',
-    'models/layers', 'models/state'],
+    'models/layers', 'models/state', 'models/maki'],
 
   function(Backbone, App, Communicator, $, Config,
            MapView, HeaderView, MarkerAddView, SettingsView, DetailView, DetailSettingsView, BaseMapSelector, PublishView, DetailLayout,
            RouteyouModule, SearchModule, DrawModule,
-           LayerCollection, StateModel) {
+           LayerCollection, StateModel, MakiCollection) {
 
     /**
      * Init.
@@ -32,6 +32,8 @@ require( [
       markers_collection: state.get( 'markers' )
     } );
 
+    // Append maki icon collection to config
+    Config.makiCollection = new MakiCollection();
 
     /**
      * Event handlers.
@@ -124,7 +126,10 @@ require( [
       modalRegion: App.layout.getRegion( 'modal' ),
       state: state
     } ) );
-    App.start();
+
+    Config.makiCollection.getPromise().done(function() {
+      App.start();
+    });
 
   });
 

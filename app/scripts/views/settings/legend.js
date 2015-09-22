@@ -27,6 +27,7 @@ define(['backbone.marionette', 'views/settings/legend-item', 'config', 'tpl!temp
 
       addItem: function() {
         this.collection.add({
+          new: true,
           color: Config.colors.primary,
           icon: '',
           label: 'Label'
@@ -36,7 +37,7 @@ define(['backbone.marionette', 'views/settings/legend-item', 'config', 'tpl!temp
       save: function() {
         var mapSettings = this.state.get( 'mapSettings' ),
           override = {
-            legend: this.collection.toJSON()
+            legend: (new Backbone.Collection( this.collection.where({ new: false }) )).toJSON()
           };
 
         mapSettings = _.extend( mapSettings, override );

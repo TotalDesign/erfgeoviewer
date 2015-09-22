@@ -9,7 +9,8 @@ define(['backbone.marionette', 'config', 'underscore', 'jquery', 'materialize.dr
           e.stopPropagation();
         },
         'keyup input[type=text]': 'change',
-        'change select': 'change'
+        'change select': 'change',
+        'keyup': 'closeOnEnter'
       },
 
       template: SettingsTemplate,
@@ -22,7 +23,9 @@ define(['backbone.marionette', 'config', 'underscore', 'jquery', 'materialize.dr
       serializeModel: function(model) {
         return _.extend(model.toJSON.apply(model, _.rest(arguments)), {
           availableColors: Config.availableColors,
-          cid: this.model.cid
+          availableIcons: Config.makiCollection.getAvailableIcons(),
+          cid: this.model.cid,
+          isNew: this.model.get('new')
         });
       },
 
@@ -38,10 +41,17 @@ define(['backbone.marionette', 'config', 'underscore', 'jquery', 'materialize.dr
         );
       },
 
+      closeOnEnter: function(e) {
+        if (e.keyCode == 13) {
+          $('.dropdown-button', this.$el).trigger('close');
+        }
+      },
+
       change: function(e) {
         var $input = $(e.currentTarget);
 
-        this.model.set($input.data('property'), $input.val());
+        this.model.set( { new: false }, { silent: true } );
+        this.model.set( $input.data('property'), $input.val() );
       },
 
       changeLabel: function() {
