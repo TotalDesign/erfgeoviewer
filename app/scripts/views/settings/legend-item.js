@@ -8,6 +8,9 @@ define(['backbone.marionette', 'config', 'underscore', 'jquery', 'materialize.dr
         'click .dropdown-content': function(e) {
           e.stopPropagation();
         },
+        'click .delete': function() {
+          this.model.destroy();
+        },
         'keyup input[type=text]': 'change',
         'change select': 'change',
         'keyup': 'closeOnEnter'

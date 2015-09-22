@@ -22,7 +22,7 @@ define(['backbone.marionette', 'views/settings/legend-item', 'config', 'tpl!temp
 
         this.addItem();
 
-        this.collection.on( 'change', this.save, this );
+        this.collection.on( 'change remove', this.save, this );
       },
 
       addItem: function() {

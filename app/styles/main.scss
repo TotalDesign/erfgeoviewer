@@ -182,8 +182,21 @@ body {
   }
   #settings-legend {
     .row {
+      position: relative;
+
       &.dropdown-button {
         cursor: pointer;
+      }
+      .delete {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+      &:hover {
+        .delete {
+          display: block;
+        }
       }
     }
     .dropdown-content {
