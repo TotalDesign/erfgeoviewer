@@ -1,0 +1,22 @@
+<div class="row dropdown-button" data-activates="dropdown<%= cid %>">
+  <div class="color-box" style="background-color: <%= color %>;"></div>
+  <div class="label"><%= label %></div>
+</div>
+
+<div id="dropdown<%= cid %>" class="dropdown-content">
+  <div class="row">
+    <label>Color</label>
+    <select id="legend-setting-color-<%= cid %>" class="browser-default" data-property="color">
+      <% _.each(availableColors, function(hex, name) { var selected = hex == color; %>
+      <option value="<%= hex %>" <% if (selected) { %>selected<% } %> ><%= name %></option>
+      <% });%>
+    </select>
+  </div>
+
+  <div class="row">
+    <label for="legend-setting-label-<%= cid %>">Label</label>
+    <input type="text" id="legend-setting-label-<%= cid %>" data-property="label" value="<% if (label) { label } %>" placeholder="Label" />
+  </div>
+</div>
+
+

@@ -180,4 +180,22 @@ body {
       }
     }
   }
+  #settings-legend {
+    .row {
+      &.dropdown-button {
+        cursor: pointer;
+      }
+    }
+    .dropdown-content {
+      padding: 2rem;
+    }
+  }
+}
+
+.color-box {
+  border: 1px solid #DDD;
+  float: left;
+  width: 2em;
+  height: 1.5em;
+  margin-right: 1em;
 }
