@@ -2,14 +2,13 @@ require( [
     'require-config'
   ],
   function() {
-
   require(['backbone', 'erfgeoviewer.common', 'communicator', 'jquery', 'config',
-    'views/map', 'views/header', 'views/markers', 'views/settings', 'views/detail', 'views/detail-settings', 'views/basemap', 'views/publish', 'views/layout/detail.layout',
+    'views/map', 'views/header', 'views/search', 'views/settings', 'views/detail', 'views/detail-settings', 'views/basemap', 'views/publish',  'views/layout/detail.layout',
     'plugins/routeyou/routeyou', 'erfgeoviewer.search', 'plugins/draw/draw',
     'models/layers', 'models/state'],
 
   function(Backbone, App, Communicator, $, Config,
-           MapView, HeaderView, MarkerAddView, SettingsView, DetailView, DetailSettingsView, BaseMapSelector, PublishView, DetailLayout,
+           MapView, HeaderView, SearchView, SettingsView, DetailView, DetailSettingsView, BaseMapSelector, PublishView, DetailLayout,
            RouteyouModule, SearchModule, DrawModule,
            LayerCollection, StateModel) {
 
@@ -79,12 +78,8 @@ require( [
             state: state
         }));
         },
-        "add": function() {
-          App.flyouts.getRegion( 'bottom' ).hideFlyout();
-          App.flyouts.getRegion( 'right' ).hideFlyout();
-        },
-        "markers": function() {
-          var marker_view = new MarkerAddView( {
+        "search": function() {
+          var marker_view = new SearchView( {
             searchModule: search_module
           } );
           App.flyouts.getRegion( 'bottom' ).hideFlyout();

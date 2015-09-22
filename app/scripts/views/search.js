@@ -1,9 +1,9 @@
 /**
  * Slideout view "Add markers".
  */
-define(['backbone', 'backbone.marionette', 'communicator', 'velocity', 'materialize.tabs', 'jquery',
-    'tpl!template/markers.html'],
-  function( Backbone, Marionette, Communicator, Velocity, MaterializeTabs, $,
+define(['backbone', 'backbone.marionette', 'communicator', 'jquery',
+    'tpl!template/search/layout-flyout.html'],
+  function( Backbone, Marionette, Communicator, $,
             LayoutTemplate ) {
 
     return Marionette.LayoutView.extend({
@@ -16,17 +16,12 @@ define(['backbone', 'backbone.marionette', 'communicator', 'velocity', 'material
         }
       },
 
-      // A region for the content of each tab.
-      // Tabs themselves are contained in the layout template.
       regions: {
-        search: "#toolbar-search",
-        library: "#toolbar-library"
+        search: "#search-region"
       },
 
       initialize: function(o) {
 
-        console.log('Initialized Add Markers search view.');
-        var self = this;
         this.container = o.region;
         this.searchModule = o.searchModule;
         this.render();
@@ -39,7 +34,6 @@ define(['backbone', 'backbone.marionette', 'communicator', 'velocity', 'material
 
       onShow: function() {
         var self = this;
-        $('ul.tabs', this.$el).tabs();
         this.$el.parent().addClass( "visible" );
       },
 
