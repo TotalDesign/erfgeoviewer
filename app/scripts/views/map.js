@@ -246,7 +246,13 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       });
       this.setBaseMap( this.state.get('baseMap') || "osm" );
 
-      this.map.setView( this.state.get( 'mapSettings').editorCenterPoint || [52.121580, 5.6304], this.state.get( 'mapSettings').editorZoom || 8 );
+      if (Config.mode == 'viewer') {
+        this.map.setView( this.state.get( 'mapSettings').centerPoint || [52.121580, 5.6304], this.state.get( 'mapSettings').zoom || 8 );
+      }
+      else {
+        this.map.setView( this.state.get( 'mapSettings').editorCenterPoint || [52.121580, 5.6304], this.state.get( 'mapSettings').editorZoom || 8 );
+      }
+
       Communicator.mediator.trigger('map:ready', this.map);
 
       // Initialize markers
