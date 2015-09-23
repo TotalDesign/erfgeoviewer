@@ -45,8 +45,6 @@ function sparqlToGeoJSON(wkt) {
       return {};
   }
 
-  console.log(coordinates);
-
   return {
     "type": "Feature",
     "geometry": {
