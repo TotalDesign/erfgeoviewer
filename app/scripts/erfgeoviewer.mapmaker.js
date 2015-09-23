@@ -103,7 +103,7 @@ require( [
      * Optional modules.
      */
 
-    new DrawModule();
+    new DrawModule( {state: state} );
     new RouteyouModule( {state: state} );
 
 
