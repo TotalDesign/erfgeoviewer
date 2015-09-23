@@ -114,6 +114,9 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'models/marker'],
         var facetConfig = [];
 
         _.each(resp.result.facets, function(options, name) {
+          if (name == 'dc:subject') name = 'Onderwerp';
+          if (name == 'dc:dataProvider') name = 'Collectie';
+          if (name == 'edm:dataProvider') name = 'Collectie';
           facetConfig.push({
             name: name,
             options: options
