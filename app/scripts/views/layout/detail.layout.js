@@ -4,8 +4,8 @@ define(['backbone.marionette', 'underscore'],
     return Marionette.LayoutView.extend( {
 
       template: _.template(
-        "<div id='detail-container' class='region z-depth-1'></div>" +
-        "<div id='detail-footer' class='region z-depth-1'></div>"),
+        "<div id='detail-container' class='region'></div>" +
+        "<div id='detail-footer' class='region'></div>"),
 
       regions: {
         container: "#detail-container",
