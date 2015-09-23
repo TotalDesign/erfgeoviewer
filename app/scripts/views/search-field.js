@@ -1,11 +1,18 @@
-define(["backbone", "backbone.marionette", "jquery", "tpl!template/search/search-box.html"],
-  function(Backbone, Marionette, $, SearchTemplate) {
+define(["backbone", "backbone.marionette", "jquery", "communicator",
+    "tpl!template/search/search-box.html"],
+  function(Backbone, Marionette, $, Communicator,
+           SearchFieldTemplate) {
 
   return Marionette.ItemView.extend({
 
     model: null,
-    template: SearchTemplate,
-    events: {},
+    template: SearchFieldTemplate,
+    events: {
+      'click .search-advanced-toggle': function(e) {
+        e.preventDefault();
+        Communicator.mediator.trigger("search:toggleAdvancedSearch");
+      }
+    },
 
     initialize: function(o) {
       this.model = o.model;

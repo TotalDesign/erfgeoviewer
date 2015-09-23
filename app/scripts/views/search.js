@@ -26,6 +26,8 @@ define(['backbone', 'backbone.marionette', 'communicator', 'jquery',
         this.searchModule = o.searchModule;
         this.render();
 
+        Communicator.mediator.on("search:toggleAdvancedSearch", this.toggleAdvancedSearch, this);
+
       },
 
       onRender: function() {
@@ -33,12 +35,18 @@ define(['backbone', 'backbone.marionette', 'communicator', 'jquery',
       },
 
       onShow: function() {
-        var self = this;
         this.$el.parent().addClass( "visible" );
+        this.$el.parent().addClass( "search-normal" );
       },
 
       onBeforeDestroy: function() {
-        this.$el.parent().removeClass( "visible" );
+        this.$el.parent().removeClass( "visible search-normal search-advanced" );
+        Communicator.mediator.off("search:toggleAdvancedSearch", this.toggleAdvancedSearch, this);
+      },
+
+      toggleAdvancedSearch: function() {
+        this.$el.parent().toggleClass( "search-normal" );
+        this.$el.parent().toggleClass( "search-advanced" );
       }
 
     });

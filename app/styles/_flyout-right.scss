@@ -16,15 +16,9 @@
     border: none;
     margin: 0;
   }
-  .results-summary {
-    margin-left: 15px;
-    margin-top: 1em;
-    margin-bottom: 1em;
-  }
 }
 
 #search-results {
-  margin: 1em;
 
   .card-title {
     line-height: 100%;
@@ -56,6 +50,22 @@
     }
   }
 
+}
+
+#search-facets {
+  margin-bottom: 1em;
+  .facet-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  .facet-properties {
+    margin: 0 0 2em 0;
+    li {
+      list-style: none;
+    }
+  }
 }
 
 .flyout-title {
@@ -109,8 +119,67 @@
   &.visible {
     right: 0;
   }
+
 }
 
 .routeyou-selector {
   margin: 1em;
+}
+
+.search-options {
+  position: relative;
+  margin-top: 10px;
+  [type="checkbox"] + label {
+    padding-left: 25px;
+  }
+}
+
+/**
+ * Functionality: advanced search can be toggled on and off.
+ */
+.search-advanced-toggle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+#flyout-right {
+  //@include transition-property(width);
+  //@include transition-duration(250ms);
+  //@include transition-timing-function(ease-out);
+
+  &.search-normal {
+    width: 350px;
+  }
+
+  &.search-advanced {
+    width: 600px;
+  }
+}
+
+$search-padding: 10px;
+#search-field {
+  padding: $search-padding;
+  padding-top: 0;
+}
+#search-results {
+  padding: $search-padding;
+}
+#search-pagination {
+  padding: $search-padding;
+}
+#search-region {
+  position: relative;
+  .general {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 335px;
+    border-right: dotted 1px #eee;
+  }
+  .advanced {
+    position: absolute;
+    top: 0;
+    left: 350px;
+    padding-right: 10px;
+  }
 }
