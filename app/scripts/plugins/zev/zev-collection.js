@@ -21,10 +21,12 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'models/marker'],
       },
 
       parseDctermsSpatial: function(fields) {
-        var geoJSON = [],
+        var geoJSONStrings = [],
           dcTermsSpatial,
           geosHasGeometry,
-          geosAsWKT;
+          geosAsWKT,
+          lat,
+          long;
 
         if ( _.isArray(dcTermsSpatial = _.property('dcterms:spatial')(fields)) ) {
           _.each(dcTermsSpatial, function(term) {
@@ -32,15 +34,18 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'models/marker'],
               _.each(geosHasGeometry, function(geometry) {
                 if ( _.isArray(geosAsWKT = _.property('geos:asWKT')(geometry)) ) {
                   _.each(geosAsWKT, function(wkt) {
-                    geoJSON.push(wkt);
+                    geoJSONStrings.push(wkt);
                   });
                 }
               });
             }
+            else if ( (lat = _.property('geo:lat')(term)) && (long = _.property('geo:long')(term)) ) {
+              geoJSONStrings.push('POINT(' + long + ' ' + lat + ')');
+            }
           });
         }
 
-        return geoJSON;
+        return geoJSONStrings;
       }
     });
 
