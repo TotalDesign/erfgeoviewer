@@ -53,7 +53,7 @@ require.config( {
     "materialize.forms": "../bower_components/materialize/js/forms",
     "materialize.modal": "../bower_components/materialize/js/leanModal",
     "materialize.sidenav": "../bower_components/materialize/js/sideNav",
-    "materialize.tabs": "../bower_components/materialize/js/tabs",
+    // "materialize.tabs": "../bower_components/materialize/js/tabs",
     "materialize.toasts": "../bower_components/materialize/js/toasts",
     "materialize.waves": "../bower_components/materialize/js/waves",
     "medium.editor": "../bower_components/medium-editor/dist/js/medium-editor",

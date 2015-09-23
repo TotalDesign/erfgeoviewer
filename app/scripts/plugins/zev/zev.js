@@ -3,7 +3,7 @@
  */
 define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-search', 'backgrid', 'backgrid.paginator',
     'plugins/zev/zev-collection',
-    'tpl!template/layout-search.html', 'views/results-view', 'views/search-view', 'views/zev-facets-view'],
+    'tpl!template/search/layout-search.html', 'views/results-view', 'views/search-field', 'plugins/zev/zev-facets-view'],
   function(Backbone, Marionette, Communicator, SearchModule, Backgrid, PaginatorView,
            DelvingCollection,
            LayoutTemplate, ResultsView, DelvingSearchView, ZevFacetsView) {
@@ -23,6 +23,7 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
         regions: {
           search: "#search-field",
           facets: "#search-facets",
+          filters: "#search-filters",
           pagination: "#search-pagination",
           results: "#search-results"
         }
