@@ -4,13 +4,13 @@ require( [
   function( RequireJSConfig ) {
     'use strict';
 
-    require( ['backbone', 'erfgeoviewer.common', 'communicator', 'underscore', 'jquery',
-        'views/map', 'views/header.reader', 'views/detail',
+    require( ['backbone', 'erfgeoviewer.common', 'communicator', 'underscore', 'jquery', 'leaflet',
+        'views/map', 'views/header.reader', 'views/detail', 'views/legend',
         'plugins/routeyou/routeyou', 'erfgeoviewer.search',
         'models/layers', 'models/state'],
 
-      function( Backbone, App, Communicator, _, $,
-                MapView, HeaderView, DetailView,
+      function( Backbone, App, Communicator, _, $, L,
+                MapView, HeaderView, DetailView, LegendView,
                 RouteyouModule, SearchModule,
                 LayerCollection, StateModel ) {
 
@@ -19,6 +19,27 @@ require( [
         var state;
         var init = function(state, stateData) {
 
+          state.set(stateData);
+
+          // @Todo: Use Backbone for state fetching
+          // @Todo: Create default settings object and extend with the data from JSON file
+
+          /**
+           * Legend
+           */
+          if (state.get('mapSettings').showLegend && state.get('mapSettings').legend) {
+            Communicator.mediator.on('map:ready', function(map) {
+              var legend = L.control({ position: 'bottomleft' });
+
+              legend.onAdd = function (map) {
+                // Render legend
+                var legendView = new LegendView({ legend: state.get('mapSettings').legend });
+                return legendView.render().$el[0];
+              };
+
+              legend.addTo(map);
+            });
+          }
 
           /**
            * Header.

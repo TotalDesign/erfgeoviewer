@@ -2,8 +2,8 @@
  * Slideout view "Add markers".
  */
 define(['backbone.marionette', 'jquery', 'materialize.collapsible', 'tpl!template/settings.html',
-  'views/settings/interface', 'views/settings/color', 'views/settings/map-style'],
-  function( Marionette, $, Materialize, LayoutTemplate, InterfaceSettingsView, ColorSettingsView, MapStyleSettingsView ) {
+  'views/settings/interface', 'views/settings/color', 'views/settings/map-style', 'views/settings/legend'],
+  function( Marionette, $, Materialize, LayoutTemplate, InterfaceSettingsView, ColorSettingsView, MapStyleSettingsView, LegendSettingsView ) {
 
     return Marionette.LayoutView.extend({
 
@@ -32,6 +32,9 @@ define(['backbone.marionette', 'jquery', 'materialize.collapsible', 'tpl!templat
           state: this.state
         }));
         this.mapStyleSettings.show(new MapStyleSettingsView({
+          state: this.state
+        }));
+        this.legendSettings.show(new LegendSettingsView({
           state: this.state
         }));
 
