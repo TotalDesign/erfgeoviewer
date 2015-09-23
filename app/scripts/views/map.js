@@ -41,7 +41,6 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
 
       this.state = o.state;
       this.layout = o.layout;
-      this.layers.markers = new L.MarkerClusterGroup();
       this.markerCollection = this.state.get('markers');
 
       $( window ).resize( _.throttle( this.updateMapSize, 150 ) );
