@@ -35,7 +35,7 @@ define([
       },
 
       hideFlyout: function() {
-        if (this.$container) {
+        if (this.$container && this.currentView) {
           this.currentView.trigger('hide');
           this.$el.on( 'transitionend', this.onHiddenWrapper );
 
@@ -45,8 +45,8 @@ define([
       },
 
       onHidden: function() {
+        if (!this.$el) return;
         this.$el.off( 'transitionend', this.onHiddenWrapper );
-
         this.reset();
       },
 
