@@ -7,9 +7,17 @@ define(["backbone", "backbone.marionette", "jquery", "communicator",
 
     model: null,
     template: SearchFieldTemplate,
+    toggleTexts: {
+      1: 'Eenvoudig zoeken',
+      0: 'Geavanceerd zoeken'
+    },
+
     events: {
       'click .search-advanced-toggle': function(e) {
         e.preventDefault();
+        var $t = $(e.target)
+        this.currentText = (this.currentText) ? 0 : 1;
+        $t.text(this.toggleTexts[this.currentText]);
         Communicator.mediator.trigger("search:toggleAdvancedSearch");
       }
     },
