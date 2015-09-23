@@ -22,7 +22,11 @@ define(["backbone", "models/markers", 'backbone.localstorage', 'communicator', '
 
       if (!response) return;
       _.each(this.plugins, function(p) {
-        data[p] = Communicator.reqres.request('restoring:' + p, response);
+        console.log('restoring:' + p)
+        var resp = Communicator.reqres.request('restoring:' + p, response);
+        if (!_.isUndefined(resp)) {
+          data[p] = resp;
+        }
       });
 
       return data;
@@ -46,7 +50,7 @@ define(["backbone", "models/markers", 'backbone.localstorage', 'communicator', '
       _.each(this.plugins, function(p) {
         var data = Communicator.reqres.request('saving:' + p);
         if (data) {
-          //console.log('setting ' + p, data);
+          console.log('setting ' + p, data);
           self.set( p, _.extend( self.get( p ), data) );
         }
       });

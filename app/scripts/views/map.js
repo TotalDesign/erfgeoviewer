@@ -37,7 +37,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
     initialize: function(o) {
 
       var self = this;
-      _.bindAll(this, 'updateMapSize', 'addMarker');
+      _.bindAll(this, 'updateMapSize', 'addMarker', 'attachMoveEndListener');
 
       this.state = o.state;
       this.layout = o.layout;
@@ -122,14 +122,14 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       Communicator.reqres.setHandler( "restoring:markers", function(response) {
         if (response.markers) {
           self.markerCollection.reset();
+
+          if (self.layers.markers) self.layers.markers.clearLayers();
+          if (self.layers.default) self.layers.default.clearLayers();
+
           if ( _.isString( response.markers ) ) {
             response.markers = JSON.parse( response.markers );
           }
           self.markerCollection.add(response.markers);
-          self.layers.markers.clearLayers();
-          self.markerCollection.each(function(m) {
-            self.addMarker(m);
-          });
         }
       });
 
@@ -277,9 +277,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
         Communicator.mediator.trigger( "map:tile-layer-clicked" );
       });
 
-      this.map.on('moveend', function(e) {
-        Communicator.mediator.trigger( "map:moveend", self.map );
-      });
+      this.map.on('moveend', this.attachMoveEndListener);
 
       this.map.on('boxzoomend', function(e) {
 
@@ -298,6 +296,16 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       this.svg = d3.select('#' + this.mapboxContainer).select("svg");
       this.g = this.svg.append("g");
 
+    },
+
+    attachMoveEndListener: function(e) {
+      var self = this;
+
+      this.map.off('moveend', this.attachMoveEndListener);
+
+      this.map.on('moveend', function() {
+        Communicator.mediator.trigger( "map:moveend", self.map )
+      });
     },
 
     /**
