@@ -279,23 +279,6 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
 
       this.map.on('moveend', this.attachMoveEndListener);
 
-      this.map.on('boxzoomend', function(e) {
-
-        _.each(self.layers.markers.getLayers(), function(marker) {
-          if (e.boxZoomBounds.contains(marker.getLatLng())) {
-            marker.feature.properties['marker-color'] = Config.colors.secondary;
-          } else {
-            marker.feature.properties['marker-color'] = Config.colors.primary;
-          }
-          marker.setGeoJSON(marker.fe)
-        });
-      });
-
-      // SVG from Leaflet.
-      this.map._initPathRoot();
-      this.svg = d3.select('#' + this.mapboxContainer).select("svg");
-      this.g = this.svg.append("g");
-
     },
 
     attachMoveEndListener: function(e) {
