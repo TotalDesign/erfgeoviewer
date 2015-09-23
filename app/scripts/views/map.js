@@ -122,8 +122,9 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
         if (response.markers) {
           self.markerCollection.reset();
 
-          if (self.layers.markers) self.layers.markers.clearLayers();
-          if (self.layers.default) self.layers.default.clearLayers();
+          _.each(_.keys(self.layers), function(group) {
+            self.layers[group].clearLayers();
+          });
 
           if ( _.isString( response.markers ) ) {
             response.markers = JSON.parse( response.markers );
