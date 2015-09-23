@@ -1,0 +1,18 @@
+<div class="input-border">
+  <div class="input-padding">
+    <input type="text" class="search-box" value="<%= terms %>" />
+  </div>
+</div>
+
+<div class="search-options">
+  <div>
+    <input type="checkbox" id="filter-viewport" /><label for="filter-viewport">Filter on viewport</label>
+  </div>
+  <div>
+    <a href="#" class="search-advanced-toggle">Geavanceerd zoeken</a>
+  </div>
+</div>
+
+<div class="results-summary">
+  <% if (numfound) { %>Resultaten: <%= numfound %><% } %>
+</div>
