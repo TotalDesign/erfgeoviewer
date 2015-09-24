@@ -73,7 +73,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
           mapSettings = _.extend( mapSettings, override );
 
           self.state.set( 'mapSettings', mapSettings );
-          self.state.save();
+//          self.state.save();
         }
       });
       Communicator.mediator.on( 'map:move', function() {
@@ -120,8 +120,6 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       });
       Communicator.reqres.setHandler( "restoring:markers", function(response) {
         if (response.markers) {
-          self.markerCollection.reset();
-
           _.each(_.keys(self.layers), function(group) {
             self.layers[group].clearLayers();
           });
@@ -129,7 +127,14 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
           if ( _.isString( response.markers ) ) {
             response.markers = JSON.parse( response.markers );
           }
-          self.markerCollection.add(response.markers);
+          self.markerCollection.reset(response.markers);
+
+          self.markerCollection.each(function(m) {
+            if (!m.get('spatial') && (!m.get('latitude') || !m.get('longitude'))) return false;
+            self.addMarker(m);
+          });
+
+          return response.markers;
         }
       });
 
@@ -161,10 +166,11 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
         }
 
         if (spatial = m.get( 'spatial' )) {
-          geojson = _.extend({ properties: {
+          geojson = _.extend(sparqlToGeoJSON(m.get( 'spatial' )[0]), { properties: {
             title: m.get('title'),
-            'marker-color': Config.colors.primary
-          }}, sparqlToGeoJSON(m.get( 'spatial' )[0]));
+            'marker-color': m.get('color'),
+            'marker-symbol': m.get('icon')
+          }});
         }
         else {
           geojson = {
@@ -175,7 +181,8 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
             },
             properties: {
               title: m.get('title'),
-              'marker-color': Config.colors.primary
+              'marker-color': m.get('color'),
+              'marker-symbol': m.get('icon')
             }
           };
         }
@@ -257,20 +264,12 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
 
       // Initialize markers
       this.layers.markers = new L.MarkerClusterGroup().addTo(this.map);
-      if (this.markerCollection.length > 0) {
-        this.markerCollection.each(function(m) {
-          self.addMarker(m);
-        });
-      }
+
       this.layers.markers.addTo(this.map);
-      this.markerCollection.on("add", function(m) {
-        if (!m.get('spatial') && (!m.get('latitude') || !m.get('longitude'))) return false;
-        self.addMarker(m);
-      });
-      this.markerCollection.on("remove", function(m) {
-        if (!m.get('spatial') && (!m.get('latitude') || !m.get('longitude'))) return false;
-        self.removeMarker(m);
-      });
+//      this.markerCollection.on("remove", function(m) {
+//        if (!m.get('spatial') && (!m.get('latitude') || !m.get('longitude'))) return false;
+//        self.removeMarker(m);
+//      });
 
       // Event handlers
       this.map.on('click', function(e) {

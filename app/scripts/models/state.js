@@ -10,7 +10,25 @@ define(["backbone", "models/markers", 'backbone.localstorage', 'communicator', '
     plugins: ['mapSettings', 'markers', 'baseMap'],
 
     initialize: function() {
-      this.set('markers', new MarkersCollection());
+      var markers = new MarkersCollection(),
+        save = _.bind(function() {
+          console.log(arguments);
+          this.save();
+        }, this),
+        onMarkerChange = function(marker) {
+          marker.on('change', save);
+        };
+
+      this.set('markers', markers);
+
+      markers.on('add remove', save);
+
+      markers.on('add', onMarkerChange);
+
+      markers.on('reset', function(collection) {
+        collection.each(onMarkerChange);
+      });
+
       _.bindAll(this, 'parse');
     },
 
