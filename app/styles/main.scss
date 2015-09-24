@@ -158,7 +158,20 @@ body {
   }
 }
 
+// Settings section has overrides
+.flyout-settings {
+  .flyout-title {
+    margin-bottom: 0;
+  }
+}
+
 .settings {
+  > .col {
+    padding: 0;
+  }
+  ul.collapsible {
+    margin-top: 0;
+  }
   .collapsible-body {
     > div {
       margin: 0;
