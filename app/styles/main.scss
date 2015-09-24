@@ -170,7 +170,12 @@ body {
     }
   }
   #settings-map-style {
-    .col {
+    .tile {
+      width: 48.75%;
+      &.odd {
+        margin-right: 2.5%;
+      }
+      float: left;
       img {
         width: 100%;
         cursor: pointer;
