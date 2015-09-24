@@ -28,10 +28,10 @@ body {
     @include transition-timing-function(ease-out);
   }
   &.flyout-right-visible {
-    #map { transform: translate(-250px); }
+    #map { transform: translate(-175px); }
   }
   &.flyout-left-visible {
-    #map { transform: translate(250px); }
+    #map { transform: translate(175px); }
   }
 }
 .hidden { display: none; }
@@ -148,7 +148,7 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-  padding: 10px 260px;
+  padding: 10px 185px;
 
   .border-box {
     text-align: center;
