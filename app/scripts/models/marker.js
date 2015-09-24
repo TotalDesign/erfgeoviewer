@@ -30,7 +30,7 @@ define( ["backbone", "underscore"], function( Backbone, _ ) {
       var wkt, geometryType;
 
       // If spatial info is available
-      if (!_.isUndefined(this.get('spatial')[0])) {
+      if (_.isArray(this.get('spatial')) && !_.isUndefined(this.get('spatial')[0])) {
         wkt = this.get('spatial')[0];
         geometryType = wkt.substr(0, wkt.indexOf("("));
       }

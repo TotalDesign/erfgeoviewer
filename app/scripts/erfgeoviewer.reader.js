@@ -1,3 +1,5 @@
+var erfgeofileDataFile = '/data/erfgeoviewer.json';
+
 require( [
     'require-config'
   ],
@@ -19,27 +21,8 @@ require( [
         var state;
         var init = function(state, stateData) {
 
-          state.set(stateData);
-
           // @Todo: Use Backbone for state fetching
           // @Todo: Create default settings object and extend with the data from JSON file
-
-          /**
-           * Legend
-           */
-          if (state.get('mapSettings').showLegend && state.get('mapSettings').legend) {
-            Communicator.mediator.on('map:ready', function(map) {
-              var legend = L.control({ position: 'bottomleft' });
-
-              legend.onAdd = function (map) {
-                // Render legend
-                var legendView = new LegendView({ legend: state.get('mapSettings').legend });
-                return legendView.render().$el[0];
-              };
-
-              legend.addTo(map);
-            });
-          }
 
           /**
            * Header.
@@ -61,7 +44,26 @@ require( [
           Communicator.reqres.setHandler("app:get", function() { return App; });
           Communicator.reqres.setHandler("router:get", function() { return App.router; });
           Communicator.mediator.on('map:ready', function() {
-            if (stateData) state.parse(stateData);
+            if (stateData) {
+              state.set(state.parse(stateData));
+            }
+
+            /**
+             * Legend
+             */
+            if (state.get('mapSettings').showLegend && state.get('mapSettings').legend) {
+              Communicator.mediator.on('map:ready', function(map) {
+                var legend = L.control({ position: 'bottomleft' });
+
+                legend.onAdd = function (map) {
+                  // Render legend
+                  var legendView = new LegendView({ legend: state.get('mapSettings').legend });
+                  return legendView.render().$el[0];
+                };
+
+                legend.addTo(map);
+              });
+            }
           });
           Communicator.mediator.on( "marker:click", function( m ) {
             App.flyouts.getRegion( 'detail' ).show( new DetailView( {model: m} ) );

@@ -116,7 +116,10 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
         return response.mapSettings;
       });
       Communicator.reqres.setHandler( "restoring:baseMap", function(response) {
-        if (response.baseMap) self.setBaseMap(response.baseMap);
+        if (response.baseMap) {
+          self.setBaseMap(response.baseMap);
+          return response.baseMap;
+        }
       });
       Communicator.reqres.setHandler( "restoring:markers", function(response) {
         if (response.markers) {
@@ -134,7 +137,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
             self.addMarker(m);
           });
 
-          return response.markers;
+          return self.markerCollection;
         }
       });
 
@@ -270,10 +273,12 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       this.setBaseMap( this.state.get('baseMap') || "osm" );
 
       if (Config.mode == 'viewer') {
-        this.map.setView( this.state.get( 'mapSettings').centerPoint || [52.121580, 5.6304], this.state.get( 'mapSettings').zoom || 8 );
+        this.state.on( 'change:mapSettings', function() {
+          this.map.setView( this.state.get( 'mapSettings' ).centerPoint || [52.121580, 5.6304], this.state.get( 'mapSettings' ).zoom || 8 );
+        }, this );
       }
       else {
-        this.map.setView( this.state.get( 'mapSettings').editorCenterPoint || [52.121580, 5.6304], this.state.get( 'mapSettings').editorZoom || 8 );
+        this.map.setView( this.state.get( 'mapSettings' ).editorCenterPoint || [52.121580, 5.6304], this.state.get( 'mapSettings' ).editorZoom || 8 );
       }
 
       Communicator.mediator.trigger('map:ready', this.map);
