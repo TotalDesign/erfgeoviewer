@@ -157,7 +157,8 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       var self = this,
         markers = (_.isArray(marker)) ? marker : [marker],
         geojson,
-        spatial;
+        spatial,
+        defaultProperties;
 
       _.each(markers, function(m) {
         if (_.isEmpty(m.get( 'spatial' )) && (!m.get( 'latitude' ) || !m.get( 'longitude' ))) {
@@ -166,11 +167,26 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
         }
 
         if (spatial = m.get( 'spatial' )) {
-          geojson = _.extend(sparqlToGeoJSON(m.get( 'spatial' )[0]), { properties: {
-            title: m.get('title'),
-            'marker-color': m.get('color'),
-            'marker-symbol': m.get('icon')
-          }});
+          switch (m.get( 'geometryType' )) {
+            case 'POINT':
+              defaultProperties = {
+                title: m.get('title'),
+                'marker-color': m.get('color'),
+                'marker-symbol': m.get('icon')
+              };
+              break;
+
+            default:
+              defaultProperties = {
+                title: m.get('title'),
+                fill: m.get('color'),
+                stroke: m.get('color')
+              };
+              break;
+          }
+
+
+          geojson = _.extend(sparqlToGeoJSON(m.get( 'spatial' )[0]), { properties: defaultProperties });
         }
         else {
           geojson = {
