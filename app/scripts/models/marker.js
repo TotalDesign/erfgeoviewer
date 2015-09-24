@@ -1,11 +1,12 @@
 /**
  * Functions as an adaptor for field names from results to what the ErfGeoviewer expects
  */
-define( ["backbone", "underscore"], function( Backbone, _ ) {
+define( ["backbone", "underscore", "config"], function( Backbone, _, Config ) {
 
   return Backbone.Model.extend( {
 
     defaults: {
+      color: Config.colors.primary,
       description: false,
       externalUrl: false,
       image: false,

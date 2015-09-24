@@ -21,8 +21,9 @@ define(['backbone', 'backbone.marionette', 'communicator', 'leaflet', 'leaflet.d
         // Leaflet map
         var map = this.map;
         var self = this;
-        var drawnItems = new L.FeatureGroup();
 
+        // Temporary layer used for drawing.
+        var drawnItems = new L.FeatureGroup();
         map.addLayer(drawnItems);
 
         var drawControl = new L.Control.Draw({
@@ -61,7 +62,6 @@ define(['backbone', 'backbone.marionette', 'communicator', 'leaflet', 'leaflet.d
 
           }
 
-          //drawnItems.addLayer(layer);
         });
 
       }

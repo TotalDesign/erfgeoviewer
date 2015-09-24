@@ -174,20 +174,21 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
             case 'POINT':
               defaultProperties = {
                 title: m.get('title'),
-                'marker-color': m.get('color'),
-                'marker-symbol': m.get('icon')
+                'marker-color': m.get('color')
               };
+              if (m.get('icon')) defaultProperties['marker-symbol'] = m.get('icon');
               break;
 
             default:
               defaultProperties = {
                 title: m.get('title'),
                 fill: m.get('color'),
-                stroke: m.get('color')
+                stroke: m.get('color'),
+                'marker-color': m.get('color'),
+                'marker-symbol': m.get('icon')
               };
               break;
           }
-
 
           geojson = _.extend(sparqlToGeoJSON(m.get( 'spatial' )[0]), { properties: defaultProperties });
         }
@@ -199,11 +200,11 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
               coordinates: [m.get( 'longitude' )[0], m.get( 'latitude' )[0]]
             },
             properties: {
-              title: m.get('title'),
-              'marker-color': m.get('color'),
-              'marker-symbol': m.get('icon')
+              title: m.get('title')
             }
           };
+          if (m.get('color')) geojson.properties['marker-color'] = m.get('color');
+          if (m.get('icon')) geojson.properties['marker-symbol'] = m.get('icon');
         }
 
         var marker = L.mapbox.featureLayer();
