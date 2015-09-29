@@ -1,0 +1,185 @@
+@import 'init';
+
+#search-field {
+  width: 100%;
+
+  .input-border {
+    border: solid 1px color('grey', "lighten-2");
+    //@extend .z-depth-1;
+  }
+  .input-padding {
+    margin: 2px 15px;
+  }
+  input {
+    padding: 0;
+    font-size: 20px;
+    border: none;
+    margin: 0;
+  }
+}
+
+#search-results {
+
+  .card-title {
+    line-height: 100%;
+    padding-bottom: 16px;
+    display: block;
+  }
+
+  .btn-floating {
+    position: relative;
+    top: 0;
+    left: 50%;
+    display: block;
+    margin-left: -23px;
+    margin-top: -52px;
+  }
+
+  p.actions {
+    margin-top: 16px;
+    margin-bottom: 0;
+    span,
+    a {
+      padding: 8px 8px 8px 0;
+      padding-top: 16px;
+      margin-right: 16px;
+      text-transform: uppercase;
+      color: $primary_900;
+      cursor: pointer;
+      &:hover { color: $accent_900; }
+    }
+  }
+
+}
+
+#search-facets {
+  margin-bottom: 1em;
+  .facet-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  .facet-properties {
+    margin: 0 0 2em 0;
+    li {
+      list-style: none;
+    }
+  }
+}
+
+.flyout-title {
+  background-color: $accent_500;
+  color: white;
+  height: $header_height;
+  width: 100%;
+  position: relative;
+  a {
+    color: white;
+    &:hover {
+      color: $primary_700;
+    }
+  }
+  .action {
+    position: absolute;
+    top: 0;
+    left: 16px;
+    font-size: 24px;
+    line-height: $header-height;
+    cursor: pointer;
+  }
+  h1, h2 {
+    position: absolute;
+    top: 0;
+    left: 72px;
+    font-size: 24px;
+    margin: 0;
+    line-height: $header-height;
+  }
+}
+
+#flyout-right {
+
+  @include transition-property(right);
+  @include transition-duration(400ms);
+  @include transition-timing-function(ease-out);
+
+  position: fixed;
+  right: -550px;
+  bottom: 0;
+  top: $header-height;
+  //width: 500px;
+  width: 350px;
+  height: 100%;
+  background-color: white;
+  overflow-x: hidden;
+  z-index: 1003;
+  //padding-top: 67px;
+
+  // overflow-y: scroll;
+  &.visible {
+    right: 0;
+  }
+
+}
+
+.routeyou-selector {
+  margin: 1em;
+}
+
+.search-options {
+  position: relative;
+  margin-top: 10px;
+  [type="checkbox"] + label {
+    padding-left: 25px;
+  }
+}
+
+/**
+ * Functionality: advanced search can be toggled on and off.
+ */
+.search-advanced-toggle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+#flyout-right {
+  //@include transition-property(width);
+  //@include transition-duration(250ms);
+  //@include transition-timing-function(ease-out);
+
+  &.search-normal {
+    //width: 350px;
+  }
+
+  &.search-advanced {
+    width: 600px;
+  }
+}
+
+$search-padding: 10px;
+#search-field {
+  padding: $search-padding;
+  padding-top: 0;
+}
+#search-results {
+  padding: $search-padding;
+}
+#search-pagination {
+  padding: $search-padding;
+}
+#search-region {
+  position: relative;
+  .general {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 335px;
+  }
+  .advanced {
+    position: absolute;
+    top: 0;
+    left: 350px;
+    padding-right: 10px;
+  }
+}

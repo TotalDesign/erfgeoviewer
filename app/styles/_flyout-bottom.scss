@@ -1,0 +1,46 @@
+@import 'init';
+
+#flyout-bottom {
+
+  @include transition-property(bottom);
+  @include transition-duration(400ms);
+  @include transition-timing-function(ease-out);
+
+  $thumbnail: 128px;
+  $height: $thumbnail + 20px;
+
+  position: fixed;
+  bottom: $height * -1;
+  left: 0;
+  height: $height;
+  width: 100%;
+  background-color: white;
+  overflow-x: hidden;
+  overflow-y: hidden; // scroll
+  z-index: 1004;
+  &.visible {
+    bottom: 0;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    li {
+      float: left;
+      margin-right: 10px;
+    }
+    img {
+      cursor: pointer;
+      width: $thumbnail;
+      height: $thumbnail;
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
+
+  .wrapper {
+    margin: 10px;
+  }
+
+}

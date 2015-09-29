@@ -1,7 +1,6 @@
-define( ["backbone", "backbone.marionette", "communicator", "models/search-result",
-
+define( ["backbone", "backbone.marionette", "communicator", "medium.editor", "jquery",
     "tpl!template/detail.html"],
-  function( Backbone, Marionette, Communicator, SearchResultModel,
+  function( Backbone, Marionette, Communicator, MediumEditor, $,
             Template ) {
 
     return Marionette.ItemView.extend( {
@@ -14,8 +13,21 @@ define( ["backbone", "backbone.marionette", "communicator", "models/search-resul
       },
 
       initialize: function( o ) {
-        console.log( o.model );
         this.model = o.model;
+        Communicator.mediator.on( "map:tile-layer-clicked", this.hideFlyout, this);
+      },
+
+      onShow: function() {
+        var editables = $(".editable", this.$el).get();
+        var self = this;
+        this.editor = new MediumEditor(editables, {
+          buttons: ['bold', 'italic', 'underline', 'anchor'],
+          disableReturn: true
+        });
+        this.editor.subscribe('editableInput', function (event, editable) {
+          var field = $(editable).attr('id').substr(5);
+          self.model.set(field, $(editable).html());
+        });
       }
 
     } );

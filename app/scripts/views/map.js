@@ -1,7 +1,13 @@
-define(["backbone.marionette", "mapbox", "d3", "communicator", "config",
-        "tpl!template/map.html"],
-  function(Marionette, Mapbox, d3, Communicator, Config,
-           Template) {
+/**
+ * Map control, shared between mapmaker and reader modes.
+ * Functionality specific to mapmaker or reader should be placed in separte plugins.
+ */
+define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "config", "jquery", "underscore",
+        "leaflet.markercluster", "leaflet.smoothmarkerbouncing", "leaflet.proj", "leaflet.fullscreen",
+        "models/markers", "tpl!template/map.html", "vendor/sparql-geojson"],
+  function(Backbone, Marionette, L, d3, Communicator, Config, $, _,
+           LeafletMarkerCluster, LeafletBouncing, LeafletProjections, LeafletFullscreen,
+           MarkersCollection, Template) {
 
   return Marionette.ItemView.extend({
 
@@ -12,6 +18,11 @@ define(["backbone.marionette", "mapbox", "d3", "communicator", "config",
     // ID of dom element where Leaflet will be rendered.
     mapboxContainer: "map",
 
+    // Map models to geometry by cid
+    geometryMap: [],
+
+    layers: {},
+
     // Marionette layout instance.
     layout: null,
 
@@ -19,47 +30,290 @@ define(["backbone.marionette", "mapbox", "d3", "communicator", "config",
     popup: null,
 
     // Collections
-    layerCollection: null,
     markerCollection: null,
+
+    updateOnPositionChange: true,
 
     initialize: function(o) {
 
       var self = this;
-      _.bindAll(this, 'updateMapSize');
+      _.bindAll(this, 'updateMapSize', 'addMarker', 'attachMoveEndListener');
 
+      this.state = o.state;
       this.layout = o.layout;
-      this.layerCollection = o.layers;
-      this.markerCollection = o.markers;
-
-      this.markerCollection.on("add", function(m) {
-        console.log('model added to marker collection', m);
-        // TODO: find out why attributes are so nested
-        var marker = L.marker( [m.get( 'latitude')[0], m.get( 'longitude')[0]] );
-        marker.on("click", function() {
-          Communicator.mediator.trigger("marker:click", m)
-        });
-        self.layer_markers.addLayer(marker);
-      });
-
-      Communicator.mediator.on("MAP:ZOOM_IN_REQUESTED", function() {
-        this.map.setZoom(this.map.getZoom() + 1);
-      }, this);
-      Communicator.mediator.on("MAP:ZOOM_OUT_REQUESTED", function() {
-        this.map.setZoom(this.map.getZoom() - 1);
-      }, this);
-      Communicator.reqres.setHandler( "getMap", function() { return self.map; });
+      this.markerCollection = this.state.get('markers');
 
       $( window ).resize( _.throttle( this.updateMapSize, 150 ) );
-
-
 
       // this.registerAutoWidthMarker();
       this.registerLeafletZoomThrottle(200);
 
+      /**
+       * Event listeners
+       */
+      Communicator.mediator.on('map:setPosition', function(options) {
+        self.map.setView(options.centerPoint, options.zoom);
+      });
+      Communicator.mediator.on('map:resetEditorPosition', function() {
+        if (self.state.get( 'mapSettings').editorCenterPoint) {
+          self.map.setView(self.state.get( 'mapSettings').editorCenterPoint, self.state.get( 'mapSettings').editorZoom);
+        }
+      });
+      Communicator.mediator.on('map:setUpdateOnPositionChange', function(value) {
+        self.updateOnPositionChange = value;
+      });
+      Communicator.mediator.on( 'map:moveend', function(map) {
+        if (self.updateOnPositionChange) {
+          var mapSettings = self.state.get( 'mapSettings' ),
+            override = {
+              editorCenterPoint: map.getCenter(),
+              editorZoom: map.getZoom()
+            };
+
+          mapSettings = _.extend( mapSettings, override );
+
+          self.state.set( 'mapSettings', mapSettings );
+//          self.state.save();
+        }
+      });
+      Communicator.mediator.on( 'map:move', function() {
+        self.map.fireEvent('moveend');
+      });
+      Communicator.mediator.on("map:panTo", function(o) {
+        var latlng = L.latLng( [o.lat, o.lng] );
+        self.map.panTo(latlng);
+      });
+      Communicator.mediator.on("map:zoomTo", function(zoom) {
+        self.map.setZoom(zoom);
+      });
+      Communicator.mediator.on("map:zoomIn", function() {
+        this.map.setZoom(this.map.getZoom() + 1);
+      }, this);
+      Communicator.mediator.on("map:zoomOut", function() {
+        this.map.setZoom(this.map.getZoom() - 1);
+      }, this);
+      Communicator.mediator.on("map:changeBase", function(tileId) {
+        self.setBaseMap(tileId);
+      });
+      Communicator.mediator.on("map:updateSize", function() {
+        _.throttle( self.updateMapSize, 150 )
+      });
+      Communicator.reqres.setHandler( "getMap", function() { return self.map; });
+      this.state.on("change:baseMap", function(model) {
+        self.setBaseMap(model.get('baseMap'));
+      });
+
+      /**
+       * State management.
+       */
+      Communicator.reqres.setHandler( "saving:markers", function() {
+        return self.markerCollection.toJSON();
+      });
+
+      Communicator.reqres.setHandler( "restoring:mapSettings", function(response) {
+        if ( _.isString( response.mapSettings ) )
+          response.mapSettings = JSON.parse( response.mapSettings );
+        return response.mapSettings;
+      });
+      Communicator.reqres.setHandler( "restoring:baseMap", function(response) {
+        if (response.baseMap) {
+          self.setBaseMap(response.baseMap);
+          return response.baseMap;
+        }
+      });
+      Communicator.reqres.setHandler( "restoring:markers", function(response) {
+        if (response.markers) {
+          _.each(_.keys(self.layers), function(group) {
+            self.layers[group].clearLayers();
+          });
+
+          if ( _.isString( response.markers ) ) {
+            response.markers = JSON.parse( response.markers );
+          }
+          self.markerCollection.reset(response.markers);
+
+          self.markerCollection.each(function(m) {
+            if (!m.get('spatial') && (!m.get('latitude') || !m.get('longitude'))) return false;
+            self.addMarker(m);
+          });
+
+          return self.markerCollection;
+        }
+      });
+
+      this.initMap = _.bind(this._initMap, this);
+
+      this.state.on('change:mapSettings', this.initMap)
+    },
+
+    _initMap: function() {
+      this.state.off('change:mapSettings', this.initMap);
+
+      this.map.setView( this.state.get( 'mapSettings' ).editorCenterPoint || [52.121580, 5.6304], this.state.get( 'mapSettings' ).editorZoom || 8 );
     },
 
     /**
-     * Create an alternative to the L.divIcon marker, which does not support variable widths
+     * Take model of marker and add to map.
+     * @param m - model
+     */
+    addMarker: function(marker) {
+      var self = this,
+        markers = (_.isArray(marker)) ? marker : [marker],
+        geojson,
+        spatial,
+        defaultProperties;
+
+      _.each(markers, function(m) {
+        if (_.isEmpty(m.get( 'spatial' )) && (!m.get( 'latitude' ) || !m.get( 'longitude' ))) {
+          console.log('invalid marker:', m);
+          return false;
+        }
+
+        if (spatial = m.get( 'spatial' )) {
+          switch (m.get( 'geometryType' )) {
+            case 'POINT':
+              defaultProperties = {
+                title: m.get('title'),
+                'marker-color': m.get('color')
+              };
+              if (m.get('icon')) defaultProperties['marker-symbol'] = m.get('icon');
+              break;
+
+            default:
+              defaultProperties = {
+                title: m.get('title'),
+                fill: m.get('color'),
+                stroke: m.get('color'),
+                'marker-color': m.get('color'),
+                'marker-symbol': m.get('icon')
+              };
+              break;
+          }
+
+          geojson = _.extend(sparqlToGeoJSON(m.get( 'spatial' )[0]), { properties: defaultProperties });
+        }
+        else {
+          geojson = {
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [m.get( 'longitude' )[0], m.get( 'latitude' )[0]]
+            },
+            properties: {
+              title: m.get('title')
+            }
+          };
+          if (m.get('color')) geojson.properties['marker-color'] = m.get('color');
+          if (m.get('icon')) geojson.properties['marker-symbol'] = m.get('icon');
+        }
+
+        var marker = L.mapbox.featureLayer();
+        marker.setGeoJSON(geojson);
+        marker.on("click", function() {
+          Communicator.mediator.trigger("marker:click", m)
+        });
+        self.addMarkerGroup(marker, m.get('layerGroup'));
+
+        self.geometryMap.push({
+          cid: m.cid,
+          featureLayer: marker
+        });
+      });
+    },
+
+    /**
+     * Take model of marker and remove it from the map.
+     */
+    removeMarker: function(m) {
+      // Retrieve object from geometry mapping
+      var marker = _.findWhere(this.geometryMap, { cid: m.cid });
+
+      if (_.isObject(marker)) {
+        this.removeMarkerGroup(marker.featureLayer, m.get('layerGroup'));
+        this.geometryMap = _.without(this.geometryMap, marker);
+      }
+    },
+
+    /**
+     * Adds a layer to a layergroup. If layergroup {key} doesn't exist, it will
+     * be created.
+     * @param layer - layer to be added
+     * @param key - id of layergroup
+     */
+    addLayer: function(layer, key) {
+      key = key || 'default';
+      if ( _.isUndefined(this.layers[key]) )
+        this.layers[key] = L.layerGroup().addTo(this.map);
+      this.layers[key].addLayer(layer);
+    },
+
+    addMarkerGroup: function(layer, key) {
+      key = key || 'default';
+      if ( _.isUndefined(this.layers[key]) )
+        this.layers[key] = new L.MarkerClusterGroup().addTo(this.map);
+      this.layers[key].addLayer(layer);
+    },
+
+    removeMarkerGroup: function(layer, key) {
+      key = key || 'default';
+      this.layers[key].removeLayer(layer);
+    },
+
+    onShow: function() {
+
+      var self = this;
+
+      // Load map.
+      this.updateMapSize();
+      L.mapbox.accessToken = Config.mapbox.accessToken;
+      this.map = L.mapbox.map(this.mapboxContainer, null, {
+        boxZoom: true,
+        worldCopyJump: true,
+        fullscreenControl: true
+      });
+      this.setBaseMap( this.state.get('baseMap') || "osm" );
+
+      if (Config.mode == 'viewer') {
+        this.state.on( 'change:mapSettings', function() {
+          this.map.setView( this.state.get( 'mapSettings' ).centerPoint || [52.121580, 5.6304], this.state.get( 'mapSettings' ).zoom || 8 );
+        }, this );
+      }
+      else {
+        this.map.setView( this.state.get( 'mapSettings' ).editorCenterPoint || [52.121580, 5.6304], this.state.get( 'mapSettings' ).editorZoom || 8 );
+      }
+
+      Communicator.mediator.trigger('map:ready', this.map);
+
+      // Initialize markers
+      this.layers.markers = new L.MarkerClusterGroup().addTo(this.map);
+
+      this.layers.markers.addTo(this.map);
+//      this.markerCollection.on("remove", function(m) {
+//        if (!m.get('spatial') && (!m.get('latitude') || !m.get('longitude'))) return false;
+//        self.removeMarker(m);
+//      });
+
+      // Event handlers
+      this.map.on('click', function(e) {
+        Communicator.mediator.trigger( "map:tile-layer-clicked" );
+      });
+
+      this.map.on('moveend', this.attachMoveEndListener);
+
+    },
+
+    attachMoveEndListener: function(e) {
+      var self = this;
+
+      this.map.off('moveend', this.attachMoveEndListener);
+
+      this.map.on('moveend', function() {
+        Communicator.mediator.trigger( "map:moveend", self.map )
+      });
+    },
+
+    /**
+     * Create an alternative to the L.divIcon marker, which does not support variablee widths
      */
     registerAutoWidthMarker: function() {
       var self = this;
@@ -144,41 +398,27 @@ define(["backbone.marionette", "mapbox", "d3", "communicator", "config",
       }
     },
 
-    onShow: function() {
-
-      // Load map.
-      this.updateMapSize();
-      L.mapbox.accessToken = Config.mapbox.accessToken;
-      this.map = L.mapbox.map(this.mapboxContainer, Config.mapbox.baseLayerId, { zoomControl: false })
-      //  .setView([52.052074, 5.108049], 17);
-        .setView([52.121580, 5.6304], 8);
-      //this.map.scrollWheelZoom.disable();
-
-      this.layer_markers = L.layerGroup().addTo(this.map);
-
-      $( '.leaflet-overlay-pane' ).click( function() {
-        Communicator.mediator.trigger( "map:tile-layer-clicked" );
-      } );
-
-
-      // SVG from Leaflet.
-      this.map._initPathRoot();
-      this.svg = d3.select('#' + this.mapboxContainer).select("svg");
-      this.g = this.svg.append("g");
-
-      //this.showMarkers();
-
+    setBaseMap: function(tileId) {
+      var self = this;
+      var tile = _.findWhere( Config.tiles, {id: tileId} );
+      if (!tile) return;
+      if (self.baseLayer) self.map.removeLayer(self.baseLayer);
+      if (tile.type == "mapbox") {
+        self.baseLayer = L.mapbox.tileLayer( tile.id ).addTo( self.map );
+      } else {
+        self.baseLayer = L.mapbox.tileLayer( tile.tilejson ).addTo( self.map );
+      }
+      self.state.set('baseMap', tile.id );
     },
 
     updateMapSize: function() {
 
-      this.height = $( window ).height() - $( 'header' ).height();
+      this.height = $( window ).height();
+      if ($('header').css('display') != 'none') {
+        this.height -= $( 'header' ).height();
+      }
       this.width = $( window ).width();
       $( '#' + this.mapboxContainer ).css( 'height', this.height );
-
-    },
-
-    showMarkers: function() {
 
     }
 

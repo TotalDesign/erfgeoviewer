@@ -1,13 +1,12 @@
 'use strict';
 
+var url = require('url');
 var express = require('express');
 var http = require('http');
 var path = require('path');
 var async = require('async');
 var hbs = require('express-hbs');
-
-
-
+var proxy = require('proxy-middleware');
 
 // init express
 var app = express();
@@ -24,6 +23,8 @@ app.use(function(req, res, next){
   console.log('%s %s', req.method, req.url);
   next();
 });
+
+app.use('/zoek', proxy(url.parse('http://erfgeo.data.digitalecollectie.nl')));
 
 // mount static
 app.use(express.static( path.join( __dirname, '../app') ));

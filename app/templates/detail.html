@@ -1,6 +1,6 @@
 <% if (title) { %>
 <div class="row">
-  <h3 class="result-title col s12"><%= title %></h3>
+  <h3 id="edit-title" class="result-title col s12 editable"><%= title %></h3>
 </div>
 <% } %>
 
@@ -21,12 +21,12 @@
 
 <% if (description) { %>
 <div class="row">
-  <div class="col s12 description"><%= description %></div>
+  <div id="edit-description" class="col s12 description editable"><%= description %></div>
 </div>
 <% } %>
 
 <% if (externalUrl) { %>
 <div class="row">
-  <div class="col s12"><a href="externalUrl">Meer info</a></div>
+  <div class="col s12"><a id="edit-externalUrl" href="<%= externalUrl %>" class="editable">Meer info</a></div>
 </div>
 <% } %>

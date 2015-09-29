@@ -23,7 +23,19 @@
     "hammerjs": "~2.0.4",
     "react": "~0.13.3",
     "backbone-react-component": "~0.8.1",
-    "requirejs-react-jsx": "~0.14.2"
+    "requirejs-react-jsx": "~0.14.2",
+    "backbone.paginator": "~2.0.2",
+    "backgrid": "~0.3.5",
+    "backgrid-paginator": "~0.3.5",
+    "leaflet.markercluster": "~0.4.0",
+    "Leaflet.SmoothMarkerBouncing": "~1.1.2",
+    "medium-editor": "~5.5.1",
+    "proj4leaflet": "~0.7.1",
+    "backbone.localstorage": "~1.1.16",
+    "underscore": "~1.8.3",
+    "leaflet.draw": "~0.2.4",
+    "leaflet.fullscreen": "~1.1.4",
+    "uri.js": "~1.16.0"
   },
   "devDependencies": {
     "susy": "~2.2.2"
@@ -32,8 +44,8 @@
   "resolutions": {
     "backbone.wreqr": "^1.0.0",
     "backbone.babysitter": "^0.1.0",
-    "jquery": ">=2.1.1",
-    "underscore": ">=1.7.0",
-    "backbone": "~1.2.1"
+    "jquery": "2.1.4",
+    "underscore": "~1.8.3",
+    "backbone": "1.0.0 - 1.2.1"
   }
 }

@@ -1,0 +1,36 @@
+<div class="row dropdown-button" data-activates="dropdown<%= cid %>">
+  <div class="color-box" style="background-color: <%= color %>;"></div>
+  <div class="label">
+    <% if (isNew) { %><em><% } %>
+      <%= label %>
+    <% if (isNew) { %></em><% } %>
+  </div>
+  <a href="#" class="delete"><i class="icon-cancel"></i></a>
+</div>
+
+<div id="dropdown<%= cid %>" class="dropdown-content">
+  <div class="row">
+    <label>Color</label>
+    <select id="legend-setting-color-<%= cid %>" class="browser-default" data-property="color">
+      <% _.each(availableColors, function(hex, name) { var selected = hex == color; %>
+      <option value="<%= hex %>" <% if (selected) { %>selected<% } %> ><%= name %></option>
+      <% });%>
+    </select>
+  </div>
+
+  <div class="row">
+    <label>Icon</label>
+    <select id="legend-setting-icon-<%= cid %>" class="browser-default" data-property="icon">
+      <% _.each(availableIcons, function(id, name) { var selected = id == icon; %>
+      <option value="<%= id %>" <% if (selected) { %>selected<% } %> ><%= name %></option>
+      <% });%>
+    </select>
+  </div>
+
+  <div class="row">
+    <label for="legend-setting-label-<%= cid %>">Label</label>
+    <input type="text" id="legend-setting-label-<%= cid %>" data-property="label" value="<%= label %>" placeholder="Label" />
+  </div>
+</div>
+
+

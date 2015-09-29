@@ -1,5 +1,5 @@
 'use strict';
-var lrSnippet = require( 'grunt-contrib-livereload/lib/utils' ).livereloadSnippet;
+//var lrSnippet = require( 'grunt-contrib-livereload/lib/utils' ).livereloadSnippet;
 var mountFolder = function( connect, dir ) {
   return connect.static( require( 'path' ).resolve( dir ) );
 };
@@ -205,16 +205,11 @@ module.exports = function( grunt ) {
           preserveLicenseComments: false,
           useStrict: true,
           wrap: true,
-          //uglify2: {} // https://github.com/mishoo/UglifyJS2
-          pragmasOnSave: {
-            //removes Handlebars.Parser code (used to compile template strings) set
-            //it to `false` if you need to parse template strings even after build
-            excludeHbsParser: true,
-            // kills the entire plugin set once it's built.
-            excludeHbs: true,
-            // removes i18n precompiler, handlebars and json2
-            excludeAfterBuild: true
-          }
+          mainConfigFile: 'app/scripts/require-config.js',
+
+          // TODO: split for two different builds
+          name: 'erfgeoviewer.reader'
+
         }
       }
     },
@@ -247,12 +242,21 @@ module.exports = function( grunt ) {
 
     cssmin: {
       dist: {
-        files: {
-          '<%= yeoman.dist %>/styles/main.css': [
-            '.tmp/styles/{,*/}*.css',
-            '<%= yeoman.app %>/styles/{,*/}*.css'
-          ]
-        }
+        files: [
+          {
+            dest: '<%= yeoman.dist %>/styles/main.css',
+            src: [
+              '.tmp/styles/main.css',
+              'app/styles/{,*/}*.css'
+            ]
+          },
+          {
+            dest: '<%= yeoman.dist %>/styles/admin.css',
+            src: [
+              '.tmp/styles/admin.css'
+            ]
+          }
+        ]
       }
     },
 
@@ -290,6 +294,7 @@ module.exports = function( grunt ) {
             '.htaccess',
             'scripts/config/acc.js',
             'images/{,*/}*.{webp,gif}',
+            'app/styles/images/**',
             'bower_components/requirejs/require.js',
             'font/**'
           ]
@@ -367,9 +372,9 @@ module.exports = function( grunt ) {
     'concat',
     'cssmin',
     //'uglify',
-    'copy',
     'preprocess:prod',
-    'usemin'
+    'usemin',
+    'copy'
   ] );
 
 };
