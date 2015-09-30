@@ -4,10 +4,10 @@
  */
 define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "config", "jquery", "underscore",
         "leaflet.markercluster", "leaflet.smoothmarkerbouncing", "leaflet.proj", "leaflet.fullscreen",
-        "models/markers", "tpl!template/map.html", "vendor/sparql-geojson"],
+        "models/markers", 'models/state', "tpl!template/map.html", "vendor/sparql-geojson"],
   function(Backbone, Marionette, L, d3, Communicator, Config, $, _,
            LeafletMarkerCluster, LeafletBouncing, LeafletProjections, LeafletFullscreen,
-           MarkersCollection, Template) {
+           MarkersCollection, State, Template) {
 
   return Marionette.ItemView.extend({
 
@@ -30,7 +30,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
     popup: null,
 
     // Collections
-    markerCollection: null,
+//    markerCollection: null,
 
     updateOnPositionChange: true,
 
@@ -39,9 +39,8 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       var self = this;
       _.bindAll(this, 'updateMapSize', 'addMarker', 'attachMoveEndListener');
 
-      this.state = o.state;
       this.layout = o.layout;
-      this.markerCollection = this.state.get('markers');
+//      this.markerCollection = this.state.get('markers');
 
       $( window ).resize( _.throttle( this.updateMapSize, 150 ) );
 
@@ -55,8 +54,8 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
         self.map.setView(options.centerPoint, options.zoom);
       });
       Communicator.mediator.on('map:resetEditorPosition', function() {
-        if (self.state.get( 'mapSettings').editorCenterPoint) {
-          self.map.setView(self.state.get( 'mapSettings').editorCenterPoint, self.state.get( 'mapSettings').editorZoom);
+        if (State.get( 'map_settings' ).editorCenterPoint) {
+          self.map.setView(State.get( 'mapSettings').editorCenterPoint, State.get( 'mapSettings').editorZoom);
         }
       });
       Communicator.mediator.on('map:setUpdateOnPositionChange', function(value) {
@@ -64,7 +63,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       });
       Communicator.mediator.on( 'map:moveend', function(map) {
         if (self.updateOnPositionChange) {
-          var mapSettings = self.state.get( 'mapSettings' ),
+          var mapSettings = State.get( 'mapSettings' ),
             override = {
               editorCenterPoint: map.getCenter(),
               editorZoom: map.getZoom()
@@ -72,7 +71,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
 
           mapSettings = _.extend( mapSettings, override );
 
-          self.state.set( 'mapSettings', mapSettings );
+          State.set( 'mapSettings', mapSettings );
 //          self.state.save();
         }
       });
@@ -99,57 +98,128 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
         _.throttle( self.updateMapSize, 150 )
       });
       Communicator.reqres.setHandler( "getMap", function() { return self.map; });
-      this.state.on("change:baseMap", function(model) {
+      State.on("change:baseMap", function(model) {
         self.setBaseMap(model.get('baseMap'));
       });
 
       /**
        * State management.
        */
-      Communicator.reqres.setHandler( "saving:markers", function() {
-        return self.markerCollection.toJSON();
-      });
+      State.getPlugin('geojson_features').collection.on('add', this.addMarker, this);
 
-      Communicator.reqres.setHandler( "restoring:mapSettings", function(response) {
-        if ( _.isString( response.mapSettings ) )
-          response.mapSettings = JSON.parse( response.mapSettings );
-        return response.mapSettings;
-      });
-      Communicator.reqres.setHandler( "restoring:baseMap", function(response) {
-        if (response.baseMap) {
-          self.setBaseMap(response.baseMap);
-          return response.baseMap;
-        }
-      });
-      Communicator.reqres.setHandler( "restoring:markers", function(response) {
-        if (response.markers) {
-          _.each(_.keys(self.layers), function(group) {
-            self.layers[group].clearLayers();
-          });
+      State.getPlugin('geojson_features').collection.on('remove', this.removeMarker, this);
 
-          if ( _.isString( response.markers ) ) {
-            response.markers = JSON.parse( response.markers );
-          }
-          self.markerCollection.reset(response.markers);
+      State.getPlugin('geojson_features').collection.on('reset', this.initFeatures, this);
 
-          self.markerCollection.each(function(m) {
-            if (!m.get('spatial') && (!m.get('latitude') || !m.get('longitude'))) return false;
-            self.addMarker(m);
-          });
+      Communicator.mediator.on('map:ready', function() {
+        this.initFeatures(State.getPlugin('geojson_features').collection);
+      }, this);
 
-          return self.markerCollection;
-        }
-      });
+//      Communicator.reqres.setHandler( "saving:markers", function() {
+//        return self.markerCollection.toJSON();
+//      });
+//
+//      Communicator.reqres.setHandler( "restoring:mapSettings", function(response) {
+//        if ( _.isString( response.mapSettings ) )
+//          response.mapSettings = JSON.parse( response.mapSettings );
+//        return response.mapSettings;
+//      });
+//      Communicator.reqres.setHandler( "restoring:baseMap", function(response) {
+//        if (response.baseMap) {
+//          self.setBaseMap(response.baseMap);
+//          return response.baseMap;
+//        }
+//      });
+//      Communicator.reqres.setHandler( "restoring:markers", function(response) {
+//        if (response.markers) {
+//          _.each(_.keys(self.layers), function(group) {
+//            self.layers[group].clearLayers();
+//          });
+//
+//          if ( _.isString( response.markers ) ) {
+//            response.markers = JSON.parse( response.markers );
+//          }
+//          self.markerCollection.reset(response.markers);
+//
+//          self.markerCollection.each(function(m) {
+//            if (!m.get('spatial') && (!m.get('latitude') || !m.get('longitude'))) return false;
+//            self.addMarker(m);
+//          });
+//
+//          return self.markerCollection;
+//        }
+//      });
 
       this.initMap = _.bind(this._initMap, this);
 
-      this.state.on('change:mapSettings', this.initMap)
+      State.on('change:mapSettings', this.initMap)
+    },
+
+    initFeatures: function(collection) {
+      var self = this;
+
+      // Clear map
+      _.each(_.keys(self.layers), function(group) {
+        self.layers[group].clearLayers();
+      });
+
+      // Iterate over models
+      collection.each(function(feature) {
+        if (!feature.get('spatial') && (!feature.get('latitude') || !feature.get('longitude'))) return false;
+
+        self.addMarker(feature);
+      });
     },
 
     _initMap: function() {
-      this.state.off('change:mapSettings', this.initMap);
+      State.off('change:mapSettings', this.initMap);
 
-      this.map.setView( this.state.get( 'mapSettings' ).editorCenterPoint || [52.121580, 5.6304], this.state.get( 'mapSettings' ).editorZoom || 8 );
+      this.map.setView( State.get( 'mapSettings' ).editorCenterPoint || [52.121580, 5.6304], State.get( 'mapSettings' ).editorZoom || 8 );
+    },
+
+    getGeoJSON: function(marker) {
+      var spatial,
+        geojson;
+
+      if (spatial = marker.get( 'spatial' )) {
+        switch (marker.get( 'geometryType' )) {
+          case 'POINT':
+            defaultProperties = {
+              title: marker.get('title'),
+              'marker-color': marker.get('color')
+            };
+            if (marker.get('icon')) defaultProperties['marker-symbol'] = marker.get('icon');
+            break;
+
+          default:
+            defaultProperties = {
+              title: marker.get('title'),
+              fill: marker.get('color'),
+              stroke: marker.get('color'),
+              'marker-color': marker.get('color'),
+              'marker-symbol': marker.get('icon')
+            };
+            break;
+        }
+
+        geojson = _.extend(sparqlToGeoJSON(marker.get( 'spatial' )[0]), { properties: defaultProperties });
+      }
+      else {
+        geojson = {
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [marker.get( 'longitude' )[0], marker.get( 'latitude' )[0]]
+          },
+          properties: {
+            title: marker.get('title')
+          }
+        };
+        if (marker.get('color')) geojson.properties['marker-color'] = marker.get('color');
+        if (marker.get('icon')) geojson.properties['marker-symbol'] = marker.get('icon');
+      }
+
+      return geojson;
     },
 
     /**
@@ -159,56 +229,19 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
     addMarker: function(marker) {
       var self = this,
         markers = (_.isArray(marker)) ? marker : [marker],
-        geojson,
         spatial,
         defaultProperties;
 
       _.each(markers, function(m) {
+        m.on('change', self.updateMarker, self);
+
         if (_.isEmpty(m.get( 'spatial' )) && (!m.get( 'latitude' ) || !m.get( 'longitude' ))) {
           console.log('invalid marker:', m);
           return false;
         }
 
-        if (spatial = m.get( 'spatial' )) {
-          switch (m.get( 'geometryType' )) {
-            case 'POINT':
-              defaultProperties = {
-                title: m.get('title'),
-                'marker-color': m.get('color')
-              };
-              if (m.get('icon')) defaultProperties['marker-symbol'] = m.get('icon');
-              break;
-
-            default:
-              defaultProperties = {
-                title: m.get('title'),
-                fill: m.get('color'),
-                stroke: m.get('color'),
-                'marker-color': m.get('color'),
-                'marker-symbol': m.get('icon')
-              };
-              break;
-          }
-
-          geojson = _.extend(sparqlToGeoJSON(m.get( 'spatial' )[0]), { properties: defaultProperties });
-        }
-        else {
-          geojson = {
-            type: 'Feature',
-            geometry: {
-              type: 'Point',
-              coordinates: [m.get( 'longitude' )[0], m.get( 'latitude' )[0]]
-            },
-            properties: {
-              title: m.get('title')
-            }
-          };
-          if (m.get('color')) geojson.properties['marker-color'] = m.get('color');
-          if (m.get('icon')) geojson.properties['marker-symbol'] = m.get('icon');
-        }
-
         var marker = L.mapbox.featureLayer();
-        marker.setGeoJSON(geojson);
+        marker.setGeoJSON( self.getGeoJSON(m) );
         marker.on("click", function() {
           Communicator.mediator.trigger("marker:click", m)
         });
@@ -219,6 +252,16 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
           featureLayer: marker
         });
       });
+    },
+
+    updateMarker: function(m) {
+      // Retrieve object from geometry mapping
+      var marker = _.findWhere(this.geometryMap, { cid: m.cid });
+
+      if (_.isObject(marker)) {
+        this.removeMarker(m);
+        this.addMarker(m);
+      }
     },
 
     /**
@@ -271,15 +314,15 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
         worldCopyJump: true,
         fullscreenControl: true
       });
-      this.setBaseMap( this.state.get('baseMap') || "osm" );
+      this.setBaseMap( State.get('baseMap') || "osm" );
 
       if (Config.mode == 'viewer') {
-        this.state.on( 'change:mapSettings', function() {
-          this.map.setView( this.state.get( 'mapSettings' ).centerPoint || [52.121580, 5.6304], this.state.get( 'mapSettings' ).zoom || 8 );
+        State.on( 'change:mapSettings', function() {
+          this.map.setView( State.get( 'map_settings' ).centerPoint || [52.121580, 5.6304], State.get( 'map_settings' ).zoom || 8 );
         }, this );
       }
       else {
-        this.map.setView( this.state.get( 'mapSettings' ).editorCenterPoint || [52.121580, 5.6304], this.state.get( 'mapSettings' ).editorZoom || 8 );
+        this.map.setView( State.get( 'map_settings' ).editorCenterPoint || [52.121580, 5.6304], State.get( 'map_settings' ).editorZoom || 8 );
       }
 
       Communicator.mediator.trigger('map:ready', this.map);
@@ -408,7 +451,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       } else {
         self.baseLayer = L.mapbox.tileLayer( tile.tilejson ).addTo( self.map );
       }
-      self.state.set('baseMap', tile.id );
+      State.set('baseMap', tile.id );
     },
 
     updateMapSize: function() {

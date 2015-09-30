@@ -1,5 +1,5 @@
-define(["backbone", "backbone.marionette", "d3", "communicator", "tpl!template/publish.html", "jquery", "materialize.modal"],
-  function(Backbone, Marionette, d3, Communicator, PublishTemplate, $, MaterializeModal) {
+define(["backbone", "backbone.marionette", "d3", "communicator", 'models/state', "tpl!template/publish.html", "jquery", "materialize.modal"],
+  function(Backbone, Marionette, d3, Communicator, State, PublishTemplate, $, MaterializeModal) {
 
     return Marionette.ItemView.extend({
 
@@ -20,8 +20,6 @@ define(["backbone", "backbone.marionette", "d3", "communicator", "tpl!template/p
       },
 
       initialize: function(o) {
-        this.state = o.state;
-
         this.on('hide', this.onHide, this);
 
         this.crosshair = d3.select(document.createElementNS(d3.ns.prefix.svg, 'svg'))
@@ -56,10 +54,10 @@ define(["backbone", "backbone.marionette", "d3", "communicator", "tpl!template/p
         Communicator.mediator.trigger('map:setUpdateOnPositionChange', false);
 
         // Position and zoom map to stored export settings if any
-        if (this.state.get( 'mapSettings' ).centerPoint) {
+        if (State.get( 'mapSettings' ).centerPoint) {
           Communicator.mediator.trigger( 'map:setPosition', {
-            centerPoint: this.state.get( 'mapSettings' ).centerPoint,
-            zoom: this.state.get( 'mapSettings' ).zoom
+            centerPoint: State.get( 'mapSettings' ).centerPoint,
+            zoom: State.get( 'mapSettings' ).zoom
           });
         }
         else {
@@ -74,9 +72,9 @@ define(["backbone", "backbone.marionette", "d3", "communicator", "tpl!template/p
 
         $download = $('.download', this.$el)
           .on('click', function() {
-            self.state.save();
+            State.save();
 
-            serialized = JSON.stringify(self.state.toJSON());
+            serialized = JSON.stringify(State.toJSON());
 
             link = "data:text/json;charset=utf-8," + encodeURIComponent(serialized);
 
@@ -106,7 +104,7 @@ define(["backbone", "backbone.marionette", "d3", "communicator", "tpl!template/p
       },
 
       _onChangePosition: function(map) {
-        var mapSettings = this.state.get( 'mapSettings' ),
+        var mapSettings = State.get( 'mapSettings' ),
           override = {
             centerPoint: map.getCenter(),
             zoom: map.getZoom()
@@ -114,8 +112,8 @@ define(["backbone", "backbone.marionette", "d3", "communicator", "tpl!template/p
 
         mapSettings = _.extend( mapSettings, override );
 
-        this.state.set( 'mapSettings', mapSettings );
-        this.state.save();
+        State.set( 'mapSettings', mapSettings );
+        State.save();
       }
 
     });

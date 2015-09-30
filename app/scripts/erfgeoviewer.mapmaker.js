@@ -10,7 +10,7 @@ require( [
   function(Backbone, App, Communicator, $, Config,
            MapView, HeaderView, SearchView, SettingsView, DetailView, DetailSettingsView, BaseMapSelector, PublishView, DetailLayout,
            RouteyouModule, SearchModule, DrawModule,
-           LayerCollection, StateModel, MakiCollection) {
+           LayerCollection, State, MakiCollection) {
 
     /**
      * Init.
@@ -19,17 +19,13 @@ require( [
     console.log('Erfgeoviewer: mapmaker mode.');
 
     // This object will be serialized and used for storing/restoring a map.
-    var state = new StateModel({
-      id: 1,
-      mapSettings: {
-        primaryColor: Config.colors.primary,
-        secondaryColor: Config.colors.secondary
-      }
-    });
-
-    var search_module = new SearchModule( {
-      markers_collection: state.get( 'markers' )
-    } );
+//    var state = new StateModel({
+//      id: 1,
+//      mapSettings: {
+//        primaryColor: Config.colors.primary,
+//        secondaryColor: Config.colors.secondary
+//      }
+//    });
 
     // Append maki icon collection to config
     Config.makiCollection = new MakiCollection();
@@ -39,7 +35,7 @@ require( [
      */
 
     Communicator.mediator.on('map:ready', function() {
-      state.fetch();
+//      State.fetch();
     });
     Communicator.mediator.on("marker:click", function(m) {
       var detailLayout = new DetailLayout();
@@ -70,25 +66,26 @@ require( [
         },
         "export": function() {
           App.flyouts.getRegion( 'bottom' ).hideFlyout();
-          App.flyouts.getRegion( 'right' ).show(new PublishView({
-            state: state
-          }));
+          App.flyouts.getRegion( 'right' ).show(new PublishView());
         },
         "settings": function() {
           App.flyouts.getRegion( 'bottom' ).hideFlyout();
-          App.flyouts.getRegion( 'right' ).show(new SettingsView({
-            state: state
-        }));
+          App.flyouts.getRegion( 'right' ).show(new SettingsView());
         },
         "search": function() {
-          var marker_view = new SearchView( {
-            searchModule: search_module
-          } );
+          var searchModule = new SearchModule({
+            markers_collection: State.getPlugin('geojson_features').collection
+          });
+
+          var markerView = new SearchView({
+            searchModule: searchModule
+          });
+
           App.flyouts.getRegion( 'bottom' ).hideFlyout();
-          App.flyouts.getRegion( 'right' ).show( marker_view );
+          App.flyouts.getRegion( 'right' ).show( markerView );
         },
         "base": function() {
-          App.flyouts.getRegion( 'bottom' ).show( new BaseMapSelector( {state: state} ) );
+          App.flyouts.getRegion( 'bottom' ).show( new BaseMapSelector() );
         },
         "features": function() {
           console.log( 'features' );
@@ -103,28 +100,30 @@ require( [
      * Optional modules.
      */
 
-    new DrawModule( {state: state} );
-    new RouteyouModule( {state: state} );
+//    new DrawModule();
+//    new RouteyouModule();
 
 
     /**
      * Initialize map.
      */
+    State.pluginsInitialized.promise
+      .then(function() {
+        return State.fetch();
+      })
+      .then(Config.makiCollection.getPromise)
+      .done(function() {
+        App.map_view = new MapView({
+          layout: App.layout
+        });
 
-    App.map_view = new MapView( {
-      layout: App.layout,
-      state: state
-    } );
+        App.layout.getRegion( 'content' ).show( App.map_view );
+        App.layout.getRegion( 'header' ).show(
+          new HeaderView({ modalRegion: App.layout.getRegion( 'modal' ) })
+        );
 
-    App.layout.getRegion( 'content' ).show( App.map_view );
-    App.layout.getRegion( 'header' ).show( new HeaderView( {
-      modalRegion: App.layout.getRegion( 'modal' ),
-      state: state
-    } ) );
-
-    Config.makiCollection.getPromise().done(function() {
-      App.start();
-    });
+        App.start();
+      });
 
   });
 

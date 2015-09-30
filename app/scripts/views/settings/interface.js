@@ -1,22 +1,18 @@
-define(['backbone', 'views/settings/abstract-settings', 'tpl!template/settings/interface.html'],
-  function(Backbone, ParentView, SettingsTemplate) {
+define(['backbone', 'models/state', 'views/settings/abstract-settings', 'tpl!template/settings/interface.html'],
+  function(Backbone, State, ParentView, SettingsTemplate) {
 
     return ParentView.extend({
 
-      model: null,
-
       template: SettingsTemplate,
 
-      initialize: function(o) {
+      initialize: function() {
         this.model = new Backbone.Model({
-          showMapTitle: o.state.get( 'mapSettings' ).showMapTitle,
-          showSearchFilter: o.state.get( 'mapSettings' ).showSearchFilter,
-          allowFullscreen: o.state.get( 'mapSettings' ).allowFullscreen,
-          showShare: o.state.get( 'mapSettings' ).showShare,
-          showLegend: o.state.get( 'mapSettings' ).showLegend
+          showMapTitle: State.getPlugin('map_settings').model.get('showMapTitle'),
+          showSearchFilter: State.getPlugin('map_settings').model.get('showSearchFilter'),
+          allowFullscreen: State.getPlugin('map_settings').model.get('allowFullscreen'),
+          showShare: State.getPlugin('map_settings').model.get('showShare'),
+          showLegend: State.getPlugin('map_settings').model.get('showLegend')
         });
-
-        ParentView.prototype.initialize.apply(this, arguments);
       }
 
     });

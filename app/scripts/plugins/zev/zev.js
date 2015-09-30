@@ -2,10 +2,10 @@
  * Controller for Delving search module.
  */
 define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-search', 'backgrid', 'backgrid.paginator',
-    'plugins/zev/zev-collection',
+    'plugins/zev/zev-collection', 'models/state',
     'tpl!template/search/layout-search.html', 'views/results-view', 'views/search-field', 'plugins/zev/zev-facets-view'],
   function(Backbone, Marionette, Communicator, SearchModule, Backgrid, PaginatorView,
-           DelvingCollection,
+           DelvingCollection, State,
            LayoutTemplate, ResultsView, DelvingSearchView, ZevFacetsView) {
 
     return SearchModule.extend({
@@ -63,12 +63,12 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
           _.each(attrs, function(key) {
             vars[key] = result.get(key);
           });
-          if ( !self.markers.findWhere({
+          if ( !State.getPlugin('geojson_features').collection.findWhere({
               longitude: vars.longitude,
               latitude: vars.latitude,
               title: vars.title
             })) {
-            self.markers.push( [vars] );
+            State.getPlugin('geojson_features').collection.add( vars );
           }
         });
 
@@ -114,7 +114,7 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
         self.results.fetch({
           success: function(collection) {
             self.layout.getRegion( 'facets' ).show( new ZevFacetsView({ collection: collection.getFacetConfig(), searchModel: self.model }) );
-            self.layout.getRegion( 'results' ).show( new ResultsView( {collection: collection} ) );
+            self.layout.getRegion( 'results' ).show( new ResultsView({ collection: collection }) );
             self.layout.getRegion( 'pagination' ).show( new Backgrid.Extension.Paginator( {collection: collection} ) );
           }
         });

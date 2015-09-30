@@ -7,18 +7,20 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
            ResultItemTemplate) {
 
     var ResultItemView = Marionette.ItemView.extend({
-      template: ResultItemTemplate
-    });
 
-    return Marionette.CollectionView.extend({
+      template: ResultItemTemplate,
 
       events: {
         "click .add-marker": function(e) {
           e.preventDefault();
-          var modelId = $( e.target ).data( 'model-id' );
-          Communicator.mediator.trigger( "marker:addModelId", modelId);
+
+          Communicator.mediator.trigger( "marker:addModelId", this.model.cid );
         }
-      },
+      }
+
+    });
+
+    return Marionette.CollectionView.extend({
 
       childView: ResultItemView
 

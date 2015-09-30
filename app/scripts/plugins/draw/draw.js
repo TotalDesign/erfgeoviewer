@@ -1,5 +1,5 @@
-define(['backbone', 'backbone.marionette', 'communicator', 'leaflet', 'leaflet.draw', 'models/marker'],
-  function(Backbone, Marionette, Communicator, L, LeafletDraw, MarkerModel) {
+define(['backbone', 'backbone.marionette', 'communicator', 'leaflet', 'leaflet.draw', 'models/marker', 'models/state'],
+  function(Backbone, Marionette, Communicator, L, LeafletDraw, MarkerModel, State) {
 
     return Marionette.Object.extend({
 
@@ -9,7 +9,7 @@ define(['backbone', 'backbone.marionette', 'communicator', 'leaflet', 'leaflet.d
       initialize: function(o) {
 
         var self = this;
-        this.state = o.state;
+
         Communicator.mediator.on("map:ready", function(map) {
           self.map = map;
           self.initDraw();
@@ -43,7 +43,7 @@ define(['backbone', 'backbone.marionette', 'communicator', 'leaflet', 'leaflet.d
 
           if (type === 'marker') {
             var spot = layer.getLatLng();
-            var m = self.state.get('markers');
+            var m = State.get('markers');
             m.add({
               title: 'Nieuwe POI',
               description: 'Mijn nieuwe marker.',
@@ -54,7 +54,7 @@ define(['backbone', 'backbone.marionette', 'communicator', 'leaflet', 'leaflet.d
           else if (type == "polygon" || type == "polyline") {
 
             // TODO: this needs to change for erfgeoviewer
-            var geo = self.state.get('features');
+            var geo = State.get('features');
             geo.add({
               'title': 'Mijn route',
               'geojson': layer.toGeoJSON()
