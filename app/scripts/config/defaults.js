@@ -50,13 +50,9 @@ define("config", function () {
           "version": "1.0.0",
           "attribution": "(c) OpenStreetMap contributors, CC-BY-SA",
           "scheme": "xyz",
-          "tiles": [
-            "http://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
-            "http://b.tile.openstreetmap.org/{z}/{x}/{y}.png",
-            "http://c.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          ],
-          "minzoom": 0,
-          "maxzoom": 18,
+          "tiles": "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+          "minZoom": 0,
+          "maxZoom": 18,
           "bounds": [ -180, -85, 180, 85 ],
           "autoscale": false
         }
@@ -67,7 +63,7 @@ define("config", function () {
         "tilejson": {
           "version": '1.0.0',
           "scheme": 'xyz',
-          "tiles": ['http://a.tile.stamen.com/toner/{z}/{x}/{y}.png'],
+          "tiles": 'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png',
           "attribution": 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under' +
           ' <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>.' +
           ' Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
@@ -79,7 +75,7 @@ define("config", function () {
         "tilejson": {
           "version": '1.0.0',
           "scheme": 'xyz',
-          "tiles": ['http://a.tile.thunderforest.com/cycle/{z}/{x}/{y}.png'],
+          "tiles": 'http://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png',
           "attribution": '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a>, ' + 'Contributors <a href="http://thunderforest.com/">Thunderforest</a>'
         }
       },
@@ -89,7 +85,7 @@ define("config", function () {
         "tilejson": {
           "version": '1.0.0',
           "scheme": 'xyz',
-          "tiles": ['http://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'],
+          "tiles": 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
           "attribution": '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
         }
       },
@@ -99,7 +95,7 @@ define("config", function () {
         "tilejson": {
           "version": '1.0.0',
           "scheme": 'xyz',
-          "tiles": ['http://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png'],
+          "tiles": 'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
           "attribution": '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
         }
       }

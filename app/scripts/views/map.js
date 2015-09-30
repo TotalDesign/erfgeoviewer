@@ -406,7 +406,8 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       if (tile.type == "mapbox") {
         self.baseLayer = L.mapbox.tileLayer( tile.id ).addTo( self.map );
       } else {
-        self.baseLayer = L.mapbox.tileLayer( tile.tilejson ).addTo( self.map );
+        // Mapbox does not respect detectRetina option. See issue #8581.
+        self.baseLayer = L.tileLayer( tile.tilejson.tiles, tile ).addTo( self.map );
       }
       self.state.set('baseMap', tile.id );
     },
