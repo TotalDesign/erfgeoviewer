@@ -2,19 +2,40 @@
  * CollectionView for displaying search results.
  */
 define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards", "jquery", "leaflet",
-         "tpl!template/results.html"],
+         "config", "tpl!template/results.html"],
   function(Backbone, Marionette, Communicator, Materialize, $, L,
-           ResultItemTemplate) {
+           Config, ResultItemTemplate) {
 
     var map;
     var layerGroup;
+    var style = {
+      // See path.options in leaflet documentation
+      preview: {
+        "color": '#000',
+        "stroke": true,
+        "weight": 2,
+        "dashArray": "4, 4",
+        "fillOpacity": 0.4,
+        "fill": true,
+        "fillColor": "#fff"
+      },
+      hover: {
+        "color": Config.colors.secondary,
+        "stroke": true,
+        "weight": 3,
+        "dashArray": null,
+        "fillOpacity": 0.6,
+        "fill": true,
+        "fillColor": "#fff"
+      }
+    };
 
     var ResultItemView = Marionette.ItemView.extend({
 
-      marker: null,
+      feature: null,
 
       onDestroy: function() {
-        layerGroup.removeLayer(this.marker);
+        if (this.marker) layerGroup.removeLayer(this.marker);
       },
 
       onShow: function() {
@@ -22,11 +43,10 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
           this.model.get( 'latitude' ),
           this.model.get( 'longitude' )
         );
-        var m = this.model.convertToGeoJSON();
-        if (m) {
-          this.marker = L.mapbox.featureLayer();
-          this.marker.setGeoJSON( m );
-          layerGroup.addLayer( this.marker );
+        var geojson = this.model.convertToGeoJSON();
+        if (geojson) {
+          this.feature = L.geoJson(geojson, { style: style.preview } );
+          layerGroup.addLayer( this.feature );
         }
       },
 
