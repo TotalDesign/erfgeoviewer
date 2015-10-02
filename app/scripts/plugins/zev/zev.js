@@ -115,7 +115,10 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
           success: function(collection) {
             self.layout.getRegion( 'facets' ).show( new ZevFacetsView({ collection: collection.getFacetConfig(), searchModel: self.model }) );
             self.layout.getRegion( 'results' ).show( new ResultsView( {collection: collection} ) );
-            self.layout.getRegion( 'pagination' ).show( new Backgrid.Extension.Paginator( {collection: collection} ) );
+            self.layout.getRegion( 'pagination' ).show( new Backgrid.Extension.Paginator( {
+              collection: collection,
+              windowSize: 5
+            } ) );
           }
         });
       },
