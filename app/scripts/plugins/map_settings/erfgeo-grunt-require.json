@@ -1,0 +1,26 @@
+{
+  "options": {
+    "optimize": "none",
+    "preserveLicenseComments": false,
+    "useStrict": true,
+    "wrap": true,
+    "name": "plugin/map_settings",
+    "paths": {
+      "backbone": "empty:",
+      "underscore": "empty:",
+      "config": "empty:"
+    },
+    "packages": [
+      {
+        "name": "plugin/abstract",
+        "location": "plugins/_abstract",
+        "main": "plugin.js"
+      },
+      {
+        "name": "plugin/map_settings",
+        "location": "plugins/map_settings",
+        "main": "plugin.js"
+      }
+    ]
+  }
+}
