@@ -1,12 +1,14 @@
-define(['plugin/plugin', './models/settings', 'underscore'], function(Plugin, SettingsModel, _) {
+define(['plugin/abstract', './models/settings', 'underscore'], function(Plugin, SettingsModel, _) {
   return Plugin.extend({
 
     model: null,
 
-    initialize: function() {
+    initialize: function(options) {
       this.model = new SettingsModel();
 
       this.model.on('change', this.save, this);
+
+      options.state.set('map_settings', this.model);
     },
 
     readData: function(resp) {

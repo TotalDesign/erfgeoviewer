@@ -1,12 +1,14 @@
-define(['plugin/plugin', './collections/feature_collection', 'underscore'], function(Plugin, FeatureCollection, _) {
+define(['plugin/abstract', './collections/feature_collection', 'underscore'], function(Plugin, FeatureCollection, _) {
   return Plugin.extend({
 
     collection: null,
 
-    initialize: function() {
+    initialize: function(options) {
       this.collection = new FeatureCollection();
       this.collection.on('add', this.bindFeatureChangeHandler, this);
       this.collection.on('add remove', this.save, this);
+
+      options.state.set('geojson_features', this.collection);
     },
 
     bindFeatureChangeHandler: function (feature) {

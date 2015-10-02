@@ -13,8 +13,6 @@ define(["backbone", "models/markers", 'backbone.localstorage', 'communicator', '
 
       pluginsInitialized: null,
 
-      fetched: null,
-
       initialize: function() {
         var pluginInitializationPromises = [];
 
@@ -56,7 +54,7 @@ define(["backbone", "models/markers", 'backbone.localstorage', 'communicator', '
       initializePlugin: function(pluginName) {
         var deferredPluginLoader = Q.defer();
 
-        require(['plugin/' + pluginName + '/plugin'],
+        require(['plugin/' + pluginName],
           _.bind(function(Plugin) {
             var plugin = new Plugin({ state: this });
 

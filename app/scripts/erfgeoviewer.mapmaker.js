@@ -2,12 +2,12 @@ require( [
     'require-config'
   ],
   function() {
-  require(['backbone', 'erfgeoviewer.common', 'communicator', 'jquery', 'config',
+  require(['backbone', 'erfgeoviewer.common', 'communicator', 'jquery', 'config', 'q',
     'views/map', 'views/header', 'views/search', 'views/settings', 'views/detail', 'views/detail-settings', 'views/basemap', 'views/publish',  'views/layout/detail.layout',
     'plugins/routeyou/routeyou', 'erfgeoviewer.search', 'plugins/draw/draw',
     'models/layers', 'models/state', 'models/maki'],
 
-  function(Backbone, App, Communicator, $, Config,
+  function(Backbone, App, Communicator, $, Config, Q,
            MapView, HeaderView, SearchView, SettingsView, DetailView, DetailSettingsView, BaseMapSelector, PublishView, DetailLayout,
            RouteyouModule, SearchModule, DrawModule,
            LayerCollection, State, MakiCollection) {
@@ -109,7 +109,14 @@ require( [
      */
     State.pluginsInitialized.promise
       .then(function() {
-        return State.fetch();
+        var d = Q.defer();
+
+        State.fetch({
+          success: d.resolve,
+          error: d.resolve // Also resolve on error to prevent unhandled exceptions on empty state
+        });
+
+        return d.promise;
       })
       .then(Config.makiCollection.getPromise)
       .done(function() {

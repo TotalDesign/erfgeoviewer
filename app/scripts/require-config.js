@@ -17,6 +17,24 @@ require.config( {
     usePragma: false
   },
 
+  "packages": [
+    {
+      "name": "plugin/abstract",
+      "location": "plugins/_abstract",
+      "main": "plugin.js"
+    },
+    {
+      "name": "plugin/geojson_features",
+      "location": "plugins/geojson_features",
+      "main": "plugin.js"
+    },
+    {
+      "name": "plugin/map_settings",
+      "location": "plugins/map_settings",
+      "main": "plugin.js"
+    }
+  ],
+
   paths: {
 
     /* Libraries */
@@ -67,7 +85,6 @@ require.config( {
 
     /* Shortcut paths */
     "template": "../templates",
-    "plugin": "../scripts/plugins",
     "geo": "../geo",
     "URIjs": "../bower_components/uri.js/src",
 
