@@ -32,13 +32,17 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
 
     var ResultItemView = Marionette.ItemView.extend({
 
+      noGeo: true,
+
       events: {
         'mouseover .card': function(e) {
+          if (this.noGeo) return;
           this.feature.bringToFront();
           this.styleFeature(style.hover);
           $('.card', this.$el).addClass('hovered');
         },
         'mouseout .card': function() {
+          if (this.noGeo) return;
           this.styleFeature(style.preview);
           $('.card', this.$el).removeClass('hovered');
         }
@@ -64,17 +68,16 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
         );
         var geojson = this.model.convertToGeoJSON();
         if (geojson) {
+          this.noGeo = false;
           this.feature = L.geoJson(geojson, { style: style.preview } );
           layerGroup.addLayer( this.feature );
+          this.feature.addEventListener('mouseover', function() {
+            self.$el.find('.card').addClass('hovered');
+          });
+          this.feature.addEventListener('mouseout', function() {
+            self.$el.find('.card').removeClass('hovered');
+          });
         }
-
-        // Add listeners.
-        this.feature.addEventListener('mouseover', function() {
-          self.$el.find('.card').addClass('hovered');
-        });
-        this.feature.addEventListener('mouseout', function() {
-          self.$el.find('.card').removeClass('hovered');
-        });
 
 
       },
@@ -94,6 +97,7 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
         map = Communicator.reqres.request("getMap");
         layerGroup = L.featureGroup().addTo(map);
         layerGroup.bringToFront();
+        console.log('pagination');
 
       },
 
