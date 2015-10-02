@@ -1,9 +1,9 @@
 /**
  * CollectionView for displaying search results.
  */
-define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards", "jquery", "leaflet",
+define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards", "jquery", "leaflet", "underscore",
          "config", "tpl!template/results.html"],
-  function(Backbone, Marionette, Communicator, Materialize, $, L,
+  function(Backbone, Marionette, Communicator, Materialize, $, L, _,
            Config, ResultItemTemplate) {
 
     var map;
@@ -35,9 +35,15 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
       noGeo: true,
 
       events: {
+        'click .zoomin': function(e) {
+          e.preventDefault();
+          map.fitBounds( this.feature.getBounds() );
+          map.zoomOut();
+        },
         'mouseover .card': function(e) {
           if (this.noGeo) return;
           this.feature.bringToFront();
+          //map.panTo( this.feature.getBounds().getCenter() );
           this.styleFeature(style.hover);
           $('.card', this.$el).addClass('hovered');
         },
@@ -67,7 +73,7 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
           this.model.get( 'longitude' )
         );
         var geojson = this.model.convertToGeoJSON();
-        if (geojson) {
+        if (geojson && geojson.geometry) {
           this.noGeo = false;
           this.feature = L.geoJson(geojson, { style: style.preview } );
           layerGroup.addLayer( this.feature );
@@ -97,7 +103,6 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
         map = Communicator.reqres.request("getMap");
         layerGroup = L.featureGroup().addTo(map);
         layerGroup.bringToFront();
-        console.log('pagination');
 
       },
 
@@ -109,7 +114,17 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
         }
       },
 
-      childView: ResultItemView
+      childView: ResultItemView,
+
+      onRender: function() {
+
+        // If called immediately, results in error.
+        _.delay(function() {
+          map.fitBounds( layerGroup.getBounds() );
+        }, 500);
+
+      }
+
 
     });
 
