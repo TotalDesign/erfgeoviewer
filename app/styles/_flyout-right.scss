@@ -20,6 +20,9 @@
 
 #search-results {
 
+  .card.hovered {
+    background-color: #eee;
+  }
   .card-title {
     line-height: 100%;
     padding-bottom: 16px;
@@ -175,6 +178,7 @@ $search-padding: 10px;
     top: 0;
     left: 0;
     width: 335px;
+    padding-bottom: 70px;
   }
   .advanced {
     position: absolute;

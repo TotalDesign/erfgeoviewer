@@ -20,25 +20,44 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
         "fillColor": "#fff"
       },
       hover: {
-        "color": Config.colors.secondary,
+        "color": '#000',
         "stroke": true,
-        "weight": 3,
+        "weight": 2,
         "dashArray": null,
-        "fillOpacity": 0.6,
+        "fillOpacity": 0.8,
         "fill": true,
-        "fillColor": "#fff"
+        "fillColor": Config.colors.primary
       }
     };
 
     var ResultItemView = Marionette.ItemView.extend({
 
+      events: {
+        'mouseover .card': function(e) {
+          this.feature.bringToFront();
+          this.styleFeature(style.hover);
+          $('.card', this.$el).addClass('hovered');
+        },
+        'mouseout .card': function() {
+          this.styleFeature(style.preview);
+          $('.card', this.$el).removeClass('hovered');
+        }
+      },
+
       feature: null,
 
       onDestroy: function() {
+
+        // Remove from map.
         if (this.marker) layerGroup.removeLayer(this.marker);
+
       },
 
       onShow: function() {
+
+        var self = this;
+
+        // Show on map
         var p = new L.latLng(
           this.model.get( 'latitude' ),
           this.model.get( 'longitude' )
@@ -48,6 +67,20 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
           this.feature = L.geoJson(geojson, { style: style.preview } );
           layerGroup.addLayer( this.feature );
         }
+
+        // Add listeners.
+        this.feature.addEventListener('mouseover', function() {
+          self.$el.find('.card').addClass('hovered');
+        });
+        this.feature.addEventListener('mouseout', function() {
+          self.$el.find('.card').removeClass('hovered');
+        });
+
+
+      },
+
+      styleFeature(options) {
+        this.feature.setStyle(options);
       },
 
       template: ResultItemTemplate
@@ -59,7 +92,8 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
       initialize: function() {
 
         map = Communicator.reqres.request("getMap");
-        layerGroup = L.layerGroup().addTo(map);
+        layerGroup = L.featureGroup().addTo(map);
+        layerGroup.bringToFront();
 
       },
 
