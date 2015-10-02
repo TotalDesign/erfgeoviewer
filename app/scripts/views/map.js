@@ -160,53 +160,15 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       var self = this,
         markers = (_.isArray(marker)) ? marker : [marker],
         geojson,
-        spatial,
-        defaultProperties;
+        spatial;
 
       _.each(markers, function(m) {
+
         if (_.isEmpty(m.get( 'spatial' )) && (!m.get( 'latitude' ) || !m.get( 'longitude' ))) {
           console.log('invalid marker:', m);
           return false;
         }
-
-        if (spatial = m.get( 'spatial' )) {
-          switch (m.get( 'geometryType' )) {
-            case 'POINT':
-              defaultProperties = {
-                title: m.get('title'),
-                'marker-color': m.get('color')
-              };
-              if (m.get('icon')) defaultProperties['marker-symbol'] = m.get('icon');
-              break;
-
-            default:
-              defaultProperties = {
-                title: m.get('title'),
-                fill: m.get('color'),
-                stroke: m.get('color'),
-                'marker-color': m.get('color'),
-                'marker-symbol': m.get('icon')
-              };
-              break;
-          }
-
-          geojson = _.extend(sparqlToGeoJSON(m.get( 'spatial' )[0]), { properties: defaultProperties });
-        }
-        else {
-          geojson = {
-            type: 'Feature',
-            geometry: {
-              type: 'Point',
-              coordinates: [m.get( 'longitude' )[0], m.get( 'latitude' )[0]]
-            },
-            properties: {
-              title: m.get('title')
-            }
-          };
-          if (m.get('color')) geojson.properties['marker-color'] = m.get('color');
-          if (m.get('icon')) geojson.properties['marker-symbol'] = m.get('icon');
-        }
-
+        geojson = m.convertToGeoJSON();
         var marker = L.mapbox.featureLayer();
         marker.setGeoJSON(geojson);
         marker.on("click", function() {
