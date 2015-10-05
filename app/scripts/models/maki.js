@@ -2,7 +2,7 @@ define(['backbone', 'underscore', 'q'], function(Backbone, _, Q) {
 
   return Backbone.Collection.extend({
 
-    url: 'https://raw.githubusercontent.com/mapbox/maki/mb-pages/_includes/maki.json',
+    url: 'https://raw.githubusercontent.com/mapbox/maki/v0.5.0/_includes/maki.json',
 
     model: Backbone.Model,
 
