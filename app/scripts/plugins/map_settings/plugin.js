@@ -14,7 +14,7 @@ define(['plugin/abstract', './models/settings', 'underscore'], function(Plugin, 
     readData: function(resp) {
       // If there is data, then populate the collection
       if (!_.isUndefined(resp)) {
-        this.model.set(resp);
+        this.model.set(resp, { silent: true });
       }
       return this.model;
     },

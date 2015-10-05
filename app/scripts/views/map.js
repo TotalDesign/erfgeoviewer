@@ -29,9 +29,6 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
     // Instance of a PopupView.
     popup: null,
 
-    // Collections
-//    markerCollection: null,
-
     updateOnPositionChange: true,
 
     initialize: function(o) {
@@ -40,7 +37,6 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       _.bindAll(this, 'updateMapSize', 'addMarker', 'attachMoveEndListener');
 
       this.layout = o.layout;
-//      this.markerCollection = this.state.get('markers');
 
       $( window ).resize( _.throttle( this.updateMapSize, 150 ) );
 
@@ -54,8 +50,8 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
         self.map.setView(options.centerPoint, options.zoom);
       });
       Communicator.mediator.on('map:resetEditorPosition', function() {
-        if (State.get( 'map_settings' ).editorCenterPoint) {
-          self.map.setView(State.get( 'mapSettings').editorCenterPoint, State.get( 'mapSettings').editorZoom);
+        if (State.get( 'map_settings' ).get('editorCenterPoint')) {
+          self.map.setView(State.get('mapSettings').get('editorCenterPoint'), State.get('mapSettings').get('editorZoom'));
         }
       });
       Communicator.mediator.on('map:setUpdateOnPositionChange', function(value) {
@@ -63,15 +59,11 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       });
       Communicator.mediator.on( 'map:moveend', function(map) {
         if (self.updateOnPositionChange) {
-          var mapSettings = State.get( 'mapSettings' ),
-            override = {
-              editorCenterPoint: map.getCenter(),
-              editorZoom: map.getZoom()
-            };
+          State.getPlugin('map_settings').model.set({
+            editorCenterPoint: map.getCenter(),
+            editorZoom: map.getZoom()
+          });
 
-          mapSettings = _.extend( mapSettings, override );
-
-          State.set( 'mapSettings', mapSettings );
 //          self.state.save();
         }
       });
@@ -115,41 +107,6 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
         this.initFeatures(State.getPlugin('geojson_features').collection);
       }, this);
 
-//      Communicator.reqres.setHandler( "saving:markers", function() {
-//        return self.markerCollection.toJSON();
-//      });
-//
-//      Communicator.reqres.setHandler( "restoring:mapSettings", function(response) {
-//        if ( _.isString( response.mapSettings ) )
-//          response.mapSettings = JSON.parse( response.mapSettings );
-//        return response.mapSettings;
-//      });
-//      Communicator.reqres.setHandler( "restoring:baseMap", function(response) {
-//        if (response.baseMap) {
-//          self.setBaseMap(response.baseMap);
-//          return response.baseMap;
-//        }
-//      });
-//      Communicator.reqres.setHandler( "restoring:markers", function(response) {
-//        if (response.markers) {
-//          _.each(_.keys(self.layers), function(group) {
-//            self.layers[group].clearLayers();
-//          });
-//
-//          if ( _.isString( response.markers ) ) {
-//            response.markers = JSON.parse( response.markers );
-//          }
-//          self.markerCollection.reset(response.markers);
-//
-//          self.markerCollection.each(function(m) {
-//            if (!m.get('spatial') && (!m.get('latitude') || !m.get('longitude'))) return false;
-//            self.addMarker(m);
-//          });
-//
-//          return self.markerCollection;
-//        }
-//      });
-
       this.initMap = _.bind(this._initMap, this);
 
       State.on('change:mapSettings', this.initMap)
@@ -174,7 +131,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
     _initMap: function() {
       State.off('change:mapSettings', this.initMap);
 
-      this.map.setView( State.get( 'mapSettings' ).editorCenterPoint || [52.121580, 5.6304], State.get( 'mapSettings' ).editorZoom || 8 );
+      this.map.setView( State.get( 'mapSettings' ).get('editorCenterPoint') || [52.121580, 5.6304], State.get( 'mapSettings' ).get('editorZoom') || 8 );
     },
 
     getGeoJSON: function(marker) {
@@ -233,6 +190,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
         spatial;
 
       _.each(markers, function(m) {
+        m.on('change', self.updateMarker, self);
 
         if (_.isEmpty(m.get( 'spatial' )) && (!m.get( 'latitude' ) || !m.get( 'longitude' ))) {
           console.log('invalid marker:', m);
@@ -317,11 +275,11 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
 
       if (Config.mode == 'viewer') {
         State.on( 'change:mapSettings', function() {
-          this.map.setView( State.get( 'map_settings' ).centerPoint || [52.121580, 5.6304], State.get( 'map_settings' ).zoom || 8 );
+          this.map.setView( State.get( 'map_settings' ).get('centerPoint') || [52.121580, 5.6304], State.get( 'map_settings' ).get('zoom') || 8 );
         }, this );
       }
       else {
-        this.map.setView( State.get( 'map_settings' ).editorCenterPoint || [52.121580, 5.6304], State.get( 'map_settings' ).editorZoom || 8 );
+        this.map.setView( State.get( 'map_settings' ).get('editorCenterPoint') || [52.121580, 5.6304], State.get( 'map_settings' ).get('editorZoom') || 8 );
       }
 
       Communicator.mediator.trigger('map:ready', this.map);
@@ -330,10 +288,6 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       this.layers.markers = new L.MarkerClusterGroup().addTo(this.map);
 
       this.layers.markers.addTo(this.map);
-//      this.markerCollection.on("remove", function(m) {
-//        if (!m.get('spatial') && (!m.get('latitude') || !m.get('longitude'))) return false;
-//        self.removeMarker(m);
-//      });
 
       // Event handlers
       this.map.on('click', function(e) {

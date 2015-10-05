@@ -26,29 +26,6 @@ define(["backbone", "models/markers", 'backbone.localstorage', 'communicator', '
           .done(_.bind(function() {
             this.pluginsInitialized.resolve();
           }, this));
-
-//        setTimeout(_.bind(this.save, this), 7000);
-
-  //      var markers = new MarkersCollection(),
-  //        save = _.bind(function() {
-  //          console.log(arguments);
-  //          this.save();
-  //        }, this),
-  //        onMarkerChange = function(marker) {
-  //          marker.on('change', save);
-  //        };
-  //
-  //      this.set('markers', markers);
-  //
-  //      markers.on('add remove', save);
-  //
-  //      markers.on('add', onMarkerChange);
-  //
-  //      markers.on('reset', function(collection) {
-  //        collection.each(onMarkerChange);
-  //      });
-  //
-  //      _.bindAll(this, 'parse');
       },
 
       initializePlugin: function(pluginName) {
@@ -66,10 +43,6 @@ define(["backbone", "models/markers", 'backbone.localstorage', 'communicator', '
         return deferredPluginLoader.promise;
       },
 
-//      fetch: function() {
-//        return fetched = Backbone.Model.prototype.fetch.apply(this, arguments);
-//      },
-
       parse: function(resp, options) {
         if (options.parse) {
           _.each(this.pluginRegistry, function(plugin, pluginName) {
@@ -80,24 +53,6 @@ define(["backbone", "models/markers", 'backbone.localstorage', 'communicator', '
           return resp;
         }
       },
-
-      /**
-       * Called when initializing data.
-       */
-  //    parse: function(response) {
-  //      var data = {};
-  //
-  //      if (!response) return;
-  //      _.each(this.plugins, function(p) {
-  //        console.log('restoring:' + p)
-  //        var resp = Communicator.reqres.request('restoring:' + p, response);
-  //        if (!_.isUndefined(resp)) {
-  //          data[p] = resp;
-  //        }
-  //      });
-  //
-  //      return data;
-  //    },
 
       /**
        * Register a property that can persist beyond this session.

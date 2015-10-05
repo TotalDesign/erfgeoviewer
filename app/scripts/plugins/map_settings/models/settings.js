@@ -14,7 +14,11 @@ define( ["backbone", "underscore", "config"], function( Backbone, _, Config ) {
       primaryColor: Config.colors.primary,
       secondaryColor: Config.colors.secondary,
       allowStyleChange: false,
-      legend: []
+      legend: [],
+      editorCenterPoint: [52.121580, 5.6304],
+      editorZoom: 8,
+      centerPoint: [52.121580, 5.6304],
+      zoom: 8
     }
 
   } );

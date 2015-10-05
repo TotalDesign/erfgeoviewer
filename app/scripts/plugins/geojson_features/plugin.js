@@ -6,6 +6,7 @@ define(['plugin/abstract', './collections/feature_collection', 'underscore'], fu
     initialize: function(options) {
       this.collection = new FeatureCollection();
       this.collection.on('add', this.bindFeatureChangeHandler, this);
+      this.collection.on('reset', this.bindFeatureCollectionResetHandler, this);
       this.collection.on('add remove', this.save, this);
 
       options.state.set('geojson_features', this.collection);
@@ -13,6 +14,10 @@ define(['plugin/abstract', './collections/feature_collection', 'underscore'], fu
 
     bindFeatureChangeHandler: function (feature) {
       feature.on('change', this.save, this);
+    },
+
+    bindFeatureCollectionResetHandler: function (featureCollection) {
+      featureCollection.each(this.bindFeatureChangeHandler, this);
     },
 
     readData: function(resp) {
