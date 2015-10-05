@@ -115,7 +115,9 @@ require( [
 
         return d.promise;
       })
-      .then(Config.makiCollection.getPromise)
+      .then(function() {
+        return Config.makiCollection.fetch();
+      })
       .done(function() {
         App.map_view = new MapView({
           layout: App.layout
