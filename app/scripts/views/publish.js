@@ -54,10 +54,10 @@ define(["backbone", "backbone.marionette", "d3", "communicator", 'models/state',
         Communicator.mediator.trigger('map:setUpdateOnPositionChange', false);
 
         // Position and zoom map to stored export settings if any
-        if (State.get( 'mapSettings' ).centerPoint) {
+        if (State.getPlugin('map_settings').model.get('centerPoint')) {
           Communicator.mediator.trigger( 'map:setPosition', {
-            centerPoint: State.get( 'mapSettings' ).centerPoint,
-            zoom: State.get( 'mapSettings' ).zoom
+            centerPoint: State.getPlugin('map_settings').model.get('centerPoint'),
+            zoom: State.getPlugin('map_settings').model.get('zoom')
           });
         }
         else {
@@ -104,16 +104,10 @@ define(["backbone", "backbone.marionette", "d3", "communicator", 'models/state',
       },
 
       _onChangePosition: function(map) {
-        var mapSettings = State.get( 'mapSettings' ),
-          override = {
-            centerPoint: map.getCenter(),
-            zoom: map.getZoom()
-          };
-
-        mapSettings = _.extend( mapSettings, override );
-
-        State.set( 'mapSettings', mapSettings );
-        State.save();
+        State.getPlugin('map_settings').model.set({
+          centerPoint: map.getCenter(),
+          zoom: map.getZoom()
+        });
       }
 
     });

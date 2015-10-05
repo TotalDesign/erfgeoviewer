@@ -50,8 +50,8 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
         self.map.setView(options.centerPoint, options.zoom);
       });
       Communicator.mediator.on('map:resetEditorPosition', function() {
-        if (State.get( 'map_settings' ).get('editorCenterPoint')) {
-          self.map.setView(State.get('mapSettings').get('editorCenterPoint'), State.get('mapSettings').get('editorZoom'));
+        if (State.getPlugin('map_settings').model.get('editorCenterPoint')) {
+          self.map.setView(State.getPlugin('map_settings').model.get('editorCenterPoint'), State.getPlugin('map_settings').model.get('editorZoom'));
         }
       });
       Communicator.mediator.on('map:setUpdateOnPositionChange', function(value) {
@@ -129,9 +129,9 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
     },
 
     _initMap: function() {
-      State.off('change:mapSettings', this.initMap);
+      State.off('change:map_settings', this.initMap);
 
-      this.map.setView( State.get( 'mapSettings' ).get('editorCenterPoint') || [52.121580, 5.6304], State.get( 'mapSettings' ).get('editorZoom') || 8 );
+      this.map.setView( State.getPlugin('map_settings').model.get('editorCenterPoint') || [52.121580, 5.6304], State.getPlugin('map_settings').model.get('editorZoom') || 8 );
     },
 
     getGeoJSON: function(marker) {
@@ -274,12 +274,12 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       this.setBaseMap( State.get('baseMap') || "osm" );
 
       if (Config.mode == 'viewer') {
-        State.on( 'change:mapSettings', function() {
-          this.map.setView( State.get( 'map_settings' ).get('centerPoint') || [52.121580, 5.6304], State.get( 'map_settings' ).get('zoom') || 8 );
+        State.on( 'change:map_settings', function() {
+          this.map.setView( State.getPlugin('map_settings').model.get('centerPoint') || [52.121580, 5.6304], State.getPlugin('map_settings').model.get('zoom') || 8 );
         }, this );
       }
       else {
-        this.map.setView( State.get( 'map_settings' ).get('editorCenterPoint') || [52.121580, 5.6304], State.get( 'map_settings' ).get('editorZoom') || 8 );
+        this.map.setView( State.getPlugin('map_settings').model.get('editorCenterPoint') || [52.121580, 5.6304], State.getPlugin('map_settings').model.get('editorZoom') || 8 );
       }
 
       Communicator.mediator.trigger('map:ready', this.map);
