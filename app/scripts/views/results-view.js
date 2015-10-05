@@ -35,6 +35,11 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
       noGeo: true,
 
       events: {
+        "click .add-marker": function(e) {
+          e.preventDefault();
+
+          Communicator.mediator.trigger( "marker:addModelId", this.model.cid );
+        },
         'click .zoomin': function(e) {
           e.preventDefault();
           map.fitBounds( this.feature.getBounds() );
@@ -104,14 +109,6 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
         layerGroup = L.featureGroup().addTo(map);
         layerGroup.bringToFront();
 
-      },
-
-      events: {
-        "click .add-marker": function(e) {
-          e.preventDefault();
-          var modelId = $( e.target ).data( 'model-id' );
-          Communicator.mediator.trigger( "marker:addModelId", modelId);
-        }
       },
 
       childView: ResultItemView,

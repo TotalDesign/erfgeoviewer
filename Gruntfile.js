@@ -208,8 +208,7 @@ module.exports = function( grunt ) {
           mainConfigFile: 'app/scripts/require-config.js',
 
           // TODO: split for two different builds
-          name: 'erfgeoviewer.reader'
-
+          name: 'erfgeoviewer.mapmaker'
         }
       }
     },
@@ -327,6 +326,39 @@ module.exports = function( grunt ) {
     grunt.file.write( '.tmp/scripts/templates.js', 'this.JST = this.JST || {};' );
   } );
 
+  grunt.registerTask( 'registerPlugins', function() {
+    var find = require('find'),
+      fs = require('fs'),
+      path = require('path'),
+      util = require('util'),
+      done = this.async(),
+      pluginDir = yeomanConfig.app + '/scripts/plugins',
+      outDir = yeomanConfig.dist + '/scripts/plugin';
+
+    var inspect = function (obj) {
+      return util.inspect(obj, false, 4, true);
+    };
+
+    find.file(/^erfgeo-grunt-require\.json$/, pluginDir, function(files) {
+      files.forEach(function(file) {
+        var baseUrl = path.dirname(file),
+          pluginName = path.basename(baseUrl),
+          requirejsConfig = JSON.parse(fs.readFileSync(file, 'utf8'));
+
+        requirejsConfig.options.baseUrl = 'app/scripts';
+        requirejsConfig.options.out = path.join(outDir, pluginName + '.js');
+
+        grunt.log.subhead('Register plugin:')
+          .subhead('  ' + pluginName + ':')
+          .writeln('  ' + inspect(requirejsConfig));
+
+        grunt.config.set('requirejs.' + pluginName, requirejsConfig)
+
+      });
+      done();
+    });
+  });
+
   // starts express server with live testing via testserver
   grunt.registerTask( 'default', function( target ) {
 
@@ -366,6 +398,7 @@ module.exports = function( grunt ) {
     'env:prod',
     'compass:dist',
     'useminPrepare',
+    'registerPlugins',
     'requirejs',
     'imagemin',
     'htmlmin',

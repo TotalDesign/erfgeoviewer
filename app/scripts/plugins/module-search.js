@@ -1,5 +1,5 @@
-define(["backbone", "backbone.marionette", "communicator", "plugins/module", 'views/results-view'],
-  function(Backbone, Marionette, Communicator, ErfgeoModule, ResultsView) {
+define(["backbone", "backbone.marionette", "communicator", 'models/state', "plugins/module", 'views/results-view'],
+  function(Backbone, Marionette, Communicator, State, ErfgeoModule, ResultsView) {
 
     return ErfgeoModule.extend({
 
@@ -28,12 +28,12 @@ define(["backbone", "backbone.marionette", "communicator", "plugins/module", 'vi
           _.each(attrs, function(key) {
             vars[key] = result.get(key);
           });
-          if ( !self.markers.findWhere({
+          if ( !State.getPlugin('geojson_features').collection.findWhere({
               longitude: vars.longitude,
               latitude: vars.latitude,
               title: vars.title
             })) {
-            self.markers.push( [vars] );
+            State.getPlugin('geojson_features').collection.add( vars );
           }
           Communicator.mediator.trigger( "map:panTo", {
             lng: vars.longitude[0],

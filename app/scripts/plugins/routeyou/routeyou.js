@@ -3,10 +3,10 @@
  * maintaining state of routes (storing/restoring).
  */
 define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator', 'underscore',
-    'models/marker',
+    'models/marker', 'models/state',
     'plugins/routeyou/route-list', 'plugins/routeyou/route-view'],
   function(Backbone, Marionette, ErfGeoviewerModule, Communicator, _,
-    MarkerModel,
+    MarkerModel, State,
     RouteListCollection, RouteSelector) {
 
     return ErfGeoviewerModule.extend({
@@ -21,7 +21,6 @@ define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator', 'u
       routeLayerGroup: null,
       routeyou_view: false,
       selector_view: false,
-      state: null,
       style: {
         previewRoute: {
           color: '#000',
@@ -40,9 +39,8 @@ define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator', 'u
         var self = this;
         _.bindAll(this, 'showSelector');
 
-        this.state = o.state;
-        this.state.registerPlugin('routeyou');
-        this.markers = this.state.get('markers');
+        State.registerPlugin('routeyou');
+        this.markers = State.get('markers');
 
         this.availableRoutes_collection = new RouteListCollection();
         this.addedRoutes_collection = new Backbone.Collection();

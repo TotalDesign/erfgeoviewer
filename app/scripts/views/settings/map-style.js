@@ -1,5 +1,5 @@
-define(['views/settings/abstract-settings', 'communicator', 'config', 'tpl!template/settings/map-style.html'],
-  function(ParentView, Communicator, Config, SettingsTemplate) {
+define(['backbone', 'models/state', 'views/settings/abstract-settings', 'communicator', 'config', 'tpl!template/settings/map-style.html'],
+  function(Backbone, State, ParentView, Communicator, Config, SettingsTemplate) {
 
     return ParentView.extend({
 
@@ -9,17 +9,13 @@ define(['views/settings/abstract-settings', 'communicator', 'config', 'tpl!templ
         }
       }),
 
-      model: null,
-
       template: SettingsTemplate,
 
-      initialize: function(o) {
+      initialize: function() {
         this.model = new Backbone.Model({
           tiles: Config.tiles,
-          allowStyleChange: o.state.get( 'mapSettings' ).allowStyleChange
+          allowStyleChange: State.getPlugin('map_settings').model.get('allowStyleChange')
         });
-
-        ParentView.prototype.initialize.apply(this, arguments);
       }
 
     });
