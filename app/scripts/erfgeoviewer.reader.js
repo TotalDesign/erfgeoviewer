@@ -36,23 +36,21 @@ require( [
            */
           Communicator.reqres.setHandler("app:get", function() { return App; });
           Communicator.reqres.setHandler("router:get", function() { return App.router; });
-          Communicator.mediator.on('map:ready', function() {
+          Communicator.mediator.on('map:ready', function(map) {
 
             /**
              * Legend
              */
             if (State.getPlugin('map_settings').model.get('showLegend') && State.getPlugin('map_settings').model.get('legend')) {
-              Communicator.mediator.on('map:ready', function(map) {
-                var legend = L.control({ position: 'bottomleft' });
+              var legend = L.control({ position: 'bottomleft' });
 
-                legend.onAdd = function (map) {
-                  // Render legend
-                  var legendView = new LegendView({ legend: State.getPlugin('map_settings').model.get('legend') });
-                  return legendView.render().$el[0];
-                };
+              legend.onAdd = function (map) {
+                // Render legend
+                var legendView = new LegendView({ legend: State.getPlugin('map_settings').model.get('legend') });
+                return legendView.render().$el[0];
+              };
 
-                legend.addTo(map);
-              });
+              legend.addTo(map);
             }
           });
           Communicator.mediator.on( "marker:click", function( m ) {
