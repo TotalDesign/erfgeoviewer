@@ -274,9 +274,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       this.setBaseMap( State.get('baseMap') || "osm" );
 
       if (Config.mode == 'viewer') {
-        State.on( 'change:map_settings', function() {
           this.map.setView( State.getPlugin('map_settings').model.get('centerPoint') || [52.121580, 5.6304], State.getPlugin('map_settings').model.get('zoom') || 8 );
-        }, this );
       }
       else {
         this.map.setView( State.getPlugin('map_settings').model.get('editorCenterPoint') || [52.121580, 5.6304], State.getPlugin('map_settings').model.get('editorZoom') || 8 );

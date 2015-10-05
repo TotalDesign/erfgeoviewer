@@ -44,6 +44,8 @@ define(["backbone", "models/markers", 'backbone.localstorage', 'communicator', '
       },
 
       parse: function(resp, options) {
+        options = _.extend({ parse: true }, options);
+
         if (options.parse) {
           _.each(this.pluginRegistry, function(plugin, pluginName) {
             if (_.isFunction(plugin.readData)) {
