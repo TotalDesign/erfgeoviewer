@@ -4,12 +4,12 @@ require( [
   function() {
   require(['backbone', 'erfgeoviewer.common', 'communicator', 'jquery', 'config', 'q',
     'views/map', 'views/header', 'views/search/search', 'views/settings', 'views/detail', 'views/detail-settings', 'views/basemap', 'views/publish',  'views/layout/detail.layout',
-    'plugins/routeyou/routeyou', 'erfgeoviewer.search', 'plugins/draw/draw',
+    'plugins/routeyou/routeyou', 'erfgeoviewer.search',
     'models/layers', 'models/state'],
 
   function(Backbone, App, Communicator, $, Config, Q,
            MapView, HeaderView, SearchView, SettingsView, DetailView, DetailSettingsView, BaseMapSelector, PublishView, DetailLayout,
-           RouteyouModule, SearchModule, DrawModule,
+           RouteyouModule, SearchModule,
            LayerCollection, State) {
 
     /**

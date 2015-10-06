@@ -1,4 +1,4 @@
-define(['plugin/abstract', 'communicator', 'underscore', 'leaflet', 'models/state'], function(Plugin, Communicator, _, L, State) {
+define(['plugin/abstract', 'communicator', 'underscore', 'leaflet', 'leaflet.draw', 'models/state'], function(Plugin, Communicator, _, L, LDraw, State) {
   return Plugin.extend({
 
     initialize: function() {
