@@ -7,7 +7,7 @@ define(["backbone", "models/markers", 'backbone.localstorage', 'communicator', '
 
       // These are core plugins
       // Additions will be added by actual plugins via registerPlugin(),
-      plugins: ['geojson_features', 'map_settings'],
+      plugins: ['geojson_features', 'map_settings', 'draw'],
 
       pluginRegistry: {},
 

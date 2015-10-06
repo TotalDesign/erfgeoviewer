@@ -32,6 +32,11 @@ require.config( {
       "name": "plugin/map_settings",
       "location": "plugins/map_settings",
       "main": "plugin.js"
+    },
+    {
+      "name": "plugin/draw",
+      "location": "plugins/draw",
+      "main": "plugin.js"
     }
   ],
 
