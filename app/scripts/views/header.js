@@ -27,6 +27,7 @@ define( ["backbone", "backbone.marionette", "materialize.sidenav", "jquery.hamme
           menuWidth: 300,
           closeOnClick: true
         } );
+        Communicator.mediator.trigger("header:shown");
       }
 
     } );

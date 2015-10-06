@@ -37,6 +37,11 @@ require.config( {
       "name": "plugin/draw",
       "location": "plugins/draw",
       "main": "plugin.js"
+    },
+    {
+      "name": "plugin/feature_list",
+      "location": "plugins/feature_list",
+      "main": "plugin.js"
     }
   ],
 
@@ -56,6 +61,7 @@ require.config( {
     "config": "config/dev",
     "d3": "../bower_components/d3/d3",
     "erfgeoviewer.search": "plugins/zev/zev",
+    //"erfgeoviewer.search": "plugins/delving/delving",
     "hammerjs": "../bower_components/hammerjs/hammer",
     "jquery": "../bower_components/jquery/dist/jquery",
     "jquery.easing": "../bower_components/materialize/js/jquery.easing.1.3",

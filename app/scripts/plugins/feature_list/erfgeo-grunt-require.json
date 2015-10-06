@@ -1,0 +1,27 @@
+{
+  "options": {
+    "optimize": "none",
+    "preserveLicenseComments": false,
+    "useStrict": true,
+    "wrap": true,
+    "name": "plugin/feature_list",
+    "paths": {
+      "backbone": "empty:",
+      "underscore": "empty:",
+      "config": "empty:",
+      "communicator": "empty:"
+    },
+    "packages": [
+      {
+        "name": "plugin/abstract",
+        "location": "plugins/_abstract",
+        "main": "plugin.js"
+      },
+      {
+        "name": "plugin/feature_list",
+        "location": "plugins/feature_list",
+        "main": "plugin.js"
+      }
+    ]
+  }
+}
