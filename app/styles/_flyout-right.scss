@@ -176,6 +176,10 @@ $search-padding: 10px;
 #search-results {
   padding: $search-padding;
 }
+#search-progress {
+  font-size: 20px;
+  text-align: center;
+}
 #search-pagination {
   padding: $search-padding;
 }

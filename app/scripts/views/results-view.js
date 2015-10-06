@@ -41,21 +41,24 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
           if (this.addDisabled) return;
           Communicator.mediator.trigger( "marker:addModelId", this.model.cid );
           map.panTo( this.feature.getBounds().getCenter() );
+          this.removeMarker();
+          this.disableAdd();
         },
         'click .zoomin': function(e) {
           e.preventDefault();
+          if (this.noGeo || !this.feature) return;
           map.fitBounds( this.feature.getBounds() );
           map.zoomOut();
         },
         'mouseover .card': function(e) {
-          if (this.noGeo) return;
+          if (this.noGeo || !this.feature) return;
           this.feature.bringToFront();
           //map.panTo( this.feature.getBounds().getCenter() );
           this.styleFeature(style.hover);
           $('.card', this.$el).addClass('hovered');
         },
         'mouseout .card': function() {
-          if (this.noGeo) return;
+          if (this.noGeo || !this.feature) return;
           this.styleFeature(style.preview);
           $('.card', this.$el).removeClass('hovered');
         }
@@ -90,15 +93,19 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
           this.feature.addEventListener('mouseout', function() {
             self.$el.find('.card').removeClass('hovered');
           });
+        } else {
+          this.noGeo = true;
+          this.disableAdd();
         }
 
 
       },
 
       removeMarker: function() {
-        // Remove from map.
-        console.log('removing marker for', this.model);
-        if (this.marker) layerGroup.removeLayer(this.marker);
+        if (this.feature) {
+          layerGroup.removeLayer(this.feature);
+          this.feature = false;
+        }
       },
 
       styleFeature(options) {
@@ -121,13 +128,6 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
         Communicator.mediator.on( "map:tile-layer-clicked", function() {
           layerGroup.clearLayers();
         });
-        Communicator.mediator.on( "marker:addModelId", function(cid) {
-          var model = self.collection.findWhere({ cid: cid });
-          var view = self.children.findByModel(model);
-          view.removeMarker();
-          view.disableAdd();
-        });
-
       },
 
       childView: ResultItemView,
@@ -143,7 +143,6 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
 
       onDestroy: function() {
         Communicator.mediator.off( "map:tile-layer-clicked", null, this );
-        Communicator.mediator.off( "marker:addModelId", null, this );
       }
 
 
