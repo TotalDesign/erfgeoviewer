@@ -3,10 +3,10 @@
  */
 define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-search', 'backgrid', 'backgrid.paginator',
     'plugins/zev/zev-collection', 'models/state',
-    'tpl!template/search/layout-search.html', 'views/results-view', 'views/search/search-field', 'plugins/zev/zev-facets-view'],
+    'views/search/search-wait', 'views/results-view', 'views/search/search-field', 'plugins/zev/zev-facets-view'],
   function(Backbone, Marionette, Communicator, SearchModule, Backgrid, PaginatorView,
            DelvingCollection, State,
-           LayoutTemplate, ResultsView, DelvingSearchView, ZevFacetsView) {
+           WaitView, ResultsView, DelvingSearchView, ZevFacetsView) {
 
     return SearchModule.extend({
 
@@ -14,20 +14,6 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
         'type': 'search',
         'title': 'Zoek ONH'
       },
-
-      layoutView: Marionette.LayoutView.extend({
-        initialize: function() {
-          console.log('initializing zoek en vind layout view');
-        },
-        template: LayoutTemplate,
-        regions: {
-          search: "#search-field",
-          facets: "#search-facets",
-          filters: "#search-filters",
-          pagination: "#search-pagination",
-          results: "#search-results"
-        }
-      }),
 
       markers: null,
       facets: null,
@@ -108,19 +94,32 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
         });
       },
 
+      // Overrides parent to implement facets (a bit overkill)
       getResults: function() {
+
         var self = this;
+        if (this.resultsView) this.resultsView.destroy();
+        if (this.facetsView) this.facetsView.remove();
+        if (this.paginationView) this.paginationView.remove();
+        this.layout.getRegion( 'progress' ).show( new WaitView() );
 
         self.results.fetch({
           success: function(collection) {
-            self.layout.getRegion( 'facets' ).show( new ZevFacetsView({ collection: collection.getFacetConfig(), searchModel: self.model }) );
-            self.layout.getRegion( 'results' ).show( new ResultsView( {collection: collection} ) );
-            self.layout.getRegion( 'pagination' ).show( new Backgrid.Extension.Paginator( {
+
+            self.facetsView = new ZevFacetsView({ collection: collection.getFacetConfig(), searchModel: self.model });
+            self.resultsView = new ResultsView( {collection: collection} );
+            self.paginationView = new Backgrid.Extension.Paginator( {
               collection: collection,
               windowSize: 5
-            } ) );
+            } );
+
+            self.layout.getRegion( 'facets' ).show( self.facetsView );
+            self.layout.getRegion( 'results' ).show( self.resultsView );
+            self.layout.getRegion( 'pagination' ).show( self.paginationView );
+            self.layout.getRegion( 'progress' ).reset();
           }
         });
+
       },
 
       render: function() {

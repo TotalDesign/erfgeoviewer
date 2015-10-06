@@ -3,10 +3,10 @@
  */
 define( ['backbone.marionette', 'communicator', 'plugins/module-search', 'backgrid', 'backgrid.paginator',
     'plugins/delving/delving-collection',
-    'tpl!template/search/layout-search.html', 'views/search/search-field'],
+    'views/search/search-field'],
   function(Marionette, Communicator, ErfGeoSearchModule, Backgrid, PaginatorView,
            DelvingCollection,
-           LayoutTemplate, DelvingSearchView) {
+           DelvingSearchView) {
 
     return ErfGeoSearchModule.extend({
 
@@ -14,16 +14,6 @@ define( ['backbone.marionette', 'communicator', 'plugins/module-search', 'backgr
         'type': 'search',
         'title': 'Zoek ONH'
       },
-
-      layoutView: Marionette.LayoutView.extend({
-        template: LayoutTemplate,
-        regions: {
-          search: "#search-field",
-          facets: "#search-facets",
-          pagination: "#search-pagination",
-          results: "#search-results"
-        }
-      }),
 
       initialize: function() {
         this.results = new DelvingCollection();
