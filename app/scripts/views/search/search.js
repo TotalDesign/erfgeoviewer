@@ -1,7 +1,7 @@
 /**
  * Flyout view "Zoeken". A search module is loaded inside of here.
  */
-define(['backbone', 'backbone.marionette', 'communicator', 'jquery',
+define(['../../../bower_components/backbone/backbone', 'backbone.marionette', 'communicator', 'jquery',
     'tpl!template/search/layout-flyout.html'],
   function( Backbone, Marionette, Communicator, $,
             LayoutTemplate ) {

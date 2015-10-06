@@ -3,7 +3,7 @@ require( [
   ],
   function() {
   require(['backbone', 'erfgeoviewer.common', 'communicator', 'jquery', 'config', 'q',
-    'views/map', 'views/header', 'views/search', 'views/settings', 'views/detail', 'views/detail-settings', 'views/basemap', 'views/publish',  'views/layout/detail.layout',
+    'views/map', 'views/header', 'views/search/search', 'views/settings', 'views/detail', 'views/detail-settings', 'views/basemap', 'views/publish',  'views/layout/detail.layout',
     'plugins/routeyou/routeyou', 'erfgeoviewer.search', 'plugins/draw/draw',
     'models/layers', 'models/state'],
 
