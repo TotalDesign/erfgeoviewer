@@ -234,4 +234,19 @@ body {
 .legend {
   width: 200px;
   background-color: white;
+  padding-bottom: 10px;
+
+  .row {
+    margin: 0 10px;
+    padding-top: 10px;
+    min-height: 40px;
+    line-height: 24px;
+
+    img {
+      position: absolute;
+    }
+    .label {
+      margin-left: 30px;
+    }
+  }
 }

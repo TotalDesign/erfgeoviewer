@@ -1,4 +1,8 @@
 <div class="row">
+  <% if (icon) { %>
+  <img src="<%= icon %>" />
+  <% } else { %>
   <div class="color-box" style="background-color: <%= color %>;"></div>
+  <% } %>
   <div class="label"><%= label %></div>
 </div>
