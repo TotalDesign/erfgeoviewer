@@ -2,10 +2,10 @@
  * Provides functionality to place a view inside of a flyout-pane.
  */
 define([
-    'backbone.marionette', 'jquery', 'communicator', 'underscore'
+    'backbone.marionette', 'jquery', 'jquery.hammer', 'communicator', 'underscore'
   ],
 
-  function( Marionette, $, Communicator, _ ) {
+  function( Marionette, $, jQueryHammer, Communicator, _ ) {
     'use strict';
 
     return Marionette.Region.extend({
@@ -23,6 +23,10 @@ define([
 
       onShow: function() {
         this.$el.on( 'transitionend', this.onShownWrapper );
+
+        if (this.options.el == '#flyout-detail') {
+          this.$el.hammer().bind('swiperight', _.bind(this.hideFlyout, this));
+        }
 
         this.$el.addClass('visible');
         this.$container = this.$el;
