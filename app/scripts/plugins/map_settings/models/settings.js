@@ -11,6 +11,7 @@ define( ["backbone", "underscore", "config"], function( Backbone, _, Config ) {
       allowFullscreen: false,
       showShare: false,
       showLegend: false,
+      showList: false,
       primaryColor: Config.colors.primary,
       secondaryColor: Config.colors.secondary,
       allowStyleChange: false,
