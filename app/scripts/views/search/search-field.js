@@ -1,4 +1,4 @@
-define(["../../../bower_components/backbone/backbone", "backbone.marionette", "jquery", "communicator",
+define(["backbone", "backbone.marionette", "jquery", "communicator",
     "tpl!template/search/search-box.html"],
   function(Backbone, Marionette, $, Communicator,
            SearchFieldTemplate) {
