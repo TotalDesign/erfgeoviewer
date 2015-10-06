@@ -62,10 +62,7 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
       feature: null,
 
       onDestroy: function() {
-
-        // Remove from map.
-        if (this.marker) layerGroup.removeLayer(this.marker);
-
+        this.removeMarker();
       },
 
       onShow: function() {
@@ -93,6 +90,12 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
 
       },
 
+      removeMarker: function() {
+        // Remove from map.
+        console.log('removing marker for', this.model);
+        if (this.marker) layerGroup.removeLayer(this.marker);
+      },
+
       styleFeature(options) {
         this.feature.setStyle(options);
       },
@@ -105,12 +108,18 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
 
       initialize: function() {
 
+        var self = this;
         map = Communicator.reqres.request("getMap");
         layerGroup = L.featureGroup().addTo(map);
         layerGroup.bringToFront();
 
         Communicator.mediator.on( "map:tile-layer-clicked", function() {
           layerGroup.clearLayers();
+        });
+        Communicator.mediator.on( "marker:addModelId", function(cid) {
+          var model = self.collection.findWhere({ cid: cid });
+          var view = self.children.findByModel(model);
+          view.removeMarker();
         });
 
       },
