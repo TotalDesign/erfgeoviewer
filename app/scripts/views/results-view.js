@@ -32,13 +32,15 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
 
     var ResultItemView = Marionette.ItemView.extend({
 
+      addDisabled: false,
+      feature: null,
       noGeo: true,
-
       events: {
         "click .add-marker": function(e) {
           e.preventDefault();
-
+          if (this.addDisabled) return;
           Communicator.mediator.trigger( "marker:addModelId", this.model.cid );
+          map.panTo( this.feature.getBounds().getCenter() );
         },
         'click .zoomin': function(e) {
           e.preventDefault();
@@ -59,7 +61,10 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
         }
       },
 
-      feature: null,
+      disableAdd: function() {
+        this.addDisabled = true;
+        $('.card', this.$el).addClass('already-added');
+      },
 
       onDestroy: function() {
         this.removeMarker();
@@ -120,6 +125,7 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
           var model = self.collection.findWhere({ cid: cid });
           var view = self.children.findByModel(model);
           view.removeMarker();
+          view.disableAdd();
         });
 
       },
@@ -133,6 +139,11 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
           map.fitBounds( layerGroup.getBounds() );
         }, 500);
 
+      },
+
+      onDestroy: function() {
+        Communicator.mediator.off( "map:tile-layer-clicked", null, this );
+        Communicator.mediator.off( "marker:addModelId", null, this );
       }
 
 
