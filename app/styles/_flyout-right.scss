@@ -20,8 +20,16 @@
 
 #search-results {
 
-  .card.hovered {
-    background-color: #eee;
+  .card {
+    &.hovered {
+      background-color: #eee;
+    }
+    &.already-added {
+      opacity: 0.5;
+      .add-marker {
+        color: #555 !important;
+      }
+    }
   }
   .card-title {
     line-height: 100%;
@@ -167,6 +175,10 @@ $search-padding: 10px;
 }
 #search-results {
   padding: $search-padding;
+}
+#search-progress {
+  font-size: 20px;
+  text-align: center;
 }
 #search-pagination {
   padding: $search-padding;

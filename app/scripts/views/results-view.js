@@ -32,40 +32,45 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
 
     var ResultItemView = Marionette.ItemView.extend({
 
+      addDisabled: false,
+      feature: null,
       noGeo: true,
-
       events: {
         "click .add-marker": function(e) {
           e.preventDefault();
-
+          if (this.addDisabled) return;
           Communicator.mediator.trigger( "marker:addModelId", this.model.cid );
+          map.panTo( this.feature.getBounds().getCenter() );
+          this.removeMarker();
+          this.disableAdd();
         },
         'click .zoomin': function(e) {
           e.preventDefault();
+          if (this.noGeo || !this.feature) return;
           map.fitBounds( this.feature.getBounds() );
           map.zoomOut();
         },
         'mouseover .card': function(e) {
-          if (this.noGeo) return;
+          if (this.noGeo || !this.feature) return;
           this.feature.bringToFront();
           //map.panTo( this.feature.getBounds().getCenter() );
           this.styleFeature(style.hover);
           $('.card', this.$el).addClass('hovered');
         },
         'mouseout .card': function() {
-          if (this.noGeo) return;
+          if (this.noGeo || !this.feature) return;
           this.styleFeature(style.preview);
           $('.card', this.$el).removeClass('hovered');
         }
       },
 
-      feature: null,
+      disableAdd: function() {
+        this.addDisabled = true;
+        $('.card', this.$el).addClass('already-added');
+      },
 
       onDestroy: function() {
-
-        // Remove from map.
-        if (this.marker) layerGroup.removeLayer(this.marker);
-
+        this.removeMarker();
       },
 
       onShow: function() {
@@ -88,9 +93,19 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
           this.feature.addEventListener('mouseout', function() {
             self.$el.find('.card').removeClass('hovered');
           });
+        } else {
+          this.noGeo = true;
+          this.disableAdd();
         }
 
 
+      },
+
+      removeMarker: function() {
+        if (this.feature) {
+          layerGroup.removeLayer(this.feature);
+          this.feature = false;
+        }
       },
 
       styleFeature(options) {
@@ -105,10 +120,14 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
 
       initialize: function() {
 
+        var self = this;
         map = Communicator.reqres.request("getMap");
         layerGroup = L.featureGroup().addTo(map);
         layerGroup.bringToFront();
 
+        Communicator.mediator.on( "map:tile-layer-clicked", function() {
+          layerGroup.clearLayers();
+        });
       },
 
       childView: ResultItemView,
@@ -120,6 +139,10 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
           map.fitBounds( layerGroup.getBounds() );
         }, 500);
 
+      },
+
+      onDestroy: function() {
+        Communicator.mediator.off( "map:tile-layer-clicked", null, this );
       }
 
 

@@ -30,6 +30,9 @@ define( ["backbone", "underscore", "config", "vendor/sparql-geojson"], function(
     convertToGeoJSON: function() {
 
       var defaultProperties, geojson, spatial;
+      if (_.isEmpty(this.get( 'spatial' )) && (!this.get( 'latitude' ) || !this.get( 'longitude' ))) {
+        return false;
+      }
 
       if (spatial = this.get( 'spatial' )) {
 
@@ -53,9 +56,6 @@ define( ["backbone", "underscore", "config", "vendor/sparql-geojson"], function(
             break;
         }
 
-        if (_.isEmpty(this.get( 'spatial' )) && (!this.get( 'latitude' ) || !this.get( 'longitude' ))) {
-          return false;
-        }
         geojson = _.extend(sparqlToGeoJSON(this.get( 'spatial' )[0]), { properties: defaultProperties });
 
       }

@@ -1,7 +1,24 @@
-define(["backbone", "backbone.marionette", "communicator", 'models/state', "plugins/module", 'views/results-view'],
-  function(Backbone, Marionette, Communicator, State, ErfgeoModule, ResultsView) {
+define(["backbone", "backbone.marionette", "communicator", 'models/state', "plugins/module",
+    'views/results-view', "views/search/search-wait",
+    'tpl!template/search/layout-search.html'],
+  function(Backbone, Marionette, Communicator, State, ErfgeoModule,
+           ResultsView, WaitView,
+           LayoutTemplate) {
 
     return ErfgeoModule.extend({
+
+      layoutView: Marionette.LayoutView.extend({
+        template: LayoutTemplate,
+        regions: {
+          search: "#search-field",
+          facets: "#search-facets",
+          filters: "#search-filters",
+          progress: "#search-progress",
+          pagination: "#search-pagination",
+          results: "#search-results",
+          progress: "#search-progress"
+        }
+      }),
 
       initialize: function(o) {
 
@@ -35,21 +52,11 @@ define(["backbone", "backbone.marionette", "communicator", 'models/state', "plug
             })) {
             State.getPlugin('geojson_features').collection.add( vars );
           }
-          Communicator.mediator.trigger( "map:panTo", {
-            lng: vars.longitude[0],
-            lat: vars.latitude[0]
-          } );
         });
 
         this.listenTo(this.model, "change:terms", function() {
           self.results.state.terms = self.model.get('terms');
-
-          self.results.fetch({
-            success: function(collection) {
-              self.layout.getRegion( 'results' ).show( new ResultsView( {collection: collection} ) );
-              self.layout.getRegion( 'pagination' ).show( new Backgrid.Extension.Paginator( {collection: collection} ) );
-            }
-          });
+          self.getResults();
         });
 
         this.listenTo(this.model, "change:viewportFilter", function() {
@@ -78,6 +85,25 @@ define(["backbone", "backbone.marionette", "communicator", 'models/state', "plug
           });
         });
 
+      },
+
+      getResults: function() {
+        var self = this;
+
+        this.layout.getRegion( 'progress' ).show( new WaitView() );
+        if (this.resultsView) this.resultsView.destroy();
+        if (this.paginationView) this.paginationView.remove();
+
+        this.results.fetch({
+          success: function(collection) {
+
+            self.resultsView = new ResultsView( {collection: collection} );
+            self.layout.getRegion( 'progress' ).reset();
+            self.layout.getRegion( 'results' ).show( self.resultsView );
+            self.layout.getRegion( 'pagination' ).show( new Backgrid.Extension.Paginator( {collection: collection} ) );
+
+          }
+        });
       }
 
   });
