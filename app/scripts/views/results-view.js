@@ -109,6 +109,10 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
         layerGroup = L.featureGroup().addTo(map);
         layerGroup.bringToFront();
 
+        Communicator.mediator.on( "map:tile-layer-clicked", function() {
+          layerGroup.clearLayers();
+        });
+
       },
 
       childView: ResultItemView,
