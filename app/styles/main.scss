@@ -27,6 +27,7 @@ body {
     @include transition-property(transform);
     @include transition-duration(400ms);
     @include transition-timing-function(ease-out);
+    .mapbox-logo { display: none; }
   }
   &.flyout-right-visible {
     #map { transform: translate(-175px); }
@@ -236,6 +237,7 @@ body {
   width: 200px;
   background-color: white;
   padding-bottom: 10px;
+  @include border-radius(3px);
 
   .row {
     margin: 0 10px;

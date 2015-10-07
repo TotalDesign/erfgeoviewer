@@ -274,7 +274,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       this.setBaseMap( State.get('baseMap') || "osm" );
 
       if (Config.mode == 'viewer') {
-          this.map.setView( State.getPlugin('map_settings').model.get('centerPoint') || [52.121580, 5.6304], State.getPlugin('map_settings').model.get('zoom') || 8 );
+        this.map.setView( State.getPlugin('map_settings').model.get('centerPoint') || [52.121580, 5.6304], State.getPlugin('map_settings').model.get('zoom') || 8 );
       }
       else {
         this.map.setView( State.getPlugin('map_settings').model.get('editorCenterPoint') || [52.121580, 5.6304], State.getPlugin('map_settings').model.get('editorZoom') || 8 );
@@ -284,14 +284,12 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
 
       // Initialize markers
       this.layers.markers = new L.MarkerClusterGroup().addTo(this.map);
-
       this.layers.markers.addTo(this.map);
 
       // Event handlers
       this.map.on('click', function(e) {
         Communicator.mediator.trigger( "map:tile-layer-clicked" );
       });
-
       this.map.on('moveend', this.attachMoveEndListener);
 
     },
@@ -307,7 +305,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
     },
 
     /**
-     * Create an alternative to the L.divIcon marker, which does not support variablee widths
+     * Create an alternative to the L.divIcon marker, which does not support variable widths
      */
     registerAutoWidthMarker: function() {
       var self = this;
@@ -393,17 +391,25 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
     },
 
     setBaseMap: function(tileId) {
+
       var self = this;
       var tile = _.findWhere( Config.tiles, {id: tileId} );
       if (!tile) return;
+
       if (self.baseLayer) self.map.removeLayer(self.baseLayer);
       if (tile.type == "mapbox") {
         self.baseLayer = L.mapbox.tileLayer( tile.id ).addTo( self.map );
       } else {
         // Mapbox does not respect detectRetina option. See issue #8581.
-        self.baseLayer = L.tileLayer( tile.tilejson.tiles, tile ).addTo( self.map );
+        var tileOptions = {
+          attribution: tile.tilejson.attribution || 'Geen toerekening',
+          minZoom: tile.tilejson.minZoom || 0,
+          maxZoom: tile.tilejson.maxZoom || 18
+        };
+        self.baseLayer = L.tileLayer( tile.tilejson.tiles, tileOptions ).addTo( self.map );
       }
       State.set('baseMap', tile.id );
+
     },
 
     updateMapSize: function() {
