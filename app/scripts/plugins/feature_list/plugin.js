@@ -13,12 +13,13 @@ define(['plugin/abstract', 'erfgeoviewer.common', 'communicator',
     initialize: function() {
       Communicator.mediator.on("map:ready", this.initializeList, this);
       Communicator.mediator.on("header:shown", this.updateCounter, this);
-      this.router = Communicator.reqres.request("router:get");
-      this.router.route("features", "features");
-      this.router.on('route:features', this.showList, this);
     },
 
     initializeList: function() {
+
+      this.router = App.router;
+      this.router.route("features", "features");
+      this.router.on('route:features', this.showList, this);
 
       this.features = State.getPlugin('geojson_features').collection;
       this.features.bind( "reset add remove", this.updateCounter, this);
