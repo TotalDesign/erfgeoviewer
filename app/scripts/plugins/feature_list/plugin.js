@@ -1,5 +1,7 @@
-define(['plugin/abstract', 'erfgeoviewer.common', 'communicator', 'models/state', './feature_collection_view'],
-  function(Plugin, App, Communicator, State, FeatureCollectionView) {
+define(['plugin/abstract', 'erfgeoviewer.common', 'communicator',
+    'models/state', './feature_collection_view'],
+  function(Plugin, App, Communicator,
+           State, FeatureCollectionView) {
 
   return Plugin.extend({
 
@@ -26,8 +28,9 @@ define(['plugin/abstract', 'erfgeoviewer.common', 'communicator', 'models/state'
     showList: function() {
 
       if (this.listView) this.listView.destroy();
+
       this.listView = new FeatureCollectionView({
-        collection: this.features
+        collection: this.features.clone()
       });
       App.flyouts.getRegion( 'right' ).show( this.listView );
 
