@@ -52,7 +52,7 @@ define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator', 'u
         });
 
         this.app = Communicator.reqres.request("app:get");
-        this.router = Communicator.reqres.request("router:get");
+        this.router = this.app.router;
         this.router.route("routes", "routeyou");
         this.router.on('route:routeyou', this.showSelector, this);
 

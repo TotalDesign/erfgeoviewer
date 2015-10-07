@@ -15,7 +15,7 @@ require( [
     /**
      * Init.
      */
-
+    App.mode = "mapmaker";
     console.log('Erfgeoviewer: mapmaker mode.');
 
     // This object will be serialized and used for storing/restoring a map.
@@ -88,13 +88,12 @@ require( [
     } );
     var router = new Router();
     Communicator.reqres.setHandler("app:get", function() { return App; });
-    Communicator.reqres.setHandler("router:get", function() { return router; });
+    Communicator.reqres.setHandler("router:get", function() { return App.router; });
 
     /**
      * Optional modules.
      */
 
-//    new DrawModule();
 //    new RouteyouModule();
 
 

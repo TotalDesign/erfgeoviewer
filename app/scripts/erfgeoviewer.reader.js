@@ -74,6 +74,7 @@ require( [
             }
           } );
           App.router = new Router();
+          Communicator.reqres.setHandler("router:get", function() { return router; });
 
 
           /**
@@ -81,6 +82,7 @@ require( [
            */
 
 //          new RouteyouModule( {state: state} );
+          App.mode = "reader";
           App.map_view = new MapView({
             layout: App.layout
           });
