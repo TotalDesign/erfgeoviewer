@@ -10,6 +10,9 @@ define( ["backbone", "backbone.marionette", "communicator", "medium.editor", "jq
       dom: {},
 
       events: {
+        "click .change-style": function(e) {
+          e.preventDefault();
+        }
       },
 
       initialize: function( o ) {

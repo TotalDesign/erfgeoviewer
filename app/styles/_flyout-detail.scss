@@ -39,3 +39,29 @@
   }
 
 }
+
+// TODO:
+// Temporary. I'd like to see the detail action buttons (stijl, verwijderen) docked at the bottom of the
+// detail flyout, but then the icon selector needs to be adjusted.
+#detail-container {
+  min-height: 400px;
+}
+
+#detail-footer {
+  > div {
+    margin: 0 10px;
+  }
+  border-top: solid 1px #333;
+  padding-top: 10px;
+  .settings {
+    a.change-style {
+      padding-left: 0;
+    }
+    .color-box {
+      margin-top: 5px;
+    }
+    .dropdown-content {
+      padding: 15px;
+    }
+  }
+}
