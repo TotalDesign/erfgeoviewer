@@ -1,4 +1,6 @@
-define(['plugin/abstract', 'communicator', 'underscore', 'leaflet', 'leaflet.draw', 'models/state'], function(Plugin, Communicator, _, L, LDraw, State) {
+define(['plugin/abstract', 'communicator', 'underscore', 'leaflet', 'leaflet.draw', 'models/state', 'erfgeoviewer.common'],
+  function(Plugin, Communicator, _, L, LDraw, State, App) {
+
   return Plugin.extend({
 
     initialize: function() {
@@ -6,6 +8,12 @@ define(['plugin/abstract', 'communicator', 'underscore', 'leaflet', 'leaflet.dra
     },
 
     initDrawPlugin: function(map) {
+
+      if (App.mode == "reader") {
+        console.log("Draw plugin is not intended for reader mode");
+        return;
+      }
+
       // Temporary layer used for drawing.
       var drawnItems = new L.FeatureGroup();
       map.addLayer(drawnItems);
