@@ -42,6 +42,7 @@ define(['backbone.marionette', 'fuse', 'jquery',
     onShow: function() {
 
       var self = this;
+      this.buildSearchIndex();
       this.$search = $('#feature-filter', this.$el);
       this.$search.keyup( function( e ) {
         //if (e.keyCode == 13) {
@@ -65,7 +66,6 @@ define(['backbone.marionette', 'fuse', 'jquery',
         return;
       }
 
-      this.buildSearchIndex();
       var matches = this.fuse.search(query);
       var deathrow = [];
 
