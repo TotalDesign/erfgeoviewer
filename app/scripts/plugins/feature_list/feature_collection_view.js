@@ -1,6 +1,6 @@
-define(['backbone.marionette', 'fuse', 'jquery',
+define(['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'config',
     'tpl!./templates/list.html', 'tpl!./templates/list-item.html'],
-  function(Marionette, Fuse, $,
+  function(Marionette, Fuse, $, Communicator, L, Config,
            ListTemplate, ListItemTemplate) {
 
   var ChildView = Marionette.ItemView.extend({
@@ -14,12 +14,30 @@ define(['backbone.marionette', 'fuse', 'jquery',
     childView: ChildView,
     childViewContainer: "ul.features",
     events: {
+      "mouseover li": function(e) {
+        var cid = $(e.currentTarget).find('input').data('model-id');
+        var model = _.clone(this.unfilteredCollection.findWhere({ cid: cid }));
+        if (model && this.map) {
+          var geojson = model.convertToGeoJSON();
+          if (!geojson) return;
+          var feature = L.geoJson(geojson, {
+            style: Config.colors.secondary
+          });
+          this.featureGroup.addLayer(feature);
+        }
+      },
+      "mouseout li": function(e) {
+        this.featureGroup.clearLayers();
+      }
     },
+    map: null,
+    featureGroup: null,
     searchableFields: ['title', 'description'],
     template: ListTemplate,
 
     initialize: function(o) {
 
+      var self = this;
       // The collection is reflected in the display.
       // The unfilteredCollection is used as the source collection when searching.
       this.unfilteredCollection = o.collection.clone();
@@ -42,6 +60,8 @@ define(['backbone.marionette', 'fuse', 'jquery',
     onShow: function() {
 
       var self = this;
+      this.map = Communicator.reqres.request( "getMap" );
+      this.featureGroup = L.featureGroup().addTo(this.map);
       this.buildSearchIndex();
       this.$search = $('#feature-filter', this.$el);
       this.$search.keyup( function( e ) {
@@ -53,6 +73,11 @@ define(['backbone.marionette', 'fuse', 'jquery',
         //}
       });
 
+    },
+
+    onDestroy: function() {
+      if (!this.map) return;
+      this.map.removeLayer(this.featureGroup);
     },
 
     search: function(query) {
