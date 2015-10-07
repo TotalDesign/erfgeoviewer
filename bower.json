@@ -36,7 +36,8 @@
     "leaflet.draw": "~0.2.4",
     "leaflet.fullscreen": "~1.1.4",
     "uri.js": "~1.16.0",
-    "q": "microjs/q#~0.8.11"
+    "q": "microjs/q#~0.8.11",
+    "fuse.js": "fuse#~1.2.2"
   },
   "devDependencies": {
     "susy": "~2.2.2"

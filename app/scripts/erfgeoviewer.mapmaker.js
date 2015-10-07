@@ -83,9 +83,6 @@ require( [
         },
         "base": function() {
           App.flyouts.getRegion( 'bottom' ).show( new BaseMapSelector() );
-        },
-        "features": function() {
-          console.log( 'features' );
         }
       }
     } );
