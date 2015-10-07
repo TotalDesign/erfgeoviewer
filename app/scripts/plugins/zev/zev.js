@@ -40,6 +40,7 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
         // Event triggered by "VOEG TOE" action on search result card.
         Communicator.mediator.on( "marker:addModelId", function(cid) {
           var result = self.results.findWhere( {cid: cid} );
+          if (!result) return;
 
           // The record model contains a lot of extract information that the marker doesn't need,
           // and the essential info (a unique ID) is not available. Here we extra the useful info
