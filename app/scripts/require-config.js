@@ -4,6 +4,7 @@ require.config( {
 
   /* starting point for application */
   deps: ["backbone.marionette", "jquery", "erfgeoviewer.mapmaker"],
+  //deps: ["backbone.marionette", "jquery", "erfgeoviewer.reader"],
 
   enforceDefine: false,
 
