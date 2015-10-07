@@ -87,8 +87,8 @@ require( [
       }
     } );
     var router = new Router();
+    App.router = router;
     Communicator.reqres.setHandler("app:get", function() { return App; });
-    Communicator.reqres.setHandler("router:get", function() { return App.router; });
 
     /**
      * Optional modules.
