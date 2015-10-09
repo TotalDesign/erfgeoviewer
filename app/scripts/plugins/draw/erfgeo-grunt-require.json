@@ -4,21 +4,16 @@
     "preserveLicenseComments": false,
     "useStrict": true,
     "wrap": true,
-    "name": "plugin/feature_list",
+    "name": "plugin/draw",
     "paths": {
       "backbone": "empty:",
-      "backbone.marionette": "empty:",
-      "config": "empty:",
       "communicator": "empty:",
-      "erfgeoviewer.common": "empty:",
-      "fuse": "../bower_components/fuse.js/src/fuse",
-      "jquery": "empty:",
+      "underscore": "empty:",
       "leaflet": "empty:",
+      "leaflet.draw": "../bower_components/leaflet.draw/dist/leaflet.draw",
       "models/state": "empty:",
-      "tpl": "../bower_components/requirejs-tpl/tpl",
-      "underscore": "empty:"
+      "erfgeoviewer.common": "empty:"
     },
-    "exclude": ["tpl"],
     "packages": [
       {
         "name": "plugin/abstract",
@@ -26,8 +21,8 @@
         "main": "plugin.js"
       },
       {
-        "name": "plugin/feature_list",
-        "location": "plugins/feature_list",
+        "name": "plugin/draw",
+        "location": "plugins/draw",
         "main": "plugin.js"
       }
     ]

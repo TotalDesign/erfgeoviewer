@@ -1,5 +1,5 @@
 //SPARQL-GeoJSON v.0.2-alpha
-function sparqlToGeoJSON(wkt) {
+window.sparqlToGeoJSON = function(wkt) {
   'use strict';
   var geometryType, coordinates;
 
