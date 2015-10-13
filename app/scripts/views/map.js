@@ -2,12 +2,14 @@
  * Map control, shared between mapmaker and reader modes.
  * Functionality specific to mapmaker or reader should be placed in separte plugins.
  */
-define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "config", "jquery", "underscore",
-        "leaflet.markercluster", "leaflet.smoothmarkerbouncing", "leaflet.proj", "leaflet.fullscreen",
-        "models/markers", 'models/state', "tpl!template/map.html", "vendor/sparql-geojson"],
-  function(Backbone, Marionette, L, d3, Communicator, Config, $, _,
-           LeafletMarkerCluster, LeafletBouncing, LeafletProjections, LeafletFullscreen,
-           MarkersCollection, State, Template) {
+define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
+        "config", "jquery", "underscore", "erfgeoviewer.common",
+        "leaflet.markercluster", "leaflet.smoothmarkerbouncing", "leaflet.proj",
+        "leaflet.fullscreen", "models/markers", 'models/state',
+        "tpl!template/map.html", "vendor/sparql-geojson"],
+  function(Backbone, Marionette, L, d3, Communicator, Config, $, _, App,
+           LeafletMarkerCluster, LeafletBouncing, LeafletProjections,
+           LeafletFullscreen, MarkersCollection, State, Template) {
 
   return Marionette.ItemView.extend({
 
@@ -273,11 +275,11 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       });
       this.setBaseMap( State.get('baseMap') || "osm" );
 
-      if (Config.mode == 'viewer') {
-        this.map.setView( State.getPlugin('map_settings').model.get('centerPoint') || [52.121580, 5.6304], State.getPlugin('map_settings').model.get('zoom') || 8 );
+      if (App.mode == 'mapmaker') {
+        this.map.setView( State.getPlugin('map_settings').model.get('editorCenterPoint') || [52.121580, 5.6304], State.getPlugin('map_settings').model.get('editorZoom') || 8 );
       }
       else {
-        this.map.setView( State.getPlugin('map_settings').model.get('editorCenterPoint') || [52.121580, 5.6304], State.getPlugin('map_settings').model.get('editorZoom') || 8 );
+        this.map.setView( State.getPlugin('map_settings').model.get('centerPoint') || [52.121580, 5.6304], State.getPlugin('map_settings').model.get('zoom') || 8 );
       }
 
       Communicator.mediator.trigger('map:ready', this.map);

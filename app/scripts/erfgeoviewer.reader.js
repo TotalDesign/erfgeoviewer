@@ -7,12 +7,12 @@ require( [
     'use strict';
 
     require( ['backbone', 'erfgeoviewer.common', 'communicator', 'underscore', 'jquery', 'leaflet', 'config', 'q',
-        'views/map', 'views/header.reader', 'views/detail', 'views/legend',
+        'views/map', 'views/header.reader', 'views/detail', 'views/detail-navigation', 'views/legend', 'views/layout/detail.layout',
         'plugins/routeyou/routeyou', 'erfgeoviewer.search',
         'models/layers', 'models/state'],
 
       function( Backbone, App, Communicator, _, $, L, Config, Q,
-                MapView, HeaderView, DetailView, LegendView,
+                MapView, HeaderView, DetailView, DetailNavigationView, LegendView, DetailLayout,
                 RouteyouModule, SearchModule,
                 LayerCollection, State ) {
 
@@ -53,9 +53,14 @@ require( [
               legend.addTo(map);
             }
           });
-          Communicator.mediator.on( "marker:click", function( m ) {
-            App.flyouts.getRegion( 'detail' ).show( new DetailView( {model: m} ) );
-          } );
+          Communicator.mediator.on( "marker:click", function(m) {
+            var detailLayout = new DetailLayout();
+
+            App.flyouts.getRegion('detail').show( detailLayout );
+
+            detailLayout.getRegion('container').show( new DetailView( { model: m } ) );
+            detailLayout.getRegion('footer').show( new DetailNavigationView( { model: m } ) );
+          });
           Communicator.mediator.on( "all", function( e, a ) {
             // Debugging:
             console.log( "event: " + e, a );

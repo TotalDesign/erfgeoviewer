@@ -254,3 +254,13 @@ body {
     }
   }
 }
+
+.feature-nav {
+  cursor: pointer;
+  text-transform: uppercase;
+  @include transition( color 0.3s ease );
+
+  &:hover {
+    color: $color_blue;
+  }
+}
