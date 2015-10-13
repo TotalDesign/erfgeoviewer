@@ -1,12 +1,9 @@
 define(["underscore", "backbone.marionette", "jquery", "jquery.hammer", "communicator",
     "models/state", "tpl!template/open.html", "materialize.modal", "materialize.toasts"],
   function(_, Marionette, $, jqueryHammer, Communicator,
-           StateModel, PublishTemplate, MaterializeModal, MaterializeToasts) {
+           State, PublishTemplate, MaterializeModal, MaterializeToasts) {
 
     return Marionette.ItemView.extend({
-
-      // Model used to store map state in entire application
-      state: null,
 
       // Replacement model taken from JSON file
       newState: null,
@@ -30,7 +27,6 @@ define(["underscore", "backbone.marionette", "jquery", "jquery.hammer", "communi
       },
 
       initialize: function(o) {
-        this.state = o.state;
         _.bindAll(this, 'restoreFile');
       },
 
@@ -46,6 +42,7 @@ define(["underscore", "backbone.marionette", "jquery", "jquery.hammer", "communi
           }
           var reader = new FileReader();
           reader.onload = function(e) {
+            // @Todo: Load file contents into State
             self.newState = JSON.parse(e.target.result);
             //self.newState = e.target.result
           };
@@ -70,7 +67,7 @@ define(["underscore", "backbone.marionette", "jquery", "jquery.hammer", "communi
           console.log('no map file uploaded, or it was invalid.');
           return;
         }
-        this.state.parse(this.newState);
+//        this.state.parse(this.newState);
         Communicator.mediator.trigger('state:reset');
       }
 

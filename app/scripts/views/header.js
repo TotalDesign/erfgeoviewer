@@ -12,16 +12,13 @@ define( ["backbone", "backbone.marionette", "materialize.sidenav", "jquery.hamme
         'click .open': function(e) {
           e.preventDefault();
           this.modalRegion.show(
-            new OpenView( {
-              state: this.state
-            } )
+            new OpenView()
           );
         }
       },
 
       initialize: function(o) {
         this.modalRegion = o.modalRegion;
-        this.state = o.state;
       },
 
       onShow: function() {
@@ -30,6 +27,7 @@ define( ["backbone", "backbone.marionette", "materialize.sidenav", "jquery.hamme
           menuWidth: 300,
           closeOnClick: true
         } );
+        Communicator.mediator.trigger("header:shown");
       }
 
     } );

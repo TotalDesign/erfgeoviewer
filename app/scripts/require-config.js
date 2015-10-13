@@ -4,6 +4,7 @@ require.config( {
 
   /* starting point for application */
   deps: ["backbone.marionette", "jquery", "erfgeoviewer.mapmaker"],
+  //deps: ["backbone.marionette", "jquery", "erfgeoviewer.reader"],
 
   enforceDefine: false,
 
@@ -16,6 +17,34 @@ require.config( {
     },
     usePragma: false
   },
+
+  "packages": [
+    {
+      "name": "plugin/abstract",
+      "location": "plugins/_abstract",
+      "main": "plugin.js"
+    },
+    {
+      "name": "plugin/geojson_features",
+      "location": "plugins/geojson_features",
+      "main": "plugin.js"
+    },
+    {
+      "name": "plugin/map_settings",
+      "location": "plugins/map_settings",
+      "main": "plugin.js"
+    },
+    {
+      "name": "plugin/draw",
+      "location": "plugins/draw",
+      "main": "plugin.js"
+    },
+    {
+      "name": "plugin/feature_list",
+      "location": "plugins/feature_list",
+      "main": "plugin.js"
+    }
+  ],
 
   paths: {
 
@@ -32,7 +61,9 @@ require.config( {
     "bootstrap": "vendor/bootstrap",
     "config": "config/dev",
     "d3": "../bower_components/d3/d3",
-    "erfgeoviewer.search": "plugins/delving/delving",
+    "erfgeoviewer.search": "plugins/zev/zev",
+    //"erfgeoviewer.search": "plugins/delving/delving",
+    "fuse": "../bower_components/fuse.js/src/fuse",
     "hammerjs": "../bower_components/hammerjs/hammer",
     "jquery": "../bower_components/jquery/dist/jquery",
     "jquery.easing": "../bower_components/materialize/js/jquery.easing.1.3",
@@ -59,6 +90,7 @@ require.config( {
     "medium.editor": "../bower_components/medium-editor/dist/js/medium-editor",
     "polyline": "../bower_components/polyline/src/polyline",
     "proj4": "../bower_components/proj4/dist/proj4",
+    "q": "../bower_components/q/q.min",
     "react": "../bower_components/react/react",
     "react.paginate": "../bower_components/react-paginate/index",
     "underscore": "../bower_components/underscore/underscore",

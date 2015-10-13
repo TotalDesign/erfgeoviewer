@@ -11,6 +11,7 @@
     "underscore": "~1.4.4"
   },
   "devDependencies": {
+    "find": "^0.2.3",
     "grunt": "~0.4.1",
     "grunt-bower-requirejs": "^2.0.0",
     "grunt-contrib-clean": "0.4.0",

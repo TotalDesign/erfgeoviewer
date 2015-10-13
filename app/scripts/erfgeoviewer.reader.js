@@ -6,63 +6,51 @@ require( [
   function( RequireJSConfig ) {
     'use strict';
 
-    require( ['backbone', 'erfgeoviewer.common', 'communicator', 'underscore', 'jquery', 'leaflet',
+    require( ['backbone', 'erfgeoviewer.common', 'communicator', 'underscore', 'jquery', 'leaflet', 'config', 'q',
         'views/map', 'views/header.reader', 'views/detail', 'views/legend',
         'plugins/routeyou/routeyou', 'erfgeoviewer.search',
         'models/layers', 'models/state'],
 
-      function( Backbone, App, Communicator, _, $, L,
+      function( Backbone, App, Communicator, _, $, L, Config, Q,
                 MapView, HeaderView, DetailView, LegendView,
                 RouteyouModule, SearchModule,
-                LayerCollection, StateModel ) {
+                LayerCollection, State ) {
 
         console.log('Erfgeoviewer: reader mode.');
 
-        var state;
-        var init = function(state, stateData) {
-
-          // @Todo: Use Backbone for state fetching
-          // @Todo: Create default settings object and extend with the data from JSON file
+        var init = function() {
 
           /**
            * Header.
            */
-
-          if (state.get('title')) {
+          if (State.get('title')) {
             App.layout.getRegion( 'header' ).show( new HeaderView( {
-              modalRegion: App.layout.getRegion( 'modal' ),
-              state: state
+              modalRegion: App.layout.getRegion( 'modal' )
             } ) );
           } else {
             $(App.layout.getRegion( 'header' ).el).hide();
           }
-
 
           /**
            * Event handlers.
            */
           Communicator.reqres.setHandler("app:get", function() { return App; });
           Communicator.reqres.setHandler("router:get", function() { return App.router; });
-          Communicator.mediator.on('map:ready', function() {
-            if (stateData) {
-              state.set(state.parse(stateData));
-            }
+          Communicator.mediator.on('map:ready', function(map) {
 
             /**
              * Legend
              */
-            if (state.get('mapSettings').showLegend && state.get('mapSettings').legend) {
-              Communicator.mediator.on('map:ready', function(map) {
-                var legend = L.control({ position: 'bottomleft' });
+            if (State.getPlugin('map_settings').model.get('showLegend') && State.getPlugin('map_settings').model.get('legend')) {
+              var legend = L.control({ position: 'bottomleft' });
 
-                legend.onAdd = function (map) {
-                  // Render legend
-                  var legendView = new LegendView({ legend: state.get('mapSettings').legend });
-                  return legendView.render().$el[0];
-                };
+              legend.onAdd = function (map) {
+                // Render legend
+                var legendView = new LegendView({ legend: State.getPlugin('map_settings').model.get('legend') });
+                return legendView.render().$el[0];
+              };
 
-                legend.addTo(map);
-              });
+              legend.addTo(map);
             }
           });
           Communicator.mediator.on( "marker:click", function( m ) {
@@ -86,38 +74,51 @@ require( [
             }
           } );
           App.router = new Router();
+          Communicator.reqres.setHandler("router:get", function() { return router; });
 
 
           /**
            * Init.
            */
 
-          new RouteyouModule( {state: state} );
-          var map_view = new MapView( {
-            layout: App.layout,
-            state: state
-          } );
-          App.layout.getRegion( 'content' ).show( map_view );
+//          new RouteyouModule( {state: state} );
+          App.mode = "reader";
+          App.map_view = new MapView({
+            layout: App.layout
+          });
+
+          App.layout.getRegion( 'content' ).show( App.map_view );
 
           App.start();
 
 
         };
 
-        // Look for global configuration object.
-        if ( typeof erfgeofileDataFile !== "undefined" ) {
-          $.ajax(erfgeofileDataFile).done(function(data) {
-            state = new StateModel();
-            init(state, data);
-          });
-        } else if ( typeof erfgeoviewerData !== "undefined" ) {
-          state = new StateModel();
-          init(state, erfgeoviewerData);
-        } else {
-          state = new StateModel( {id: 1} );
-          init(state);
-        }
+        State.pluginsInitialized.promise
+          .then(function() {
+            var d = Q.defer();
 
+            if ( typeof erfgeofileDataFile !== "undefined" ) {
+              $.ajax(erfgeofileDataFile).done(function(data) {
+                State.set(State.parse(data));
+                d.resolve();
+              });
+            }
+            else if ( typeof erfgeoviewerData !== "undefined" ) {
+              State.set(State.parse(erfgeoviewerData));
+              d.resolve();
+            }
+            else {
+              State.fetch({
+                success: d.resolve,
+                error: d.resolve // Also resolve on error to prevent unhandled exceptions on empty state
+              });
+            }
+
+            return d.promise;
+          })
+          .then(Config.makiCollection.getPromise)
+          .done(init);
 
       } );
 

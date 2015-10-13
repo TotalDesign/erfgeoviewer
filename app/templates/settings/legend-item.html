@@ -21,8 +21,8 @@
   <div class="row">
     <label>Icon</label>
     <select id="legend-setting-icon-<%= cid %>" class="browser-default" data-property="icon">
-      <% _.each(availableIcons, function(id, name) { var selected = id == icon; %>
-      <option value="<%= id %>" <% if (selected) { %>selected<% } %> ><%= name %></option>
+      <% _.each(availableIcons, function(model) { var selected = model.get('icon') == icon; %>
+      <option value="<%= model.get('icon') %>" <% if (selected) { %>selected<% } %> ><%= model.get('name') %></option>
       <% });%>
     </select>
   </div>

@@ -1,11 +1,9 @@
 define(['backbone', 'backbone.marionette', 'jquery', 'config', 'communicator',
-    'tpl!template/base-map.html'],
+    'models/state', 'tpl!template/base-map.html'],
 function(Backbone, Marionette, $, Config, Communicator,
-         BaseMapTemplate) {
+         State, BaseMapTemplate) {
 
   return Marionette.ItemView.extend({
-
-    state: null,
 
     template: BaseMapTemplate,
 
@@ -16,7 +14,6 @@ function(Backbone, Marionette, $, Config, Communicator,
     },
 
     initialize: function(o) {
-      this.state = o.state;
       this.model = new Backbone.Model();
       this.model.set('tiles', Config.tiles);
     },

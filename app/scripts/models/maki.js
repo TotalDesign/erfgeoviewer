@@ -1,30 +1,43 @@
-define(['backbone', 'underscore'], function(Backbone, _) {
+define(['backbone', 'underscore', 'q'], function(Backbone, _, Q) {
 
   return Backbone.Collection.extend({
 
-    url: 'https://raw.githubusercontent.com/mapbox/maki/mb-pages/_includes/maki.json',
+    url: 'https://raw.githubusercontent.com/mapbox/maki/v0.5.0/_includes/maki.json',
 
-    availableIcons: {},
+    model: Backbone.Model,
 
-    promise: null,
+    comparator: 'name',
 
-    initialize: function() {
-      var self = this;
+    fetch: function(options) {
+      options = _.extend({ parse: true }, options);
 
-      this.promise = this.fetch({
-        error: function() {
-          alert("Error: Maki icon collection could not be retrieved from Github.");
-        },
-        success: function() {
-          self.each(function(model) {
-            self.availableIcons[model.get('name')] = model.get('icon');
-          });
-        }
-      });
+      var success = options.success,
+        error = options.error,
+        d = Q.defer();
+
+      options.success = _.bind(function(resp) {
+        if (success) success.call(options.context, collection, resp, options);
+
+        this.add(new Backbone.Model({
+          name: '-- None --',
+          icon: ''
+        }));
+
+        d.resolve();
+      }, this);
+
+      options.error = function(resp) {
+        if (error) error.call(options.context, collection, resp, options);
+        d.resolve(); // Also resolve on error to prevent unhandled exceptions on empty state
+      };
+
+      Backbone.Collection.prototype.fetch.apply(this, [options]);
+
+      return d.promise;
     },
 
     getAvailableIcons: function() {
-      return this.availableIcons;
+      return this.models;
     },
 
     getPromise: function() {

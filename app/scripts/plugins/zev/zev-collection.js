@@ -92,8 +92,8 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'models/marker'],
       state: {
         d: 100,
         firstPage: 1,
-        pageSize: 10,
-        maxRecords: 10,
+        pageSize: 30,
+        maxRecords: 30,
         terms: "*",
         facets: [], // Always AND
         facetConfig: null,

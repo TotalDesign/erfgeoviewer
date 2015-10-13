@@ -1,0 +1,35 @@
+{
+  "options": {
+    "optimize": "none",
+    "preserveLicenseComments": false,
+    "useStrict": true,
+    "wrap": true,
+    "name": "plugin/feature_list",
+    "paths": {
+      "backbone": "empty:",
+      "backbone.marionette": "empty:",
+      "config": "empty:",
+      "communicator": "empty:",
+      "erfgeoviewer.common": "empty:",
+      "fuse": "../bower_components/fuse.js/src/fuse",
+      "jquery": "empty:",
+      "leaflet": "empty:",
+      "models/state": "empty:",
+      "tpl": "../bower_components/requirejs-tpl/tpl",
+      "underscore": "empty:"
+    },
+    "exclude": ["tpl"],
+    "packages": [
+      {
+        "name": "plugin/abstract",
+        "location": "plugins/_abstract",
+        "main": "plugin.js"
+      },
+      {
+        "name": "plugin/feature_list",
+        "location": "plugins/feature_list",
+        "main": "plugin.js"
+      }
+    ]
+  }
+}

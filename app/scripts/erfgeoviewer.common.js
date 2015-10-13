@@ -1,9 +1,12 @@
-define( ['backbone', 'backbone.marionette', 'communicator', 'velocity',
-         'views/layout/app.layout', 'views/layout/flyouts.layout'],
+define( ['backbone', 'backbone.marionette', 'config', 'communicator', 'velocity',
+         'views/layout/app.layout', 'views/layout/flyouts.layout', 'models/maki'],
 
-  function( Backbone, Marionette, Communicator, V,
-            AppLayout, FlyoutsLayout ) {
+  function( Backbone, Marionette, Config, Communicator, V,
+            AppLayout, FlyoutsLayout, MakiCollection ) {
     'use strict';
+
+    // Append maki icon collection to config
+    Config.makiCollection = new MakiCollection();
 
     var App = new Marionette.Application(),
       container = new Marionette.Region( {

@@ -1,5 +1,5 @@
-define(['backbone.marionette', 'views/settings/legend-item', 'config', 'tpl!template/settings/legend.html'],
-  function(Marionette, LegendItemView, Config, SettingsTemplate) {
+define(['backbone', 'backbone.marionette', 'models/state', 'views/settings/legend-item', 'config', 'tpl!template/settings/legend.html'],
+  function(Backbone, Marionette, State, LegendItemView, Config, SettingsTemplate) {
 
     return Marionette.CompositeView.extend({
 
@@ -11,14 +11,10 @@ define(['backbone.marionette', 'views/settings/legend-item', 'config', 'tpl!temp
         'click .add': 'addItem'
       },
 
-      state: null,
-
       template: SettingsTemplate,
 
       initialize: function(o) {
-        this.state = o.state;
-
-        this.collection = new Backbone.Collection( o.state.get( 'mapSettings' ).legend );
+        this.collection = new Backbone.Collection( State.getPlugin('map_settings').model.get('legend') );
 
         this.addItem();
 
@@ -35,15 +31,11 @@ define(['backbone.marionette', 'views/settings/legend-item', 'config', 'tpl!temp
       },
 
       save: function() {
-        var mapSettings = this.state.get( 'mapSettings' ),
-          override = {
-            legend: (new Backbone.Collection( this.collection.where({ new: false }) )).toJSON()
-          };
+        var setting = {
+          legend: (new Backbone.Collection( this.collection.where({ new: false }) )).toJSON()
+        };
 
-        mapSettings = _.extend( mapSettings, override );
-
-        this.state.set( 'mapSettings', mapSettings );
-        this.state.save();
+        State.getPlugin('map_settings').model.set(setting);
       }
 
     });
