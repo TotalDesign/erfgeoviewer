@@ -109,6 +109,11 @@ define("config", function () {
 //          'edm:dataProvider exact "Zeeuwse Bibliotheek"'
 //        ]
 //      }
+      "facetLabels": {
+        "dc:subject": "Onderwerp",
+        "dc:dataProvider": "Collectie",
+        "edm:dataProvider": "Collectie"
+      }
     }
   };
 });
