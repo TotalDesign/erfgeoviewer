@@ -18,6 +18,8 @@ require( [
 
     console.log('Erfgeoviewer: mapmaker mode.');
 
+    Config.mode = 'maker';
+
     // This object will be serialized and used for storing/restoring a map.
 //    var state = new StateModel({
 //      id: 1,

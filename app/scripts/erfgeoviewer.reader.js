@@ -18,6 +18,8 @@ require( [
 
         console.log('Erfgeoviewer: reader mode.');
 
+        Config.mode = 'viewer';
+
         var init = function() {
 
           /**
