@@ -10,7 +10,12 @@ define(['backbone.marionette', 'leaflet', 'config', 'communicator', 'tpl!templat
       },
 
       className: function() {
-        return 'feature-nav ' + this.model.get('nav');
+        if (this.model.get('nav') == 'previous') {
+          return 'feature-nav previous col s6';
+        }
+        else {
+          return 'feature-nav next col s6' + ( this.model.get('firstItem') ? ' offset-s6' : '' );
+        }
       },
 
       serializeModel: function(model) {

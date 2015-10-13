@@ -5,7 +5,7 @@ define( ["backbone", "backbone.marionette", "views/detail-navigation-item", "mod
 
       childView: ItemView,
 
-      className: "detail-navigation",
+      className: "detail-navigation row",
 
       initialize: function( o ) {
         this.model = o.model;
@@ -22,7 +22,10 @@ define( ["backbone", "backbone.marionette", "views/detail-navigation-item", "mod
 
         if (currentIndex < collection.length -1) {
           var nextModel = collection.at(currentIndex +1);
-          nextModel.set({ nav: 'next' }, { silent: true });
+          nextModel.set({
+            nav: 'next',
+            firstItem: currentIndex == 0
+          }, { silent: true });
           data.push(nextModel);
         }
 
