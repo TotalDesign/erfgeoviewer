@@ -3,15 +3,15 @@ require( [
   ],
   function() {
   require(['backbone', 'erfgeoviewer.common', 'communicator', 'jquery', 'config', 'q',
-    'views/map', 'views/header', 'views/new', 'views/open', 'views/search/search', 'views/settings',
+    'views/map', 'views/layout/header.layout', 'views/new', 'views/open', 'views/search/search', 'views/settings',
     'views/detail', 'views/detail-settings', 'views/basemap', 'views/publish',  'views/layout/detail.layout',
     'plugins/routeyou/routeyou', 'erfgeoviewer.search',
-    'models/layers', 'models/state'],
+    'models/layers', 'models/state', 'models/sidenav'],
 
   function(Backbone, App, Communicator, $, Config, Q,
            MapView, HeaderView, NewMapView, OpenMapView, SearchView, SettingsView, DetailView, DetailSettingsView, BaseMapSelector, PublishView, DetailLayout,
            RouteyouModule, SearchModule,
-           LayerCollection, State) {
+           LayerCollection, State, SideNav) {
 
     /**
      * Init.
@@ -103,6 +103,18 @@ require( [
      * Optional modules.
      */
 
+    SideNav.addItem('new_map', {
+      fragment: 'new',
+      icon: 'bicycle',
+      label: 'Nieuwe kaart'
+    });
+
+    SideNav.addItem('open_map', {
+      fragment: 'open',
+      icon: 'bicycle',
+      label: 'Open'
+    });
+
 //    new RouteyouModule();
 
 
@@ -129,9 +141,7 @@ require( [
         });
 
         App.layout.getRegion( 'content' ).show( App.map_view );
-        App.layout.getRegion( 'header' ).show(
-          new HeaderView({ modalRegion: App.layout.getRegion( 'modal' ) })
-        );
+        App.layout.getRegion( 'header' ).show( new HeaderView() );
 
         App.start();
       });

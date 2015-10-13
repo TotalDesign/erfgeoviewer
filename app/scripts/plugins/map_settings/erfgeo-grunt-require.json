@@ -8,7 +8,8 @@
     "paths": {
       "backbone": "empty:",
       "underscore": "empty:",
-      "config": "empty:"
+      "config": "empty:",
+      "models/navbar": "empty:"
     },
     "packages": [
       {

@@ -1,30 +1,41 @@
-define(['plugin/abstract', './models/settings', 'underscore'], function(Plugin, SettingsModel, _) {
-  return Plugin.extend({
+define(['plugin/abstract', './models/settings', 'underscore', 'models/navbar',
+        'erfgeoviewer.common'],
+  function(Plugin, SettingsModel, _, NavBar, App) {
 
-    model: null,
+    return Plugin.extend({
 
-    initialize: function(options) {
-      this.model = new SettingsModel();
+      model: null,
 
-      this.model.on('change', this.save, this);
+      initialize: function(options) {
+        this.model = new SettingsModel();
 
-      options.state.set('map_settings', this.model);
-    },
+        this.model.on('change', this.save, this);
 
-    reset: function() {
-      this.model.set(this.model.defaults);
-    },
+        options.state.set('map_settings', this.model);
 
-    readData: function(resp) {
-      // If there is data, then populate the collection
-      if (!_.isUndefined(resp)) {
-        this.model.set(resp, { silent: true });
+        if (App.mode == 'mapmaker') {
+          NavBar.addItem('settings', {
+            fragment: 'settings',
+            label: 'Instellingen'
+          });
+        }
+      },
+
+      reset: function() {
+        this.model.set(this.model.defaults);
+      },
+
+      readData: function(resp) {
+        // If there is data, then populate the collection
+        if (!_.isUndefined(resp)) {
+          this.model.set(resp, { silent: true });
+        }
+        return this.model;
+      },
+
+      writeData: function () {
+        return this.model.toJSON();
       }
-      return this.model;
-    },
+    });
 
-    writeData: function () {
-      return this.model.toJSON();
-    }
   });
-});

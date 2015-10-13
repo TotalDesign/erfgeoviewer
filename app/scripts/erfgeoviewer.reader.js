@@ -7,7 +7,7 @@ require( [
     'use strict';
 
     require( ['backbone', 'erfgeoviewer.common', 'communicator', 'underscore', 'jquery', 'leaflet', 'config', 'q',
-        'views/map', 'views/header.reader', 'views/detail', 'views/detail-navigation', 'views/legend', 'views/layout/detail.layout',
+        'views/map', 'views/layout/header.layout', 'views/detail', 'views/detail-navigation', 'views/legend', 'views/layout/detail.layout',
         'plugins/routeyou/routeyou', 'erfgeoviewer.search',
         'models/layers', 'models/state'],
 
@@ -23,13 +23,13 @@ require( [
           /**
            * Header.
            */
-          if (State.get('title')) {
-            App.layout.getRegion( 'header' ).show( new HeaderView( {
-              modalRegion: App.layout.getRegion( 'modal' )
-            } ) );
-          } else {
-            $(App.layout.getRegion( 'header' ).el).hide();
-          }
+//          if (State.get('title')) {
+//            App.layout.getRegion( 'header' ).show( new HeaderView( {
+//              modalRegion: App.layout.getRegion( 'modal' )
+//            } ) );
+//          } else {
+//            $(App.layout.getRegion( 'header' ).el).hide();
+//          }
 
           /**
            * Event handlers.
@@ -79,13 +79,12 @@ require( [
             }
           } );
           App.router = new Router();
-          Communicator.reqres.setHandler("router:get", function() { return router; });
+          Communicator.reqres.setHandler("router:get", function() { return App.router; });
 
 
           /**
            * Init.
            */
-
 //          new RouteyouModule( {state: state} );
           App.mode = "reader";
           App.map_view = new MapView({
@@ -93,6 +92,7 @@ require( [
           });
 
           App.layout.getRegion( 'content' ).show( App.map_view );
+          App.layout.getRegion( 'header' ).show( new HeaderView() );
 
           App.start();
 

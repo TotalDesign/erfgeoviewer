@@ -19,7 +19,8 @@ define( ["backbone", "underscore", "config"], function( Backbone, _, Config ) {
       editorCenterPoint: [52.121580, 5.6304],
       editorZoom: 8,
       centerPoint: [52.121580, 5.6304],
-      zoom: 8
+      zoom: 8,
+      title: 'ErfGeoviewer'
     }
 
   } );
