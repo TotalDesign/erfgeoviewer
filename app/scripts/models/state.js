@@ -57,6 +57,21 @@ define(["backbone", "models/markers", 'backbone.localstorage', 'communicator', '
       },
 
       /**
+       * Clears the current state
+       */
+      clear: function() {
+        var data = {}
+
+        _.each(this.pluginRegistry, function(plugin) {
+          if (_.isFunction(plugin.reset)) {
+            plugin.reset();
+          }
+        });
+
+        this.set(this.parse(data));
+      },
+
+      /**
        * Register a property that can persist beyond this session.
        * The implementing plugin can then provide functions to maintain state.
        * @param p

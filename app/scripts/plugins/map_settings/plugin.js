@@ -11,6 +11,10 @@ define(['plugin/abstract', './models/settings', 'underscore'], function(Plugin, 
       options.state.set('map_settings', this.model);
     },
 
+    reset: function() {
+      this.model.set(this.model.defaults);
+    },
+
     readData: function(resp) {
       // If there is data, then populate the collection
       if (!_.isUndefined(resp)) {

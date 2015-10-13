@@ -3,13 +3,13 @@ require( [
   ],
   function() {
   require(['backbone', 'erfgeoviewer.common', 'communicator', 'jquery', 'config', 'q',
-    'views/map', 'views/header', 'views/open', 'views/search/search', 'views/settings',
+    'views/map', 'views/header', 'views/new', 'views/open', 'views/search/search', 'views/settings',
     'views/detail', 'views/detail-settings', 'views/basemap', 'views/publish',  'views/layout/detail.layout',
     'plugins/routeyou/routeyou', 'erfgeoviewer.search',
     'models/layers', 'models/state'],
 
   function(Backbone, App, Communicator, $, Config, Q,
-           MapView, HeaderView, OpenView, SearchView, SettingsView, DetailView, DetailSettingsView, BaseMapSelector, PublishView, DetailLayout,
+           MapView, HeaderView, NewMapView, OpenMapView, SearchView, SettingsView, DetailView, DetailSettingsView, BaseMapSelector, PublishView, DetailLayout,
            RouteyouModule, SearchModule,
            LayerCollection, State) {
 
@@ -62,9 +62,13 @@ require( [
           App.flyouts.getRegion( 'bottom' ).hideFlyout();
           App.flyouts.getRegion( 'right' ).hideFlyout();
         },
+        "new": function() {
+          App.flyouts.getRegion( 'bottom' ).hideFlyout();
+          App.layout.getRegion( 'modal' ).show(new NewMapView());
+        },
         "open": function() {
           App.flyouts.getRegion( 'bottom' ).hideFlyout();
-          App.layout.getRegion( 'modal' ).show(new OpenView());
+          App.layout.getRegion( 'modal' ).show(new OpenMapView());
         },
         "export": function() {
           App.flyouts.getRegion( 'bottom' ).hideFlyout();
