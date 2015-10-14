@@ -12,17 +12,6 @@ define(['plugin/abstract', 'erfgeoviewer.common', 'communicator', 'models/navbar
     initialize: function() {
       Communicator.mediator.on("map:ready", this.initializeList, this);
       Communicator.mediator.on("header:shown", this.updateCounter, this);
-
-      if (App.mode == 'mapmaker') {
-        this.addMenuItem();
-      }
-    },
-
-    addMenuItem: function() {
-      NavBar.addItem('features', {
-        fragment: 'features',
-        label: this.features.length
-      });
     },
 
     initializeList: function() {
@@ -34,8 +23,11 @@ define(['plugin/abstract', 'erfgeoviewer.common', 'communicator', 'models/navbar
       this.features = State.getPlugin('geojson_features').collection;
       this.features.bind( "reset add remove", this.updateCounter, this);
 
-      if (App.mode == 'reader' && State.getPlugin('map_settings').model.get('showList')) {
-        this.addMenuItem();
+      if (App.mode == 'mapmaker' || (App.mode == 'reader' && State.getPlugin('map_settings').model.get('showList'))) {
+        NavBar.addItem('features', {
+          fragment: 'features',
+          label: this.features.length
+        });
       }
     },
 
