@@ -114,6 +114,7 @@
   ],
   "baseMap": "CartoDB Positron",
   "map_settings": {
+    "showSearchFilter": true,
     "showList": true,
     "centerPoint": {
       "lat": 52.35610276840388,

@@ -8,13 +8,13 @@ require( [
 
     require( ['backbone', 'erfgeoviewer.common', 'communicator', 'underscore', 'jquery', 'leaflet', 'config', 'q',
         'views/map', 'views/layout/header.layout', 'views/detail', 'views/detail-navigation', 'views/legend', 'views/layout/detail.layout',
-        'plugins/routeyou/routeyou', 'erfgeoviewer.search',
-        'models/layers', 'models/state'],
+        'views/search/search', 'plugins/routeyou/routeyou', 'erfgeoviewer.search',
+      'models/layers', 'models/state', 'models/navbar'],
 
       function( Backbone, App, Communicator, _, $, L, Config, Q,
                 MapView, HeaderView, DetailView, DetailNavigationView, LegendView, DetailLayout,
-                RouteyouModule, SearchModule,
-                LayerCollection, State ) {
+                SearchView, RouteyouModule, SearchModule,
+                LayerCollection, State, NavBar ) {
 
         console.log('Erfgeoviewer: reader mode.');
 
@@ -70,15 +70,39 @@ require( [
           /**
            * Router.
            */
+          var routes = {
+            "": function() {
+              console.log( 'ErfGeoviewer Home' );
+            }
+          };
+
+          if (State.getPlugin('map_settings').model.get('showSearchFilter')) {
+            NavBar.addItem('add', {
+              fragment: 'search',
+              label: 'Zoek'
+            });
+
+            routes = _.extend(routes, {
+              "search": function() {
+                var searchModule = new SearchModule({
+                  markers_collection: State.getPlugin('geojson_features').collection
+                });
+
+                var markerView = new SearchView({
+                  searchModule: searchModule
+                });
+
+                App.flyouts.getRegion( 'bottom' ).hideFlyout();
+                App.flyouts.getRegion( 'right' ).show( markerView );
+              }
+            });
+          }
 
           var Router = Marionette.AppRouter.extend( {
-            routes: {
-              "": function() {
-                console.log( 'ErfGeoviewer Home' );
-              }
-            }
+            routes: routes
           } );
           App.router = new Router();
+
           Communicator.reqres.setHandler("router:get", function() { return App.router; });
 
 
