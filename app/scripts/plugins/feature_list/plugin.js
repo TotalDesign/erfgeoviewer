@@ -33,6 +33,7 @@ define(['plugin/abstract', 'erfgeoviewer.common', 'communicator', 'models/navbar
     },
 
     showList: function() {
+      Communicator.mediator.trigger( 'map:fitAll' );
 
       if (this.listView) this.listView.destroy();
 

@@ -137,7 +137,7 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
         // If called immediately, results in error.
         _.delay(function() {
           var bounds = layerGroup.getBounds();
-          if (bounds.isValid()) map.fitBounds( bounds );
+          if (bounds.isValid()) map.fitBounds( bounds, { padding: [10, 10] } );
         }, 500);
 
       },

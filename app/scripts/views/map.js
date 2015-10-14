@@ -48,6 +48,26 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
       /**
        * Event listeners
        */
+      Communicator.mediator.on( 'map:fitAll', function() {
+        var bounds;
+
+        _.each(self.layers, function(layer) {
+          var layerBounds = layer.getBounds();
+
+          if (layerBounds.isValid()) {
+            if (!bounds) {
+              bounds = layerBounds;
+            }
+            else {
+              bounds.extend(layerBounds);
+            }
+          }
+        });
+
+        if (bounds.isValid()) {
+          self.map.fitBounds(bounds, { padding: [10, 10] });
+        }
+      });
       Communicator.mediator.on('map:setPosition', function(options) {
         self.map.setView(options.centerPoint, options.zoom);
       });
