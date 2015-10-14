@@ -117,12 +117,14 @@ require( [
 
     NavBar.addItem('save', {
       fragment: 'export',
-      label: 'Exporteer'
+      label: 'Exporteer',
+      weight: 900
     });
 
     NavBar.addItem('add', {
       fragment: 'search',
-      label: 'Zoek'
+      label: 'Zoek',
+      weight: 1000
     });
 
 //    new RouteyouModule();

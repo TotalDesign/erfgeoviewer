@@ -16,7 +16,8 @@ define(['plugin/abstract', './models/settings', 'underscore', 'models/navbar',
         if (App.mode == 'mapmaker') {
           NavBar.addItem('settings', {
             fragment: 'settings',
-            label: 'Instellingen'
+            label: 'Instellingen',
+            weight: 800
           });
         }
       },

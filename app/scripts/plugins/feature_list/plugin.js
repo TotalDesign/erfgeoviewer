@@ -26,7 +26,8 @@ define(['plugin/abstract', 'erfgeoviewer.common', 'communicator', 'models/navbar
       if (App.mode == 'mapmaker' || (App.mode == 'reader' && State.getPlugin('map_settings').model.get('showList'))) {
         NavBar.addItem('features', {
           fragment: 'features',
-          label: this.features.length
+          label: this.features.length,
+          weight: 700
         });
       }
     },

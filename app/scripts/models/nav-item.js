@@ -6,7 +6,8 @@ define(['backbone'], function(Backbone) {
       'icon': null,
       'fragment': null,
       'label': null,
-      'classes': null
+      'classes': null,
+      'weight': 0
     }
 
   });

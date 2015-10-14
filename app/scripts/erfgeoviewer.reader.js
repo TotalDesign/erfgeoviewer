@@ -79,7 +79,8 @@ require( [
           if (State.getPlugin('map_settings').model.get('showSearchFilter')) {
             NavBar.addItem('add', {
               fragment: 'search',
-              label: 'Zoek'
+              label: 'Zoek',
+              weight: 1000
             });
 
             routes = _.extend(routes, {
