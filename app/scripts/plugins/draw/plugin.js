@@ -20,8 +20,10 @@ define(['plugin/abstract', 'communicator', 'underscore', 'leaflet', 'leaflet.dra
 
       var drawControl = new L.Control.Draw({
         draw: {
-          rectangle: false,
-          circle: false
+          circle: false,
+          polygon: false,
+          polyline: false,
+          rectangle: false
         },
         edit: {
           featureGroup: drawnItems
