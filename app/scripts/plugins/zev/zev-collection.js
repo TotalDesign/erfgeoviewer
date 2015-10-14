@@ -1,5 +1,5 @@
-define(['backbone', 'backbone.pageable.collection', 'config', 'models/marker'],
-  function(Backbone, PageableCollection, Config, ResultModel) {
+define(['backbone', 'backbone.pageable.collection', 'config', 'models/marker', 'erfgeoviewer.common'],
+  function(Backbone, PageableCollection, Config, ResultModel, App) {
 
     var DelvingResultModel = ResultModel.extend({
       parse: function(fields) {
@@ -80,6 +80,10 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'models/marker'],
               type: 'AND',
               values: this.state.facets
             });
+          }
+
+          if (App.mode == 'mapmaker') {
+            // @Todo Add filter to only return items with geo info #8899
           }
 
           if (!_.isEmpty(this.state.geoFence)) {
