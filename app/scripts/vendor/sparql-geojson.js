@@ -26,10 +26,10 @@ window.sparqlToGeoJSON = function(wkt) {
       geometryType = "MultiPoint";
       break;
     case "LINESTRING":
-      geometryType = "Linestring";
+      geometryType = "LineString";
       break;
-    case "MULTILINE":
-      geometryType = "MultiLine";
+    case "MULTILINESTRING":
+      geometryType = "MultiLineString";
       break;
     case "POLYGON":
       geometryType = "Polygon";
