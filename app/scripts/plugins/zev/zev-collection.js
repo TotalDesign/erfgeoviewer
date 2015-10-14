@@ -82,8 +82,17 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'models/marker', '
             });
           }
 
-          if (App.mode == 'mapmaker') {
-            // @Todo Add filter to only return items with geo info #8899
+          if (App.mode == 'mapmaker' && _.isEmpty(this.state.geoFence)) {
+            // Add filter to only return items with geo info #8899
+            query.values.push({
+              type: 'AND',
+              values: [
+                'minGeoLat=-90',
+                'minGeoLong=-180',
+                'maxGeoLat=90',
+                'maxGeoLong=180'
+              ]
+            });
           }
 
           if (!_.isEmpty(this.state.geoFence)) {
