@@ -6,12 +6,12 @@ require( [
     'views/map', 'views/layout/header.layout', 'views/new', 'views/open', 'views/search/search', 'views/settings',
     'views/detail', 'views/detail-settings', 'views/basemap', 'views/publish',  'views/layout/detail.layout',
     'plugins/routeyou/routeyou', 'erfgeoviewer.search',
-    'models/layers', 'models/state', 'models/sidenav'],
+    'models/layers', 'models/state', 'models/sidenav', 'models/navbar'],
 
   function(Backbone, App, Communicator, $, Config, Q,
            MapView, HeaderView, NewMapView, OpenMapView, SearchView, SettingsView, DetailView, DetailSettingsView, BaseMapSelector, PublishView, DetailLayout,
            RouteyouModule, SearchModule,
-           LayerCollection, State, SideNav) {
+           LayerCollection, State, SideNav, NavBar) {
 
     /**
      * Init.
@@ -113,6 +113,16 @@ require( [
       fragment: 'open',
       icon: 'bicycle',
       label: 'Open'
+    });
+
+    NavBar.addItem('save', {
+      fragment: 'export',
+      label: 'Exporteer'
+    });
+
+    NavBar.addItem('add', {
+      fragment: 'search',
+      label: 'Zoek'
     });
 
 //    new RouteyouModule();
