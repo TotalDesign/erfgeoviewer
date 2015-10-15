@@ -106,6 +106,6 @@ define(["backbone", "backbone.marionette", "communicator", 'models/state', "plug
         });
       }
 
-  });
+    });
 
 });

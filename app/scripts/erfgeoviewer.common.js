@@ -32,8 +32,6 @@ define( ['backbone', 'backbone.marionette', 'config', 'communicator', 'velocity'
       }
 
       if (!App.flyouts.getRegion('detail').hasView() || !App.flyouts.getRegion('detail').isVisible() ) {
-        App.flyouts.getRegion('right').hideFlyout();
-        var router = Communicator.reqres.request("router:get");
         window.location.assign("#");
       }
       App.flyouts.getRegion('bottom').hideFlyout();
