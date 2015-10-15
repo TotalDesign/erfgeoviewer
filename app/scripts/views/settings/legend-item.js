@@ -20,11 +20,12 @@ define(['backbone.marionette', 'config', 'underscore', 'jquery', 'materialize.dr
 
       initialize: function() {
         this.model.on( 'change:label', this.changeLabel, this );
-        this.model.on( 'change:color', this.changeColor, this );
+        this.model.on( 'change:color change:icon', this.changeIcon, this );
       },
 
       serializeModel: function(model) {
         return _.extend(model.toJSON.apply(model, _.rest(arguments)), {
+          iconUrl: this.getIconUrl(),
           availableColors: Config.availableColors,
           availableIcons: Config.makiCollection.getAvailableIcons(),
           cid: this.model.cid,
@@ -61,10 +62,20 @@ define(['backbone.marionette', 'config', 'underscore', 'jquery', 'materialize.dr
         $('.label', this.$el).text(this.model.get('label'));
       },
 
-      changeColor: function() {
-        $('.color-box', this.$el).css({
-          backgroundColor: this.model.get('color')
+      changeIcon: function() {
+        $('.color-box', this.$el).html('<img src="'+ this.getIconUrl() + '" />');
+      },
+
+      getIconUrl: function() {
+        var icon = new L.mapbox.marker.icon({
+          "marker-size": "small",
+          "marker-color": this.model.get('color'),
+          "marker-symbol": this.model.get('icon')
+        }, {
+          "accessToken": Config.mapbox.accessToken
         });
+
+        return icon._getIconUrl('icon');
       }
 
     });

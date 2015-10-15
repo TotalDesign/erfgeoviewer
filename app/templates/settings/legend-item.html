@@ -1,5 +1,9 @@
 <div class="row dropdown-button" data-activates="dropdown<%= cid %>">
-  <div class="color-box" style="background-color: <%= color %>;"></div>
+  <div class="color-box">
+    <% if (iconUrl) { %>
+    <img src="<%= iconUrl %>" />
+    <% } %>
+  </div>
   <div class="label">
     <% if (isNew) { %><em><% } %>
       <%= label %>

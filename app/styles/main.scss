@@ -226,16 +226,10 @@ body {
 }
 
 .color-box {
-  border: 1px solid #DDD;
   float: left;
-  width: 2em;
+  width: 20px;
   height: 1.5em;
   margin-right: 1em;
-
-  &.feature-style {
-    border: none;
-    width: 20px;
-  }
 }
 
 .legend {
