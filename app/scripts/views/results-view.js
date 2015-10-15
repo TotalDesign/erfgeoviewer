@@ -1,10 +1,10 @@
 /**
  * CollectionView for displaying search results.
  */
-define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards", "jquery", "leaflet", "underscore",
-         "config", "tpl!template/results.html"],
+define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
+         "jquery", "leaflet", "underscore", "config", 'erfgeoviewer.common', "tpl!template/results.html"],
   function(Backbone, Marionette, Communicator, Materialize, $, L, _,
-           Config, ResultItemTemplate) {
+           Config, App, ResultItemTemplate) {
 
     var map;
     var layerGroup;
@@ -43,6 +43,10 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
           map.panTo( this.feature.getBounds().getCenter() );
           this.removeMarker();
           this.disableAdd();
+        },
+        'click .open-detail': function(e) {
+          e.preventDefault();
+          Communicator.mediator.trigger("marker:click", this.model);
         },
         'click .zoomin': function(e) {
           e.preventDefault();
@@ -106,6 +110,12 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
           layerGroup.removeLayer(this.feature);
           this.feature = false;
         }
+      },
+
+      serializeModel: function(model) {
+        return _.extend(model.toJSON.apply(model, _.rest(arguments)), {
+          mode: App.mode
+        });
       },
 
       styleFeature(options) {
