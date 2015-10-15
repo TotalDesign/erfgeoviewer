@@ -125,7 +125,7 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
         layerGroup = L.featureGroup().addTo(map);
         layerGroup.bringToFront();
 
-        Communicator.mediator.on( "map:tile-layer-clicked", function() {
+        Communicator.mediator.on( "search:destroyed", function() {
           layerGroup.clearLayers();
         });
       },
@@ -143,7 +143,7 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
       },
 
       onDestroy: function() {
-        Communicator.mediator.off( "map:tile-layer-clicked", null, this );
+        Communicator.mediator.off( "search:destroyed", null, this );
       }
 
 
