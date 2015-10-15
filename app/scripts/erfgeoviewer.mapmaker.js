@@ -55,7 +55,7 @@ require( [
     /**
      * Router.
      */
-
+    var searchView;
     var Router = Marionette.AppRouter.extend( {
       routes: {
         "": function() {
@@ -83,20 +83,22 @@ require( [
             markers_collection: State.getPlugin('geojson_features').collection
           });
 
-          var markerView = new SearchView({
-            searchModule: searchModule
-          });
-
+          if (!searchView || searchView.isDestroyed) {
+            searchView = new SearchView({ searchModule: searchModule });
+          }
           App.flyouts.getRegion( 'bottom' ).hideFlyout();
-          App.flyouts.getRegion( 'right' ).show( markerView );
+
+          if (App.flyouts.getRegion( 'right' ).hasView(searchView)) {
+            App.flyouts.getRegion( 'right' ).expand();
+          }
+          App.flyouts.getRegion( 'right' ).show( searchView );
         },
         "base": function() {
           App.flyouts.getRegion( 'bottom' ).show( new BaseMapSelector() );
         }
       }
     } );
-    var router = new Router();
-    App.router = router;
+    App.router = new Router();
     Communicator.reqres.setHandler("app:get", function() { return App; });
 
     /**
