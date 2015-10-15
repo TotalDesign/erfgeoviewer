@@ -1,5 +1,5 @@
-define(["backbone", "backbone.marionette", "d3", "communicator", 'models/state', "tpl!template/publish.html", "jquery", "materialize.modal"],
-  function(Backbone, Marionette, d3, Communicator, State, PublishTemplate, $, MaterializeModal) {
+define(["backbone", "backbone.marionette", "d3", "communicator", 'models/state', "tpl!template/publish.html", "jquery"],
+  function(Backbone, Marionette, d3, Communicator, State, PublishTemplate, $) {
 
     return Marionette.ItemView.extend({
 
