@@ -7,6 +7,7 @@ define( ["backbone", "underscore", "config"], function( Backbone, _, Config ) {
 
     defaults: {
       color: Config.colors.primary,
+      icon: '',
       description: false,
       externalUrl: false,
       image: false,

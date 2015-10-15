@@ -231,6 +231,11 @@ body {
   width: 2em;
   height: 1.5em;
   margin-right: 1em;
+
+  &.feature-style {
+    border: none;
+    width: 20px;
+  }
 }
 
 .legend {

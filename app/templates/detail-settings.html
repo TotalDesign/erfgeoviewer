@@ -1,7 +1,11 @@
 <div class="row settings">
   <div class="col s5">
     <div class="dropdown-button" data-activates="dropdown<%= cid %>">
-      <div class="color-box" style="background-color: <%= color %>;"></div>
+      <div class="color-box feature-style">
+        <% if (iconUrl) { %>
+        <img src="<%= iconUrl %>" />
+        <% } %>
+      </div>
       <a href="#" class="waves-effect waves-light btn-flat change-style">Stijl</a>
     </div>
 
