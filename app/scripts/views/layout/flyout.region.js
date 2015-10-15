@@ -21,37 +21,33 @@ define([
         this.onHiddenWrapper = _.bind( this.onHidden, this );
       },
 
-      onShow: function() {
-        this.$el.on( 'transitionend', this.onShownWrapper );
-
-        if (this.options.el == '#flyout-detail') {
-          this.$el.hammer().bind('swiperight', _.bind(this.hideFlyout, this));
-        }
-
-        this.$el.addClass('visible');
-        this.$container = this.$el;
-        this.$body = $('body');
-        this.$body.addClass( this.$container.attr('id') + '-visible' );
+      /**
+       * Does not destroy the view.
+       */
+      collapse: function() {
+        this.$body.removeClass( this.$container.attr('id') + '-visible' );
+        this.$container.removeClass( 'visible' );
       },
 
-      onShown: function() {
-        this.$el.off( 'transitionend', this.onShownWrapper );
+      /**
+       * Does not destroy the view.
+       */
+      expand: function() {
+        this.$body.addClass( this.$container.attr('id') + '-visible' );
+        this.$container.addClass( 'visible' );
       },
 
       hideFlyout: function() {
         if (this.$container && this.currentView) {
           this.currentView.trigger('hide');
           this.$el.on( 'transitionend', this.onHiddenWrapper );
-
-          this.$body.removeClass( this.$container.attr('id') + '-visible' );
-          this.$container.removeClass( 'visible' );
+          this.collapse();
         }
       },
 
-      onHidden: function() {
-        if (!this.$el) return;
-        this.$el.off( 'transitionend', this.onHiddenWrapper );
-        this.reset();
+      isVisible: function() {
+        if (!this.$el) return false;
+        return this.$container.hasClass('visible');
       },
 
       onBeforeDestroy: function() {
@@ -60,11 +56,24 @@ define([
         }
       },
 
-      isVisible: function() {
-        if (!this.$el) return false;
-        return this.$container.hasClass('visible');
-      }
+      onHidden: function() {
+        if (!this.$el) return;
+        this.$el.off( 'transitionend', this.onHiddenWrapper );
+      },
 
+      onShow: function() {
+        this.$el.on( 'transitionend', this.onShownWrapper );
+        if (this.options.el == '#flyout-detail') {
+          this.$el.hammer().bind('swiperight', _.bind(this.hideFlyout, this));
+        }
+        this.$container = this.$el;
+        this.$body = $('body');
+        this.expand();
+      },
+
+      onShown: function() {
+        this.$el.off( 'transitionend', this.onShownWrapper );
+      }
 
     })
 
