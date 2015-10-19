@@ -5,11 +5,11 @@
 define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
         "config", "jquery", "underscore", "erfgeoviewer.common",
         "leaflet.markercluster", "leaflet.smoothmarkerbouncing", "leaflet.proj",
-        "leaflet.fullscreen", "models/markers", 'models/state',
+        "leaflet.fullscreen", 'models/state',
         "tpl!template/map.html", "vendor/sparql-geojson"],
   function(Backbone, Marionette, L, d3, Communicator, Config, $, _, App,
            LeafletMarkerCluster, LeafletBouncing, LeafletProjections,
-           LeafletFullscreen, MarkersCollection, State, Template) {
+           LeafletFullscreen, State, Template) {
 
   return Marionette.ItemView.extend({
 

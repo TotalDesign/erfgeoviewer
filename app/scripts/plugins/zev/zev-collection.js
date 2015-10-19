@@ -1,4 +1,4 @@
-define(['backbone', 'backbone.pageable.collection', 'config', 'models/marker', 'erfgeoviewer.common'],
+define(['backbone', 'backbone.pageable.collection', 'config', 'plugin/geojson_features/models/feature', 'erfgeoviewer.common'],
   function(Backbone, PageableCollection, Config, ResultModel, App) {
 
     var DelvingResultModel = ResultModel.extend({

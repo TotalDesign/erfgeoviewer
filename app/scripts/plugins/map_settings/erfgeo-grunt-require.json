@@ -9,7 +9,8 @@
       "backbone": "empty:",
       "underscore": "empty:",
       "config": "empty:",
-      "models/navbar": "empty:"
+      "models/navbar": "empty:",
+      "erfgeoviewer.common": "empty:"
     },
     "packages": [
       {

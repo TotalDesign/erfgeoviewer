@@ -1,5 +1,5 @@
-define(["backbone", "models/markers", 'backbone.localstorage', 'communicator', 'underscore', 'q'],
-  function(Backbone, MarkersCollection, LS, Communicator, _, Q) {
+define(["backbone", 'backbone.localstorage', 'communicator', 'underscore', 'q'],
+  function(Backbone, LS, Communicator, _, Q) {
 
     var State = Backbone.Model.extend({
 
