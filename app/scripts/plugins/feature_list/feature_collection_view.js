@@ -5,7 +5,18 @@ define(['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'con
 
   var ChildView = Marionette.ItemView.extend({
 
-    template: ListItemTemplate
+    template: ListItemTemplate,
+
+    events: {
+      'click .feature-list-item': 'onClick'
+    },
+
+    onClick: function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+
+      Communicator.mediator.trigger( "marker:click", this.model);
+    }
 
   });
 
