@@ -31,7 +31,7 @@
         if (description) {
 %><div class="row <%= field.key %>"><div class="col s12">
 <% if (field.label) { %><label><%= field.label %></label> <% } %>
-<div id="edit-description" class="description editable"><%= description %></div>
+<div id="edit-description" data-multiline="true" class="description editable"><%= description %></div>
 </div></div><% }
         break;
 
