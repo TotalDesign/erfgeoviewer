@@ -101,7 +101,7 @@ define("config", function () {
       }
     ],
     "zoek_en_vind": {
-      "uri": "http://erfgeo.data.digitalecollectie.nl"
+      "uri": "http://erfgeo.data.digitalecollectie.nl",
 //      "facets": {
 //        "type": 'OR',
 //        "values": [
