@@ -26,7 +26,9 @@ define(['plugin/abstract', 'communicator', 'underscore', 'leaflet', 'leaflet.dra
           rectangle: false
         },
         edit: {
-          featureGroup: drawnItems
+          featureGroup: drawnItems,
+          edit: false,
+          remove: false
         }
       });
       map.addControl(drawControl);
