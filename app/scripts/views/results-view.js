@@ -2,9 +2,9 @@
  * CollectionView for displaying search results.
  */
 define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
-         "jquery", "leaflet", "underscore", "config", 'erfgeoviewer.common', "tpl!template/results.html"],
+         "jquery", "leaflet", "underscore", "config", 'erfgeoviewer.common', "tpl!template/result-item.html", "tpl!template/results.html"],
   function(Backbone, Marionette, Communicator, Materialize, $, L, _,
-           Config, App, ResultItemTemplate) {
+           Config, App, ResultItemTemplate, ResultsTemplate) {
 
     var map;
     var layerGroup;
@@ -126,7 +126,13 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
 
     });
 
-    return Marionette.CollectionView.extend({
+    return Marionette.CompositeView.extend({
+
+      childView: ResultItemView,
+
+      childViewContainer: "#search-results",
+
+      template: ResultsTemplate,
 
       initialize: function() {
 
@@ -138,9 +144,22 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
         Communicator.mediator.on( "search:destroyed", function() {
           layerGroup.clearLayers();
         });
+
+        this.collection.on('reset', this.render, this );
       },
 
-      childView: ResultItemView,
+      onBeforeRender: function() {
+        if (this.model) {
+          this.model.destroy();
+          this.model = null;
+        }
+
+        this.model = new Backbone.Model({
+          start: (this.collection.state.currentPage -1) * this.collection.state.pageSize,
+          end: this.collection.state.currentPage * this.collection.state.pageSize,
+          total: this.collection.state.currentPage * this.collection.state.totalRecords
+        });
+      },
 
       onRender: function() {
 
