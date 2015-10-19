@@ -33,9 +33,14 @@
   h3.result-title {
     margin: 0;
     font-size: 24px;
-    background-color: $accent_700;
-    padding: 48px 19px 19px 19px;
     color: white;
+  }
+
+  .row {
+    &.title {
+      background-color: $accent_700;
+      padding: 48px 0 19px;
+    }
   }
 
 }

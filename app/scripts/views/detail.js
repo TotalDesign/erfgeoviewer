@@ -1,6 +1,6 @@
-define( ["backbone", "backbone.marionette", "communicator", "medium.editor", "jquery", "erfgeoviewer.common",
+define( ["backbone", "backbone.marionette", "communicator", "medium.editor", "config", "jquery", "erfgeoviewer.common",
     "tpl!template/detail.html"],
-  function( Backbone, Marionette, Communicator, MediumEditor, $, App,
+  function( Backbone, Marionette, Communicator, MediumEditor, Config, $, App,
             Template ) {
 
     return Marionette.ItemView.extend( {
@@ -37,6 +37,21 @@ define( ["backbone", "backbone.marionette", "communicator", "medium.editor", "jq
               var field = $(editable).attr('id').substr(5);
               self.model.set(field, $(editable).html());
             }, 1000);
+          });
+        }
+      },
+
+      serializeModel: function(model) {
+        if (false && model.get('externalUrl')) {
+          return _.extend({
+            fields: Config.fields
+          }, model.toJSON.apply(model, _.rest(arguments)));
+        }
+        else {
+          return _.extend({
+            fields: Config.fields
+          }, model.toJSON.apply(model, _.rest(arguments)), {
+            externalUrl: 'url'
           });
         }
       }

@@ -114,6 +114,28 @@ define("config", function () {
         "dc:dataProvider": "Collectie",
         "edm:dataProvider": "Collectie"
       }
-    }
+    },
+    "fields": [
+      {
+        "key": "title",
+        "label": "Title"
+      },
+      {
+        "key": "image",
+        "label": "Image"
+      },
+      {
+        "key": "description",
+        "label": ""
+      },
+      {
+        "key": "youtubeid",
+        "label": "YouTube"
+      },
+      {
+        "key": "externalUrl",
+        "label": "External link"
+      }
+    ]
   };
 });
