@@ -125,6 +125,8 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
 
       State.getPlugin('geojson_features').collection.on('reset', this.initFeatures, this);
 
+      State.getPlugin('map_settings').model.on('change:primaryColor', this.updatePrimaryColor, this);
+
       Communicator.mediator.on('map:ready', function() {
         this.initFeatures(State.getPlugin('geojson_features').collection);
       }, this);
@@ -231,6 +233,14 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
           featureLayer: marker
         });
       });
+    },
+
+    updatePrimaryColor: function() {
+      var features = State.getPlugin('geojson_features').collection.where({ userColor: null });
+
+      _.each(features, _.bind(function(feature) {
+        this.updateMarker(feature);
+      }, this));
     },
 
     updateMarker: function(m) {

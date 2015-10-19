@@ -25,13 +25,13 @@ define( ["backbone", "backbone.marionette", 'leaflet', "communicator",
       initialize: function( o ) {
         this.model = o.model;
 
-        this.model.on( 'change:color change:icon', this.changeIcon, this );
+        this.model.on( 'change:userColor change:icon', this.changeIcon, this );
       },
 
       change: function(e) {
         var $input = $(e.currentTarget);
 
-        this.model.set( $input.data('property'), $input.val() );
+        this.model.set( $input.data('property'), $input.val() == '' ? null : $input.val() );
       },
 
       changeIcon: function() {
@@ -59,7 +59,7 @@ define( ["backbone", "backbone.marionette", 'leaflet', "communicator",
       serializeModel: function(model) {
         return _.extend(model.toJSON.apply(model, _.rest(arguments)), {
           iconUrl: this.getIconUrl(),
-          availableColors: Config.availableColors,
+          availableColors: _.extend( { "-- Default --": null }, Config.availableColors),
           availableIcons: Config.makiCollection.getAvailableIcons(),
           cid: this.model.cid
         });

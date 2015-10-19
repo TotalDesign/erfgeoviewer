@@ -1,7 +1,8 @@
 /**
  * Functions as an adaptor for field names from results to what the ErfGeoviewer expects
  */
-define( ["backbone", "underscore", "config"], function( Backbone, _, Config ) {
+define( ["backbone", "backbone.mutators", "underscore", "config", "models/state"],
+function( Backbone, BackboneMutators, _, Config, State ) {
 
   return Backbone.Model.extend( {
 
@@ -19,6 +20,18 @@ define( ["backbone", "underscore", "config"], function( Backbone, _, Config ) {
       youtube: false,
       youtubeid: false,
       geometryType: 'POINT'
+    },
+
+    mutators: {
+      color: {
+        get: function() {
+          return _.isEmpty(this.get('userColor')) ? State.getPlugin('map_settings').model.get('primaryColor') : this.get('userColor');
+        },
+        set: function(key, value, options, set) {
+          this.set('userColor', value, options);
+        },
+        transient: true
+      }
     },
 
     initialize: function() {

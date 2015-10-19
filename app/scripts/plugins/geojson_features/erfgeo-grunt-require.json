@@ -9,7 +9,8 @@
       "backbone": "empty:",
       "underscore": "empty:",
       "config": "empty:",
-      "communicator": "empty:"
+      "communicator": "empty:",
+      "backbone.mutators": "../bower_components/Backbone.Mutators/backbone.mutators"
     },
     "packages": [
       {

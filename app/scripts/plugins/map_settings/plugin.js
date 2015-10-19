@@ -35,7 +35,7 @@ define(['plugin/abstract', './models/settings', 'underscore', 'models/navbar',
       },
 
       writeData: function () {
-        return this.model.toJSON();
+        return this.model.toJSON({ emulateHTTP: true });
       }
     });
 

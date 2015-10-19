@@ -33,7 +33,7 @@ define(['plugin/abstract', './collections/feature_collection', 'underscore'], fu
     },
 
     writeData: function () {
-      return this.collection.toJSON();
+      return this.collection.toJSON({ emulateHTTP: true });
     }
   });
 });
