@@ -80,26 +80,30 @@
 
   }
 
+  $button-color: #f3f3f3;
+  $button-color-hover: darken($button-color, 3%);
+
   .dropdown-button {
     padding: 0;
     margin-right: 15px;
     a {
       padding-left: 10px;
       padding-right: 15px;
-      background-color: #f9f9f9;
+      background-color: $button-color;
       &:hover {
-        background-color: #f3f3f3;
+        background-color: $button-color-hover;
       }
     }
-    @include border-radius(3px);
+    @include border-radius(2px);
   }
 
   .button-with-marker {
-    background-color: #f9f9f9;
+    background-color: $button-color;
     padding-left: 10px;
     &:hover {
-      background-color: #f3f3f3;
+      background-color: $button-color-hover;
     }
+    a { background-color: transparent; }
   }
 
 }
