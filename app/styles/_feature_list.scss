@@ -1,6 +1,12 @@
 .feature-list-wrapper {
-  margin: 10px;
-  .input-field label {
-    left: 0;
+  li {
+    .edit {
+      clear: both;
+      line-height: 25px;
+      padding-left: 35px;
+    }
+    label {
+      left: 0;
+    }
   }
 }

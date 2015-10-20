@@ -7,11 +7,13 @@ define(['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'con
 
     template: ListItemTemplate,
 
+    tagName: 'li',
+
     events: {
-      'click .feature-list-item': 'onClick'
+      'click .edit': 'onClickEdit'
     },
 
-    onClick: function(e) {
+    onClickEdit: function(e) {
       e.stopPropagation();
       e.preventDefault();
 
@@ -23,7 +25,11 @@ define(['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'con
   return Marionette.CompositeView.extend({
 
     childView: ChildView,
+
     childViewContainer: "ul.features",
+
+    className: 'feature-list-wrapper',
+
     events: {
       "mouseover li": function(e) {
         var cid = $(e.currentTarget).find('input').data('model-id');
