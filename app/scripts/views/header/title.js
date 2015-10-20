@@ -7,7 +7,14 @@ define( ['backbone', 'backbone.marionette', 'models/state'],
 
       initialize: function() {
         this.model = new Backbone.Model();
-        this.model.set('title', State.getPlugin('map_settings').model.get('title'));
+
+        State.getPlugin('map_settings').model.on('change:showMapTitle', this.render, this);
+      },
+
+      onBeforeRender: function() {
+        var title = State.getPlugin('map_settings').model.get('showMapTitle') ? State.getPlugin('map_settings').model.get('title') : '';
+
+        this.model.set('title', title);
       }
 
     });
