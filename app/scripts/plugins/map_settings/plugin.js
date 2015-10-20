@@ -35,8 +35,7 @@ define(['plugin/abstract', './models/settings', 'underscore', 'jquery', 'models/
       readData: function(resp) {
         // If there is data, then populate the collection
         if (!_.isUndefined(resp)) {
-          this.model.set(resp, { silent: true });
-          this.updateColor();
+          this.model.set(resp);
         }
         return this.model;
       },
