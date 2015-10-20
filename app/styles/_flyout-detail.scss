@@ -87,8 +87,8 @@
     padding: 0;
     margin-right: 15px;
     a {
-      padding-left: 10px;
-      padding-right: 15px;
+      padding-left: 17px;
+      padding-right: 25px;
       background-color: $button-color;
       &:hover {
         background-color: $button-color-hover;
@@ -99,7 +99,7 @@
 
   .button-with-marker {
     background-color: $button-color;
-    padding-left: 10px;
+    padding-left: 20px;
     &:hover {
       background-color: $button-color-hover;
     }
