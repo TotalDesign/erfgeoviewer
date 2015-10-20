@@ -51,12 +51,8 @@
 
 #detail-footer {
 
-  border-bottom: solid 1px #333;
   padding-top: 10px;
   padding-bottom: 10px;
-  position: absolute;
-  top: 93px;
-  width: 100%;
 
   .row {
     margin-bottom: 0;
@@ -107,6 +103,26 @@
   }
 
 }
-.mode-mapmaker #detail-container .row.description {
-  margin-top: 92px;
+
+// Styling for detail footer in mapmaker mode.
+.mode-mapmaker {
+  #detail-footer {
+    border-bottom: solid 1px #333;
+    position: absolute;
+    top: 93px;
+    width: 100%;
+  }
+  #detail-container .row.description {
+    margin-top: 92px;
+  }
+}
+
+// Styling for previous/next links in reader mode.
+.mode-reader {
+  #detail-footer {
+    border-top: solid 1px #333;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
 }
