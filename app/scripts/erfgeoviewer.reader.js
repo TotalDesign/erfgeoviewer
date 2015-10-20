@@ -8,15 +8,31 @@ require( [
 
     require( ['backbone', 'erfgeoviewer.common', 'communicator', 'underscore', 'jquery', 'leaflet', 'config', 'q',
         'views/map', 'views/layout/header.layout', 'views/detail', 'views/detail-navigation', 'views/legend', 'views/layout/detail.layout',
-        'views/search/search', 'plugins/routeyou/routeyou', 'erfgeoviewer.search',
-      'models/layers', 'models/state', 'models/navbar'],
+        'views/search/search', 'views/new', 'views/open', 'plugins/routeyou/routeyou', 'erfgeoviewer.search',
+      'models/layers', 'models/state', 'models/sidenav', 'models/navbar'],
 
       function( Backbone, App, Communicator, _, $, L, Config, Q,
                 MapView, HeaderView, DetailView, DetailNavigationView, LegendView, DetailLayout,
-                SearchView, RouteyouModule, SearchModule,
-                LayerCollection, State, NavBar ) {
+                SearchView, NewMapView, OpenMapView, RouteyouModule, SearchModule,
+                LayerCollection, State, SideNav, NavBar ) {
 
         console.log('Erfgeoviewer: reader mode.');
+
+        if (Config.controls.newMap || false) {
+          SideNav.addItem('new_map', {
+            fragment: 'new',
+            icon: 'bicycle',
+            label: 'Nieuwe kaart'
+          });
+        }
+
+        if (Config.controls.openMap || false) {
+          SideNav.addItem('open_map', {
+            fragment: 'open',
+            icon: 'bicycle',
+            label: 'Open'
+          });
+        }
 
         var init = function() {
 
@@ -95,6 +111,24 @@ require( [
 
                 App.flyouts.getRegion( 'bottom' ).hideFlyout();
                 App.flyouts.getRegion( 'right' ).show( markerView );
+              }
+            });
+          }
+
+          if (Config.controls.newMap || false) {
+            routes = _.extend(routes, {
+              "new": function() {
+                App.flyouts.getRegion( 'bottom' ).hideFlyout();
+                App.layout.getRegion( 'modal' ).show(new NewMapView());
+              }
+            });
+          }
+
+          if (Config.controls.openMap || false) {
+            routes = _.extend(routes, {
+              "open": function() {
+                App.flyouts.getRegion( 'bottom' ).hideFlyout();
+                App.layout.getRegion( 'modal' ).show(new OpenMapView());
               }
             });
           }

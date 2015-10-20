@@ -69,6 +69,7 @@ define(["backbone", 'backbone.localstorage', 'communicator', 'underscore', 'q'],
         });
 
         this.set(this.parse(data));
+        this.save();
       },
 
       /**

@@ -1,5 +1,9 @@
 define("config", function () {
   return {
+    "controls": {
+      "newMap": false,
+      "openMap": false
+    },
     "colors": {
       "primary": "#673ab7",
       "secondary": "#009688"
