@@ -121,8 +121,17 @@
 .mode-reader {
   #detail-footer {
     border-top: solid 1px #333;
-    position: absolute;
-    bottom: 0;
     width: 100%;
+  }
+}
+.detail-navigation {
+  .previous {}
+  .next {
+    text-align: right;
+  }
+  .navigation-title {
+    text-transform: none;
+    color: #888;
+    font-size: 12px;
   }
 }
