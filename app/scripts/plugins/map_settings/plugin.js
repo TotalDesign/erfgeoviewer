@@ -56,8 +56,6 @@ define(['plugin/abstract', './models/settings', 'underscore', 'jquery', 'models/
         }
 
         this.$styles.html(this.template(this.serializeModel(this.model)));
-
-        console.log('update color');
       },
 
       serializeModel: function(model) {
