@@ -24,7 +24,7 @@ define(['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'con
       return _.extend(model.toJSON.apply(model, _.rest(arguments)), {
         mode: App.mode
       });
-    },
+    }
 
   });
 
@@ -64,7 +64,9 @@ define(['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'con
       // The collection is reflected in the display.
       // The unfilteredCollection is used as the source collection when searching.
       this.unfilteredCollection = o.collection.clone();
-
+      this.model = new Backbone.Model({
+        'featureCount': this.unfilteredCollection.length
+      });
     },
 
     /**
