@@ -17,6 +17,7 @@ require( [
      * Init.
      */
     App.mode = "mapmaker";
+    App.container.$el.addClass( "mode-" + App.mode );
     console.log('Erfgeoviewer: mapmaker mode.');
 
     // This object will be serialized and used for storing/restoring a map.
