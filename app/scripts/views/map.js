@@ -282,7 +282,22 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
     addMarkerGroup: function(layer, key) {
       key = key || 'default';
       if ( _.isUndefined(this.layers[key]) )
-        this.layers[key] = new L.MarkerClusterGroup().addTo(this.map);
+        this.layers[key] = new L.MarkerClusterGroup({
+          iconCreateFunction: function (cluster) {
+            var childCount = cluster.getChildCount();
+
+            var c = ' marker-cluster-';
+            if (childCount < 10) {
+              c += 'small';
+            } else if (childCount < 100) {
+              c += 'medium';
+            } else {
+              c += 'large';
+            }
+
+            return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'color-primary marker-cluster' + c, iconSize: new L.Point(40, 40) });
+          }
+        }).addTo(this.map);
       this.layers[key].addLayer(layer);
     },
 

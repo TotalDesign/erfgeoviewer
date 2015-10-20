@@ -1,0 +1,47 @@
+.color-primary {
+  background-color: <%= primaryColor %> !important;
+}
+
+.color-secondary {
+  background-color: <%= secondaryColor %> !important;
+}
+
+.marker-cluster-small {
+  background-color: rgba(<%= primaryColorDecimal %>, 0.6) !important;
+}
+.marker-cluster-small div {
+  background-color: rgba(<%= primaryColorDecimal %>, 0.6) !important;
+}
+
+.marker-cluster-medium {
+  background-color: rgba(<%= primaryColorDecimal %>, 0.6) !important;
+}
+.marker-cluster-medium div {
+  background-color: rgba(<%= primaryColorDecimal %>, 0.6) !important;
+}
+
+.marker-cluster-large {
+  background-color: rgba(<%= primaryColorDecimal %>, 0.6) !important;
+}
+.marker-cluster-large div {
+  background-color: rgba(<%= primaryColorDecimal %>, 0.6) !important;
+}
+
+#header #slide-out li:hover a {
+  color: <%= primaryColor %> !important;
+}
+
+#header #menu-button:hover {
+  color: <%= secondaryColor %> !important;
+}
+
+#header #primary-actions li a {
+  background-color: <%= primaryColorDarken20 %> !important;
+}
+#header #primary-actions li a:hover {
+  background-color: <%= primaryColorDarken40 %> !important;
+}
+
+.flyout-title a:hover {
+  color: <%= primaryColor %> !important;
+}

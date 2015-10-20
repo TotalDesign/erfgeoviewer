@@ -10,7 +10,8 @@
       "underscore": "empty:",
       "config": "empty:",
       "models/navbar": "empty:",
-      "erfgeoviewer.common": "empty:"
+      "erfgeoviewer.common": "empty:",
+      "tpl": "../bower_components/requirejs-tpl/tpl"
     },
     "packages": [
       {

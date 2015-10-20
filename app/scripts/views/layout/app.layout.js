@@ -5,7 +5,7 @@ define(['backbone.marionette'], function(Marionette) {
     template: _.template(
       '<div id="tooltip"></div>' +
       '<div id="flyout"></div>' +
-      '<header id="header"></header>' +
+      '<header id="header" class="color-primary"></header>' +
       '<div id="body">' +
       '  <aside id="routeyou"></aside>' +
       '  <article id="content"></article>' +
