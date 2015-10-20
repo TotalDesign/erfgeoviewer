@@ -7,11 +7,12 @@
     "name": "plugin/map_settings",
     "paths": {
       "backbone": "empty:",
-      "underscore": "empty:",
       "config": "empty:",
-      "models/navbar": "empty:",
       "erfgeoviewer.common": "empty:",
-      "tpl": "../bower_components/requirejs-tpl/tpl"
+      "jquery": "empty:",
+      "models/navbar": "empty:",
+      "tpl": "../bower_components/requirejs-tpl/tpl",
+      "underscore": "empty:"
     },
     "packages": [
       {
