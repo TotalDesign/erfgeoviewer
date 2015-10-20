@@ -114,6 +114,8 @@
   ],
   "baseMap": "CartoDB Positron",
   "map_settings": {
+    "primaryColor": "#ffeb3b",
+    "secondaryColor": "#f44336",
     "showSearchFilter": true,
     "showList": true,
     "centerPoint": {
