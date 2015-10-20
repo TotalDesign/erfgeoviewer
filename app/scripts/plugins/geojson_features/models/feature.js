@@ -7,7 +7,7 @@ function( Backbone, BackboneMutators, _, Config, State ) {
   return Backbone.Model.extend( {
 
     defaults: {
-      color: Config.colors.primary,
+      userColor: null,
       icon: '',
       description: false,
       externalUrl: false,
