@@ -5,7 +5,7 @@ define(['backbone', 'models/state', 'views/settings/abstract-settings', 'communi
 
       events: _.extend({}, ParentView.prototype.events, {
         'click img': function(e) {
-          Communicator.mediator.trigger('map:changeBase', $(e.target).data('id'));
+          State.getPlugin('map_settings').model.set({ baseMap: $(e.target).data('id') });
         }
       }),
 

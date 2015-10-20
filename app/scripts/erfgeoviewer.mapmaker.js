@@ -4,12 +4,12 @@ require( [
   function() {
   require(['backbone', 'erfgeoviewer.common', 'communicator', 'jquery', 'config', 'q',
     'views/map', 'views/layout/header.layout', 'views/new', 'views/open', 'views/search/search', 'views/settings',
-    'views/detail', 'views/detail-settings', 'views/basemap', 'views/publish',  'views/layout/detail.layout',
+    'views/detail', 'views/detail-settings', 'views/publish',  'views/layout/detail.layout',
     'plugins/routeyou/routeyou', 'erfgeoviewer.search',
     'models/layers', 'models/state', 'models/sidenav', 'models/navbar'],
 
   function(Backbone, App, Communicator, $, Config, Q,
-           MapView, HeaderView, NewMapView, OpenMapView, SearchView, SettingsView, DetailView, DetailSettingsView, BaseMapSelector, PublishView, DetailLayout,
+           MapView, HeaderView, NewMapView, OpenMapView, SearchView, SettingsView, DetailView, DetailSettingsView, PublishView, DetailLayout,
            RouteyouModule, SearchModule,
            LayerCollection, State, SideNav, NavBar) {
 
@@ -92,9 +92,6 @@ require( [
             App.flyouts.getRegion( 'right' ).expand();
           }
           App.flyouts.getRegion( 'right' ).show( searchView );
-        },
-        "base": function() {
-          App.flyouts.getRegion( 'bottom' ).show( new BaseMapSelector() );
         }
       }
     } );

@@ -6,6 +6,7 @@ define( ["backbone", "underscore", "config"], function( Backbone, _, Config ) {
   return Backbone.Model.extend( {
 
     defaults: {
+      baseMap: 'osm',
       showMapTitle: false,
       showSearchFilter: false,
       allowFullscreen: false,

@@ -105,16 +105,10 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
       Communicator.mediator.on("map:zoomOut", function() {
         this.map.setZoom(this.map.getZoom() - 1);
       }, this);
-      Communicator.mediator.on("map:changeBase", function(tileId) {
-        self.setBaseMap(tileId);
-      });
       Communicator.mediator.on("map:updateSize", function() {
         _.throttle( self.updateMapSize, 150 )
       });
       Communicator.reqres.setHandler( "getMap", function() { return self.map; });
-      State.on("change:baseMap", function(model) {
-        self.setBaseMap(model.get('baseMap'));
-      });
 
       /**
        * State management.
@@ -126,6 +120,8 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
       State.getPlugin('geojson_features').collection.on('reset', this.initFeatures, this);
 
       State.getPlugin('map_settings').model.on('change:primaryColor', this.updatePrimaryColor, this);
+
+      State.getPlugin('map_settings').model.on('change:baseMap', this.setBaseMap, this);
 
       Communicator.mediator.on('map:ready', function() {
         this.initFeatures(State.getPlugin('geojson_features').collection);
@@ -318,7 +314,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
         worldCopyJump: true,
         fullscreenControl: true
       });
-      this.setBaseMap( State.get('baseMap') || "osm" );
+      this.setBaseMap();
 
       if (App.mode == 'mapmaker') {
         this.map.setView( State.getPlugin('map_settings').model.get('editorCenterPoint') || [52.121580, 5.6304], State.getPlugin('map_settings').model.get('editorZoom') || 8 );
@@ -437,10 +433,12 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
       }
     },
 
-    setBaseMap: function(tileId) {
+    setBaseMap: function() {
 
-      var self = this;
-      var tile = _.findWhere( Config.tiles, {id: tileId} );
+      var self = this,
+        tileId = State.getPlugin('map_settings').model.get('baseMap'),
+        tile = _.findWhere( Config.tiles, {id: tileId} );
+
       if (!tile) return;
 
       if (self.baseLayer) self.map.removeLayer(self.baseLayer);
@@ -455,7 +453,6 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
         };
         self.baseLayer = L.tileLayer( tile.tilejson.tiles, tileOptions ).addTo( self.map );
       }
-      State.set('baseMap', tile.id );
 
     },
 
