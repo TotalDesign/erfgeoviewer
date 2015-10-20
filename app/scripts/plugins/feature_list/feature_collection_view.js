@@ -1,6 +1,6 @@
 define(['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'config',
-    'tpl!./templates/list.html', 'tpl!./templates/list-item.html'],
-  function(Marionette, Fuse, $, Communicator, L, Config,
+    'erfgeoviewer.common', 'tpl!./templates/list.html', 'tpl!./templates/list-item.html'],
+  function(Marionette, Fuse, $, Communicator, L, Config, App,
            ListTemplate, ListItemTemplate) {
 
   var ChildView = Marionette.ItemView.extend({
@@ -18,7 +18,13 @@ define(['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'con
       e.preventDefault();
 
       Communicator.mediator.trigger( "marker:click", this.model);
-    }
+    },
+
+    serializeModel: function(model) {
+      return _.extend(model.toJSON.apply(model, _.rest(arguments)), {
+        mode: App.mode
+      });
+    },
 
   });
 
