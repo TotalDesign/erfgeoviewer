@@ -48,19 +48,22 @@
 
 }
 
-// TODO:
-// Temporary. I'd like to see the detail action buttons (stijl, verwijderen) docked at the bottom of the
-// detail flyout, but then the icon selector needs to be adjusted.
-#detail-container {
-  min-height: 400px;
-}
 
 #detail-footer {
+
+  border-bottom: solid 1px #333;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  position: absolute;
+  top: 93px;
+  width: 100%;
+
+  .row {
+    margin-bottom: 0;
+  }
   > div {
     margin: 0 10px;
   }
-  border-top: solid 1px #333;
-  padding-top: 10px;
   .settings {
     a.change-style {
       padding-left: 0;
@@ -71,5 +74,39 @@
     .dropdown-content {
       padding: 15px;
     }
+    .feature-style img {
+      cursor: pointer;
+    }
+
   }
+
+  $button-color: #f3f3f3;
+  $button-color-hover: darken($button-color, 3%);
+
+  .dropdown-button {
+    padding: 0;
+    margin-right: 15px;
+    a {
+      padding-left: 17px;
+      padding-right: 25px;
+      background-color: $button-color;
+      &:hover {
+        background-color: $button-color-hover;
+      }
+    }
+    @include border-radius(2px);
+  }
+
+  .button-with-marker {
+    background-color: $button-color;
+    padding-left: 20px;
+    &:hover {
+      background-color: $button-color-hover;
+    }
+    a { background-color: transparent; }
+  }
+
+}
+.mode-mapmaker #detail-container .row.description {
+  margin-top: 92px;
 }

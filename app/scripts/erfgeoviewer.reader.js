@@ -145,8 +145,8 @@ require( [
           /**
            * Init.
            */
-//          new RouteyouModule( {state: state} );
           App.mode = "reader";
+          App.container.$el.addClass( "mode-" + App.mode );
           App.map_view = new MapView({
             layout: App.layout
           });
