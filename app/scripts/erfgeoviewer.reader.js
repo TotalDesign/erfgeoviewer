@@ -88,8 +88,9 @@ require( [
            */
           var routes = {
             "": function() {
-              console.log( 'ErfGeoviewer Home' );
-            }
+              App.flyouts.getRegion( 'bottom' ).hideFlyout();
+              App.flyouts.getRegion( 'right' ).hideFlyout();
+            },
           };
 
           if (State.getPlugin('map_settings').model.get('showSearchFilter')) {
