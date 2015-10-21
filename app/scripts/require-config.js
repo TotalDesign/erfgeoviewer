@@ -94,6 +94,7 @@ require.config( {
     "q": "../bower_components/q/q.min",
     "react": "../bower_components/react/react",
     "react.paginate": "../bower_components/react-paginate/index",
+    "share.button": "../bower_components/share-button/src/share-button.js",
     "underscore": "../bower_components/underscore/underscore",
     "velocity": "../bower_components/velocity/velocity",
 

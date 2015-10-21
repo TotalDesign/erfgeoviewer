@@ -6,12 +6,12 @@ require( [
   function( RequireJSConfig ) {
     'use strict';
 
-    require( ['backbone', 'erfgeoviewer.common', 'communicator', 'underscore', 'jquery', 'leaflet', 'config', 'q',
+    require( ['backbone', 'erfgeoviewer.common', 'communicator', 'underscore', 'jquery', 'leaflet', 'config', 'q', 'share.button',
         'views/map', 'views/layout/header.layout', 'views/detail', 'views/detail-navigation', 'views/legend', 'views/layout/detail.layout',
         'views/search/search', 'views/new', 'views/open', 'plugins/routeyou/routeyou', 'erfgeoviewer.search',
       'models/layers', 'models/state', 'models/sidenav', 'models/navbar'],
 
-      function( Backbone, App, Communicator, _, $, L, Config, Q,
+      function( Backbone, App, Communicator, _, $, L, Config, Q, ShareButton,
                 MapView, HeaderView, DetailView, DetailNavigationView, LegendView, DetailLayout,
                 SearchView, NewMapView, OpenMapView, RouteyouModule, SearchModule,
                 LayerCollection, State, SideNav, NavBar ) {
