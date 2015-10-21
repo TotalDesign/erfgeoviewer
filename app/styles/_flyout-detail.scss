@@ -137,6 +137,5 @@
 // The #detail-controls region contains html which is moved at run-time
 // to be positioned underneath the title in the detail screen. We don't
 // want that markup to be visible until it's under the title.
-#detail-controls {
-  display: none;
-}
+#detail-controls { display: none; }
+#detail-controls.visible { display: block; }

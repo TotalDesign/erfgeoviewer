@@ -37,10 +37,9 @@ define( ["backbone", "backbone.marionette", "communicator", "medium.editor", "co
         } );
 
         // Move the controls region just after the title, no matter where it has been placed.
-        $controlsRegion = $('#detail-controls > div');
-        var controls = $controlsRegion.html();
-        $controlsRegion.html('');
-        $(controls).insertAfter('.row.title', this.$el);
+        $controls = $('#detail-controls');
+        $('.row.title', this.$el).after( $controls );
+        $controls.addClass('visible');
 
         if (this.singleLineEditor) this.singleLineEditor.destroy();
         if (this.multiLineEditor) this.multiLineEditor.destroy();
