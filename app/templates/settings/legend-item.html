@@ -14,7 +14,7 @@
 
 <div id="dropdown<%= cid %>" class="dropdown-content">
   <div class="row">
-    <label>Color</label>
+    <label>Kleur</label>
     <select id="legend-setting-color-<%= cid %>" class="browser-default" data-property="color">
       <% _.each(availableColors, function(hex, name) { var selected = hex == color; %>
       <option value="<%= hex %>" <% if (selected) { %>selected<% } %> ><%= name %></option>
@@ -23,7 +23,7 @@
   </div>
 
   <div class="row">
-    <label>Icon</label>
+    <label>Icoon</label>
     <select id="legend-setting-icon-<%= cid %>" class="browser-default" data-property="icon">
       <% _.each(availableIcons, function(model) { var selected = model.get('icon') == icon; %>
       <option value="<%= model.get('icon') %>" <% if (selected) { %>selected<% } %> ><%= model.get('name') %></option>
