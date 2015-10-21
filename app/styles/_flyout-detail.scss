@@ -114,18 +114,15 @@
     border-top: solid 1px #333;
     width: 100%;
   }
-
-
   .row {
     margin-bottom: 0;
-  }
-  > div {
-    margin: 0 10px;
   }
 
 }
 
 .detail-navigation {
+
+  padding-top: 10px;
   .previous {}
   .next {
     text-align: right;
