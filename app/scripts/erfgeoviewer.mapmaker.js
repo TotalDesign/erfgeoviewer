@@ -38,11 +38,10 @@ require( [
     });
     Communicator.mediator.on("marker:click", function(m) {
       var detailLayout = new DetailLayout();
-
       App.flyouts.getRegion('detail').show( detailLayout );
-
+      detailLayout.getRegion('controls').show( new DetailSettingsView( { model: m } ) );
       detailLayout.getRegion('container').show( new DetailView( { model: m } ) );
-      detailLayout.getRegion('footer').show( new DetailSettingsView( { model: m } ) );
+
     });
     Communicator.mediator.on( "all", function( e, a ) {
       // Debugging:
