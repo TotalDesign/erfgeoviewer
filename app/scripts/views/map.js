@@ -64,7 +64,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
           }
         });
 
-        if (bounds.isValid()) {
+        if (bounds instanceof L.LatLngBounds) {
           self.map.fitBounds(bounds, { padding: [10, 10] });
         }
       });
