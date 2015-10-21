@@ -68,6 +68,38 @@ require( [
 
               legend.addTo(map);
             }
+
+            /**
+             * Share
+             */
+            if (State.getPlugin('map_settings').model.get('showShare')) {
+              var share = L.control({ position: 'bottomright' });
+
+              share.onAdd = function (map) {
+                return document.createElement('share-button');
+              };
+
+              share.addTo(map);
+
+              new ShareButton({
+                title: 'ErfGeoviewer',
+                ui: {
+                  flyout: 'top left',
+                  buttonText: 'Delen'
+                },
+                networks: {
+                  linkedin: {
+                    enabled: false
+                  },
+                  pinterest: {
+                    enabled: false
+                  },
+                  reddit: {
+                    enabled: false
+                  }
+                }
+              });
+            }
           });
           Communicator.mediator.on( "marker:click", function(m) {
             var detailLayout = new DetailLayout();
