@@ -59,7 +59,7 @@ define( ["backbone", "backbone.marionette", 'leaflet', "communicator",
       serializeModel: function(model) {
         return _.extend(model.toJSON.apply(model, _.rest(arguments)), {
           iconUrl: this.getIconUrl(),
-          availableColors: _.extend( { "-- Default --": null }, Config.availableColors),
+          availableColors: _.extend( { "-- Standaard --": null }, Config.availableColors),
           availableIcons: Config.makiCollection.getAvailableIcons(),
           cid: this.model.cid
         });

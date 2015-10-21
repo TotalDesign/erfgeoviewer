@@ -13,8 +13,7 @@ define(['backbone', 'models/state', 'views/settings/abstract-settings', 'communi
 
       initialize: function() {
         this.model = new Backbone.Model({
-          tiles: Config.tiles,
-          allowStyleChange: State.getPlugin('map_settings').model.get('allowStyleChange')
+          tiles: Config.tiles
         });
       }
 

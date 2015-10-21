@@ -21,7 +21,7 @@
 
       <% if (geometryType == 'POINT' ) { %>
       <div class="row">
-        <label>Icontje</label>
+        <label>Icoon</label>
         <select id="legend-setting-icon-<%= cid %>" class="browser-default" data-property="icon">
           <% _.each(availableIcons, function(model) { var selected = model.get('icon') == icon; %>
           <option value="<%= model.get('icon') %>" <% if (selected) { %>selected<% } %> ><%= model.get('name') %></option>
