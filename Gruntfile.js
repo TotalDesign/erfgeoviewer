@@ -293,7 +293,7 @@ module.exports = function( grunt ) {
             '.htaccess',
             'scripts/config/acc.js',
             'images/{,*/}*.{webp,gif}',
-            'app/styles/images/**',
+            'styles/images/**',
             'bower_components/requirejs/require.js',
             'font/**'
           ]
