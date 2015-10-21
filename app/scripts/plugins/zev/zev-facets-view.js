@@ -2,7 +2,7 @@
  * CollectionView for displaying search facets.
  */
 define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards", "jquery", "underscore", "URIjs/URI",
-  "tpl!template/facet-box.html"],
+  "tpl!template/search/facet-box.html"],
   function(Backbone, Marionette, Communicator, Materialize, $, _, URI,
            FacetItemTemplate) {
 

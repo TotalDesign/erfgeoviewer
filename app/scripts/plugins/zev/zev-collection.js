@@ -1,5 +1,5 @@
-define(['backbone', 'backbone.pageable.collection', 'config', 'plugin/geojson_features/models/feature', 'erfgeoviewer.common'],
-  function(Backbone, PageableCollection, Config, ResultModel, App) {
+define(['backbone', 'backbone.pageable.collection', 'config', 'communicator', 'plugin/geojson_features/models/feature', 'erfgeoviewer.common'],
+  function(Backbone, PageableCollection, Config, Communicator, ResultModel, App) {
 
     var DelvingResultModel = ResultModel.extend({
       parse: function(fields) {
@@ -49,9 +49,15 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'plugin/geojson_fe
       }
     });
 
+    var MODE_ADVANCED = 'advanced',
+      MODE_SIMPLE = 'simple';
+
     return PageableCollection.extend({
 
       model: DelvingResultModel,
+
+      searchMode: 'simple',
+
       queryParams: {
         currentPage: null,
         pageSize: null,
@@ -75,10 +81,24 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'plugin/geojson_fe
           if (_.isEmpty(this.state.facets) && _.isObject(Config.zoek_en_vind.facets)) {
             query.values.push(Config.zoek_en_vind.facets);
           }
-          else if (!_.isEmpty(this.state.facets)) {
+          else if (!_.isEmpty(this.state.facets) && this.searchMode == MODE_ADVANCED) {
             query.values.push({
               type: 'AND',
               values: this.state.facets
+            });
+          }
+
+          if (!_.isEmpty(this.state.date.from) && this.searchMode == MODE_ADVANCED) {
+            query.values.push({
+              type: 'AND',
+              values: ['dc:date.year >= ' + this.state.date.from]
+            });
+          }
+
+          if (!_.isEmpty(this.state.date.to) && this.searchMode == MODE_ADVANCED) {
+            query.values.push({
+              type: 'AND',
+              values: ['dc:date.year <= ' + this.state.date.to]
             });
           }
 
@@ -108,11 +128,23 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'plugin/geojson_fe
         pageSize: 30,
         maxRecords: 30,
         terms: "*",
+        date: {
+          from: '',
+          to: ''
+        },
         facets: [], // Always AND
         facetConfig: null,
         geoFence: null
       },
       url: Config.zoek_en_vind.uri + '/search',
+
+      initialize: function() {
+        Communicator.mediator.on('search:toggleAdvancedSearch', this.toggleSearchMode, this);
+      },
+
+      toggleSearchMode: function() {
+        this.searchMode = this.searchMode == MODE_SIMPLE ? MODE_ADVANCED : MODE_SIMPLE;
+      },
 
       renderQuery: function(query) {
         var self = this;

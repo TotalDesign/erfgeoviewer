@@ -3,10 +3,10 @@
  */
 define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-search', 'backgrid', 'backgrid.paginator',
     'plugins/zev/zev-collection', 'models/state',
-    'views/search/search-wait', 'views/results-view', 'views/search/search-field', 'plugins/zev/zev-facets-view'],
+    'views/search/search-wait', 'views/results-view', 'views/search/search-field', 'plugins/zev/zev-facets-view', 'plugins/zev/zev-date-filter-view'],
   function(Backbone, Marionette, Communicator, SearchModule, Backgrid, PaginatorView,
            DelvingCollection, State,
-           WaitView, ResultsView, DelvingSearchView, ZevFacetsView) {
+           WaitView, ResultsView, DelvingSearchView, ZevFacetsView, ZevDateFilterView) {
 
     return SearchModule.extend({
 
@@ -30,6 +30,10 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
         var SearchModel = Backbone.Model.extend( {
           defaults: {
             terms: '*',
+            date: {
+              from: '',
+              to: ''
+            },
             facets: [],
             viewportFilter: false,
             numfound: 0
@@ -66,6 +70,11 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
 
         this.listenTo(this.model, "change:facets", function() {
           self.results.state.facets = self.model.get('facets');
+          self.getResults();
+        });
+
+        this.listenTo(this.model, "change:date", function() {
+          self.results.state.date = self.model.get('date');
           self.getResults();
         });
 
@@ -127,6 +136,8 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
         this.layout.getRegion('search').show(new DelvingSearchView({
           model: this.model
         }) );
+
+        this.layout.getRegion( 'filters' ).show( new ZevDateFilterView({ model: this.model }) );
       },
 
       onRender: function() {
