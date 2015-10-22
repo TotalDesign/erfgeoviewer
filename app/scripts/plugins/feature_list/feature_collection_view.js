@@ -13,12 +13,19 @@ define(['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'con
       'click .edit': 'onClickEdit'
     },
 
+    initialize: function() {
+      this.model.on( "change:title", this.render );
+    },
+
     onClickEdit: function(e) {
       e.stopPropagation();
       e.preventDefault();
-      this.model.on( "change", this.render );
 
       Communicator.mediator.trigger( "marker:click", this.model);
+    },
+
+    onDestroy: function() {
+      this.model.off( "change:title", this.render );
     },
 
     serializeModel: function(model) {
