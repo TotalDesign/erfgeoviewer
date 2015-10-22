@@ -16,6 +16,7 @@ define(['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'con
     onClickEdit: function(e) {
       e.stopPropagation();
       e.preventDefault();
+      this.model.on( "change", this.render );
 
       Communicator.mediator.trigger( "marker:click", this.model);
     },
