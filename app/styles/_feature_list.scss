@@ -1,5 +1,9 @@
 .feature-list-wrapper {
+  #feature-filter {
+    margin-bottom: 0;
+  }
   li {
+    margin-bottom: 1em;
     .edit {
       clear: both;
       line-height: 25px;
@@ -8,5 +12,8 @@
     label {
       left: 0;
     }
+  }
+  .edit {
+    font-size: 12px;
   }
 }
