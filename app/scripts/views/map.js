@@ -257,6 +257,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
       var marker = _.findWhere(this.geometryMap, { cid: m.cid });
 
       if (_.isObject(marker)) {
+        m.off('change');
         this.removeMarkerGroup(marker.featureLayer, m.get('layerGroup'));
         this.geometryMap = _.without(this.geometryMap, marker);
       }
