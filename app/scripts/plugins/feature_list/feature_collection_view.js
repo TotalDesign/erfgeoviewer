@@ -21,6 +21,8 @@ define(['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'con
     },
 
     serializeModel: function(model) {
+      var plain = model.get('title').replace(/<(?:.|\n)*?>/gm, '');
+      model.set('title', plain);
       return _.extend(model.toJSON.apply(model, _.rest(arguments)), {
         mode: App.mode
       });
