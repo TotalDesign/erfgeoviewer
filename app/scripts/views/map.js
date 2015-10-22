@@ -203,17 +203,17 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
      * Take model of marker and add to map.
      * @param m - model
      */
-    addMarker: function(marker) {
+    addMarker: function(markerModel) {
       var self = this,
-        markers = (_.isArray(marker)) ? marker : [marker],
+        markerModels = (_.isArray(markerModel)) ? marker : [markerModel],
         geojson,
         spatial;
 
-      _.each(markers, function(m) {
+      _.each(markerModels, function(m) {
         m.on('change', self.updateMarker, self);
 
         if (_.isEmpty(m.get( 'spatial' )) && (!m.get( 'latitude' ) || !m.get( 'longitude' ))) {
-          console.log('invalid marker:', m);
+          console.log('invalid marker model:', m);
           return false;
         }
         geojson = m.convertToGeoJSON();
