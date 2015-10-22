@@ -21,7 +21,7 @@ require( [
         if (Config.controls.newMap || false) {
           SideNav.addItem('new_map', {
             fragment: 'new',
-            icon: 'bicycle',
+            icon: 'map',
             label: 'Nieuwe kaart'
           });
         }
@@ -29,7 +29,7 @@ require( [
         if (Config.controls.openMap || false) {
           SideNav.addItem('open_map', {
             fragment: 'open',
-            icon: 'bicycle',
+            icon: 'folder-open-empty',
             label: 'Open'
           });
         }
