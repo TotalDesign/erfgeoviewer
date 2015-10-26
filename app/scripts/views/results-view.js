@@ -154,10 +154,17 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
           this.model = null;
         }
 
+        var total = this.collection.state.currentPage * this.collection.state.totalRecords,
+          end = this.collection.state.currentPage * this.collection.state.pageSize;
+
+        if (end > total) {
+          end = total;
+        }
+
         this.model = new Backbone.Model({
-          start: (this.collection.state.currentPage -1) * this.collection.state.pageSize,
-          end: this.collection.state.currentPage * this.collection.state.pageSize,
-          total: this.collection.state.currentPage * this.collection.state.totalRecords
+          start: (this.collection.state.currentPage -1) * this.collection.state.pageSize +1,
+          end: end,
+          total: total
         });
       },
 
