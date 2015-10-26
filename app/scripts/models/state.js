@@ -1,5 +1,5 @@
-define(["backbone", "models/markers", 'backbone.localstorage', 'communicator', 'underscore', 'q'],
-  function(Backbone, MarkersCollection, LS, Communicator, _, Q) {
+define(["backbone", 'backbone.localstorage', 'communicator', 'underscore', 'q'],
+  function(Backbone, LS, Communicator, _, Q) {
 
     var State = Backbone.Model.extend({
 
@@ -7,7 +7,7 @@ define(["backbone", "models/markers", 'backbone.localstorage', 'communicator', '
 
       // These are core plugins
       // Additions will be added by actual plugins via registerPlugin(),
-      plugins: ['geojson_features', 'map_settings', 'feature_list', 'draw'],
+      plugins: ['map_settings', 'geojson_features', 'feature_list', 'draw'],
 
       pluginRegistry: {},
 
@@ -54,6 +54,22 @@ define(["backbone", "models/markers", 'backbone.localstorage', 'communicator', '
           });
           return resp;
         }
+      },
+
+      /**
+       * Clears the current state
+       */
+      clear: function() {
+        var data = {}
+
+        _.each(this.pluginRegistry, function(plugin) {
+          if (_.isFunction(plugin.reset)) {
+            plugin.reset();
+          }
+        });
+
+        this.set(this.parse(data));
+        this.save();
       },
 
       /**

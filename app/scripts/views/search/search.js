@@ -41,6 +41,7 @@ define(['backbone', 'backbone.marionette', 'communicator', 'jquery',
 
       onBeforeDestroy: function() {
         this.$el.parent().removeClass( "visible search-normal search-advanced" );
+        Communicator.mediator.trigger( "search:destroyed" );
         Communicator.mediator.off("search:toggleAdvancedSearch", this.toggleAdvancedSearch, this);
       },
 

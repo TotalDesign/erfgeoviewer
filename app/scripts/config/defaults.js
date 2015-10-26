@@ -1,31 +1,35 @@
 define("config", function () {
   return {
+    "controls": {
+      "newMap": false,
+      "openMap": false
+    },
     "colors": {
       "primary": "#673ab7",
       "secondary": "#009688"
     },
     "availableColors": {
-      "Red": "#f44336",
-      "Pink": "#e91e63",
-      "Purple": "#9c27b0",
-      "Deep-purple": "#673ab7",
+      "Rood": "#f44336",
+      "Roze": "#e91e63",
+      "Paars": "#9c27b0",
+      "Diep-paars": "#673ab7",
       "Indigo": "#3f51b5",
-      "Blue": "#2196f3",
-      "Light-blue": "#03a9f4",
-      "Cyan": "#00bcd4",
-      "Teal": "#009688",
-      "Green": "#4caf50",
-      "Light-green": "#8bc34a",
-      "Lime": "#cddc39",
-      "Yellow": "#ffeb3b",
+      "Blauw": "#2196f3",
+      "Lichtblauw": "#03a9f4",
+      "Turquoise": "#00bcd4",
+      "Blauwgroen": "#009688",
+      "Groen": "#4caf50",
+      "Lichtgroen": "#8bc34a",
+      "Limoen": "#cddc39",
+      "Geel": "#ffeb3b",
       "Amber": "#ffc107",
-      "Orange": "#ff9800",
-      "Deep-orange": "#ff5722",
-      "Brown": "#795548",
-      "Grey": "#9e9e9e",
-      "Blue-grey": "#607d8b",
-      "Black": "#000000",
-      "White": "#ffffff"
+      "Oranje": "#ff9800",
+      "Diep-oranje": "#ff5722",
+      "Bruin": "#795548",
+      "Grijs": "#9e9e9e",
+      "Blauw-grijs": "#607d8b",
+      "Zwart": "#000000",
+      "Wit": "#ffffff"
     },
     "delving": {
       "uri": "http://onh-prod.delving.org/api"
@@ -101,7 +105,7 @@ define("config", function () {
       }
     ],
     "zoek_en_vind": {
-      "uri": "http://erfgeo.data.digitalecollectie.nl"
+      "uri": "http://erfgeo.data.digitalecollectie.nl",
 //      "facets": {
 //        "type": 'OR',
 //        "values": [
@@ -109,6 +113,33 @@ define("config", function () {
 //          'edm:dataProvider exact "Zeeuwse Bibliotheek"'
 //        ]
 //      }
-    }
+      "facetLabels": {
+        "dc:subject": "Onderwerp",
+        "dc:dataProvider": "Collectie",
+        "edm:dataProvider": "Collectie"
+      }
+    },
+    "fields": [
+      {
+        "key": "title",
+        "label": "Title"
+      },
+      {
+        "key": "image",
+        "label": "Image"
+      },
+      {
+        "key": "description",
+        "label": ""
+      },
+      {
+        "key": "youtubeid",
+        "label": "YouTube"
+      },
+      {
+        "key": "externalUrl",
+        "label": "External link"
+      }
+    ]
   };
 });

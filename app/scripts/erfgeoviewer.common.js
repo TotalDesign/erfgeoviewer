@@ -9,14 +9,15 @@ define( ['backbone', 'backbone.marionette', 'config', 'communicator', 'velocity'
     Config.makiCollection = new MakiCollection();
 
     var App = new Marionette.Application(),
-      container = new Marionette.Region( {
-        el: "#erfgeoviewer"
-      }),
-      closeOnClick = true;
+        closeOnClick = true;
+
+    App.container = new Marionette.Region( {
+      el: "#erfgeoviewer"
+    } );
 
     App.layout = new AppLayout();
     App.layout.render();
-    container.show( App.layout );
+    App.container.show( App.layout );
 
     App.flyouts = new FlyoutsLayout();
     App.flyouts.render();
@@ -32,8 +33,6 @@ define( ['backbone', 'backbone.marionette', 'config', 'communicator', 'velocity'
       }
 
       if (!App.flyouts.getRegion('detail').hasView() || !App.flyouts.getRegion('detail').isVisible() ) {
-        App.flyouts.getRegion('right').hideFlyout();
-        var router = Communicator.reqres.request("router:get");
         window.location.assign("#");
       }
       App.flyouts.getRegion('bottom').hideFlyout();

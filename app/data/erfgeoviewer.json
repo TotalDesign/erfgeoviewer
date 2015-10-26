@@ -1,6 +1,6 @@
 {
   "id": 1,
-  "markers": [
+  "geojson_features": [
     {
       "title": ["'Lange Brug' in Ouderkerk"],
       "image": "http://www.oneindignoordholland.nl/data/items/media/images/originals/adc2fe87d59559e4e54ea39d6483612eee4406d9.jpg",
@@ -113,7 +113,11 @@
     }
   ],
   "baseMap": "CartoDB Positron",
-  "mapSettings": {
+  "map_settings": {
+    "primaryColor": "#ffeb3b",
+    "secondaryColor": "#f44336",
+    "showSearchFilter": true,
+    "showList": true,
     "centerPoint": {
       "lat": 52.35610276840388,
       "lng": 4.920845031738281

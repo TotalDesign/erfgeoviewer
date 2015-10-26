@@ -1,9 +1,4 @@
 <div class="row">
-  <input type="checkbox" id="allow-map-style-change" data-property="allowStyleChange" <% if (allowStyleChange) { %>checked<% } %> />
-  <label for="allow-map-style-change">Allow viewer to change</label>
-</div>
-
-<div class="row">
   <% for (var i = 0; i < tiles.length; i++) { %>
   <div class="tile<% if (i % 2 == 0){ %> odd<% } else { %> even <% } %>">
     <% if (tiles[i].type == 'mapbox') { %>

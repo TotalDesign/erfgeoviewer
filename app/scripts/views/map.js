@@ -2,12 +2,14 @@
  * Map control, shared between mapmaker and reader modes.
  * Functionality specific to mapmaker or reader should be placed in separte plugins.
  */
-define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "config", "jquery", "underscore",
-        "leaflet.markercluster", "leaflet.smoothmarkerbouncing", "leaflet.proj", "leaflet.fullscreen",
-        "models/markers", 'models/state', "tpl!template/map.html", "vendor/sparql-geojson"],
-  function(Backbone, Marionette, L, d3, Communicator, Config, $, _,
-           LeafletMarkerCluster, LeafletBouncing, LeafletProjections, LeafletFullscreen,
-           MarkersCollection, State, Template) {
+define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
+        "config", "jquery", "underscore", "erfgeoviewer.common",
+        "leaflet.markercluster", "leaflet.smoothmarkerbouncing", "leaflet.proj",
+        "leaflet.fullscreen", 'models/state',
+        "tpl!template/map.html", "vendor/sparql-geojson"],
+  function(Backbone, Marionette, L, d3, Communicator, Config, $, _, App,
+           LeafletMarkerCluster, LeafletBouncing, LeafletProjections,
+           LeafletFullscreen, State, Template) {
 
   return Marionette.ItemView.extend({
 
@@ -46,6 +48,26 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       /**
        * Event listeners
        */
+      Communicator.mediator.on( 'map:fitAll', function() {
+        var bounds;
+
+        _.each(self.layers, function(layer) {
+          var layerBounds = layer.getBounds();
+
+          if (layerBounds.isValid()) {
+            if (!bounds) {
+              bounds = layerBounds;
+            }
+            else {
+              bounds.extend(layerBounds);
+            }
+          }
+        });
+
+        if (bounds instanceof L.LatLngBounds) {
+          self.map.fitBounds(bounds, { padding: [10, 10] });
+        }
+      });
       Communicator.mediator.on('map:setPosition', function(options) {
         self.map.setView(options.centerPoint, options.zoom);
       });
@@ -83,16 +105,10 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       Communicator.mediator.on("map:zoomOut", function() {
         this.map.setZoom(this.map.getZoom() - 1);
       }, this);
-      Communicator.mediator.on("map:changeBase", function(tileId) {
-        self.setBaseMap(tileId);
-      });
       Communicator.mediator.on("map:updateSize", function() {
         _.throttle( self.updateMapSize, 150 )
       });
       Communicator.reqres.setHandler( "getMap", function() { return self.map; });
-      State.on("change:baseMap", function(model) {
-        self.setBaseMap(model.get('baseMap'));
-      });
 
       /**
        * State management.
@@ -102,6 +118,10 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       State.getPlugin('geojson_features').collection.on('remove', this.removeMarker, this);
 
       State.getPlugin('geojson_features').collection.on('reset', this.initFeatures, this);
+
+      State.getPlugin('map_settings').model.on('change:primaryColor', this.updatePrimaryColor, this);
+
+      State.getPlugin('map_settings').model.on('change:baseMap', this.setBaseMap, this);
 
       Communicator.mediator.on('map:ready', function() {
         this.initFeatures(State.getPlugin('geojson_features').collection);
@@ -183,17 +203,17 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
      * Take model of marker and add to map.
      * @param m - model
      */
-    addMarker: function(marker) {
+    addMarker: function(markerModel) {
       var self = this,
-        markers = (_.isArray(marker)) ? marker : [marker],
+        markerModels = (_.isArray(markerModel)) ? marker : [markerModel],
         geojson,
         spatial;
 
-      _.each(markers, function(m) {
+      _.each(markerModels, function(m) {
         m.on('change', self.updateMarker, self);
 
         if (_.isEmpty(m.get( 'spatial' )) && (!m.get( 'latitude' ) || !m.get( 'longitude' ))) {
-          console.log('invalid marker:', m);
+          console.log('invalid marker model:', m);
           return false;
         }
         geojson = m.convertToGeoJSON();
@@ -209,6 +229,14 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
           featureLayer: marker
         });
       });
+    },
+
+    updatePrimaryColor: function() {
+      var features = State.getPlugin('geojson_features').collection.where({ userColor: null });
+
+      _.each(features, _.bind(function(feature) {
+        this.updateMarker(feature);
+      }, this));
     },
 
     updateMarker: function(m) {
@@ -229,6 +257,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       var marker = _.findWhere(this.geometryMap, { cid: m.cid });
 
       if (_.isObject(marker)) {
+        m.off('change');
         this.removeMarkerGroup(marker.featureLayer, m.get('layerGroup'));
         this.geometryMap = _.without(this.geometryMap, marker);
       }
@@ -250,7 +279,22 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
     addMarkerGroup: function(layer, key) {
       key = key || 'default';
       if ( _.isUndefined(this.layers[key]) )
-        this.layers[key] = new L.MarkerClusterGroup().addTo(this.map);
+        this.layers[key] = new L.MarkerClusterGroup({
+          iconCreateFunction: function (cluster) {
+            var childCount = cluster.getChildCount();
+
+            var c = ' marker-cluster-';
+            if (childCount < 10) {
+              c += 'small';
+            } else if (childCount < 100) {
+              c += 'medium';
+            } else {
+              c += 'large';
+            }
+
+            return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'color-primary marker-cluster' + c, iconSize: new L.Point(40, 40) });
+          }
+        }).addTo(this.map);
       this.layers[key].addLayer(layer);
     },
 
@@ -271,13 +315,13 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
         worldCopyJump: true,
         fullscreenControl: true
       });
-      this.setBaseMap( State.get('baseMap') || "osm" );
+      this.setBaseMap();
 
-      if (Config.mode == 'viewer') {
-        this.map.setView( State.getPlugin('map_settings').model.get('centerPoint') || [52.121580, 5.6304], State.getPlugin('map_settings').model.get('zoom') || 8 );
+      if (App.mode == 'mapmaker') {
+        this.map.setView( State.getPlugin('map_settings').model.get('editorCenterPoint') || [52.121580, 5.6304], State.getPlugin('map_settings').model.get('editorZoom') || 8 );
       }
       else {
-        this.map.setView( State.getPlugin('map_settings').model.get('editorCenterPoint') || [52.121580, 5.6304], State.getPlugin('map_settings').model.get('editorZoom') || 8 );
+        this.map.setView( State.getPlugin('map_settings').model.get('centerPoint') || [52.121580, 5.6304], State.getPlugin('map_settings').model.get('zoom') || 8 );
       }
 
       Communicator.mediator.trigger('map:ready', this.map);
@@ -390,10 +434,12 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
       }
     },
 
-    setBaseMap: function(tileId) {
+    setBaseMap: function() {
 
-      var self = this;
-      var tile = _.findWhere( Config.tiles, {id: tileId} );
+      var self = this,
+        tileId = State.getPlugin('map_settings').model.get('baseMap'),
+        tile = _.findWhere( Config.tiles, {id: tileId} );
+
       if (!tile) return;
 
       if (self.baseLayer) self.map.removeLayer(self.baseLayer);
@@ -408,7 +454,6 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator", "con
         };
         self.baseLayer = L.tileLayer( tile.tilejson.tiles, tileOptions ).addTo( self.map );
       }
-      State.set('baseMap', tile.id );
 
     },
 

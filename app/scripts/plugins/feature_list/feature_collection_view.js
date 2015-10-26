@@ -1,18 +1,51 @@
 define(['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'config',
-    'tpl!./templates/list.html', 'tpl!./templates/list-item.html'],
-  function(Marionette, Fuse, $, Communicator, L, Config,
+    'erfgeoviewer.common', 'tpl!./templates/list.html', 'tpl!./templates/list-item.html'],
+  function(Marionette, Fuse, $, Communicator, L, Config, App,
            ListTemplate, ListItemTemplate) {
 
   var ChildView = Marionette.ItemView.extend({
 
-    template: ListItemTemplate
+    template: ListItemTemplate,
+
+    tagName: 'li',
+
+    events: {
+      'click .edit': 'onClickEdit'
+    },
+
+    initialize: function() {
+      this.model.on( "change:title", this.render );
+    },
+
+    onClickEdit: function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+
+      Communicator.mediator.trigger( "marker:click", this.model);
+    },
+
+    onDestroy: function() {
+      this.model.off( "change:title", this.render );
+    },
+
+    serializeModel: function(model) {
+      var plain = model.get('title').replace(/<(?:.|\n)*?>/gm, '');
+      model.set('title', plain);
+      return _.extend(model.toJSON.apply(model, _.rest(arguments)), {
+        mode: App.mode
+      });
+    }
 
   });
 
   return Marionette.CompositeView.extend({
 
     childView: ChildView,
+
     childViewContainer: "ul.features",
+
+    className: 'feature-list-wrapper',
+
     events: {
       "mouseover li": function(e) {
         var cid = $(e.currentTarget).find('input').data('model-id');
@@ -41,7 +74,9 @@ define(['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'con
       // The collection is reflected in the display.
       // The unfilteredCollection is used as the source collection when searching.
       this.unfilteredCollection = o.collection.clone();
-
+      this.model = new Backbone.Model({
+        'featureCount': this.unfilteredCollection.length
+      });
     },
 
     /**

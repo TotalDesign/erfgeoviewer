@@ -1,6 +1,6 @@
-define( ["backbone", "backbone.marionette", "communicator", "medium.editor", "jquery", "erfgeoviewer.common",
+define( ["backbone", "backbone.marionette", "communicator", "medium.editor", "config", "jquery", "erfgeoviewer.common",
     "tpl!template/detail.html"],
-  function( Backbone, Marionette, Communicator, MediumEditor, $, App,
+  function( Backbone, Marionette, Communicator, MediumEditor, Config, $, App,
             Template ) {
 
     return Marionette.ItemView.extend( {
@@ -21,22 +21,67 @@ define( ["backbone", "backbone.marionette", "communicator", "medium.editor", "jq
       },
 
       onShow: function() {
-        var editables = $(".editable", this.$el).get();
-        var self = this;
-        var timeout;
 
-        if (this.editor) this.editor.destroy();
+        var singleLiners = [],
+            multiLiners = [],
+            self = this,
+            timeout;
+
+        // Change configuration based on whether properties found in DOM.
+        _.each( $(".editable", this.$el).get(), function( e ) {
+          if ( $( e ).data( 'multiline' ) ) {
+            multiLiners.push(e);
+          } else {
+            singleLiners.push(e);
+          }
+        } );
+
+        // Move the controls region just after the title, no matter where it has been placed.
+        $controls = $('#detail-controls');
+        $('.row.title', this.$el).after( $controls );
+        $controls.addClass('visible');
+
+        if (this.singleLineEditor) this.singleLineEditor.destroy();
+        if (this.multiLineEditor) this.multiLineEditor.destroy();
+
         if (App.mode == "mapmaker") {
-          this.editor = new MediumEditor(editables, {
+
+          this.singleLineEditor = new MediumEditor(singleLiners, {
             buttons: ['bold', 'italic', 'underline', 'anchor'],
-            disableReturn: true
+            disableReturn: true,
+            imageDragging: false
           });
-          this.editor.subscribe('editableInput', function (event, editable) {
+
+          this.multiLineEditor = new MediumEditor(multiLiners, {
+            buttons: ['bold', 'italic', 'underline', 'anchor'],
+            disableReturn: false
+          });
+
+          var f = function (event, editable) {
             clearTimeout(timeout);
             timeout = setTimeout(function() {
               var field = $(editable).attr('id').substr(5);
               self.model.set(field, $(editable).html());
             }, 1000);
+          };
+          this.singleLineEditor.subscribe( 'editableInput', f );
+          this.multiLineEditor.subscribe( 'editableInput', f );
+
+        }
+
+      },
+
+      serializeModel: function(model) {
+        if (App.mode == 'reader' || model.get('externalUrl')) {
+          return _.extend({
+            fields: Config.fields
+          }, model.toJSON.apply(model, _.rest(arguments)));
+        }
+        else {
+          return _.extend({
+            fields: Config.fields
+          }, model.toJSON.apply(model, _.rest(arguments)), {
+            externalUrl: 'url'
           });
         }
       }

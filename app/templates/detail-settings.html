@@ -1,15 +1,19 @@
 <div class="row settings">
-  <div class="col s5">
-    <div class="dropdown-button" data-activates="dropdown<%= cid %>">
-      <div class="color-box" style="background-color: <%= color %>;"></div>
-      <a href="#" class="waves-effect waves-light btn-flat change-style">Stijl</a>
+  <div class="col">
+    <div class="dropdown-button button-with-marker" data-gutter="20" data-activates="dropdown<%= cid %>">
+      <div class="color-box feature-style">
+        <% if (iconUrl) { %>
+        <img src="<%= iconUrl %>" />
+        <% } %>
+      </div>
+      <a href="#" class="btn-flat change-style">Stijl</a>
     </div>
 
     <div id="dropdown<%= cid %>" class="dropdown-content">
       <div class="row">
         <label>Kleur</label>
         <select id="legend-setting-color-<%= cid %>" class="browser-default" data-property="color">
-          <% _.each(availableColors, function(hex, name) { var selected = hex == color; %>
+          <% _.each(availableColors, function(hex, name) { var selected = hex == userColor; %>
           <option value="<%= hex %>" <% if (selected) { %>selected<% } %> ><%= name %></option>
           <% });%>
         </select>
@@ -17,7 +21,7 @@
 
       <% if (geometryType == 'POINT' ) { %>
       <div class="row">
-        <label>Icontje</label>
+        <label>Icoon</label>
         <select id="legend-setting-icon-<%= cid %>" class="browser-default" data-property="icon">
           <% _.each(availableIcons, function(model) { var selected = model.get('icon') == icon; %>
           <option value="<%= model.get('icon') %>" <% if (selected) { %>selected<% } %> ><%= model.get('name') %></option>
@@ -27,8 +31,10 @@
       <% } %>
     </div>
   </div>
-  <div class="col s6">
-    <a href="#" class="waves-effect waves-light btn-flat delete">Verwijderen</a>
+  <div class="col">
+    <div class="dropdown-button">
+      <a href="#" class="btn-flat delete"><i class="icon-cancel-circled-outline"></i> Verwijderen</a>
+    </div>
   </div>
 
 </div>

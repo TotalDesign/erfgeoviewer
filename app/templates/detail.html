@@ -1,32 +1,48 @@
-<% if (title) { %>
-<div class="row">
-  <h3 id="edit-title" class="result-title col s12 editable"><%= title %></h3>
-</div>
-<% } %>
+<%
+  for (var i = 0; i < fields.length; i++) {
+    var field = fields[i];
 
+    switch(field.key) {
+      case 'title':
+        if (title) {
+%><div class="row <%= field.key %> color-secondary"><div class="col s12">
+<% if (field.label) { %><label><%= field.label %></label> <% } %>
+<h3 id="edit-title" class="result-title editable"><%= title %></h3>
+</div></div><% }
+        break;
 
-<% if (youtubeid) { %>
-<div class="row">
-  <div class="col s12">
-    <iframe class="result-youtube" width="100%" height="390" src="https://www.youtube.com/embed/<%= youtubeid %>" frameborder="0" allowfullscreen></iframe>
-  </div>
-</div>
-<% } %>
+      case 'youtube':
+        if (youtubeid) {
+%><div class="row <%= field.key %>"><div class="col s12">
+<% if (field.label) { %><label><%= field.label %></label> <% } %>
+<iframe class="result-youtube" width="100%" height="390" src="https://www.youtube.com/embed/<%= youtubeid %>" frameborder="0" allowfullscreen></iframe>
+</div></div><%  }
+        break;
 
-<% if (image) { %>
-<div class="row">
-  <div class="col s12"><img src="<%= image %>" /></div>
-</div>
-<% } %>
+      case 'image':
+        if (image) {
+%><div class="row <%= field.key %>"><div class="col s12">
+<% if (field.label) { %><label><%= field.label %></label> <% } %>
+<img src="<%= image %>" />
+</div></div><% }
+        break;
 
-<% if (description) { %>
-<div class="row">
-  <div id="edit-description" class="col s12 description editable"><%= description %></div>
-</div>
-<% } %>
+      case 'description':
+        if (description) {
+%><div class="row <%= field.key %>"><div class="col s12">
+<% if (field.label) { %><label><%= field.label %></label> <% } %>
+<div id="edit-description" data-multiline="true" class="description editable"><%= description %></div>
+</div></div><% }
+        break;
 
-<% if (externalUrl) { %>
-<div class="row">
-  <div class="col s12"><a id="edit-externalUrl" href="<%= externalUrl %>" class="editable">Meer info</a></div>
-</div>
-<% } %>
+      case 'externalUrl':
+        if (externalUrl) {
+%><div class="row <%= field.key %>"><div class="col s12">
+<% if (field.label) { %><label><%= field.label %></label> <% } %>
+<div class="editable"><a id="edit-externalUrl" href="<%= externalUrl %>">Meer info</a></div>
+</div></div><%
+        }
+        break;
+    }
+  }
+%>

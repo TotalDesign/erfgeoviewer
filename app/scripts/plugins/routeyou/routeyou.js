@@ -3,8 +3,8 @@
  * maintaining state of routes (storing/restoring).
  */
 define( ["backbone", 'backbone.marionette', 'plugins/module', 'communicator', 'underscore',
-    'models/marker', 'models/state',
-    'plugins/routeyou/route-list', 'plugins/routeyou/route-view'],
+    'plugin/geojson_features/models/feature', 'models/state',
+    './route-list', './route-view'],
   function(Backbone, Marionette, ErfGeoviewerModule, Communicator, _,
     MarkerModel, State,
     RouteListCollection, RouteSelector) {

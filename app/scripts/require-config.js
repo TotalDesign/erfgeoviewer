@@ -52,6 +52,7 @@ require.config( {
     "backbone": "../bower_components/backbone/backbone",
     "backbone.localstorage": "../bower_components/backbone.localstorage/backbone.localStorage",
     "backbone.marionette": "../bower_components/backbone.marionette/lib/core/backbone.marionette",
+    "backbone.mutators": "../bower_components/Backbone.Mutators/backbone.mutators",
     "backbone.wreqr": "../bower_components/backbone.wreqr/lib/backbone.wreqr",
     "backbone.babysitter": "../bower_components/backbone.babysitter/lib/backbone.babysitter",
     "backbone.pageable.collection": "../bower_components/backbone.paginator/lib/backbone.paginator",
@@ -93,6 +94,7 @@ require.config( {
     "q": "../bower_components/q/q.min",
     "react": "../bower_components/react/react",
     "react.paginate": "../bower_components/react-paginate/index",
+    "share.button": "../scripts/vendor/share-button",
     "underscore": "../bower_components/underscore/underscore",
     "velocity": "../bower_components/velocity/velocity",
 

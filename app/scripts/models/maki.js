@@ -19,7 +19,7 @@ define(['backbone', 'underscore', 'q'], function(Backbone, _, Q) {
         if (success) success.call(options.context, collection, resp, options);
 
         this.add(new Backbone.Model({
-          name: '-- None --',
+          name: '-- Geen --',
           icon: ''
         }));
 

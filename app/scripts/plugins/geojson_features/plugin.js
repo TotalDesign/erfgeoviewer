@@ -20,6 +20,10 @@ define(['plugin/abstract', './collections/feature_collection', 'underscore'], fu
       featureCollection.each(this.bindFeatureChangeHandler, this);
     },
 
+    reset: function() {
+      this.collection.reset();
+    },
+
     readData: function(resp) {
       // If there is data, then populate the collection
       if (!_.isUndefined(resp)) {
@@ -29,7 +33,7 @@ define(['plugin/abstract', './collections/feature_collection', 'underscore'], fu
     },
 
     writeData: function () {
-      return this.collection.toJSON();
+      return this.collection.toJSON({ emulateHTTP: true });
     }
   });
 });

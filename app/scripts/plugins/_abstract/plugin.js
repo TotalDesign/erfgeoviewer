@@ -8,8 +8,12 @@ define(['backbone', 'underscore'], function(Backbone, _) {
   _.extend(Plugin.prototype, {
     initialize: function() {},
 
-    save: function () {
-      this.state.save();
+    save: function (model, options) {
+      _.defaults(options, { saveState: true })
+
+      if (options.saveState) {
+        this.state.save();
+      }
     }
   });
 

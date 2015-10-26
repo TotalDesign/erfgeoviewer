@@ -33,27 +33,35 @@
   h3.result-title {
     margin: 0;
     font-size: 24px;
-    background-color: $accent_700;
-    padding: 48px 19px 19px 19px;
     color: white;
   }
 
-}
-
-// TODO:
-// Temporary. I'd like to see the detail action buttons (stijl, verwijderen) docked at the bottom of the
-// detail flyout, but then the icon selector needs to be adjusted.
-#detail-container {
-  min-height: 400px;
-}
-
-#detail-footer {
-  > div {
-    margin: 0 10px;
+  .row {
+    &.title {
+      background-color: $accent_700;
+      padding: 48px 0 19px;
+    }
+    p {
+      margin-top: 0;
+    }
   }
-  border-top: solid 1px #333;
-  padding-top: 10px;
+
+}
+
+#detail-container {
+
+  $button-color: #f3f3f3;
+  $button-color-hover: darken($button-color, 3%);
+
+  .row.title {
+    margin-bottom: 10px;
+  }
+
   .settings {
+    border-bottom: solid 1px #333;
+    padding-bottom: 10px;
+    padding-left: 10px;
+
     a.change-style {
       padding-left: 0;
     }
@@ -63,5 +71,71 @@
     .dropdown-content {
       padding: 15px;
     }
+    .feature-style img {
+      cursor: pointer;
+    }
+
+  }
+
+  .dropdown-button {
+
+    padding: 0;
+    margin-right: 15px;
+    a {
+      padding-left: 17px;
+      padding-right: 25px;
+      background-color: $button-color;
+      &:hover {
+        background-color: $button-color-hover;
+      }
+    }
+    @include border-radius(2px);
+
+  }
+
+  .button-with-marker {
+
+    background-color: $button-color;
+    padding-left: 20px;
+    &:hover {
+      background-color: $button-color-hover;
+    }
+    a { background-color: transparent; }
+
+  }
+
+}
+
+#detail-footer {
+
+  padding-top: 10px;
+  padding-bottom: 10px;
+  > div {
+    border-top: solid 1px #333;
+    width: 100%;
+  }
+  .row {
+    margin-bottom: 0;
+  }
+
+}
+
+.detail-navigation {
+
+  padding-top: 10px;
+  .previous {}
+  .next {
+    text-align: right;
+  }
+  .navigation-title {
+    text-transform: none;
+    color: #888;
+    font-size: 12px;
   }
 }
+
+// The #detail-controls region contains html which is moved at run-time
+// to be positioned underneath the title in the detail screen. We don't
+// want that markup to be visible until it's under the title.
+#detail-controls { display: none; }
+#detail-controls.visible { display: block; }

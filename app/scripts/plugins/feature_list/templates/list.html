@@ -1,13 +1,20 @@
-<div class="feature-list-wrapper">
-  <h4>Mijn plekken</h4>
-
-  <form>
-      <div class="input-field col s12">
-        <input placeholder="Zoek voor een plek" id="feature-filter" type="text">
-        <!--<label for="feature-filter">Zoek</label>-->
-      </div>
-
-  <!-- Populated with CollectionView -->
-    <ul class="features col s12"></ul>
-  </form>
+<div class="row flyout-title color-secondary">
+  <div class="col s12">
+    <a href="#"><i class="icon-left action hide-flyout"></i></a>
+    <h2>Mijn plekken (<%= featureCount %>)</h2>
+  </div>
 </div>
+
+<form>
+  <div class="row">
+    <div class="col s12">
+      <input placeholder="Zoek voor een plek" id="feature-filter" type="text">
+      <!--<label for="feature-filter">Zoek</label>-->
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Populated with CollectionView -->
+    <ul class="features col s12"></ul>
+  </div>
+</form>

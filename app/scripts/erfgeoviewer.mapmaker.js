@@ -3,19 +3,21 @@ require( [
   ],
   function() {
   require(['backbone', 'erfgeoviewer.common', 'communicator', 'jquery', 'config', 'q',
-    'views/map', 'views/header', 'views/search/search', 'views/settings', 'views/detail', 'views/detail-settings', 'views/basemap', 'views/publish',  'views/layout/detail.layout',
+    'views/map', 'views/layout/header.layout', 'views/new', 'views/open', 'views/search/search', 'views/settings',
+    'views/detail', 'views/detail-settings', 'views/publish',  'views/layout/detail.layout',
     'plugins/routeyou/routeyou', 'erfgeoviewer.search',
-    'models/layers', 'models/state'],
+    'models/layers', 'models/state', 'models/sidenav', 'models/navbar'],
 
   function(Backbone, App, Communicator, $, Config, Q,
-           MapView, HeaderView, SearchView, SettingsView, DetailView, DetailSettingsView, BaseMapSelector, PublishView, DetailLayout,
+           MapView, HeaderView, NewMapView, OpenMapView, SearchView, SettingsView, DetailView, DetailSettingsView, PublishView, DetailLayout,
            RouteyouModule, SearchModule,
-           LayerCollection, State) {
+           LayerCollection, State, SideNav, NavBar) {
 
     /**
      * Init.
      */
     App.mode = "mapmaker";
+    App.container.$el.addClass( "mode-" + App.mode );
     console.log('Erfgeoviewer: mapmaker mode.');
 
     // This object will be serialized and used for storing/restoring a map.
@@ -36,11 +38,10 @@ require( [
     });
     Communicator.mediator.on("marker:click", function(m) {
       var detailLayout = new DetailLayout();
-
       App.flyouts.getRegion('detail').show( detailLayout );
-
+      detailLayout.getRegion('controls').show( new DetailSettingsView( { model: m } ) );
       detailLayout.getRegion('container').show( new DetailView( { model: m } ) );
-      detailLayout.getRegion('footer').show( new DetailSettingsView( { model: m } ) );
+
     });
     Communicator.mediator.on( "all", function( e, a ) {
       // Debugging:
@@ -54,12 +55,20 @@ require( [
     /**
      * Router.
      */
-
+    var searchView;
     var Router = Marionette.AppRouter.extend( {
       routes: {
         "": function() {
           App.flyouts.getRegion( 'bottom' ).hideFlyout();
           App.flyouts.getRegion( 'right' ).hideFlyout();
+        },
+        "new": function() {
+          App.flyouts.getRegion( 'bottom' ).hideFlyout();
+          App.layout.getRegion( 'modal' ).show(new NewMapView());
+        },
+        "open": function() {
+          App.flyouts.getRegion( 'bottom' ).hideFlyout();
+          App.layout.getRegion( 'modal' ).show(new OpenMapView());
         },
         "export": function() {
           App.flyouts.getRegion( 'bottom' ).hideFlyout();
@@ -74,25 +83,48 @@ require( [
             markers_collection: State.getPlugin('geojson_features').collection
           });
 
-          var markerView = new SearchView({
-            searchModule: searchModule
-          });
-
+          if (!searchView || searchView.isDestroyed) {
+            searchView = new SearchView({ searchModule: searchModule });
+          }
           App.flyouts.getRegion( 'bottom' ).hideFlyout();
-          App.flyouts.getRegion( 'right' ).show( markerView );
-        },
-        "base": function() {
-          App.flyouts.getRegion( 'bottom' ).show( new BaseMapSelector() );
+
+          if (App.flyouts.getRegion( 'right' ).hasView(searchView)) {
+            App.flyouts.getRegion( 'right' ).expand();
+          }
+          App.flyouts.getRegion( 'right' ).show( searchView );
         }
       }
     } );
-    var router = new Router();
-    App.router = router;
+    App.router = new Router();
     Communicator.reqres.setHandler("app:get", function() { return App; });
 
     /**
      * Optional modules.
      */
+
+    SideNav.addItem('new_map', {
+      fragment: 'new',
+      icon: 'map',
+      label: 'Nieuwe kaart'
+    });
+
+    SideNav.addItem('open_map', {
+      fragment: 'open',
+      icon: 'folder-open-empty',
+      label: 'Open'
+    });
+
+    NavBar.addItem('save', {
+      fragment: 'export',
+      label: 'Exporteer',
+      weight: 900
+    });
+
+    NavBar.addItem('add', {
+      fragment: 'search',
+      label: 'Zoek',
+      weight: 1000
+    });
 
 //    new RouteyouModule();
 
@@ -120,9 +152,7 @@ require( [
         });
 
         App.layout.getRegion( 'content' ).show( App.map_view );
-        App.layout.getRegion( 'header' ).show(
-          new HeaderView({ modalRegion: App.layout.getRegion( 'modal' ) })
-        );
+        App.layout.getRegion( 'header' ).show( new HeaderView() );
 
         App.start();
       });

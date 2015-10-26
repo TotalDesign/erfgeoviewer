@@ -9,7 +9,6 @@ define(['backbone', 'models/state', 'views/settings/abstract-settings', 'tpl!tem
         this.model = new Backbone.Model({
           showMapTitle: State.getPlugin('map_settings').model.get('showMapTitle'),
           showSearchFilter: State.getPlugin('map_settings').model.get('showSearchFilter'),
-          allowFullscreen: State.getPlugin('map_settings').model.get('allowFullscreen'),
           showShare: State.getPlugin('map_settings').model.get('showShare'),
           showLegend: State.getPlugin('map_settings').model.get('showLegend'),
           showList: State.getPlugin('map_settings').model.get('showList')

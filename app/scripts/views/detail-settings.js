@@ -1,6 +1,7 @@
-define( ["backbone", "backbone.marionette", "communicator", "medium.editor", "jquery", "underscore",
-    "config", "tpl!template/detail-settings.html"],
-  function( Backbone, Marionette, Communicator, MediumEditor, $, _, Config,
+define( ["backbone", "backbone.marionette", 'leaflet', "communicator",
+    "medium.editor", "jquery", "underscore", "config",
+    "tpl!template/detail-settings.html"],
+  function( Backbone, Marionette, L, Communicator, MediumEditor, $, _, Config,
             Template ) {
 
     return Marionette.ItemView.extend( {
@@ -24,19 +25,17 @@ define( ["backbone", "backbone.marionette", "communicator", "medium.editor", "jq
       initialize: function( o ) {
         this.model = o.model;
 
-        this.model.on( 'change:color', this.changeColor, this );
+        this.model.on( 'change:userColor change:icon', this.changeIcon, this );
       },
 
       change: function(e) {
         var $input = $(e.currentTarget);
 
-        this.model.set( $input.data('property'), $input.val() );
+        this.model.set( $input.data('property'), $input.val() == '' ? null : $input.val() );
       },
 
-      changeColor: function() {
-        $('.color-box', this.$el).css({
-          backgroundColor: this.model.get('color')
-        });
+      changeIcon: function() {
+        $('.color-box', this.$el).html('<img src="'+ this.getIconUrl() + '" />');
       },
 
       closeOnEnter: function(e) {
@@ -58,13 +57,24 @@ define( ["backbone", "backbone.marionette", "communicator", "medium.editor", "jq
       },
 
       serializeModel: function(model) {
-        return _.extend({
-          color: Config.colors.primary,
-          icon: null,
-          availableColors: Config.availableColors,
+        return _.extend(model.toJSON.apply(model, _.rest(arguments)), {
+          iconUrl: this.getIconUrl(),
+          availableColors: _.extend( { "-- Standaard --": null }, Config.availableColors),
           availableIcons: Config.makiCollection.getAvailableIcons(),
           cid: this.model.cid
-        }, model.toJSON.apply(model, _.rest(arguments)));
+        });
+      },
+
+      getIconUrl: function() {
+        var icon = new L.mapbox.marker.icon({
+          "marker-size": "small",
+          "marker-color": this.model.get('color'),
+          "marker-symbol": this.model.get('icon')
+        }, {
+          "accessToken": Config.mapbox.accessToken
+        });
+
+        return icon._getIconUrl('icon');
       }
 
     } );

@@ -1,10 +1,10 @@
 /**
  * CollectionView for displaying search results.
  */
-define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards", "jquery", "leaflet", "underscore",
-         "config", "tpl!template/results.html"],
+define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
+         "jquery", "leaflet", "underscore", "config", 'erfgeoviewer.common', "tpl!template/result-item.html", "tpl!template/results.html"],
   function(Backbone, Marionette, Communicator, Materialize, $, L, _,
-           Config, ResultItemTemplate) {
+           Config, App, ResultItemTemplate, ResultsTemplate) {
 
     var map;
     var layerGroup;
@@ -43,6 +43,10 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
           map.panTo( this.feature.getBounds().getCenter() );
           this.removeMarker();
           this.disableAdd();
+        },
+        'click .open-detail': function(e) {
+          e.preventDefault();
+          Communicator.mediator.trigger("marker:click", this.model);
         },
         'click .zoomin': function(e) {
           e.preventDefault();
@@ -108,6 +112,12 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
         }
       },
 
+      serializeModel: function(model) {
+        return _.extend(model.toJSON.apply(model, _.rest(arguments)), {
+          mode: App.mode
+        });
+      },
+
       styleFeature(options) {
         this.feature.setStyle(options);
       },
@@ -116,7 +126,13 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
 
     });
 
-    return Marionette.CollectionView.extend({
+    return Marionette.CompositeView.extend({
+
+      childView: ResultItemView,
+
+      childViewContainer: "#search-results",
+
+      template: ResultsTemplate,
 
       initialize: function() {
 
@@ -125,25 +141,38 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
         layerGroup = L.featureGroup().addTo(map);
         layerGroup.bringToFront();
 
-        Communicator.mediator.on( "map:tile-layer-clicked", function() {
+        Communicator.mediator.on( "search:destroyed", function() {
           layerGroup.clearLayers();
         });
+
+        this.collection.on('reset', this.render, this );
       },
 
-      childView: ResultItemView,
+      onBeforeRender: function() {
+        if (this.model) {
+          this.model.destroy();
+          this.model = null;
+        }
+
+        this.model = new Backbone.Model({
+          start: (this.collection.state.currentPage -1) * this.collection.state.pageSize,
+          end: this.collection.state.currentPage * this.collection.state.pageSize,
+          total: this.collection.state.currentPage * this.collection.state.totalRecords
+        });
+      },
 
       onRender: function() {
 
         // If called immediately, results in error.
         _.delay(function() {
           var bounds = layerGroup.getBounds();
-          if (bounds.isValid()) map.fitBounds( bounds );
+          if (bounds.isValid()) map.fitBounds( bounds, { padding: [10, 10] } );
         }, 500);
 
       },
 
       onDestroy: function() {
-        Communicator.mediator.off( "map:tile-layer-clicked", null, this );
+        Communicator.mediator.off( "search:destroyed", null, this );
       }
 
 

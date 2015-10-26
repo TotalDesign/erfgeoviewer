@@ -1,6 +1,9 @@
-<li>
-  <div class="input-field">
-    <input id="feature-<%= cid %>" data-model-id="<%= cid %>" type="checkbox" name="bulk_action[]" value="<% cid %>">
-    <label for="feature-<%= cid %>"> <%= title %></label>
-  </div>
-</li>
+<% if (mode == 'mapmaker') { %>
+<div>
+  <input id="feature-<%= cid %>" data-model-id="<%= cid %>" type="checkbox" name="bulk_action[]" value="<% cid %>">
+  <label for="feature-<%= cid %>" class="feature-list-item"> <%= title %></label>
+</div>
+<a href="#" class="edit">Bewerken</a>
+<% } else if (mode == 'reader') { %>
+<p><%= title %></p>
+<% } %>

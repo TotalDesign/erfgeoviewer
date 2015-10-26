@@ -7,9 +7,13 @@
     "name": "plugin/geojson_features",
     "paths": {
       "backbone": "empty:",
+      "backbone.localstorage": "empty:",
+      "backbone.mutators": "../bower_components/Backbone.Mutators/backbone.mutators",
       "underscore": "empty:",
       "config": "empty:",
-      "communicator": "empty:"
+      "communicator": "empty:",
+      "q": "empty:",
+      "underscore": "empty:"
     },
     "packages": [
       {

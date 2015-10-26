@@ -63,14 +63,16 @@
 
 }
 
+.facet-title,
+.filter-title {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
 #search-facets {
   margin-bottom: 1em;
-  .facet-title {
-    font-size: 14px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-  }
   .facet-properties {
     margin: 0 0 2em 0;
     li {

@@ -16,7 +16,8 @@
       "leaflet": "empty:",
       "models/state": "empty:",
       "tpl": "../bower_components/requirejs-tpl/tpl",
-      "underscore": "empty:"
+      "underscore": "empty:",
+      "models/navbar": "empty:"
     },
     "exclude": ["tpl"],
     "packages": [

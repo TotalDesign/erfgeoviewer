@@ -1,6 +1,7 @@
 define(["underscore", "backbone.marionette", "jquery", "jquery.hammer", "communicator",
-    "models/state", "tpl!template/open.html", "materialize.modal", "materialize.toasts"],
-  function(_, Marionette, $, jqueryHammer, Communicator,
+    "erfgeoviewer.common", "models/state", "tpl!template/open.html",
+    "materialize.modal", "materialize.toasts"],
+  function(_, Marionette, $, jqueryHammer, Communicator, App,
            State, PublishTemplate, MaterializeModal, MaterializeToasts) {
 
     return Marionette.ItemView.extend({
@@ -32,7 +33,11 @@ define(["underscore", "backbone.marionette", "jquery", "jquery.hammer", "communi
 
       onShow: function() {
         var self = this;
-        $('.modal', this.$el).openModal();
+        $('.modal', this.$el).openModal({
+          complete: function() {
+            App.router.navigate("");
+          }
+        });
 
         // File Input Path
         function readSingleFile(e) {
@@ -42,9 +47,7 @@ define(["underscore", "backbone.marionette", "jquery", "jquery.hammer", "communi
           }
           var reader = new FileReader();
           reader.onload = function(e) {
-            // @Todo: Load file contents into State
             self.newState = JSON.parse(e.target.result);
-            //self.newState = e.target.result
           };
           reader.readAsText(file);
         }
@@ -67,8 +70,9 @@ define(["underscore", "backbone.marionette", "jquery", "jquery.hammer", "communi
           console.log('no map file uploaded, or it was invalid.');
           return;
         }
-//        this.state.parse(this.newState);
-        Communicator.mediator.trigger('state:reset');
+
+        State.set(State.parse(this.newState));
+        State.save();
       }
 
     });
