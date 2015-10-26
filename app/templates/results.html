@@ -1,4 +1,10 @@
-<p>Weergeven resultaat <%= start %> tot <%= end %> van <%= total %></p>
+<p>
+<% if (total == 0) { %>
+Er zijn geen resultaten gevonden
+<% } else { %>
+Weergeven resultaat <%= start %> tot <%= end %> van <%= total %>
+<% } %>
+</p>
 
 <div id="search-results">
 
