@@ -12,7 +12,7 @@
     <div id="dropdown<%= cid %>" class="dropdown-content">
       <div class="row">
         <label>Kleur</label>
-        <select id="legend-setting-color-<%= cid %>" class="browser-default" data-property="color">
+        <select id="legend-setting-color-<%= cid %>" class="browser-default" data-property="userColor">
           <% _.each(availableColors, function(hex, name) { var selected = hex == userColor; %>
           <option value="<%= hex %>" <% if (selected) { %>selected<% } %> ><%= name %></option>
           <% });%>

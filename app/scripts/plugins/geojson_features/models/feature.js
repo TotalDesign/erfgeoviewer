@@ -27,8 +27,11 @@ function( Backbone, BackboneMutators, _, Config, State ) {
         get: function() {
           return _.isEmpty(this.get('userColor')) ? State.getPlugin('map_settings').model.get('primaryColor') : this.get('userColor');
         },
-        set: function(key, value, options, set) {
-          this.set('userColor', value, options);
+        transient: true
+      },
+      geoJSON: {
+        get: function() {
+          return this.convertToGeoJSON();
         },
         transient: true
       }
