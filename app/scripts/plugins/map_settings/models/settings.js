@@ -6,7 +6,7 @@ define( ["backbone", "underscore", "config"], function( Backbone, _, Config ) {
   return Backbone.Model.extend( {
 
     defaults: {
-      baseMap: 'osm',
+      baseMap: 'CartoDB Positron',
       showMapTitle: false,
       showSearchFilter: false,
       showShare: false,
