@@ -102,10 +102,10 @@ define( ['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'co
           if ( model && this.map ) {
             var geojson = model.convertToGeoJSON();
             if ( !geojson ) return;
-            var feature = L.geoJson( geojson, {
-              style: Config.colors.secondary
-            } );
-            this.featureGroup.addLayer( feature );
+            geojson.properties['marker-color'] = Config.colors.secondary;
+            var f = L.mapbox.featureLayer();
+            f.setGeoJSON(geojson);
+            this.featureGroup.addLayer( f );
           }
         },
         "mouseout li": function( e ) {
