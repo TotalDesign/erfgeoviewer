@@ -10,6 +10,8 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'communicator', 'p
           spatial: this.parseDctermsSpatial(fields)
         };
 
+        if (_.isArray(f.title)) f.title = f.title.join(', ');
+
         // Image
         var img;
         if (fields['dc:type'] == "Foto" && _.isArray(fields['edm:object'])) {
