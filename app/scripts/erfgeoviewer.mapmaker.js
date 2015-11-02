@@ -4,12 +4,14 @@ require( [
   function() {
   require(['backbone', 'erfgeoviewer.common', 'communicator', 'jquery', 'config', 'q',
     'views/map', 'views/layout/header.layout', 'views/new', 'views/open', 'views/search/search', 'views/settings',
-    'views/detail', 'views/detail-settings', 'views/publish',  'views/layout/detail.layout',
+    'views/detail', 'views/detail-settings', 'views/publish', 'views/intro/header', 'views/intro/actions', 'views/intro/list',
+    'views/layout/detail.layout', 'views/layout/intro.layout',
     'plugins/routeyou/routeyou', 'erfgeoviewer.search',
     'models/layers', 'models/state', 'models/sidenav', 'models/navbar'],
 
   function(Backbone, App, Communicator, $, Config, Q,
-           MapView, HeaderView, NewMapView, OpenMapView, SearchView, SettingsView, DetailView, DetailSettingsView, PublishView, DetailLayout,
+           MapView, HeaderView, NewMapView, OpenMapView, SearchView, SettingsView, DetailView, DetailSettingsView,
+           PublishView, IntroHeaderView, IntroActionsView, IntroListView, DetailLayout, IntroLayout,
            RouteyouModule, SearchModule,
            LayerCollection, State, SideNav, NavBar) {
 
@@ -138,7 +140,15 @@ require( [
 
         State.fetch({
           success: d.resolve,
-          error: d.resolve // Also resolve on error to prevent unhandled exceptions on empty state
+          error: function() {
+            App.layout.getRegion( 'modal' ).show( IntroLayout );
+
+            IntroLayout.getRegion( 'header' ).show( new IntroHeaderView() );
+            IntroLayout.getRegion( 'content' ).show( new IntroActionsView() );
+            IntroLayout.getRegion( 'footer' ).show( new IntroListView() );
+
+            d.resolve(); // Also resolve on error to prevent unhandled exceptions on empty state
+          }
         });
 
         return d.promise;
