@@ -154,7 +154,7 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
           this.model = null;
         }
 
-        var total = this.collection.state.currentPage * this.collection.state.totalRecords,
+        var total = this.collection.state.totalRecords || 0,
           end = this.collection.state.currentPage * this.collection.state.pageSize;
 
         if (end > total) {
