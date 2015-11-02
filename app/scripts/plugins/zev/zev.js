@@ -29,7 +29,7 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
         this.results = new DelvingCollection();
         var SearchModel = Backbone.Model.extend( {
           defaults: {
-            terms: '*',
+            terms: '',
             date: {
               from: '',
               to: ''

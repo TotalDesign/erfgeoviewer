@@ -58,6 +58,11 @@ define(["backbone", "backbone.marionette", "jquery", "communicator",
       var $t = $( e.target );
       var term = $t.val();
 
+      //set default wildcard search if nothing is supplied
+      if (term == undefined || $.trim(term).length == 0) {
+        term = '*';
+      }
+
       this.model.set( 'terms', term, { silent: true } );
       this.model.trigger( 'change:terms' );
     }
