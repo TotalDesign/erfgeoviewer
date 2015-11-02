@@ -4,7 +4,9 @@ define(["backbone.marionette", "jquery", 'models/state'],
     return Marionette.ItemView.extend({
 
       events: {
-        'change input': 'change',
+        'keypress input[type=text]': 'keypress',
+        'blur input[type=text]': 'change',
+        'change input[type=checkbox]': 'change',
         'change select': 'change'
       },
 
@@ -33,6 +35,13 @@ define(["backbone.marionette", "jquery", 'models/state'],
 //        this.state.set( 'mapSettings', mapSettings );
 //        this.state.save();
 //      }
+
+      keypress: function(e) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+          this.change(e);
+        }
+      },
 
       change: function(e) {
         var $input = $(e.currentTarget),

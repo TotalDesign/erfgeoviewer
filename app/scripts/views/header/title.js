@@ -8,7 +8,7 @@ define( ['backbone', 'backbone.marionette', 'models/state'],
       initialize: function() {
         this.model = new Backbone.Model();
 
-        State.getPlugin('map_settings').model.on('change:showMapTitle', this.render, this);
+        State.getPlugin('map_settings').model.on('change:showMapTitle change:title', this.render, this);
       },
 
       onBeforeRender: function() {
