@@ -79,27 +79,6 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
         });
 
         this.listenTo(this.model, "change:viewportFilter", function() {
-          if (self.model.get('viewportFilter')) {
-            // Update model with current map location before executing the search.
-            var map = Communicator.reqres.request( 'getMap'),
-              bounds = map.getBounds(),
-              sw = bounds.getSouthWest(),
-              ne = bounds.getNorthEast();
-
-            self.results.state.geoFence = {
-              type: 'AND',
-              values: [
-                'minGeoLat=' + sw.lat,
-                'minGeoLong=' + sw.lng,
-                'maxGeoLat=' + ne.lat,
-                'maxGeoLong=' + ne.lng
-              ]
-            };
-          }
-          else {
-            self.results.state.geoFence = null;
-          }
-
           self.getResults();
         });
       },
@@ -112,6 +91,27 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
         if (this.facetsView) this.facetsView.remove();
         if (this.paginationView) this.paginationView.remove();
         this.layout.getRegion( 'progress' ).show( new WaitView() );
+
+        if (self.model.get('viewportFilter')) {
+          // Update model with current map location before executing the search.
+          var map = Communicator.reqres.request( 'getMap'),
+              bounds = map.getBounds(),
+              sw = bounds.getSouthWest(),
+              ne = bounds.getNorthEast();
+
+          self.results.state.geoFence = {
+            type: 'AND',
+            values: [
+              'minGeoLat=' + sw.lat,
+              'minGeoLong=' + sw.lng,
+              'maxGeoLat=' + ne.lat,
+              'maxGeoLong=' + ne.lng
+            ]
+          };
+        }
+        else {
+          self.results.state.geoFence = null;
+        }
 
         self.results.fetch({
           success: function(collection) {
