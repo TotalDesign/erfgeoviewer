@@ -21,6 +21,18 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'communicator', 'p
         }
         if (img) f.image = img;
 
+        // Title defaults to a shortened description if need be
+        if (!fields['dc:title'] && fields['dc:description']) {
+          var words = fields['dc:description'][0].split(/\s+/);
+          var max = 250;
+          var newtitle;
+          for (var i = words.length; i >= 0; i--) {
+            newtitle = words.slice([0, i]).join(" ");
+            if (newtitle.length < max) break;
+          }
+          f.title = newtitle;
+        }
+
         return f;
       },
 
