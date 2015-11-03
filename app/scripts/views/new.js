@@ -23,6 +23,9 @@ define(["underscore", "backbone.marionette", "jquery", "jquery.hammer", "communi
 
       resetMap: function() {
         State.clear();
+
+        //reset map bounding box
+        Communicator.mediator.trigger('map:resetEditorPosition');
       }
 
     });
