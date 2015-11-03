@@ -102,7 +102,11 @@ define( ['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'co
           if ( model && this.map ) {
             var geojson = model.convertToGeoJSON();
             if ( !geojson ) return;
+            // https://github.com/mapbox/simplestyle-spec/tree/master/1.1.0
             geojson.properties['marker-color'] = Config.colors.secondary;
+            geojson.properties['fill'] = Config.colors.secondary;
+            geojson.properties['fill-opacity'] = 1;
+
             var f = L.mapbox.featureLayer();
             f.setGeoJSON(geojson);
             this.featureGroup.addLayer( f );
