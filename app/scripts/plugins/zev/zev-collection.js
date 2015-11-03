@@ -7,6 +7,12 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'communicator', 'p
         var f = {
           title: fields['dc:title'],
           description: fields['dc:description'],
+          creator: fields['dc:creator'],
+          __id__: fields['@id'],
+          subject: fields['subject'],
+          source: fields['edm:dataProvider'],
+          isShownAt: fields['edm:isShownAt'],
+          isShownBy: fields['edm:isShownBy'],
           spatial: this.parseDctermsSpatial(fields)
         };
 
