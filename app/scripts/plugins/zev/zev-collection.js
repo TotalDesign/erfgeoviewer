@@ -13,9 +13,11 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'communicator', 'p
         if (_.isArray(f.title)) f.title = f.title.join(', ');
 
         // Image
-        var img;
-        if (fields['dc:type'] == "Foto" && _.isArray(fields['edm:object'])) {
-          img = fields['edm:object'][0];
+        var img, ext;
+        if (_.isArray(fields['edm:object'])) {
+          ext = fields['edm:object'][0].match(/\.[0-9a-z]+$/i);
+          if (ext && _.contains(['.jpg', '.jpeg', '.png', '.gif'], ext[0]) || fields['edm:type'][0] == "IMAGE")
+            img = fields['edm:object'][0];
         }
         if (img) f.image = img;
 
