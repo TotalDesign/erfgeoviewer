@@ -1,0 +1,29 @@
+<div class="modal modal-small">
+
+  <div class="modal-content">
+
+    <h4>Bewerken</h4>
+
+    <div class="row">
+      <div id="dropdown-bulk">
+        <div class="row">
+          <label>Kleur</label>
+          <select id="legend-setting-color-bulk" class="browser-default" data-property="userColor">
+            <% _.each(availableColors, function(hex, name) { var selected = hex == userColor; %>
+            <option value="<%= hex %>"
+            <% if (selected) { %>selected<% } %> ><%= name %></option>
+            <% });%>
+          </select>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+    <a href="#cancel" class="cancel modal-action modal-close waves-effect waves-green btn-flat">Annuleren</a>
+    <a href="#ok" class="ok modal-action modal-close waves-effect waves-green btn-flat">OK</a>
+  </div>
+
+</div>

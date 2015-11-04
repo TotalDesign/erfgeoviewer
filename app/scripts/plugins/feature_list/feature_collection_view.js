@@ -1,8 +1,55 @@
 define( ['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'config', 'erfgeoviewer.common', 'materialize.modal',
-    'tpl!./templates/list.html', 'tpl!./templates/list-item.html', 'tpl!./templates/confirm.html'],
+    'tpl!./templates/list.html', 'tpl!./templates/list-item.html', 'tpl!./templates/confirm.html', 'tpl!./templates/edit.html'],
   function( Marionette, Fuse, $, Communicator, L, Config, App, MaterializeModal,
-            ListTemplate, ListItemTemplate, ConfirmTemplate ) {
+            ListTemplate, ListItemTemplate, ConfirmTemplate, EditTemplate ) {
 
+
+    /**
+     * Modal window to bulk edit.
+     */
+    var BulkEditView = Marionette.ItemView.extend( {
+
+      parentView: null,
+      template: EditTemplate,
+
+      initialize: function(options) {
+        this.parentView = options.parentView;
+        this.model = new Backbone.Model({
+          availableColors: _.extend({"-- Standaard --": null}, Config.availableColors),
+          userColor: options.userColor
+        });
+      },
+
+      events: {
+        'change select': 'change',
+
+        // The cancel button has a modal-close class, which will close with window without any action.
+        'click .cancel': 'cancel',
+
+        // The ok button also has modal-close, but will also set the color of the selected features.
+        'click .ok': 'ok'
+      },
+
+      onShow: function() {
+        $( '.modal', this.$el ).openModal( {
+          complete: _.bind( function() {
+            this.destroy();
+          }, this )
+        } );
+      },
+
+      change: function(e) {
+        var $input = $(e.currentTarget);
+        this.parentView.setUserColorBulk($input.val());
+      },
+
+      cancel: function() {
+      },
+
+      ok: function() {
+      }
+
+    } );
 
     /**
      * Modal window to confirm the user wants to bulk delete.
@@ -91,6 +138,19 @@ define( ['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'co
         "change input[type='checkbox']": 'updateSelectedCount',
         "click a.bulk-edit": function( e ) {
           e.preventDefault();
+
+          var firstColor;
+          var firstInput = $( "input:checked", this.$el).first();
+          if (firstInput) {
+            var cid = firstInput.data('model-id');
+            var model = this.collection.findWhere( {cid: cid} );
+            firstColor = model.get("userColor");
+          }
+
+          App.layout.getRegion( 'modal' ).show(new BulkEditView({
+            parentView: this,
+            userColor: firstColor
+          }));
         },
         "click a.bulk-delete": function( e ) {
           e.preventDefault();
@@ -132,7 +192,13 @@ define( ['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'co
 
       },
 
-      /**
+      //serializeModel: function( model ) {
+      //  return _.extend(model.toJSON.apply(model, _.rest(arguments)), {
+      //    availableColors: _.extend({"-- Standaard --": null}, Config.availableColors)
+      //  });
+      //},
+
+        /**
        * Creates a new Fuse index based upon a copy of the geofeature collection (unfiltered).
        * @param o
        */
@@ -213,6 +279,15 @@ define( ['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'co
         console.log('usc', this.$el);
         var selected = $( "input:checked", this.$el ).length;
         $( '.selected-counter', this.$el ).html( selected );
+      },
+
+      setUserColorBulk: function(color) {
+        var self = this;
+        $( "input:checked", this.$el).each(function(index, element) {
+          var cid = $(this).data('model-id');
+          var model = self.collection.findWhere( {cid: cid} );
+          model.set("userColor", color);
+        });
       }
 
     } );
