@@ -1,6 +1,6 @@
-define( ['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'config', 'erfgeoviewer.common', 'materialize.modal',
+define( ['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'config', 'erfgeoviewer.common', 'materialize.modal', 'models/state',
     'tpl!./templates/list.html', 'tpl!./templates/list-item.html', 'tpl!./templates/confirm.html', 'tpl!./templates/edit.html'],
-  function( Marionette, Fuse, $, Communicator, L, Config, App, MaterializeModal,
+  function( Marionette, Fuse, $, Communicator, L, Config, App, MaterializeModal, State,
             ListTemplate, ListItemTemplate, ConfirmTemplate, EditTemplate ) {
 
 
@@ -162,7 +162,11 @@ define( ['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'co
           if ( model && this.map ) {
             var geojson = model.convertToGeoJSON();
             if ( !geojson ) return;
-            geojson.properties['marker-color'] = Config.colors.secondary;
+            // https://github.com/mapbox/simplestyle-spec/tree/master/1.1.0
+            geojson.properties['marker-color'] = State.getPlugin('map_settings').model.get('secondaryColor');
+            geojson.properties['fill'] = State.getPlugin('map_settings').model.get('secondaryColor');
+            geojson.properties['fill-opacity'] = 1;
+
             var f = L.mapbox.featureLayer();
             f.setGeoJSON(geojson);
             this.featureGroup.addLayer( f );
