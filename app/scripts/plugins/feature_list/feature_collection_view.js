@@ -16,18 +16,17 @@ define( ['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'co
         this.parentView = options.parentView;
         this.model = new Backbone.Model({
           availableColors: _.extend({"-- Standaard --": null}, Config.availableColors),
+          availableIcons: Config.makiCollection.getAvailableIcons(),
+          icon: options.icon,
           userColor: options.userColor
         });
       },
 
       events: {
-        'change select': 'change',
-
-        // The cancel button has a modal-close class, which will close with window without any action.
-        'click .cancel': 'cancel',
-
-        // The ok button also has modal-close, but will also set the color of the selected features.
-        'click .ok': 'ok'
+        'change #legend-setting-color-bulk': 'changeColor',
+        'change #legend-setting-icon-bulk': 'changeIcon',
+        'blur #legend-setting-color-bulk': 'changeColor',
+        'blur #legend-setting-icon-bulk': 'changeIcon'
       },
 
       onShow: function() {
@@ -38,15 +37,14 @@ define( ['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'co
         } );
       },
 
-      change: function(e) {
+      changeColor: function(e) {
         var $input = $(e.currentTarget);
         this.parentView.setUserColorBulk($input.val());
       },
 
-      cancel: function() {
-      },
-
-      ok: function() {
+      changeIcon: function(e) {
+        var $input = $(e.currentTarget);
+        this.parentView.setIconBulk($input.val());
       }
 
     } );
@@ -139,18 +137,27 @@ define( ['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'co
         "click a.bulk-edit": function( e ) {
           e.preventDefault();
 
-          var firstColor;
-          var firstInput = $( "input:checked", this.$el).first();
-          if (firstInput) {
-            var cid = firstInput.data('model-id');
-            var model = this.collection.findWhere( {cid: cid} );
-            firstColor = model.get("userColor");
+          var checkedInputs = $( "input:checked", this.$el);
+          if (checkedInputs.length > 0) {
+            var firstColor;
+            var firstIcon;
+            var firstInput = checkedInputs.first();
+            if (firstInput) {
+              var cid = firstInput.data('model-id');
+              var model = this.collection.findWhere( {cid: cid} );
+              if (model) {
+                firstColor = model.get("userColor");
+                firstIcon = model.get("icon");
+              }
+
+              App.layout.getRegion( 'modal' ).show(new BulkEditView({
+                parentView: this,
+                userColor: firstColor,
+                icon: firstIcon
+              }));
+            }
           }
 
-          App.layout.getRegion( 'modal' ).show(new BulkEditView({
-            parentView: this,
-            userColor: firstColor
-          }));
         },
         "click a.bulk-delete": function( e ) {
           e.preventDefault();
@@ -291,6 +298,15 @@ define( ['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'co
           var cid = $(this).data('model-id');
           var model = self.collection.findWhere( {cid: cid} );
           model.set("userColor", color);
+        });
+      },
+
+      setIconBulk: function(icon) {
+        var self = this;
+        $( "input:checked", this.$el).each(function(index, element) {
+          var cid = $(this).data('model-id');
+          var model = self.collection.findWhere( {cid: cid} );
+          model.set("icon", icon);
         });
       }
 
