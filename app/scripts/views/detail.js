@@ -64,8 +64,13 @@ define( ["backbone", "backbone.marionette", "communicator", "medium.editor", "co
               self.model.set(field, $(editable).html());
             }, 1000);
           };
-          this.singleLineEditor.subscribe( 'editableInput', f );
-          this.multiLineEditor.subscribe( 'editableInput', f );
+
+          if (singleLiners.length > 0) {
+            this.singleLineEditor.subscribe( 'editableInput', f );
+          }
+          if (multiLiners.length > 0) {
+            this.multiLineEditor.subscribe( 'editableInput', f );
+          }
 
         }
 
