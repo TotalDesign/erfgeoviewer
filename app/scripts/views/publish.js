@@ -37,7 +37,7 @@ define(["backbone", "backbone.marionette", "d3", "communicator", 'models/state',
           .attr("x2", 50)
           .attr("y2", 100);
 
-        this.$borderBox = $('<div class="border-box-container"><div class="border-box"><p>Default center and zoom level</p></div></div>');
+        this.$borderBox = $('<div class="border-box-container"><div class="border-box"><p>Default center en zoomniveau</p></div></div>');
 
         this.onChangePosition = _.bind( this._onChangePosition, this );
         Communicator.mediator.on( 'map:moveend', this.onChangePosition );

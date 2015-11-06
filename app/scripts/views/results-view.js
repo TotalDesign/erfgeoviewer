@@ -1,34 +1,15 @@
 /**
  * CollectionView for displaying search results.
  */
-define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
-         "jquery", "leaflet", "underscore", "config", 'erfgeoviewer.common', "tpl!template/result-item.html", "tpl!template/results.html"],
-  function(Backbone, Marionette, Communicator, Materialize, $, L, _,
-           Config, App, ResultItemTemplate, ResultsTemplate) {
+define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards", "jquery", "leaflet", "underscore", "config", 'erfgeoviewer.common',
+         "models/state",
+         "tpl!template/result-item.html", "tpl!template/results.html"],
+  function(Backbone, Marionette, Communicator, Materialize, $, L, _, Config, App,
+           State,
+           ResultItemTemplate, ResultsTemplate) {
 
     var map;
     var layerGroup;
-    var style = {
-      // See path.options in leaflet documentation
-      preview: {
-        "color": '#000',
-        "stroke": true,
-        "weight": 2,
-        "dashArray": "4, 4",
-        "fillOpacity": 0.4,
-        "fill": true,
-        "fillColor": "#fff"
-      },
-      hover: {
-        "color": '#000',
-        "stroke": true,
-        "weight": 2,
-        "dashArray": null,
-        "fillOpacity": 0.8,
-        "fill": true,
-        "fillColor": Config.colors.primary
-      }
-    };
 
     var ResultItemView = Marionette.ItemView.extend({
 
@@ -58,12 +39,12 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
           if (this.noGeo || !this.feature) return;
           this.feature.bringToFront();
           //map.panTo( this.feature.getBounds().getCenter() );
-          this.styleFeature(style.hover);
+          this.styleFeature("hover");
           $('.card', this.$el).addClass('hovered');
         },
         'mouseout .card': function() {
           if (this.noGeo || !this.feature) return;
-          this.styleFeature(style.preview);
+          this.styleFeature("preview");
           $('.card', this.$el).removeClass('hovered');
         }
       },
@@ -81,27 +62,46 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
 
         var self = this;
 
+        this.style = {
+          // https://github.com/mapbox/simplestyle-spec/tree/master/1.1.0
+          preview: {
+            "color": '#000',
+            "stroke": State.getPlugin('map_settings').model.get('secondaryColor'),
+            "weight": 2,
+            //"dashArray": "4, 4",
+            "marker-color": State.getPlugin('map_settings').model.get('secondaryColor'),
+            "fill-opacity": 0.1,
+            "marker-size": "small",
+            "fill": "#333"
+          },
+          hover: {
+            "color": '#000',
+            "stroke": State.getPlugin('map_settings').model.get('primaryColor'),
+            "weight": 2,
+            //"dashArray": null,
+            "marker-color": State.getPlugin('map_settings').model.get('primaryColor'),
+            "marker-size": "medium",
+            "fill-opacity": 1,
+            "fill": State.getPlugin('map_settings').model.get('primaryColor')
+          }
+        };
+
         // Show on map
         var p = new L.latLng(
           this.model.get( 'latitude' ),
           this.model.get( 'longitude' )
         );
-        var geojson = this.model.convertToGeoJSON();
-        if (geojson && geojson.geometry) {
-          this.noGeo = false;
-          this.feature = L.geoJson(geojson, { style: style.preview } );
-          layerGroup.addLayer( this.feature );
-          this.feature.addEventListener('mouseover', function() {
-            self.$el.find('.card').addClass('hovered');
-          });
-          this.feature.addEventListener('mouseout', function() {
-            self.$el.find('.card').removeClass('hovered');
-          });
-        } else {
-          this.noGeo = true;
-          this.disableAdd();
-        }
 
+        this.noGeo = false;
+        this.feature = L.mapbox.featureLayer();
+        this.styleFeature('preview');
+        layerGroup.addLayer( this.feature );
+        this.feature.addEventListener('mouseover', function() {
+          self.$el.find('.card').addClass('hovered');
+        });
+        this.feature.addEventListener('mouseout', function() {
+          self.$el.find('.card').removeClass('hovered');
+        });
 
       },
 
@@ -118,8 +118,10 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
         });
       },
 
-      styleFeature(options) {
-        this.feature.setStyle(options);
+      styleFeature(styling) {
+        var g = this.model.convertToGeoJSON();
+        g.properties = _.extend(g.properties, this.style[styling]);
+        this.feature.setGeoJSON(g);
       },
 
       template: ResultItemTemplate
@@ -136,7 +138,6 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
 
       initialize: function() {
 
-        var self = this;
         map = Communicator.reqres.request("getMap");
         layerGroup = L.featureGroup().addTo(map);
         layerGroup.bringToFront();
@@ -154,10 +155,17 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
           this.model = null;
         }
 
+        var total = this.collection.state.totalRecords || 0,
+          end = this.collection.state.currentPage * this.collection.state.pageSize;
+
+        if (end > total) {
+          end = total;
+        }
+
         this.model = new Backbone.Model({
-          start: (this.collection.state.currentPage -1) * this.collection.state.pageSize,
-          end: this.collection.state.currentPage * this.collection.state.pageSize,
-          total: this.collection.state.currentPage * this.collection.state.totalRecords
+          start: (this.collection.state.currentPage -1) * this.collection.state.pageSize +1,
+          end: end,
+          total: total
         });
       },
 

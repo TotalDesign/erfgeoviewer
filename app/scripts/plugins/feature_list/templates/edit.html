@@ -1,0 +1,36 @@
+<div class="modal modal-small">
+
+  <div class="modal-content">
+
+    <h4>Bewerken</h4>
+
+    <div class="row">
+      <div id="dropdown-bulk">
+        <div class="row">
+          <label>Kleur</label>
+          <select id="legend-setting-color-bulk" class="browser-default" data-property="userColor">
+            <% _.each(availableColors, function(hex, name) { var selected = hex == userColor; %>
+            <option value="<%= hex %>"
+            <% if (selected) { %>selected<% } %> ><%= name %></option>
+            <% });%>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <label>Icoon</label>
+      <select id="legend-setting-icon-bulk" class="browser-default" data-property="icon">
+        <% _.each(availableIcons, function(model) { var selected = model.get('icon') == icon; %>
+        <option value="<%= model.get('icon') %>" <% if (selected) { %>selected<% } %> ><%= model.get('name') %></option>
+        <% });%>
+      </select>
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+    <a href="#ok" class="ok modal-action modal-close waves-effect waves-green btn-flat">Sluiten</a>
+  </div>
+
+</div>

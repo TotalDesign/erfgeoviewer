@@ -266,3 +266,13 @@ body {
 .modal-small {
   width: 35%;
 }
+
+#intro-list {
+  > div {
+    cursor: pointer;
+
+    img {
+      width: 100%;
+    }
+  }
+}
