@@ -11,7 +11,7 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'communicator', 'p
           __id__: fields['@id'],
           subject: fields['subject'],
           source: fields['edm:dataProvider'],
-          isShownAt: fields['edm:isShownAt'],
+          externalUrl: fields['edm:isShownAt'],
           isShownBy: fields['edm:isShownBy'],
           spatial: this.parseDctermsSpatial(fields)
         };
