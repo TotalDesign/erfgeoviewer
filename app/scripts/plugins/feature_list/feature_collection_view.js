@@ -203,11 +203,11 @@ define( ['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'co
 
       },
 
-      //serializeModel: function( model ) {
-      //  return _.extend(model.toJSON.apply(model, _.rest(arguments)), {
-      //    availableColors: _.extend({"-- Standaard --": null}, Config.availableColors)
-      //  });
-      //},
+      serializeModel: function( model ) {
+        return _.extend(model.toJSON.apply(model, _.rest(arguments)), {
+          mode: App.mode
+        });
+      },
 
         /**
        * Creates a new Fuse index based upon a copy of the geofeature collection (unfiltered).
