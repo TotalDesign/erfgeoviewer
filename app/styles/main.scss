@@ -161,7 +161,7 @@ body {
 
 // Settings section has overrides
 .flyout-settings {
-  .flyout-title {
+  > .row {
     margin-bottom: 0;
   }
 }
