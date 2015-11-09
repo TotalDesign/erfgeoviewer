@@ -1,7 +1,7 @@
 define(['backbone', 'backbone.pageable.collection', 'config', 'communicator', 'plugin/geojson_features/models/feature', 'erfgeoviewer.common'],
   function(Backbone, PageableCollection, Config, Communicator, ResultModel, App) {
 
-    var DelvingResultModel = ResultModel.extend({
+    var ResultModel = ResultModel.extend({
       parse: function(fields) {
 
         var f = {
@@ -76,7 +76,7 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'communicator', 'p
 
     return PageableCollection.extend({
 
-      model: DelvingResultModel,
+      model: ResultModel,
 
       searchMode: 'simple',
 
