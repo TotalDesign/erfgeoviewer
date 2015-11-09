@@ -6,8 +6,11 @@
       <li>
       <% if(_.isEmpty(option.href)) { %>
         <span class="facet-link"><%= option.value %> (<%= option.count %>)</span>
+        <% if(option.selected) { %>
+          <a href="#" class="facet-reset-link" data-facet-value="<%= option.value %>">Reset</a>
+        <% } %>
       <% } else { %>
-        <a href="#" class="facet-link" data-facet-href="<%= option.href %>"><%= option.value %> (<%= option.count %>)</a>
+        <a href="#" class="facet-link" data-facet-value="<%= option.value %>"><%= option.value %> (<%= option.count %>)</a>
       <% } %>
       </li>
     <% }); %>

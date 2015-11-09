@@ -188,10 +188,12 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'communicator', 'p
         _.each(resp.result.facets, function(options, name) {
           if (!_.isUndefined(Config.zoek_en_vind.facetLabels)
           && !_.isUndefined(Config.zoek_en_vind.facetLabels[name])) {
-            name = Config.zoek_en_vind.facetLabels[name];
+            facetKey = name;
+            facetName = Config.zoek_en_vind.facetLabels[name];
           }
           facetConfig.push({
-            name: name,
+            name: facetName,
+            key: facetKey,
             options: options
           });
         });

@@ -13,26 +13,59 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
       template: FacetItemTemplate,
 
       events: {
-        "click a.facet-link": function(e) {
-          var href = $( e.target ).data( 'facet-href'),
-            uri = new URI(href),
-            dataMap = uri.search(true),
-            facetString, facetArray;
+        "click a.facet-reset-link": function(e) {
+          var value = $( e.target ).data( 'facet-value' ),
+            field = this.model.get( 'key' ),
+            facets = searchModel.get( 'facets' ),
+            facetToRemove = field + ' exact "' + value + '"';
 
           e.preventDefault();
 
-          if (!_.isString(dataMap['query'])) {
-            return;
+          facets = _.reject(facets, function(facet) {
+            return facet == facetToRemove;
+          });
+
+          searchModel.set( 'facets', facets, { silent: true } );
+          searchModel.trigger( 'change:facets' );
+        },
+        "click a.facet-link": function(e) {
+          var value = $( e.target ).data( 'facet-value' ),
+            field = this.model.get( 'key' ),
+            facets = searchModel.get( 'facets'),
+            newFacet = field + ' exact "' + value + '"';
+
+          e.preventDefault();
+
+          // If facet has not been added to the list yet
+          if (_.indexOf(facets, newFacet) == -1) {
+            facets.push(newFacet);
           }
 
-          facetString = dataMap['query'].split(/AND(.+)?/)[1].trim();
-
-          facetArray = facetString.split(/ AND /);
-
-          searchModel.set( 'facets', facetArray, { silent: true } );
+          searchModel.set( 'facets', facets, { silent: true } );
           searchModel.trigger( 'change:facets' );
         }
+      },
+
+      initialize: function() {
+        var options = this.model.get( 'options' ),
+          field = this.model.get( 'key' ),
+          facets = searchModel.get( 'facets'),
+          facet, regexp;
+
+        for (var i = 0; i < facets.length; i++) {
+          facet = facets[i];
+
+          for (var j = 0; j < options.length; j++) {
+            regexp = new RegExp('^' + field + '.*"' + options[j].value + '"$');
+
+            if (facet.match(regexp)) {
+              options[j].selected = true;
+              break;
+            }
+          }
+        }
       }
+
     });
 
     return Marionette.CollectionView.extend({
