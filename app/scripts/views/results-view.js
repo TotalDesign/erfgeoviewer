@@ -20,7 +20,15 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
         "click .add-marker": function(e) {
           e.preventDefault();
           if (this.addDisabled) return;
-          Communicator.mediator.trigger( "marker:addModelId", this.model.cid );
+          Communicator.mediator.trigger( "marker:addModelId", { cid: this.model.cid, type: "marker" } );
+          map.panTo( this.feature.getBounds().getCenter() );
+          this.removeMarker();
+          this.disableAdd();
+        },
+        "click .add-image": function(e) {
+          e.preventDefault();
+          if (this.addDisabled) return;
+          Communicator.mediator.trigger( "marker:addModelId", { cid: this.model.cid, type: "image" } );
           map.panTo( this.feature.getBounds().getCenter() );
           this.removeMarker();
           this.disableAdd();
@@ -118,7 +126,7 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
         });
       },
 
-      styleFeature(styling) {
+      styleFeature: function(styling) {
         var g = this.model.convertToGeoJSON();
         g.properties = _.extend(g.properties, this.style[styling]);
         this.feature.setGeoJSON(g);

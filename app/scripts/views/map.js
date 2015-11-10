@@ -217,17 +217,33 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
           return false;
         }
         geojson = m.convertToGeoJSON();
-        var marker = L.mapbox.featureLayer();
-        marker.setGeoJSON(geojson);
-        marker.on("click", function() {
-          Communicator.mediator.trigger("marker:click", m)
-        });
-        self.addMarkerGroup(marker, m.get('layerGroup'));
 
-        self.geometryMap.push({
-          cid: m.cid,
-          featureLayer: marker
-        });
+        var marker = null;
+        var type = m.get("type");
+        if (type === "marker") {
+          marker = L.mapbox.featureLayer();
+          marker.setGeoJSON(geojson);
+          marker.on("click", function() {
+            Communicator.mediator.trigger("marker:click", m)
+          });
+          self.addMarkerGroup(marker, m.get('layerGroup'));
+
+          self.geometryMap.push({
+            cid: m.cid,
+            featureLayer: marker
+          });
+        } else if (type === "image") {
+          var imageUrl = m.get("image");
+          if (geojson.geometry.type === "MultiPolygon") {
+            var multipolygon = L.geoJson(geojson);
+            var imageLayer = L.imageOverlay(imageUrl, multipolygon.getBounds());
+            //var imageLayer = L.imageOverlay(imageUrl, multipolygon.getBounds(), {
+            //  opacity: 0.5,
+            //  interactive: true
+            //});
+            self.addLayer(imageLayer, "images");
+          }
+        }
       });
     },
 
@@ -329,6 +345,9 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
       // Initialize markers
       this.layers.markers = new L.MarkerClusterGroup().addTo(this.map);
       this.layers.markers.addTo(this.map);
+
+      // Initialize image overlays
+      this.layers.images = new L.layerGroup().addTo(this.map);
 
       // Event handlers
       this.map.on('click', function(e) {

@@ -42,8 +42,8 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
         this.model = new SearchModel();
 
         // Event triggered by "VOEG TOE" action on search result card.
-        Communicator.mediator.on( "marker:addModelId", function(cid) {
-          var result = self.results.findWhere( {cid: cid} );
+        Communicator.mediator.on( "marker:addModelId", function(options) {
+          var result = self.results.findWhere( {cid: options.cid} );
           if (!result) return;
 
           // The record model contains a lot of extract information that the marker doesn't need,
@@ -51,7 +51,7 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
           // so the result model can be destroyed with pagination, etc.
           console.log(result);
           var attrs = ['__id__', 'title', 'image', 'description', 'youtube', 'externalUrl', 'spatial'];
-          var vars = {};
+          var vars = { type: options.type };
           _.each(attrs, function(key) {
             vars[key] = result.get(key);
           });
