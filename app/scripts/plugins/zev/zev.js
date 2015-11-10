@@ -5,7 +5,7 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
     'plugins/zev/zev-collection', 'models/state',
     'views/search/search-wait', 'views/results-view', 'views/search/search-field', 'plugins/zev/zev-facets-view', 'plugins/zev/zev-date-filter-view'],
   function(Backbone, Marionette, Communicator, SearchModule, Backgrid, PaginatorView,
-           DelvingCollection, State,
+           ZoekEnVindCollection, State,
            WaitView, ResultsView, DelvingSearchView, ZevFacetsView, ZevDateFilterView) {
 
     return SearchModule.extend({
@@ -26,7 +26,7 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
 
         this.markers = o.markers_collection;
         this.facets = new Backbone.Collection();
-        this.results = new DelvingCollection();
+        this.results = new ZoekEnVindCollection();
         var SearchModel = Backbone.Model.extend( {
           defaults: {
             terms: '',
@@ -49,7 +49,6 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
           // The record model contains a lot of extract information that the marker doesn't need,
           // and the essential info (a unique ID) is not available. Here we extra the useful info
           // so the result model can be destroyed with pagination, etc.
-          console.log(result);
           var attrs = ['__id__', 'title', 'image', 'description', 'youtube', 'externalUrl', 'spatial'];
           var vars = {};
           _.each(attrs, function(key) {
