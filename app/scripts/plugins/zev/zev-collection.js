@@ -85,7 +85,10 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'communicator', 'p
         pageSize: null,
         totalPages: null,
         totalRecords: null,
-//        facets: 'dc:subject:4,dc:type:4,edm:dataProvider:4',
+        facets: function() {
+          return _.isArray(Config.zoek_en_vind.requestedFacets) ?
+            Config.zoek_en_vind.requestedFacets.join(',') : 'dc:subject,edm:dataProvider,dc:date.year';
+        },
         maximumRecords: function() {
           return this.state.maxRecords;
         },
@@ -184,12 +187,16 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'communicator', 'p
       },
       getFacetState: function(resp) {
         var facetConfig = [];
+        var facetName, facetKey;
 
         _.each(resp.result.facets, function(options, name) {
           if (!_.isUndefined(Config.zoek_en_vind.facetLabels)
           && !_.isUndefined(Config.zoek_en_vind.facetLabels[name])) {
             facetKey = name;
             facetName = Config.zoek_en_vind.facetLabels[name];
+          } else {
+            facetKey = name;
+            facetName = name;
           }
           facetConfig.push({
             name: facetName,
