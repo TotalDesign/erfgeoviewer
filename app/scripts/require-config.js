@@ -76,6 +76,8 @@ require.config( {
     "leaflet.markercluster": "../bower_components/leaflet.markercluster/dist/leaflet.markercluster",
     "leaflet.proj": "../bower_components/proj4leaflet/src/proj4leaflet",
     "leaflet.smoothmarkerbouncing": "../bower_components/Leaflet.SmoothMarkerBouncing/leaflet.smoothmarkerbouncing",
+    "leaflet.toolbar": "../bower_components/leaflet-toolbar/dist/leaflet.toolbar",
+    "leaflet.distortableimage": "../bower_components/Leaflet.DistortableImage/dist/leaflet.distortableimage",
     "leaflet": "../bower_components/mapbox.js/mapbox.uncompressed",
     "materialize": "../bower_components/materialize/js/global",
     "materialize.animation": "../bower_components/materialize/js/animation",
@@ -153,6 +155,8 @@ require.config( {
     "leaflet.markercluster": { deps: ["leaflet"] },
     "leaflet.proj": { deps: ["leaflet", "proj4"] },
     "leaflet.smoothmarkerbouncing": { deps: ["leaflet"] },
+    "leaflet.toolbar": { deps: ["leaflet"] },
+    "leaflet.distortableimage": { deps: ["leaflet"] },
 
     "materialize.collapsible": {
       deps: ["jquery.easing", "materialize.animation"]

@@ -5,11 +5,11 @@
 define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
         "config", "jquery", "underscore", "erfgeoviewer.common",
         "leaflet.markercluster", "leaflet.smoothmarkerbouncing", "leaflet.proj",
-        "leaflet.fullscreen", 'models/state',
+        "leaflet.fullscreen", "leaflet.toolbar", "leaflet.distortableimage", 'models/state',
         "tpl!template/map.html", "vendor/sparql-geojson"],
   function(Backbone, Marionette, L, d3, Communicator, Config, $, _, App,
            LeafletMarkerCluster, LeafletBouncing, LeafletProjections,
-           LeafletFullscreen, State, Template) {
+           LeafletFullscreen, LeafletToolbar, LeafletDistortableImage, State, Template) {
 
   return Marionette.ItemView.extend({
 
@@ -236,12 +236,10 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
           var imageUrl = m.get("image");
           if (geojson.geometry.type === "MultiPolygon") {
             var multipolygon = L.geoJson(geojson);
-            var imageLayer = L.imageOverlay(imageUrl, multipolygon.getBounds());
-            //var imageLayer = L.imageOverlay(imageUrl, multipolygon.getBounds(), {
-            //  opacity: 0.5,
-            //  interactive: true
-            //});
+            //var imageLayer = L.imageOverlay(imageUrl, multipolygon.getBounds());
+            var imageLayer = new L.DistortableImageOverlay(imageUrl, multipolygon.getBounds());
             self.addLayer(imageLayer, "images");
+            L.DomEvent.on(imageLayer._image, 'load', imageLayer.editing.enable, imageLayer.editing);
           }
         }
       });
