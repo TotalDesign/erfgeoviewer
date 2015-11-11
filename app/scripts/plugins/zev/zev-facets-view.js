@@ -52,6 +52,11 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
           facets = searchModel.get( 'facets'),
           facet, regexp;
 
+        if (this.model.get('name') == 'dc:date.year') {
+          // This facet has a special display, and should not be rendered.
+          this.model.set('preventRender', true);
+        }
+
         for (var i = 0; i < facets.length; i++) {
           facet = facets[i];
 
@@ -64,6 +69,14 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
             }
           }
         }
+      },
+
+      render: function() {
+        if (this.model.get('preventRender')) {
+          // The view will not be rendered.
+          return;
+        }
+        Marionette.ItemView.prototype.render.apply(this, arguments);
       }
 
     });

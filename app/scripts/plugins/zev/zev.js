@@ -125,6 +125,11 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
             self.layout.getRegion( 'results' ).show( self.resultsView );
             self.layout.getRegion( 'pagination' ).show( self.paginationView );
             self.layout.getRegion( 'progress' ).reset();
+
+            self.layout.getRegion( 'filters' ).show( new ZevDateFilterView({
+              model: self.model,
+              results: self.results
+            }) );
           }
         });
 
@@ -135,7 +140,10 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
           model: this.model
         }) );
 
-        this.layout.getRegion( 'filters' ).show( new ZevDateFilterView({ model: this.model }) );
+        this.layout.getRegion( 'filters' ).show( new ZevDateFilterView({
+          model: this.model,
+          results: null
+        }) );
       },
 
       onRender: function() {
