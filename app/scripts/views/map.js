@@ -51,17 +51,29 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
       Communicator.mediator.on( 'map:fitAll', function() {
         var bounds;
 
-        _.each(self.layers, function(layer) {
-          var layerBounds = layer.getBounds();
+        _.each(self.layers, function(layers) {
+          _.each(layers.getLayers(), function(layer) {
+            if (layer.getBounds) {
+              var layerBounds = layer.getBounds();
 
-          if (layerBounds.isValid()) {
-            if (!bounds) {
-              bounds = layerBounds;
+              if (layerBounds.isValid()) {
+                if (!bounds) {
+                  bounds = layerBounds;
+                }
+                else {
+                  bounds.extend(layerBounds);
+                }
+              }
+            } else if (layer.getCorners) {
+              var layerCorners = layer.getCorners();
+              var cornerBounds = new L.LatLngBounds(layerCorners);
+              if (!bounds) {
+                bounds = cornerBounds;
+              } else {
+                bounds.extend(cornerBounds);
+              }
             }
-            else {
-              bounds.extend(layerBounds);
-            }
-          }
+          });
         });
 
         if (bounds instanceof L.LatLngBounds) {
@@ -235,11 +247,26 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
         } else if (type === "image") {
           var imageUrl = m.get("image");
           if (geojson.geometry.type === "MultiPolygon") {
-            var multipolygon = L.geoJson(geojson);
-            //var imageLayer = L.imageOverlay(imageUrl, multipolygon.getBounds());
-            var imageLayer = new L.DistortableImageOverlay(imageUrl, multipolygon.getBounds());
+            var imageLayer;
+            var corners = m.get("corners");
+            if (corners) {
+              imageLayer = new L.DistortableImageOverlay(imageUrl, { corners: corners });
+            } else {
+              var multipolygon = L.geoJson(geojson);
+              imageLayer = new L.DistortableImageOverlay(imageUrl, multipolygon.getBounds());
+              corners = imageLayer.getCorners();
+              m.set("corners", corners);
+            }
             self.addLayer(imageLayer, "images");
             L.DomEvent.on(imageLayer._image, 'load', imageLayer.editing.enable, imageLayer.editing);
+            imageLayer.on("click", function() {
+              Communicator.mediator.trigger("marker:click", m)
+            });
+            imageLayer.on("edit", function(e) {
+              //var imageLayer = e.target;
+              var corners = imageLayer.getCorners();
+              m.set("corners", corners);
+            });
           }
         }
       });
