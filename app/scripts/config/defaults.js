@@ -68,9 +68,9 @@ define("config", function () {
           "version": '1.0.0',
           "scheme": 'xyz',
           "tiles": 'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png',
-          "attribution": 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under' +
-          ' <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>.' +
-          ' Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
+          "attribution": 'Map tiles by <a href="http://stamen.com" tabindex="-1">Stamen Design</a>, under' +
+          ' <a href="http://creativecommons.org/licenses/by/3.0" tabindex="-1">CC BY 3.0</a>.' +
+          ' Data by <a href="http://openstreetmap.org" tabindex="-1">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0"> tabindex="-1"CC BY SA</a>.'
         }
       },
       {
@@ -80,7 +80,7 @@ define("config", function () {
           "version": '1.0.0',
           "scheme": 'xyz',
           "tiles": 'http://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png',
-          "attribution": '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a>, ' + 'Contributors <a href="http://thunderforest.com/">Thunderforest</a>'
+          "attribution": '&copy; <a href="http://openstreetmap.org" tabindex="-1">OpenStreetMap</a>, ' + 'Contributors <a href="http://thunderforest.com/" tabindex="-1">Thunderforest</a>'
         }
       },
       {
@@ -90,7 +90,7 @@ define("config", function () {
           "version": '1.0.0',
           "scheme": 'xyz',
           "tiles": 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-          "attribution": '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+          "attribution": '&copy; <a href="http://www.openstreetmap.org/copyright" tabindex="-1">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions" tabindex="-1">CartoDB</a>'
         }
       },
       {
@@ -100,7 +100,7 @@ define("config", function () {
           "version": '1.0.0',
           "scheme": 'xyz',
           "tiles": 'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
-          "attribution": '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+          "attribution": '&copy; <a href="http://www.openstreetmap.org/copyright" tabindex="-1">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions" tabindex="-1">CartoDB</a>'
         }
       }
     ],
