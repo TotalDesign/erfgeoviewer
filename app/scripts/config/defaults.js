@@ -129,11 +129,11 @@ define("config", function () {
     "fields": [
       {
         "key": "title",
-        "label": "Title"
+        "label": ""
       },
       {
         "key": "image",
-        "label": "Image"
+        "label": ""
       },
       {
         "key": "description",
@@ -141,11 +141,11 @@ define("config", function () {
       },
       {
         "key": "youtubeid",
-        "label": "YouTube"
+        "label": ""
       },
       {
         "key": "externalUrl",
-        "label": "External link"
+        "label": ""
       }
     ]
   };
