@@ -240,6 +240,9 @@ define( ['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'co
         this.map = Communicator.reqres.request( "getMap" );
         this.featureGroup = L.featureGroup().addTo( this.map );
 
+        _.delay(function() {
+          self.$search.focus();
+        }, 100 );
       },
 
       onDestroy: function() {
