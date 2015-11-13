@@ -67,6 +67,9 @@ body {
     &:hover {
       color: $accent_500;
     }
+    &:focus {
+      color: $accent_500;
+    }
   }
 
   // Application title.
@@ -89,6 +92,9 @@ body {
         font-weight: bold;
         background-color: $primary_700;
         &:hover {
+          background-color: $primary_900;
+        }
+        &:focus {
           background-color: $primary_900;
         }
         margin-right: 15px;
