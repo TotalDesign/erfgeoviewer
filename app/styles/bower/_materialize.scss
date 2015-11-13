@@ -6086,7 +6086,14 @@ a.waves-effect .waves-ripple {
   line-height: 3rem;
   padding: 0 1rem;
   background-color: #fff;
-  border-bottom: 1px solid #ddd; }
+  border-bottom: 1px solid #ddd;
+  &:hover {
+    color: $accent_500;
+  }
+  &:focus {
+    color: $accent_500;
+  }
+}
   .collapsible-header i {
     width: 2rem;
     font-size: 1.6rem;
@@ -6477,7 +6484,8 @@ form p:last-child {
 [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
   position: absolute;
   left: -9999px;
-  visibility: hidden; }
+  //visibility: hidden;   default visibility enables focus of input element
+}
 
 [type="checkbox"] {
   /* checkbox aspect */ }
@@ -6516,6 +6524,15 @@ form p:last-child {
   [type="checkbox"]:not(:checked):disabled + label:before {
     border: none;
     background-color: rgba(0, 0, 0, 0.26); }
+
+  //BEGIN focus color
+  [type="checkbox"]:not(:checked):focus + label:before {
+    border-color: $accent_500;
+  }
+  [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+    visibility: visible;
+  }
+  //END focus color
 
 [type="checkbox"]:checked + label:before {
   top: -4px;
