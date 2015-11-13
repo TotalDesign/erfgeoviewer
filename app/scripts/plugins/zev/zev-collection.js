@@ -99,7 +99,7 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'communicator', 'p
           var query = {
             type: 'AND',
             values: [
-              this.state.terms
+              '"' + this.state.terms + '"'
             ]
           };
 
