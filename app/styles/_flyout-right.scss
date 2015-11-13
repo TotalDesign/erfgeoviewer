@@ -58,6 +58,7 @@
       color: $primary_900;
       cursor: pointer;
       &:hover { color: $accent_900; }
+      &:focus { color: $accent_900; }
     }
   }
 
@@ -90,6 +91,9 @@
   a {
     color: white;
     &:hover {
+      color: $primary_700;
+    }
+    &:focus {
       color: $primary_700;
     }
   }
