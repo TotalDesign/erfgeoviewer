@@ -59,6 +59,9 @@ define([
       onHidden: function() {
         if (!this.$el) return;
         this.$el.off( 'transitionend', this.onHiddenWrapper );
+
+        //when a flyout is hidden, remove tabindex from all input elements to fix tab order
+        $(":input", this.$el).attr("tabindex", -1);
       },
 
       onShow: function() {
@@ -69,6 +72,9 @@ define([
         this.$container = this.$el;
         this.$body = $('body');
         this.expand();
+
+        //when a flyout is shown, add default tabindex to all input elements to fix tab order
+        $(":input", this.$el).attr("tabindex", 0);
       },
 
       onShown: function() {
