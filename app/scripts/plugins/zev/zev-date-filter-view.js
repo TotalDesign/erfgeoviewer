@@ -1,9 +1,9 @@
 /**
  * ItemView for displaying date filter.
  */
-define( ["backbone", 'backbone.marionette', "underscore", 'materialize.forms', "d3",
+define( ["backbone", 'backbone.marionette', "underscore", "communicator", 'materialize.forms', "d3",
     "tpl!template/search/date-filter.html"],
-  function(Backbone, Marionette, _, MaterializeForms, d3,
+  function(Backbone, Marionette, _, Communicator, MaterializeForms, d3,
            DateFilterTemplate) {
 
     return Marionette.ItemView.extend({
@@ -105,6 +105,7 @@ define( ["backbone", 'backbone.marionette', "underscore", 'materialize.forms', "
 
         }
 
+        Communicator.mediator.trigger("search:updateTabindices");
       },
 
       submitOnEnter: function(e) {

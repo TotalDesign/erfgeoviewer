@@ -21,13 +21,12 @@ define(['backbone', 'backbone.marionette', 'communicator', 'jquery',
       },
 
       initialize: function(o) {
-
         this.container = o.region;
         this.searchModule = o.searchModule;
         this.render();
 
         Communicator.mediator.on("search:toggleAdvancedSearch", this.toggleAdvancedSearch, this);
-
+        Communicator.mediator.on("search:updateTabindices", this.updateTabindices, this);
       },
 
       onRender: function() {
@@ -37,6 +36,7 @@ define(['backbone', 'backbone.marionette', 'communicator', 'jquery',
       onShow: function() {
         this.$el.parent().addClass( "visible" );
         this.$el.parent().addClass( "search-normal" );
+        this.updateTabindices();
       },
 
       onBeforeDestroy: function() {
@@ -46,8 +46,21 @@ define(['backbone', 'backbone.marionette', 'communicator', 'jquery',
       },
 
       toggleAdvancedSearch: function() {
-        this.$el.parent().toggleClass( "search-normal" );
-        this.$el.parent().toggleClass( "search-advanced" );
+        var parent = this.$el.parent();
+        parent.toggleClass( "search-normal" );
+        parent.toggleClass( "search-advanced" );
+        this.updateTabindices();
+      },
+
+      updateTabindices: function() {
+        var parent = this.$el.parent();
+        if (parent.hasClass("search-normal")) {
+          //normal search visible, remove all advanced search elements from tab order
+          $(".advanced :input, .advanced a", parent).attr("tabindex", -1);
+        } else {
+          //advanced search visible, set default tab order to all advanced search elements
+          $(".advanced :input, .advanced a", parent).attr("tabindex", 0);
+        }
       }
 
     });
