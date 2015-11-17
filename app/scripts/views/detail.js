@@ -47,13 +47,25 @@ define( ["backbone", "backbone.marionette", "communicator", "medium.editor", "co
         if (App.mode == "mapmaker") {
 
           this.singleLineEditor = new MediumEditor(singleLiners, {
-            buttons: ['bold', 'italic', 'underline', 'anchor'],
+            toolbar: {
+              buttons: ['bold', 'italic', 'underline', {
+                name: 'anchor',
+                aria: 'link',
+                customClassOption: 'btn color-secondary',
+                customClassOptionText: 'Toon als knopje',
+                tagNames: ['a'],
+                action: 'createLink',
+                contentDefault: '<b>#</b>'
+              }]
+            },
             disableReturn: true,
             imageDragging: false
           });
 
           this.multiLineEditor = new MediumEditor(multiLiners, {
-            buttons: ['bold', 'italic', 'underline', 'anchor'],
+            toolbar: {
+              buttons: ['anchor', 'h2', 'h3', 'bold', 'italic', 'underline', 'quote']
+            },
             disableReturn: false
           });
 
@@ -64,8 +76,13 @@ define( ["backbone", "backbone.marionette", "communicator", "medium.editor", "co
               self.model.set(field, $(editable).html());
             }, 1000);
           };
-          this.singleLineEditor.subscribe( 'editableInput', f );
-          this.multiLineEditor.subscribe( 'editableInput', f );
+
+          if (singleLiners.length > 0) {
+            this.singleLineEditor.subscribe( 'editableInput', f );
+          }
+          if (multiLiners.length > 0) {
+            this.multiLineEditor.subscribe( 'editableInput', f );
+          }
 
         }
 

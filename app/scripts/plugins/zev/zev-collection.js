@@ -1,7 +1,7 @@
 define(['backbone', 'backbone.pageable.collection', 'config', 'communicator', 'plugin/geojson_features/models/feature', 'erfgeoviewer.common'],
   function(Backbone, PageableCollection, Config, Communicator, ResultModel, App) {
 
-    var DelvingResultModel = ResultModel.extend({
+    var ResultModel = ResultModel.extend({
       parse: function(fields) {
 
         var f = {
@@ -11,7 +11,7 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'communicator', 'p
           __id__: fields['@id'],
           subject: fields['subject'],
           source: fields['edm:dataProvider'],
-          isShownAt: fields['edm:isShownAt'],
+          externalUrl: fields['edm:isShownAt'],
           isShownBy: fields['edm:isShownBy'],
           spatial: this.parseDctermsSpatial(fields)
         };
@@ -76,7 +76,7 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'communicator', 'p
 
     return PageableCollection.extend({
 
-      model: DelvingResultModel,
+      model: ResultModel,
 
       searchMode: 'simple',
 
@@ -85,7 +85,10 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'communicator', 'p
         pageSize: null,
         totalPages: null,
         totalRecords: null,
-//        facets: 'dc:subject:4,dc:type:4,edm:dataProvider:4',
+        facets: function() {
+          return _.isArray(Config.zoek_en_vind.requestedFacets) ?
+            Config.zoek_en_vind.requestedFacets.join(',') : 'dc:subject,edm:dataProvider,dc:date.year';
+        },
         maximumRecords: function() {
           return this.state.maxRecords;
         },
@@ -96,7 +99,7 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'communicator', 'p
           var query = {
             type: 'AND',
             values: [
-              this.state.terms
+              '"' + this.state.terms + '"'
             ]
           };
 
@@ -184,14 +187,20 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'communicator', 'p
       },
       getFacetState: function(resp) {
         var facetConfig = [];
+        var facetName, facetKey;
 
         _.each(resp.result.facets, function(options, name) {
           if (!_.isUndefined(Config.zoek_en_vind.facetLabels)
           && !_.isUndefined(Config.zoek_en_vind.facetLabels[name])) {
-            name = Config.zoek_en_vind.facetLabels[name];
+            facetKey = name;
+            facetName = Config.zoek_en_vind.facetLabels[name];
+          } else {
+            facetKey = name;
+            facetName = name;
           }
           facetConfig.push({
-            name: name,
+            name: facetName,
+            key: facetKey,
             options: options
           });
         });

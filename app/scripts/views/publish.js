@@ -75,12 +75,41 @@ define(["backbone", "backbone.marionette", "d3", "communicator", 'models/state',
             State.save();
 
             serialized = JSON.stringify(State.toJSON());
-
             link = "data:text/json;charset=utf-8," + encodeURIComponent(serialized);
+            var fileName = 'erfgeoviewer.json';
 
-            $download.prop('href', link)
-              .prop('download', 'erfgeoviewer.json');
+            var versionIE = self.getIEVersion();
+            if (versionIE > 0) {
+              //we're on IE
+              self.downloadIE(versionIE, fileName, serialized);
+            } else {
+              $download.prop('href', link)
+                .prop('download', fileName);
+            }
           });
+      },
+
+      //TODO: move this function to utils.js
+      getIEVersion: function() {
+        //msie will be positive number if its IE and NaN for other browsers
+        var msie = parseInt((/msie (\d+)/.exec(navigator.userAgent.toLowerCase()) || [])[1]);
+        if (isNaN(msie)) {
+          msie = parseInt((/trident\/.*; rv:(\d+)/.exec(navigator.userAgent.toLowerCase()) || [])[1]);
+        }
+        if ($.isNumeric(msie)) {
+          return msie;
+        }
+        return 0;
+      },
+
+      downloadIE: function (version, fileName, content) {
+        if (version < 10) {
+          alert("De versie van uw browser ondersteunt deze optie niet. Upgrade uw browser naar de laatste versie of probeer het met een andere browser (bijvoorbeeld Chrome of Firefox).");
+        } else {
+          // >= IE10
+          var blobObject = new Blob([content]);
+          window.navigator.msSaveBlob(blobObject, fileName);
+        }
       },
 
       onHide: function() {

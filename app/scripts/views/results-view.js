@@ -118,7 +118,7 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
         });
       },
 
-      styleFeature(styling) {
+      styleFeature: function(styling) {
         var g = this.model.convertToGeoJSON();
         g.properties = _.extend(g.properties, this.style[styling]);
         this.feature.setGeoJSON(g);

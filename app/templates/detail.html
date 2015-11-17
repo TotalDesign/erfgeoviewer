@@ -39,10 +39,19 @@
         if (externalUrl) {
 %><div class="row <%= field.key %>"><div class="col s12">
 <% if (field.label) { %><label><%= field.label %></label> <% } %>
-<div class="editable"><a id="edit-externalUrl" href="<%= externalUrl %>">Meer info</a></div>
+<div class="editable"><a id="edit-externalUrl" href="<%= externalUrl %>" class="btn color-secondary">Meer info</a></div>
 </div></div><%
         }
         break;
     }
   }
 %>
+
+<div class="row archive">
+  <div class="col s12">
+    <label>Archief</label>
+    <div>
+      <a id="archive" target="_blank" href="http://data.digitalecollectie.nl/recordview?recordId=<%= __id__ %>" class="btn color-secondary icon-archive"></a>
+    </div>
+  </div>
+</div>

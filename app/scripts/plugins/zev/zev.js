@@ -5,7 +5,7 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
     'plugins/zev/zev-collection', 'models/state',
     'views/search/search-wait', 'views/results-view', 'views/search/search-field', 'plugins/zev/zev-facets-view', 'plugins/zev/zev-date-filter-view'],
   function(Backbone, Marionette, Communicator, SearchModule, Backgrid, PaginatorView,
-           DelvingCollection, State,
+           ZoekEnVindCollection, State,
            WaitView, ResultsView, DelvingSearchView, ZevFacetsView, ZevDateFilterView) {
 
     return SearchModule.extend({
@@ -26,7 +26,7 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
 
         this.markers = o.markers_collection;
         this.facets = new Backbone.Collection();
-        this.results = new DelvingCollection();
+        this.results = new ZoekEnVindCollection();
         var SearchModel = Backbone.Model.extend( {
           defaults: {
             terms: '',
@@ -49,15 +49,13 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
           // The record model contains a lot of extract information that the marker doesn't need,
           // and the essential info (a unique ID) is not available. Here we extra the useful info
           // so the result model can be destroyed with pagination, etc.
-          var attrs = ['title', 'image', 'description', 'youtube', 'externalUrl', 'spatial'];
+          var attrs = ['__id__', 'title', 'image', 'description', 'youtube', 'externalUrl', 'spatial'];
           var vars = {};
           _.each(attrs, function(key) {
             vars[key] = result.get(key);
           });
           if ( !State.getPlugin('geojson_features').collection.findWhere({
-              longitude: vars.longitude,
-              latitude: vars.latitude,
-              title: vars.title
+              '__id__': vars['__id__']
             })) {
             State.getPlugin('geojson_features').collection.add( vars );
           }
@@ -127,6 +125,11 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
             self.layout.getRegion( 'results' ).show( self.resultsView );
             self.layout.getRegion( 'pagination' ).show( self.paginationView );
             self.layout.getRegion( 'progress' ).reset();
+
+            self.layout.getRegion( 'filters' ).show( new ZevDateFilterView({
+              model: self.model,
+              results: self.results
+            }) );
           }
         });
 
@@ -137,7 +140,10 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
           model: this.model
         }) );
 
-        this.layout.getRegion( 'filters' ).show( new ZevDateFilterView({ model: this.model }) );
+        this.layout.getRegion( 'filters' ).show( new ZevDateFilterView({
+          model: this.model,
+          results: null
+        }) );
       },
 
       onRender: function() {

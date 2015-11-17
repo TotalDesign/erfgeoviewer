@@ -203,11 +203,11 @@ define( ['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'co
 
       },
 
-      //serializeModel: function( model ) {
-      //  return _.extend(model.toJSON.apply(model, _.rest(arguments)), {
-      //    availableColors: _.extend({"-- Standaard --": null}, Config.availableColors)
-      //  });
-      //},
+      serializeModel: function( model ) {
+        return _.extend(model.toJSON.apply(model, _.rest(arguments)), {
+          mode: App.mode
+        });
+      },
 
         /**
        * Creates a new Fuse index based upon a copy of the geofeature collection (unfiltered).
@@ -240,6 +240,9 @@ define( ['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'co
         this.map = Communicator.reqres.request( "getMap" );
         this.featureGroup = L.featureGroup().addTo( this.map );
 
+        _.delay(function() {
+          self.$search.focus();
+        }, 100 );
       },
 
       onDestroy: function() {
