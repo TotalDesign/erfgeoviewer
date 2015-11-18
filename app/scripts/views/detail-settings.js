@@ -18,6 +18,10 @@ define( ["backbone", "backbone.marionette", 'leaflet', "communicator",
 
           Communicator.mediator.trigger( "marker:removeModelByCid", this.model.cid);
         },
+        'change .opacity': function(e) {
+          e.preventDefault();
+          Communicator.mediator.trigger("image:setOpacity", { m: this.model, value: e.target.value / 100 });
+        },
         'change select': 'change',
         'keyup': 'closeOnEnter'
       },
@@ -61,7 +65,8 @@ define( ["backbone", "backbone.marionette", 'leaflet', "communicator",
           iconUrl: this.getIconUrl(),
           availableColors: _.extend( { "-- Standaard --": null }, Config.availableColors),
           availableIcons: Config.makiCollection.getAvailableIcons(),
-          cid: this.model.cid
+          cid: this.model.cid,
+          layerType: this.model.type
         });
       },
 

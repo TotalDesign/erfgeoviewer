@@ -122,6 +122,10 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
       });
       Communicator.reqres.setHandler( "getMap", function() { return self.map; });
 
+      Communicator.mediator.on("image:setOpacity", function(o) {
+        self.setOpacity(o.m, o.value);
+      });
+
       /**
        * State management.
        */
@@ -242,15 +246,17 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
 
           self.geometryMap.push({
             cid: m.cid,
-            featureLayer: marker
+            featureLayer: marker,
+            type: type
           });
         } else if (type === "image") {
           var imageUrl = m.get("image");
           if (geojson.geometry.type === "MultiPolygon") {
             var imageLayer;
             var corners = m.get("corners");
+            var opacity = m.get("opacity") || 1.0;
             if (corners) {
-              imageLayer = new L.DistortableImageOverlay(imageUrl, { corners: corners });
+              imageLayer = new L.DistortableImageOverlay(imageUrl, { corners: corners, opacity: opacity });
             } else {
               var multipolygon = L.geoJson(geojson);
               imageLayer = new L.DistortableImageOverlay(imageUrl, multipolygon.getBounds());
@@ -258,9 +264,24 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
               m.set("corners", corners);
             }
             self.addLayer(imageLayer, "images");
+            self.geometryMap.push({
+              cid: m.cid,
+              featureLayer: imageLayer,
+              type: type
+            });
+            //imageLayer.bringToFront();
+            //imageLayer.css("z-index", "1000");
             L.DomEvent.on(imageLayer._image, 'load', imageLayer.editing.enable, imageLayer.editing);
-            imageLayer.on("click", function() {
-              Communicator.mediator.trigger("marker:click", m)
+            //imageLayer.on("predrag", function(e) {
+            //  console.log("predrag");
+            //});
+            //L.DomEvent.on(imageLayer._image, 'predrag', function(e) {
+            //  console.log("predrag");
+            //});
+            imageLayer.on("click", function(distortableImageOverlayClickEvent) {
+              console.log("event.type = " + event.type);
+              Communicator.mediator.trigger("marker:click", m);
+              distortableImageOverlayClickEvent.originalEvent.stopPropagation();
             });
             imageLayer.on("edit", function(e) {
               //var imageLayer = e.target;
@@ -280,11 +301,22 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
       }, this));
     },
 
+    setOpacity: function(m, value) {
+      // Retrieve object from geometry mapping
+      var geometryEntry = _.findWhere(this.geometryMap, { cid: m.cid });
+
+      if (_.isObject(geometryEntry) && geometryEntry.type === "image") {
+        var imageLayer = geometryEntry.featureLayer;
+        L.DomUtil.setOpacity(imageLayer._image, value);
+        m.set("opacity", value);
+      }
+    },
+
     updateMarker: function(m) {
       // Retrieve object from geometry mapping
-      var marker = _.findWhere(this.geometryMap, { cid: m.cid });
+      var geometryEntry = _.findWhere(this.geometryMap, { cid: m.cid });
 
-      if (_.isObject(marker)) {
+      if (_.isObject(geometryEntry) && geometryEntry.type === "marker") {
         this.removeMarker(m);
         this.addMarker(m);
       }
@@ -312,9 +344,13 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
      */
     addLayer: function(layer, key) {
       key = key || 'default';
-      if ( _.isUndefined(this.layers[key]) )
-        this.layers[key] = L.layerGroup().addTo(this.map);
+      if ( _.isUndefined(this.layers[key]) ) {
+        var layerGroup = L.layerGroup().addTo(this.map);//.bringToFront();//.setZIndex(100);
+        //layerGroup.bringToFront();
+        this.layers[key] = layerGroup;
+      }
       this.layers[key].addLayer(layer);
+      //this.layers[key].bringToFront();
     },
 
     addMarkerGroup: function(layer, key) {
@@ -337,6 +373,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
           }
         }).addTo(this.map);
       this.layers[key].addLayer(layer);
+      //this.layers[key].sendToBack();
     },
 
     removeMarkerGroup: function(layer, key) {
