@@ -269,8 +269,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
               featureLayer: imageLayer,
               type: type
             });
-            //imageLayer.bringToFront();
-            //imageLayer.css("z-index", "1000");
+            $(imageLayer._image).css("z-index", 999);
             L.DomEvent.on(imageLayer._image, 'load', imageLayer.editing.enable, imageLayer.editing);
             //imageLayer.on("predrag", function(e) {
             //  console.log("predrag");
@@ -284,7 +283,6 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
               distortableImageOverlayClickEvent.originalEvent.stopPropagation();
             });
             imageLayer.on("edit", function(e) {
-              //var imageLayer = e.target;
               var corners = imageLayer.getCorners();
               m.set("corners", corners);
             });
