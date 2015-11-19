@@ -270,7 +270,12 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
               type: type
             });
             $(imageLayer._image).css("z-index", 999);
-            L.DomEvent.on(imageLayer._image, 'load', imageLayer.editing.enable, imageLayer.editing);
+
+            //only in mapmaker mode the image overlay is editable
+            if (App.mode === "mapmaker") {
+              L.DomEvent.on(imageLayer._image, 'load', imageLayer.editing.enable, imageLayer.editing);
+            }
+
             //imageLayer.on("predrag", function(e) {
             //  console.log("predrag");
             //});
