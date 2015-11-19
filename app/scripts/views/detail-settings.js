@@ -22,6 +22,14 @@ define( ["backbone", "backbone.marionette", 'leaflet', "communicator",
           e.preventDefault();
           Communicator.mediator.trigger("image:setOpacity", { m: this.model, value: e.target.value / 100 });
         },
+        'change .edit-mode-transform': function(e) {
+          e.preventDefault();
+          Communicator.mediator.trigger("image:setEditMode", { m: this.model, value: "transform" });
+        },
+        'change .edit-mode-rotate': function(e) {
+          e.preventDefault();
+          Communicator.mediator.trigger("image:setEditMode", { m: this.model, value: "rotate" });
+        },
         'change select': 'change',
         'keyup': 'closeOnEnter'
       },
@@ -67,7 +75,8 @@ define( ["backbone", "backbone.marionette", 'leaflet', "communicator",
           availableIcons: Config.makiCollection.getAvailableIcons(),
           cid: this.model.cid,
           layerType: this.model.get("type"),
-          opacity: this.model.get("opacity") ? this.model.get("opacity") * 100 : 100
+          opacity: this.model.get("opacity") ? this.model.get("opacity") * 100 : 100,
+          mode: Communicator.reqres.request("getImageLayerEditModeByCid", this.model.get("cid"))
         });
       },
 

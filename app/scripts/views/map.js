@@ -122,8 +122,29 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
       });
       Communicator.reqres.setHandler( "getMap", function() { return self.map; });
 
+      Communicator.reqres.setHandler( "getMapLayerByCid", function(cid) {
+        var geometryEntry = _.findWhere(self.geometryMap, { cid: cid });
+        if (_.isObject(geometryEntry)) {
+          return geometryEntry.layer;
+        }
+      });
+
+      Communicator.reqres.setHandler( "getImageLayerEditModeByCid", function(cid) {
+        var geometryEntry = _.findWhere(self.geometryMap, { cid: cid });
+        if (_.isObject(geometryEntry) && geometryEntry.type === "image") {
+          var imageLayer = geometryEntry.layer;
+          //because the toolbar isn't working we're using an internal field here,
+          //this could break in a future release of the DistortableImageOverlay plug-in
+          return imageLayer.editing._mode;
+        }
+      });
+
       Communicator.mediator.on("image:setOpacity", function(o) {
         self.setOpacity(o.m, o.value);
+      });
+
+      Communicator.mediator.on("image:setEditMode", function(o) {
+        self.setEditMode(o.m, o.value);
       });
 
       /**
@@ -246,7 +267,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
 
           self.geometryMap.push({
             cid: m.cid,
-            featureLayer: marker,
+            layer: marker,
             type: type
           });
         } else if (type === "image") {
@@ -256,7 +277,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
             var corners = m.get("corners");
             var opacity = m.get("opacity") || 1.0;
             if (corners) {
-              imageLayer = new L.DistortableImageOverlay(imageUrl, { corners: corners, opacity: opacity });
+              imageLayer = new L.DistortableImageOverlay(imageUrl, { mode: "distort", corners: corners, opacity: opacity });
             } else {
               var multipolygon = L.geoJson(geojson);
               imageLayer = new L.DistortableImageOverlay(imageUrl, multipolygon.getBounds());
@@ -266,7 +287,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
             self.addLayer(imageLayer, "images");
             self.geometryMap.push({
               cid: m.cid,
-              featureLayer: imageLayer,
+              layer: imageLayer,
               type: type
             });
             $(imageLayer._image).css("z-index", 999);
@@ -309,9 +330,23 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
       var geometryEntry = _.findWhere(this.geometryMap, { cid: m.cid });
 
       if (_.isObject(geometryEntry) && geometryEntry.type === "image") {
-        var imageLayer = geometryEntry.featureLayer;
+        var imageLayer = geometryEntry.layer;
         L.DomUtil.setOpacity(imageLayer._image, value);
         m.set("opacity", value);
+      }
+    },
+
+    setEditMode: function(m, value) {
+      // Retrieve object from geometry mapping
+      var geometryEntry = _.findWhere(this.geometryMap, {cid: m.cid});
+
+      if (_.isObject(geometryEntry) && geometryEntry.type === "image") {
+        var imageLayer = geometryEntry.layer;
+        //because the toolbar isn't working we're using an internal function here,
+        //this could break in a future release of the DistortableImageOverlay plug-in
+        if (imageLayer.editing._mode !== value) {
+          imageLayer.editing._toggleRotateDistort();
+        }
       }
     },
 
@@ -334,7 +369,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
 
       if (_.isObject(marker)) {
         m.off('change');
-        this.removeMarkerGroup(marker.featureLayer, m.get('layerGroup'));
+        this.removeMarkerGroup(marker.layer, m.get('layerGroup'));
         this.geometryMap = _.without(this.geometryMap, marker);
       }
     },

@@ -36,6 +36,14 @@
       <input type="range" class="opacity" min="0" max="100" step="20" value="<%= opacity %>"/>
     <% } %>
   </div>
+
+  <div class="col">
+    <input class="edit-mode-transform" name="edit-mode" type="radio" id="edit-mode-transform" <%= mode === "distort" ? "checked" : "" %> />
+    <label for="edit-mode-transform">Transformeren</label>
+    <input class="edit-mode-rotate" name="edit-mode" type="radio" id="edit-mode-rotate" <%= mode === "rotate" ? "checked" : "" %> />
+    <label for="edit-mode-rotate">Roteren</label>
+  </div>
+
   <div class="col">
     <div class="dropdown-button">
       <a href="#" class="btn-flat delete"><i class="icon-cancel-circled-outline"></i> Verwijderen</a>
