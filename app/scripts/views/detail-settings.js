@@ -66,7 +66,8 @@ define( ["backbone", "backbone.marionette", 'leaflet', "communicator",
           availableColors: _.extend( { "-- Standaard --": null }, Config.availableColors),
           availableIcons: Config.makiCollection.getAvailableIcons(),
           cid: this.model.cid,
-          layerType: this.model.type
+          layerType: this.model.get("type"),
+          opacity: this.model.get("opacity") ? this.model.get("opacity") * 100 : 100
         });
       },
 
