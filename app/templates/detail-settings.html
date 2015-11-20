@@ -1,36 +1,49 @@
 <div class="row settings">
   <div class="col">
-    <div class="dropdown-button button-with-marker" data-gutter="20" data-activates="dropdown<%= cid %>">
-      <div class="color-box feature-style">
-        <% if (iconUrl) { %>
-        <img src="<%= iconUrl %>" />
+    <% if (type === "marker") { %>
+      <div class="dropdown-button button-with-marker" data-gutter="20" data-activates="dropdown<%= cid %>">
+        <div class="color-box feature-style">
+          <% if (iconUrl) { %>
+          <img src="<%= iconUrl %>" />
+          <% } %>
+        </div>
+        <a href="#" class="btn-flat change-style">Stijl</a>
+      </div>
+
+      <div id="dropdown<%= cid %>" class="dropdown-content">
+        <div class="row">
+          <label>Kleur</label>
+          <select id="legend-setting-color-<%= cid %>" class="browser-default" data-property="userColor">
+            <% _.each(availableColors, function(hex, name) { var selected = hex == userColor; %>
+            <option value="<%= hex %>" <% if (selected) { %>selected<% } %> ><%= name %></option>
+            <% });%>
+          </select>
+        </div>
+
+        <% if (geometryType == 'POINT' ) { %>
+        <div class="row">
+          <label>Icoon</label>
+          <select id="legend-setting-icon-<%= cid %>" class="browser-default" data-property="icon">
+            <% _.each(availableIcons, function(model) { var selected = model.get('icon') == icon; %>
+            <option value="<%= model.get('icon') %>" <% if (selected) { %>selected<% } %> ><%= model.get('name') %></option>
+            <% });%>
+          </select>
+        </div>
+      </div>
         <% } %>
-      </div>
-      <a href="#" class="btn-flat change-style">Stijl</a>
-    </div>
-
-    <div id="dropdown<%= cid %>" class="dropdown-content">
-      <div class="row">
-        <label>Kleur</label>
-        <select id="legend-setting-color-<%= cid %>" class="browser-default" data-property="userColor">
-          <% _.each(availableColors, function(hex, name) { var selected = hex == userColor; %>
-          <option value="<%= hex %>" <% if (selected) { %>selected<% } %> ><%= name %></option>
-          <% });%>
-        </select>
-      </div>
-
-      <% if (geometryType == 'POINT' ) { %>
-      <div class="row">
-        <label>Icoon</label>
-        <select id="legend-setting-icon-<%= cid %>" class="browser-default" data-property="icon">
-          <% _.each(availableIcons, function(model) { var selected = model.get('icon') == icon; %>
-          <option value="<%= model.get('icon') %>" <% if (selected) { %>selected<% } %> ><%= model.get('name') %></option>
-          <% });%>
-        </select>
-      </div>
-      <% } %>
-    </div>
+    <% } else if (type === "image") { %>
+      <label>Doorzichtigheid</label>
+      <input type="range" class="opacity" min="0" max="100" step="20" value="<%= opacity %>"/>
+    <% } %>
   </div>
+
+  <div class="col">
+    <input class="edit-mode-transform" name="edit-mode" type="radio" id="edit-mode-transform" <%= mode === "distort" ? "checked" : "" %> />
+    <label for="edit-mode-transform">Transformeren</label>
+    <input class="edit-mode-rotate" name="edit-mode" type="radio" id="edit-mode-rotate" <%= mode === "rotate" ? "checked" : "" %> />
+    <label for="edit-mode-rotate">Roteren</label>
+  </div>
+
   <div class="col">
     <div class="dropdown-button">
       <a href="#" class="btn-flat delete"><i class="icon-cancel-circled-outline"></i> Verwijderen</a>

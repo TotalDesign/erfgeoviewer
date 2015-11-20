@@ -5,11 +5,11 @@
 define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
         "config", "jquery", "underscore", "erfgeoviewer.common",
         "leaflet.markercluster", "leaflet.smoothmarkerbouncing", "leaflet.proj",
-        "leaflet.fullscreen", 'models/state',
+        "leaflet.fullscreen", "leaflet-toolbar", "leaflet.distortableimage", 'models/state',
         "tpl!template/map.html", "vendor/sparql-geojson"],
   function(Backbone, Marionette, L, d3, Communicator, Config, $, _, App,
            LeafletMarkerCluster, LeafletBouncing, LeafletProjections,
-           LeafletFullscreen, State, Template) {
+           LeafletFullscreen, LeafletToolbar, LeafletDistortableImage, State, Template) {
 
   return Marionette.ItemView.extend({
 
@@ -51,17 +51,29 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
       Communicator.mediator.on( 'map:fitAll', function() {
         var bounds;
 
-        _.each(self.layers, function(layer) {
-          var layerBounds = layer.getBounds();
+        _.each(self.layers, function(layers) {
+          _.each(layers.getLayers(), function(layer) {
+            if (layer.getBounds) {
+              var layerBounds = layer.getBounds();
 
-          if (layerBounds.isValid()) {
-            if (!bounds) {
-              bounds = layerBounds;
+              if (layerBounds.isValid()) {
+                if (!bounds) {
+                  bounds = layerBounds;
+                }
+                else {
+                  bounds.extend(layerBounds);
+                }
+              }
+            } else if (layer.getCorners) {
+              var layerCorners = layer.getCorners();
+              var cornerBounds = new L.LatLngBounds(layerCorners);
+              if (!bounds) {
+                bounds = cornerBounds;
+              } else {
+                bounds.extend(cornerBounds);
+              }
             }
-            else {
-              bounds.extend(layerBounds);
-            }
-          }
+          });
         });
 
         if (bounds instanceof L.LatLngBounds) {
@@ -109,6 +121,31 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
         _.throttle( self.updateMapSize, 150 )
       });
       Communicator.reqres.setHandler( "getMap", function() { return self.map; });
+
+      Communicator.reqres.setHandler( "getMapLayerByCid", function(cid) {
+        var geometryEntry = _.findWhere(self.geometryMap, { cid: cid });
+        if (_.isObject(geometryEntry)) {
+          return geometryEntry.layer;
+        }
+      });
+
+      Communicator.reqres.setHandler( "getImageLayerEditModeByCid", function(cid) {
+        var geometryEntry = _.findWhere(self.geometryMap, { cid: cid });
+        if (_.isObject(geometryEntry) && geometryEntry.type === "image") {
+          var imageLayer = geometryEntry.layer;
+          //because the toolbar isn't working we're using an internal field here,
+          //this could break in a future release of the DistortableImageOverlay plug-in
+          return imageLayer.editing._mode;
+        }
+      });
+
+      Communicator.mediator.on("image:setOpacity", function(o) {
+        self.setOpacity(o.m, o.value);
+      });
+
+      Communicator.mediator.on("image:setEditMode", function(o) {
+        self.setEditMode(o.m, o.value);
+      });
 
       /**
        * State management.
@@ -217,17 +254,66 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
           return false;
         }
         geojson = m.convertToGeoJSON();
-        var marker = L.mapbox.featureLayer();
-        marker.setGeoJSON(geojson);
-        marker.on("click", function() {
-          Communicator.mediator.trigger("marker:click", m)
-        });
-        self.addMarkerGroup(marker, m.get('layerGroup'));
 
-        self.geometryMap.push({
-          cid: m.cid,
-          featureLayer: marker
-        });
+        var marker = null;
+        var type = m.get("type");
+        if (type === "marker") {
+          marker = L.mapbox.featureLayer();
+          marker.setGeoJSON(geojson);
+          marker.on("click", function() {
+            Communicator.mediator.trigger("marker:click", m)
+          });
+          self.addMarkerGroup(marker, m.get('layerGroup'));
+
+          self.geometryMap.push({
+            cid: m.cid,
+            layer: marker,
+            type: type
+          });
+        } else if (type === "image") {
+          var imageUrl = m.get("image");
+          if (geojson.geometry.type === "MultiPolygon") {
+            var imageLayer;
+            var corners = m.get("corners");
+            var opacity = m.get("opacity") || 1.0;
+            if (corners) {
+              imageLayer = new L.DistortableImageOverlay(imageUrl, { mode: "distort", corners: corners, opacity: opacity });
+            } else {
+              var multipolygon = L.geoJson(geojson);
+              imageLayer = new L.DistortableImageOverlay(imageUrl, multipolygon.getBounds());
+              corners = imageLayer.getCorners();
+              m.set("corners", corners);
+            }
+            self.addLayer(imageLayer, "images");
+            self.geometryMap.push({
+              cid: m.cid,
+              layer: imageLayer,
+              type: type
+            });
+            $(imageLayer._image).css("z-index", 999);
+
+            //only in mapmaker mode the image overlay is editable
+            if (App.mode === "mapmaker") {
+              L.DomEvent.on(imageLayer._image, 'load', imageLayer.editing.enable, imageLayer.editing);
+            }
+
+            //imageLayer.on("predrag", function(e) {
+            //  console.log("predrag");
+            //});
+            //L.DomEvent.on(imageLayer._image, 'predrag', function(e) {
+            //  console.log("predrag");
+            //});
+            imageLayer.on("click", function(distortableImageOverlayClickEvent) {
+              console.log("event.type = " + event.type);
+              Communicator.mediator.trigger("marker:click", m);
+              distortableImageOverlayClickEvent.originalEvent.stopPropagation();
+            });
+            imageLayer.on("edit", function(e) {
+              var corners = imageLayer.getCorners();
+              m.set("corners", corners);
+            });
+          }
+        }
       });
     },
 
@@ -239,11 +325,36 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
       }, this));
     },
 
+    setOpacity: function(m, value) {
+      // Retrieve object from geometry mapping
+      var geometryEntry = _.findWhere(this.geometryMap, { cid: m.cid });
+
+      if (_.isObject(geometryEntry) && geometryEntry.type === "image") {
+        var imageLayer = geometryEntry.layer;
+        L.DomUtil.setOpacity(imageLayer._image, value);
+        m.set("opacity", value);
+      }
+    },
+
+    setEditMode: function(m, value) {
+      // Retrieve object from geometry mapping
+      var geometryEntry = _.findWhere(this.geometryMap, {cid: m.cid});
+
+      if (_.isObject(geometryEntry) && geometryEntry.type === "image") {
+        var imageLayer = geometryEntry.layer;
+        //because the toolbar isn't working we're using an internal function here,
+        //this could break in a future release of the DistortableImageOverlay plug-in
+        if (imageLayer.editing._mode !== value) {
+          imageLayer.editing._toggleRotateDistort();
+        }
+      }
+    },
+
     updateMarker: function(m) {
       // Retrieve object from geometry mapping
-      var marker = _.findWhere(this.geometryMap, { cid: m.cid });
+      var geometryEntry = _.findWhere(this.geometryMap, { cid: m.cid });
 
-      if (_.isObject(marker)) {
+      if (_.isObject(geometryEntry) && geometryEntry.type === "marker") {
         this.removeMarker(m);
         this.addMarker(m);
       }
@@ -258,7 +369,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
 
       if (_.isObject(marker)) {
         m.off('change');
-        this.removeMarkerGroup(marker.featureLayer, m.get('layerGroup'));
+        this.removeMarkerGroup(marker.layer, m.get('layerGroup'));
         this.geometryMap = _.without(this.geometryMap, marker);
       }
     },
@@ -271,9 +382,13 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
      */
     addLayer: function(layer, key) {
       key = key || 'default';
-      if ( _.isUndefined(this.layers[key]) )
-        this.layers[key] = L.layerGroup().addTo(this.map);
+      if ( _.isUndefined(this.layers[key]) ) {
+        var layerGroup = L.layerGroup().addTo(this.map);//.bringToFront();//.setZIndex(100);
+        //layerGroup.bringToFront();
+        this.layers[key] = layerGroup;
+      }
       this.layers[key].addLayer(layer);
+      //this.layers[key].bringToFront();
     },
 
     addMarkerGroup: function(layer, key) {
@@ -296,6 +411,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
           }
         }).addTo(this.map);
       this.layers[key].addLayer(layer);
+      //this.layers[key].sendToBack();
     },
 
     removeMarkerGroup: function(layer, key) {
@@ -329,6 +445,9 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
       // Initialize markers
       this.layers.markers = new L.MarkerClusterGroup().addTo(this.map);
       this.layers.markers.addTo(this.map);
+
+      // Initialize image overlays
+      this.layers.images = new L.layerGroup().addTo(this.map);
 
       // Event handlers
       this.map.on('click', function(e) {
