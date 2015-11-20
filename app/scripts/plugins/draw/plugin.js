@@ -43,8 +43,8 @@ define(['plugin/abstract', 'communicator', 'underscore', 'leaflet', 'leaflet.dra
       if (type === 'marker') {
         var spot = layer.getLatLng();
         State.getPlugin('geojson_features').collection.add({
-          title: 'Nieuwe POI',
-          description: 'Mijn nieuwe marker.',
+          title: 'Nieuwe marker',
+          description: 'Tekst.',
           longitude: [spot.lng],
           latitude: [spot.lat]
         });
