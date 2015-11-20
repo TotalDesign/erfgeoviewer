@@ -66,10 +66,12 @@ require( [
         },
         "new": function() {
           App.flyouts.getRegion( 'bottom' ).hideFlyout();
+          App.flyouts.getRegion( 'detail' ).hideFlyout();
           App.layout.getRegion( 'modal' ).show(new NewMapView());
         },
         "open": function() {
           App.flyouts.getRegion( 'bottom' ).hideFlyout();
+          App.flyouts.getRegion( 'detail' ).hideFlyout();
           App.layout.getRegion( 'modal' ).show(new OpenMapView());
         },
         "export": function() {
