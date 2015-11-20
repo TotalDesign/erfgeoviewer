@@ -118,6 +118,7 @@
     "secondaryColor": "#f44336",
     "showSearchFilter": true,
     "showList": true,
+	"showShare": true,
     "centerPoint": {
       "lat": 52.35610276840388,
       "lng": 4.920845031738281

@@ -937,7 +937,9 @@ var ShareButton = (function (_ShareUtils) {
 
             _this._addClass(network, _this.config.networks[name]['class']);
 
-            if (network.className !== 'email') a.setAttribute('onclick', 'return false');
+			if (network.className.indexOf('email') == -1) {
+			  a.setAttribute('onclick', 'return false');
+			}
 
             a.addEventListener('mousedown', function () {
               _this._hook('before', name, instance);
