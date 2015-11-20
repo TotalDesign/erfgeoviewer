@@ -284,7 +284,8 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
               corners = imageLayer.getCorners();
               m.set("corners", corners);
             }
-            self.addLayer(imageLayer, "images");
+            m.set("layerGroup", "images");
+            self.addLayer(imageLayer, m.get("layerGroup"));
             self.geometryMap.push({
               cid: m.cid,
               layer: imageLayer,
