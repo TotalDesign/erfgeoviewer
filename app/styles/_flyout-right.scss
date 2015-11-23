@@ -125,7 +125,7 @@
   @include transition-timing-function(ease-out);
 
   position: fixed;
-  right: -550px;
+  right: -$advanced-search-width;
   bottom: 0;
   top: $header-height;
   //width: 500px;
@@ -172,7 +172,7 @@
   }
 
   &.search-advanced {
-    width: 600px;
+    width: $advanced-search-width;
   }
 }
 
