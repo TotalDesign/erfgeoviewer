@@ -90,6 +90,9 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
         if (this.paginationView) this.paginationView.remove();
         this.layout.getRegion( 'progress' ).show( new WaitView() );
 
+        //reset paginator to first page
+        this.results.state.currentPage = 1;
+
         if (self.model.get('viewportFilter')) {
           // Update model with current map location before executing the search.
           var map = Communicator.reqres.request( 'getMap'),
