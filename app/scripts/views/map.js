@@ -49,36 +49,24 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
        * Event listeners
        */
       Communicator.mediator.on( 'map:fitAll', function() {
-        var bounds;
+        var bounds = new L.LatLngBounds();
 
         _.each(self.layers, function(layers) {
           _.each(layers.getLayers(), function(layer) {
-            if (layer.getBounds) {
-              var layerBounds = layer.getBounds();
-
-              if (layerBounds.isValid()) {
-                if (!bounds) {
-                  bounds = layerBounds;
-                }
-                else {
-                  bounds.extend(layerBounds);
-                }
+            if (layer instanceof L.Marker) {
+              bounds.extend(layer.getLatLng());
+            } else if (layer.getBounds) {
+              var validBounds = layer.getBounds();
+              if (validBounds.isValid()) {
+                bounds.extend(validBounds);
               }
             } else if (layer.getCorners) {
-              var layerCorners = layer.getCorners();
-              var cornerBounds = new L.LatLngBounds(layerCorners);
-              if (!bounds) {
-                bounds = cornerBounds;
-              } else {
-                bounds.extend(cornerBounds);
-              }
+              bounds.extend(layer.getCorners());
             }
           });
         });
 
-        if (bounds instanceof L.LatLngBounds) {
-          self.map.fitBounds(bounds, { padding: [10, 10] });
-        }
+        self.map.fitBounds(bounds, { padding: [10, 10] });
       });
       Communicator.mediator.on('map:setPosition', function(options) {
         self.map.setView(options.centerPoint, options.zoom);
