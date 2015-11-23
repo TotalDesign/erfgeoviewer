@@ -22,7 +22,11 @@
 
   <div class="card-reveal">
     <span class="card-title grey-text text-darken-4"><%= title %><i class="icon-cancel right"></i></span>
-    <p><%= description %></p>
+    <% if (description) { %>
+      <p><%= description %></p>
+    <% } else { %>
+      <p class="grey-text text-lighten-1">(Geen omschrijving)</p>
+    <% } %>
   </div>
 
 </div>
