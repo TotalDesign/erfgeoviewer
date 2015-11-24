@@ -22,7 +22,7 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'communicator', 'p
         var img, ext;
         if (_.isArray(fields['edm:object'])) {
           ext = fields['edm:object'][0].match(/\.[0-9a-z]+$/i);
-          if (ext && _.contains(['.jpg', '.jpeg', '.png', '.gif'], ext[0]) || fields['edm:type'][0] == "IMAGE")
+          if (ext && _.contains(['.jpg', '.jpeg', '.png', '.gif'], ext[0]) || (_.isArray(fields['edm:type']) && fields['edm:type'][0] == "IMAGE"))
             img = fields['edm:object'][0];
         }
         if (img) f.image = img;
