@@ -25,6 +25,10 @@
   right: 15px;
   font-size: 23px;
   color: #555;
+  &:hover {
+    color: $accent_500;
+    cursor: pointer;
+  }
 }
 
 #search-results {

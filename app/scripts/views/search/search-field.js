@@ -19,6 +19,9 @@ define(["backbone", "backbone.marionette", "jquery", "communicator",
         this.currentText = (this.currentText) ? 0 : 1;
         $t.text(this.toggleTexts[this.currentText]);
         Communicator.mediator.trigger("search:toggleAdvancedSearch");
+      },
+      'click #search-button': function(e) {
+        this.search($( '.search-box', this.$el)[0]);
       }
     },
 
