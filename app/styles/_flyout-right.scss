@@ -9,6 +9,7 @@
   }
   .input-padding {
     margin: 2px 15px;
+    padding-right: 23px;
   }
   input {
     padding: 0;
@@ -18,8 +19,20 @@
   }
 }
 
+#search-button {
+  position: absolute;
+  top: 9px;
+  right: 15px;
+  font-size: 23px;
+  color: #555;
+}
+
 #search-results {
 
+  .result-count {
+    text-align: center;
+    color: #555;
+  }
   .card {
     &.hovered {
       background-color: #eee;
@@ -159,7 +172,7 @@
  */
 .search-advanced-toggle {
   position: absolute;
-  bottom: 0;
+  bottom: 2px;
   right: 0;
 }
 #flyout-right {
@@ -182,7 +195,7 @@ $search-padding: 10px;
   padding-top: 0;
 }
 #search-results {
-  padding: $search-padding;
+  padding: 0 $search-padding;
 }
 #search-progress {
   font-size: 20px;
