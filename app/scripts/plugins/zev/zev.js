@@ -6,7 +6,7 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
     'views/search/search-wait', 'views/results-view', 'views/search/search-field', 'plugins/zev/zev-facets-view', 'plugins/zev/zev-date-filter-view'],
   function(Backbone, Marionette, Communicator, SearchModule, Backgrid, PaginatorView,
            ZoekEnVindCollection, State,
-           WaitView, ResultsView, DelvingSearchView, ZevFacetsView, ZevDateFilterView) {
+           WaitView, ResultsView, SearchView, ZevFacetsView, ZevDateFilterView) {
 
     return SearchModule.extend({
 
@@ -139,7 +139,7 @@ define( ['backbone', 'backbone.marionette', 'communicator', 'plugins/module-sear
       },
 
       render: function() {
-        this.layout.getRegion('search').show(new DelvingSearchView({
+        this.layout.getRegion('search').show(new SearchView({
           model: this.model
         }) );
 
