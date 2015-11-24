@@ -8,8 +8,8 @@ define(["backbone", "backbone.marionette", "jquery", "communicator",
     model: null,
     template: SearchFieldTemplate,
     toggleTexts: {
-      1: 'Eenvoudig zoeken',
-      0: 'Geavanceerd zoeken'
+      1: 'Filters verbergen',
+      0: 'Toon filters'
     },
 
     events: {
