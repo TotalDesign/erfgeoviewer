@@ -13,6 +13,7 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'communicator', 'p
           source: fields['edm:dataProvider'],
           externalUrl: fields['edm:isShownAt'],
           isShownBy: fields['edm:isShownBy'],
+          objectType: fields['dc:type'],
           spatial: this.parseDctermsSpatial(fields)
         };
 
@@ -22,7 +23,7 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'communicator', 'p
         var img, ext;
         if (_.isArray(fields['edm:object'])) {
           ext = fields['edm:object'][0].match(/\.[0-9a-z]+$/i);
-          if (ext && _.contains(['.jpg', '.jpeg', '.png', '.gif'], ext[0]) || fields['edm:type'][0] == "IMAGE")
+          if (ext && _.contains(['.jpg', '.jpeg', '.png', '.gif'], ext[0]) || (_.isArray(fields['edm:type']) && fields['edm:type'][0] == "IMAGE"))
             img = fields['edm:object'][0];
         }
         if (img) f.image = img;
@@ -30,10 +31,10 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'communicator', 'p
         // Title defaults to a shortened description if need be
         if (!fields['dc:title'] && fields['dc:description']) {
           var words = fields['dc:description'][0].split(/\s+/);
-          var max = 250;
+          var max = 120;
           var newtitle;
           for (var i = words.length; i >= 0; i--) {
-            newtitle = words.slice([0, i]).join(" ");
+            newtitle = words.slice(0, i).join(" ");
             if (newtitle.length < max) break;
           }
           f.title = newtitle;

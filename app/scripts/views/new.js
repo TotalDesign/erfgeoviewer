@@ -22,6 +22,10 @@ define(["underscore", "backbone.marionette", "jquery", "jquery.hammer", "communi
       },
 
       resetMap: function() {
+        //close all flyouts to hide invalid data
+        App.flyouts.getRegion('right').hideFlyout();
+        App.flyouts.getRegion('detail').hideFlyout();
+
         State.clear();
 
         //reset map bounding box

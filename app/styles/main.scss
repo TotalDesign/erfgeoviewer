@@ -31,6 +31,7 @@ body {
     @include transition-property(transform);
     @include transition-duration(400ms);
     @include transition-timing-function(ease-out);
+    background-color: #CDD2D4;
     .mapbox-logo { display: none; }
   }
   &.flyout-right-visible {

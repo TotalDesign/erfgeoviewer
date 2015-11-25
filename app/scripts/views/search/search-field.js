@@ -8,8 +8,8 @@ define(["backbone", "backbone.marionette", "jquery", "communicator",
     model: null,
     template: SearchFieldTemplate,
     toggleTexts: {
-      1: 'Eenvoudig zoeken',
-      0: 'Geavanceerd zoeken'
+      1: 'Filters verbergen',
+      0: 'Toon filters'
     },
 
     events: {
@@ -19,6 +19,9 @@ define(["backbone", "backbone.marionette", "jquery", "communicator",
         this.currentText = (this.currentText) ? 0 : 1;
         $t.text(this.toggleTexts[this.currentText]);
         Communicator.mediator.trigger("search:toggleAdvancedSearch");
+      },
+      'click #search-button': function(e) {
+        this.search($( '.search-box', this.$el)[0]);
       }
     },
 

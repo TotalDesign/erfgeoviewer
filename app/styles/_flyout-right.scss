@@ -9,6 +9,7 @@
   }
   .input-padding {
     margin: 2px 15px;
+    padding-right: 23px;
   }
   input {
     padding: 0;
@@ -18,8 +19,24 @@
   }
 }
 
+#search-button {
+  position: absolute;
+  top: 9px;
+  right: 15px;
+  font-size: 23px;
+  color: #555;
+  &:hover {
+    color: $accent_500;
+    cursor: pointer;
+  }
+}
+
 #search-results {
 
+  .result-count {
+    text-align: center;
+    color: #555;
+  }
   .card {
     &.hovered {
       background-color: #eee;
@@ -54,14 +71,35 @@
     margin-bottom: 0;
     span,
     a {
-      padding: 8px 8px 8px 0;
-      padding-top: 16px;
+      padding: 0 10px 0 0;
       margin-right: 16px;
+      line-height: 27px;
       text-transform: uppercase;
       color: $primary_900;
       cursor: pointer;
       &:hover { color: $accent_900; }
       &:focus { color: $accent_900; }
+    }
+  }
+  .card-reveal {
+    .icon-cancel.right {
+      font-size: 18px;
+      position: absolute;
+      top: 2px;
+      right: 2px;
+    }
+    .link {
+      color: #555;
+      &:hover {
+        color: $accent_400;
+      }
+    }
+    .link-archive {
+    }
+    .link-external {
+      font-size: 18px;
+      position: relative;
+      top: 2px;
     }
   }
 
@@ -125,7 +163,7 @@
   @include transition-timing-function(ease-out);
 
   position: fixed;
-  right: -550px;
+  right: -$advanced-search-width;
   bottom: 0;
   top: $header-height;
   //width: 500px;
@@ -159,7 +197,7 @@
  */
 .search-advanced-toggle {
   position: absolute;
-  bottom: 0;
+  bottom: 2px;
   right: 0;
 }
 #flyout-right {
@@ -172,7 +210,7 @@
   }
 
   &.search-advanced {
-    width: 600px;
+    width: $advanced-search-width;
   }
 }
 
@@ -182,7 +220,7 @@ $search-padding: 10px;
   padding-top: 0;
 }
 #search-results {
-  padding: $search-padding;
+  padding: 0 5px;
 }
 #search-progress {
   font-size: 20px;

@@ -3,16 +3,29 @@ require( [
   ],
   function() {
   require(['backbone', 'erfgeoviewer.common', 'communicator', 'jquery', 'config', 'q',
+
+    // Views
     'views/map', 'views/layout/header.layout', 'views/new', 'views/open', 'views/search/search', 'views/settings',
     'views/detail', 'views/detail-settings', 'views/publish', 'views/intro/header', 'views/intro/actions', 'views/intro/list',
     'views/layout/detail.layout', 'views/layout/intro.layout',
+
+    // Plugins
     'plugins/routeyou/routeyou', 'erfgeoviewer.search',
+
+    // Models
     'models/layers', 'models/state', 'models/sidenav', 'models/navbar'],
 
   function(Backbone, App, Communicator, $, Config, Q,
-           MapView, HeaderView, NewMapView, OpenMapView, SearchView, SettingsView, DetailView, DetailSettingsView,
-           PublishView, IntroHeaderView, IntroActionsView, IntroListView, DetailLayout, IntroLayout,
+
+           // Views
+           MapView, HeaderView, NewMapView, OpenMapView, SearchView, SettingsView,
+           DetailView, DetailSettingsView, PublishView, IntroHeaderView, IntroActionsView, IntroListView,
+           DetailLayout, IntroLayout,
+
+           // Plugins
            RouteyouModule, SearchModule,
+
+           // Models
            LayerCollection, State, SideNav, NavBar) {
 
     /**
@@ -43,7 +56,8 @@ require( [
       App.flyouts.getRegion('detail').show( detailLayout );
       detailLayout.getRegion('controls').show( new DetailSettingsView( { model: m } ) );
       detailLayout.getRegion('container').show( new DetailView( { model: m } ) );
-
+      //adding this route to the history enables the user to press back to close the detail flyout
+      App.router.navigate("detail");
     });
     Communicator.mediator.on( "all", function( e, a ) {
       // Debugging:
@@ -63,13 +77,16 @@ require( [
         "": function() {
           App.flyouts.getRegion( 'bottom' ).hideFlyout();
           App.flyouts.getRegion( 'right' ).hideFlyout();
+          App.flyouts.getRegion( 'detail' ).hideFlyout();
         },
         "new": function() {
           App.flyouts.getRegion( 'bottom' ).hideFlyout();
+          App.flyouts.getRegion( 'detail' ).hideFlyout();
           App.layout.getRegion( 'modal' ).show(new NewMapView());
         },
         "open": function() {
           App.flyouts.getRegion( 'bottom' ).hideFlyout();
+          App.flyouts.getRegion( 'detail' ).hideFlyout();
           App.layout.getRegion( 'modal' ).show(new OpenMapView());
         },
         "export": function() {

@@ -7,6 +7,8 @@ function( Backbone, BackboneMutators, _, Config, State ) {
   return Backbone.Model.extend( {
 
     defaults: {
+      __id__: 0,
+      type: "marker",
       userColor: null,
       icon: '',
       description: false,

@@ -11,7 +11,9 @@
     <p class="actions">
       <% if (mode == 'mapmaker') { %>
       <a href="#" class="add-marker" data-model-id="<%= cid %>">Voeg toe</a>
-      <a href="#" class="add-image" data-model-id="<%= cid %>">Voeg beeld toe</a>
+        <% if (_.contains(objectType, 'kaart')) { %>
+        <a href="#" class="add-image" data-model-id="<%= cid %>">Voeg kaart toe</a>
+        <% } %>
       <% } else { %>
       <a href="#" class="open-detail" data-model-id="<%= cid %>">Meer informatie</a>
       <% } %>
@@ -22,7 +24,21 @@
 
   <div class="card-reveal">
     <span class="card-title grey-text text-darken-4"><%= title %><i class="icon-cancel right"></i></span>
-    <p><%= description %></p>
+    <% if (description) { %>
+      <p><%= description %></p>
+    <% } else { %>
+      <p class="grey-text text-lighten-1">(Geen omschrijving)</p>
+    <% } %>
+
+    <div class="reveal-icons">
+      <% if (externalUrl) { %>
+        <a href="<%= externalUrl %>" target="_blank" class="link-external link"><i class="icon-link-ext"></i></a>
+      <% } %>
+      <% if (__id__) { %>
+        <a target="_blank" href="http://data.digitalecollectie.nl/recordview?recordId=<%= __id__ %>" class="link-archive link"><i class="icon-archive"></i></a>
+      <% } %>
+    </div>
+
   </div>
 
 </div>

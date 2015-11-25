@@ -71,6 +71,10 @@ define(["underscore", "backbone.marionette", "jquery", "jquery.hammer", "communi
           return;
         }
 
+        //close all flyouts to hide invalid data
+        App.flyouts.getRegion('right').hideFlyout();
+        App.flyouts.getRegion('detail').hideFlyout();
+
         State.set(State.parse(this.newState));
         State.save();
       }

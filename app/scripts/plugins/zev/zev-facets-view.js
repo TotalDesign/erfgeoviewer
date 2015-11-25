@@ -57,11 +57,15 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
           this.model.set('preventRender', true);
         }
 
+        function escapeRegExp(str) {
+          return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+        }
+
         for (var i = 0; i < facets.length; i++) {
           facet = facets[i];
 
           for (var j = 0; j < options.length; j++) {
-            regexp = new RegExp('^' + field + '.*"' + options[j].value + '"$');
+            regexp = new RegExp('^' + field + '.*"' + escapeRegExp(options[j].value) + '"$');
 
             if (facet.match(regexp)) {
               options[j].selected = true;

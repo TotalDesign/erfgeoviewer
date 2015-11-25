@@ -1,5 +1,5 @@
-define(["backbone", "backbone.marionette", "d3", "communicator", 'models/state', "tpl!template/publish.html", "jquery"],
-  function(Backbone, Marionette, d3, Communicator, State, PublishTemplate, $) {
+define(["backbone", "backbone.marionette", "d3", "communicator", 'models/state', "tpl!template/publish.html", "jquery", "utils"],
+  function(Backbone, Marionette, d3, Communicator, State, PublishTemplate, $, Utils) {
 
     return Marionette.ItemView.extend({
 
@@ -78,7 +78,7 @@ define(["backbone", "backbone.marionette", "d3", "communicator", 'models/state',
             link = "data:text/json;charset=utf-8," + encodeURIComponent(serialized);
             var fileName = 'erfgeoviewer.json';
 
-            var versionIE = self.getIEVersion();
+            var versionIE = Utils.getIEVersion();
             if (versionIE > 0) {
               //we're on IE
               self.downloadIE(versionIE, fileName, serialized);
@@ -87,19 +87,6 @@ define(["backbone", "backbone.marionette", "d3", "communicator", 'models/state',
                 .prop('download', fileName);
             }
           });
-      },
-
-      //TODO: move this function to utils.js
-      getIEVersion: function() {
-        //msie will be positive number if its IE and NaN for other browsers
-        var msie = parseInt((/msie (\d+)/.exec(navigator.userAgent.toLowerCase()) || [])[1]);
-        if (isNaN(msie)) {
-          msie = parseInt((/trident\/.*; rv:(\d+)/.exec(navigator.userAgent.toLowerCase()) || [])[1]);
-        }
-        if ($.isNumeric(msie)) {
-          return msie;
-        }
-        return 0;
       },
 
       downloadIE: function (version, fileName, content) {

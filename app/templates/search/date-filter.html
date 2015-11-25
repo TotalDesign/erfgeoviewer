@@ -1,16 +1,16 @@
 <div class="filter-title">Datum</div>
 
 <div class="row">
-  <div class="input-field col">
+  <div class="input-field">
     <input id="filter-start-date" class="validate" type="number" max="<%= maxYear %>" value="<%= date.from %>" />
-    <label for="filter-start-date">Vanaf</label>
+    <label <% if (date.from) { %>class="active"<% } %> for="filter-start-date">Vanaf</label>
   </div>
 </div>
 
 <div class="row">
-  <div class="input-field col">
+  <div class="input-field">
     <input id="filter-end-date" class="validate" type="number" size="4" max="<%= maxYear %>" value="<%= date.to %>" />
-    <label for="filter-end-date">Tot en met</label>
+    <label <% if (date.to) { %>class="active"<% } %> for="filter-end-date">Tot en met</label>
   </div>
 </div>
 
