@@ -14,6 +14,11 @@
 
   @media (max-width: $screen-sm-min) {
     width: 100%;
+    right: -110%;
+
+    &.visible {
+      right: 0px;
+    }
   }
 
   height: 100%;
