@@ -10,6 +10,9 @@ define( ["backbone", "backbone.marionette", "communicator", "medium.editor", "co
       dom: {},
 
       events: {
+        'click .hide-flyout': function(e) {
+          Communicator.mediator.trigger('flyouts:hideRegionById', "flyout-detail");
+        },
         "click .change-style": function(e) {
           e.preventDefault();
         }
