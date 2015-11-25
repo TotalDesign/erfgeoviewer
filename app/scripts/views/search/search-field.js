@@ -21,7 +21,7 @@ define(["backbone", "backbone.marionette", "jquery", "communicator",
         Communicator.mediator.trigger("search:toggleAdvancedSearch");
       },
       'click #search-button': function(e) {
-        this.search($( '.search-box', this.$el)[0]);
+        this.search({ target: $( '.search-box', this.$el)[0] });
       }
     },
 
@@ -58,6 +58,7 @@ define(["backbone", "backbone.marionette", "jquery", "communicator",
     },
 
     search: function(e) {
+      console.log(e);
       var $t = $( e.target );
       var term = $t.val();
 
