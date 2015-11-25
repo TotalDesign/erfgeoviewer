@@ -3,16 +3,29 @@ require( [
   ],
   function() {
   require(['backbone', 'erfgeoviewer.common', 'communicator', 'jquery', 'config', 'q',
+
+    // Views
     'views/map', 'views/layout/header.layout', 'views/new', 'views/open', 'views/search/search', 'views/settings',
     'views/detail', 'views/detail-settings', 'views/publish', 'views/intro/header', 'views/intro/actions', 'views/intro/list',
     'views/layout/detail.layout', 'views/layout/intro.layout',
+
+    // Plugins
     'plugins/routeyou/routeyou', 'erfgeoviewer.search',
+
+    // Models
     'models/layers', 'models/state', 'models/sidenav', 'models/navbar'],
 
   function(Backbone, App, Communicator, $, Config, Q,
-           MapView, HeaderView, NewMapView, OpenMapView, SearchView, SettingsView, DetailView, DetailSettingsView,
-           PublishView, IntroHeaderView, IntroActionsView, IntroListView, DetailLayout, IntroLayout,
+
+           // Views
+           MapView, HeaderView, NewMapView, OpenMapView, SearchView, SettingsView,
+           DetailView, DetailSettingsView, PublishView, IntroHeaderView, IntroActionsView, IntroListView,
+           DetailLayout, IntroLayout,
+
+           // Plugins
            RouteyouModule, SearchModule,
+
+           // Models
            LayerCollection, State, SideNav, NavBar) {
 
     /**
