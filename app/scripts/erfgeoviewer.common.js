@@ -39,12 +39,6 @@ define( ['backbone', 'backbone.marionette', 'config', 'communicator', 'velocity'
       App.flyouts.getRegion('detail').hideFlyout();
     });
 
-    //browser-update.org check to show a warning message on older browsers
-    var $buoop = { c:2 };
-    var e = document.createElement("script");
-    e.src = "//browser-update.org/update.min.js";
-    document.body.appendChild(e);
-
     App.on( "start", function() {
       Backbone.history.start();
     } );
