@@ -81,28 +81,29 @@
       &:focus { color: $accent_900; }
     }
   }
-  .card-reveal {
-    .icon-cancel.right {
-      font-size: 18px;
-      position: absolute;
-      top: 2px;
-      right: 2px;
-    }
-    .link {
-      color: #555;
-      &:hover {
-        color: $accent_400;
-      }
-    }
-    .link-archive {
-    }
-    .link-external {
-      font-size: 18px;
-      position: relative;
-      top: 2px;
+
+}
+
+.card-reveal {
+  .icon-cancel.right {
+    font-size: 18px;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+  }
+  .link {
+    color: #555;
+    &:hover {
+      color: $accent_400;
     }
   }
-
+  .link-archive {
+  }
+  .link-external {
+    font-size: 18px;
+    position: relative;
+    top: 2px;
+  }
 }
 
 .facet-title,
