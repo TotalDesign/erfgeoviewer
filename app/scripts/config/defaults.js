@@ -147,6 +147,10 @@ define("config", function () {
         "key": "externalUrl",
         "label": ""
       }
-    ]
+    ],
+
+    "ui": {
+      "moreInfo" : "Lees meer"
+    }
   };
 });

@@ -94,12 +94,14 @@ define( ["backbone", "backbone.marionette", "communicator", "medium.editor", "co
       serializeModel: function(model) {
         if (App.mode == 'reader' || model.get('externalUrl')) {
           return _.extend({
-            fields: Config.fields
+            fields: Config.fields,
+            ui: Config.ui,
           }, model.toJSON.apply(model, _.rest(arguments)));
         }
         else {
           return _.extend({
-            fields: Config.fields
+            fields: Config.fields,
+            ui: Config.ui
           }, model.toJSON.apply(model, _.rest(arguments)), {
             externalUrl: 'url'
           });
