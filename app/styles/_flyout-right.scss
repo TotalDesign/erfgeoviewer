@@ -38,6 +38,22 @@
     color: #555;
   }
   .card {
+    div.add-image-container {
+      position: relative;
+      display: block;
+      text-align:right;
+      right: 10px;
+      top: -50px;
+    }
+    a.add-image {
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.5);
+      color: #555;
+      &:hover {
+        background: #eee;
+        color: $accent_900;
+      }
+    }
     &.hovered {
       background-color: #eee;
     }
@@ -46,7 +62,8 @@
       .add-marker {
         color: #555 !important;
       }
-      .add-image {
+      a.add-image {
+        background: rgba(255, 255, 255, 0.5);
         color: #555 !important;
       }
     }
