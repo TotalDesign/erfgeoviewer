@@ -44,6 +44,26 @@ define("config", function () {
     },
     "tiles": [
       {
+        "id": "CartoDB Positron",
+        "previewImage": "http://a.basemaps.cartocdn.com/light_all/16/33630/21569.png",
+        "tilejson": {
+          "version": '1.0.0',
+          "scheme": 'xyz',
+          "tiles": 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+          "attribution": '&copy; <a href="http://www.openstreetmap.org/copyright" tabindex="-1">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions" tabindex="-1">CartoDB</a>'
+        }
+      },
+      {
+        "id": "CartoDB Dark Matter",
+        "previewImage": 'http://a.basemaps.cartocdn.com/dark_all/16/33630/21569.png',
+        "tilejson": {
+          "version": '1.0.0',
+          "scheme": 'xyz',
+          "tiles": 'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+          "attribution": '&copy; <a href="http://www.openstreetmap.org/copyright" tabindex="-1">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions" tabindex="-1">CartoDB</a>'
+        }
+      },
+      {
         "id": "osm",
         "label": "Open Street Maps",
         "previewImage": "http://b.tile.openstreetmap.org/15/16793/10814.png",
@@ -81,26 +101,6 @@ define("config", function () {
           "scheme": 'xyz',
           "tiles": 'http://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png',
           "attribution": '&copy; <a href="http://openstreetmap.org" tabindex="-1">OpenStreetMap</a>, ' + 'Contributors <a href="http://thunderforest.com/" tabindex="-1">Thunderforest</a>'
-        }
-      },
-      {
-        "id": "CartoDB Positron",
-        "previewImage": "http://a.basemaps.cartocdn.com/light_all/16/33630/21569.png",
-        "tilejson": {
-          "version": '1.0.0',
-          "scheme": 'xyz',
-          "tiles": 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-          "attribution": '&copy; <a href="http://www.openstreetmap.org/copyright" tabindex="-1">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions" tabindex="-1">CartoDB</a>'
-        }
-      },
-      {
-        "id": "CartoDB Dark Matter",
-        "previewImage": 'http://a.basemaps.cartocdn.com/dark_all/16/33630/21569.png',
-        "tilejson": {
-          "version": '1.0.0',
-          "scheme": 'xyz',
-          "tiles": 'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
-          "attribution": '&copy; <a href="http://www.openstreetmap.org/copyright" tabindex="-1">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions" tabindex="-1">CartoDB</a>'
         }
       }
     ],
