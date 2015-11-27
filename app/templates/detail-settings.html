@@ -1,3 +1,26 @@
+<!-- Image overlay controls -->
+<% if (type === "image") { %>
+<div class="row settings">
+  <div class="col s6">
+    <!-- transparency slider -->
+    <label>Transparantie</label>
+    <input type="range" class="opacity" min="0" max="100" step="20" value="<%= opacity %>"/>
+  </div>
+
+  <!-- Toggle: Transform and rotate -->
+  <div class="col s6 right-align">
+    <div>
+      <label>Kaart manipuleren</label>
+    </div>
+    <div>
+      <a href="#" id="edit-mode-distort" class="image-radio-button icon-resize-full-alt <%= mode === "distort" ? "active" : "" %>"></a>
+      <a href="#" id="edit-mode-rotate" class="image-radio-button icon-ccw <%= mode === "rotate" ? "active" : "" %>"></a>
+    </div>
+  </div>
+</div>
+<% } %>
+
+<!-- Generic controls -->
 <div class="row settings">
 
   <% if (type === "marker") { %>
@@ -37,27 +60,7 @@
         <% } %>
       </div>
     <!-- /stijl dropdown -->
-
     </div> <!-- /marker column -->
-
-  <% } else if (type === "image") { %>
-
-  <!-- transparency slider -->
-    <div class="col">
-      <label>Doorzichtigheid</label>
-      <input type="range" class="opacity" min="0" max="100" step="20" value="<%= opacity %>"/>
-    </div>
-
-  <% } %>
-
-  <% if (type === "image") { %>
-  <!-- Toggle: Transform and rotate -->
-  <div class="col">
-    <input class="edit-mode-transform" name="edit-mode" type="radio" id="edit-mode-transform" <%= mode === "distort" ? "checked" : "" %> />
-    <label for="edit-mode-transform">Transformeren</label>
-    <input class="edit-mode-rotate" name="edit-mode" type="radio" id="edit-mode-rotate" <%= mode === "rotate" ? "checked" : "" %> />
-    <label for="edit-mode-rotate">Roteren</label>
-  </div>
   <% } %>
 
   <!-- Delete -->

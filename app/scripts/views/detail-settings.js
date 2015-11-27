@@ -18,17 +18,17 @@ define( ["backbone", "backbone.marionette", 'leaflet', "communicator",
 
           Communicator.mediator.trigger( "marker:removeModelByCid", this.model.cid);
         },
+        "click #edit-mode-distort": function(e) {
+          e.preventDefault();
+          this.radioButtonClick($(e.target), "distort");
+        },
+        "click #edit-mode-rotate": function(e) {
+          e.preventDefault();
+          this.radioButtonClick($(e.target), "rotate");
+        },
         'change .opacity': function(e) {
           e.preventDefault();
           Communicator.mediator.trigger("image:setOpacity", { m: this.model, value: e.target.value / 100 });
-        },
-        'change .edit-mode-transform': function(e) {
-          e.preventDefault();
-          Communicator.mediator.trigger("image:setEditMode", { m: this.model, value: "transform" });
-        },
-        'change .edit-mode-rotate': function(e) {
-          e.preventDefault();
-          Communicator.mediator.trigger("image:setEditMode", { m: this.model, value: "rotate" });
         },
         'change select': 'change',
         'keyup': 'closeOnEnter'
@@ -38,6 +38,15 @@ define( ["backbone", "backbone.marionette", 'leaflet', "communicator",
         this.model = o.model;
 
         this.model.on( 'change:userColor change:icon', this.changeIcon, this );
+      },
+
+      radioButtonClick: function(button, mode) {
+        //deactive all radio buttons
+        button.siblings(".image-radio-button").removeClass("active");
+        //activate clicked radio button
+        button.addClass("active");
+        //change edit mode on image overlay
+        Communicator.mediator.trigger("image:setEditMode", { m: this.model, value: mode });
       },
 
       change: function(e) {
