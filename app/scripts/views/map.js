@@ -25,6 +25,8 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
 
     layers: {},
 
+    currentImageLayer: null,
+
     // Marionette layout instance.
     layout: null,
 
@@ -66,7 +68,9 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
           });
         });
 
-        self.map.fitBounds(bounds, { padding: [10, 10] });
+        if (bounds.isValid()) {
+          self.map.fitBounds(bounds, { padding: [10, 10] });
+        }
       });
       Communicator.mediator.on('map:setPosition', function(options) {
         self.map.setView(options.centerPoint, options.zoom);
@@ -249,6 +253,10 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
           marker = L.mapbox.featureLayer();
           marker.setGeoJSON(geojson);
           marker.on("click", function() {
+            if (self.currentImageLayer) {
+              self.currentImageLayer.editing.disable();
+              self.currentImageLayer = null;
+            }
             Communicator.mediator.trigger("marker:click", m)
           });
           self.addMarkerGroup(marker, m.get('layerGroup'));
@@ -281,22 +289,25 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
             });
             $(imageLayer._image).css("z-index", 999);
 
-            //only in mapmaker mode the image overlay is editable
-            if (App.mode === "mapmaker") {
-              L.DomEvent.on(imageLayer._image, 'load', imageLayer.editing.enable, imageLayer.editing);
-            }
+            //diable (non-working) toolbar
+            imageLayer.editing._showToolbar = function() { };
 
-            //imageLayer.on("predrag", function(e) {
-            //  console.log("predrag");
-            //});
-            //L.DomEvent.on(imageLayer._image, 'predrag', function(e) {
-            //  console.log("predrag");
-            //});
+            //click on image overlay
             imageLayer.on("click", function(distortableImageOverlayClickEvent) {
               console.log("event.type = " + event.type);
+
+              //only in mapmaker mode the image overlay is editable
+              if (App.mode === "mapmaker") {
+                if (self.currentImageLayer) {
+                  self.currentImageLayer.editing.disable();
+                }
+                self.currentImageLayer = imageLayer;
+                imageLayer.editing.enable();
+              }
               Communicator.mediator.trigger("marker:click", m);
               distortableImageOverlayClickEvent.originalEvent.stopPropagation();
             });
+
             imageLayer.on("edit", function(e) {
               var corners = imageLayer.getCorners();
               m.set("corners", corners);
@@ -441,7 +452,14 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
       // Event handlers
       this.map.on('click', function(e) {
         Communicator.mediator.trigger( "map:tile-layer-clicked" );
+
+        //disable editing mode on active image overlay
+        if (self.currentImageLayer) {
+          self.currentImageLayer.editing.disable();
+          self.currentImageLayer = null;
+        }
       });
+
       this.map.on('moveend', this.attachMoveEndListener);
 
     },
