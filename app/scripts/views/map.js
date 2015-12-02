@@ -279,13 +279,14 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
             var corners = m.get("corners");
             var opacity = m.get("opacity") || 1.0;
             if (corners) {
-              imageLayer = new L.DistortableImageOverlay(imageUrl, { mode: "distort", corners: corners, opacity: opacity });
+              imageLayer = new L.DistortableImageOverlay(imageUrl, { corners: corners, opacity: opacity });
             } else {
               var multipolygon = L.geoJson(geojson);
               imageLayer = new L.DistortableImageOverlay(imageUrl, multipolygon.getBounds());
               corners = imageLayer.getCorners();
               m.set("corners", corners);
             }
+
             m.set("layerGroup", "images");
             self.addLayer(imageLayer, m.get("layerGroup"));
             self.geometryMap.push({
@@ -304,11 +305,19 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
 
               //only in mapmaker mode the image overlay is editable
               if (App.mode === "mapmaker") {
+                //deselect old image
                 if (self.currentImageLayer) {
                   self.currentImageLayer.editing.disable();
                 }
+
+                //keep reference of current image
                 self.currentImageLayer = imageLayer;
+
+                //enable edit mode on current image
                 imageLayer.editing.enable();
+
+                //set default editing mode (and refresh handles)
+                self.setEditMode(m, "rotate");
               }
               Communicator.mediator.trigger("marker:click", m);
               distortableImageOverlayClickEvent.originalEvent.stopPropagation();
