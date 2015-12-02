@@ -50,8 +50,8 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
       /**
        * Event listeners
        */
-      Communicator.mediator.on( 'map:fitAll', function() {
-        var bounds = new L.LatLngBounds();
+      Communicator.mediator.on( 'map:fitAll', function(bounds) {
+        bounds = bounds || new L.LatLngBounds();
 
         _.each(self.layers, function(layers) {
           _.each(layers.getLayers(), function(layer) {
@@ -69,7 +69,13 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
         });
 
         if (bounds.isValid()) {
-          self.map.fitBounds(bounds, { padding: [10, 10] });
+          var paddingRight = 0;
+          var flyoutRight = App.flyouts.getRegion('right').$container;
+          if (flyoutRight) {
+            paddingRight = flyoutRight.width() / 2;   //div 2 because the flyout overlaps the map with 50% of its width
+          }
+          var paddingLeft = 175;                      //see main.scss body#map.flyout-right-visible
+          self.map.fitBounds(bounds, { paddingTopLeft: [paddingLeft, 10], paddingBottomRight: [paddingRight, 10] });
         }
       });
       Communicator.mediator.on('map:setPosition', function(options) {
