@@ -276,16 +276,20 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
           var imageUrl = m.get("image");
           if (geojson.geometry.type === "MultiPolygon") {
             var imageLayer;
-            var corners = m.get("corners");
             var opacity = m.get("opacity") || 1.0;
-            if (corners) {
-              imageLayer = new L.DistortableImageOverlay(imageUrl, { corners: corners, opacity: opacity });
-            } else {
+            var corners = m.get("corners");
+            if (!corners) {
               var multipolygon = L.geoJson(geojson);
-              imageLayer = new L.DistortableImageOverlay(imageUrl, multipolygon.getBounds());
-              corners = imageLayer.getCorners();
-              m.set("corners", corners);
+              var multipolygonBounds = multipolygon.getBounds();
+              corners = [
+                multipolygonBounds.getNorthWest(),
+                multipolygonBounds.getNorthEast(),
+                multipolygonBounds.getSouthWest(),
+                multipolygonBounds.getSouthEast() ];
             }
+            imageLayer = new L.DistortableImageOverlay(imageUrl, { corners: corners, opacity: opacity });
+            corners = imageLayer.getCorners();
+            m.set("corners", corners);
 
             m.set("layerGroup", "images");
             self.addLayer(imageLayer, m.get("layerGroup"));
