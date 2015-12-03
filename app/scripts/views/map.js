@@ -76,6 +76,8 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
           }
           var paddingLeft = 175;                      //see main.scss body#map.flyout-right-visible
           self.map.fitBounds(bounds, { paddingTopLeft: [paddingLeft, 10], paddingBottomRight: [paddingRight, 10] });
+        } else {
+          console.warn("map.js map:fitAll no valid bounds found!");
         }
       });
       Communicator.mediator.on('map:setPosition', function(options) {
@@ -174,6 +176,9 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
       _.each(_.keys(self.layers), function(group) {
         self.layers[group].clearLayers();
       });
+
+      this.geometryMap.splice(0, this.geometryMap.length);
+      this.layers = {};
 
       // Iterate over models
       collection.each(function(feature) {
@@ -286,10 +291,10 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
                 multipolygonBounds.getNorthEast(),
                 multipolygonBounds.getSouthWest(),
                 multipolygonBounds.getSouthEast() ];
+              m.set("corners", corners);
             }
+
             imageLayer = new L.DistortableImageOverlay(imageUrl, { corners: corners, opacity: opacity });
-            corners = imageLayer.getCorners();
-            m.set("corners", corners);
 
             m.set("layerGroup", "images");
             self.addLayer(imageLayer, m.get("layerGroup"));
@@ -299,6 +304,8 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
               type: type
             });
             $(imageLayer._image).css("z-index", 999);
+
+            State.save();
 
             //diable (non-working) toolbar
             imageLayer.editing._showToolbar = function() { };
@@ -330,6 +337,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
             imageLayer.on("edit", function(e) {
               var corners = imageLayer.getCorners();
               m.set("corners", corners);
+              State.save();
             });
           }
         }
@@ -402,12 +410,10 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
     addLayer: function(layer, key) {
       key = key || 'default';
       if ( _.isUndefined(this.layers[key]) ) {
-        var layerGroup = L.layerGroup().addTo(this.map);//.bringToFront();//.setZIndex(100);
-        //layerGroup.bringToFront();
+        var layerGroup = L.layerGroup().addTo(this.map);
         this.layers[key] = layerGroup;
       }
       this.layers[key].addLayer(layer);
-      //this.layers[key].bringToFront();
     },
 
     addMarkerGroup: function(layer, key) {
@@ -430,7 +436,6 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
           }
         }).addTo(this.map);
       this.layers[key].addLayer(layer);
-      //this.layers[key].sendToBack();
     },
 
     removeMarkerGroup: function(layer, key) {
@@ -460,13 +465,6 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
       }
 
       Communicator.mediator.trigger('map:ready', this.map);
-
-      // Initialize markers
-      this.layers.markers = new L.MarkerClusterGroup().addTo(this.map);
-      this.layers.markers.addTo(this.map);
-
-      // Initialize image overlays
-      this.layers.images = new L.layerGroup().addTo(this.map);
 
       // Event handlers
       this.map.on('click', function(e) {
