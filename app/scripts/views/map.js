@@ -186,6 +186,8 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
 
         self.addFeature(featureModel);
       });
+
+      this.updateLayerControl();
     },
 
     _initMap: function() {
@@ -368,6 +370,8 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
               State.save();
             });
           }
+
+          self.updateLayerControl();
         }
       });
     },
@@ -493,7 +497,17 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
         this.map.setView( State.getPlugin('map_settings').model.get('centerPoint') || [52.121580, 5.6304], State.getPlugin('map_settings').model.get('zoom') || 8 );
       }
 
-      Communicator.mediator.trigger('map:ready', this.map);
+      Communicator.mediator.trigger('map:ready', this.map);   //this restores all features
+
+      //ensure we have an image layer group (needed for the layer control below)
+      if ( _.isUndefined(self.layers["images"]) ) {
+        var layerGroup = L.layerGroup().addTo(this.map);
+        self.layers["images"] = layerGroup;
+      }
+
+      //add image overlay layer toggle control
+      L.control.layers([], { "Oude kaartenlaag" : self.layers.images }).addTo(self.map);
+      this.updateLayerControl();
 
       // Event handlers
       this.map.on('click', function(e) {
@@ -508,6 +522,15 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
 
       this.map.on('moveend', this.attachMoveEndListener);
 
+    },
+
+    updateLayerControl: function() {
+      var images = this.layers["images"];
+      if (images && _.isFunction(images.getLayers) && images.getLayers().length > 0) {
+        $(".leaflet-control-layers-toggle").show();
+      } else {
+        $(".leaflet-control-layers-toggle").hide();
+      }
     },
 
     attachMoveEndListener: function(e) {

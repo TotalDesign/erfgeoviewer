@@ -306,3 +306,10 @@ body {
     color: #fff;
   }
 }
+
+#map .leaflet-control-layers-selector {
+  @extend .leaflet-control-layers-selector;
+
+  position: inherit;
+  left: inherit;
+}
