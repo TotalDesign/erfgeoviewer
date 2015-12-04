@@ -223,12 +223,13 @@ define( ['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'co
       },
 
       onRender: function() {
+        var self = this;
         this.$search = $( '#feature-filter', this.$el );
         this.$search.keyup( function( e ) {
           //if (e.keyCode == 13) {
           e.preventDefault();
           _.bind( function() {
-            this.search( this.$search.val() );
+            self.search( self.$search.val() );
           }, self )();
           //}
         } );
