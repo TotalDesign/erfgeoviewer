@@ -38,7 +38,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
     initialize: function(o) {
 
       var self = this;
-      _.bindAll(this, 'updateMapSize', 'addMarker', 'attachMoveEndListener');
+      _.bindAll(this, 'updateMapSize', 'addFeature', 'addMarker', 'addImage', 'attachMoveEndListener');
 
       this.layout = o.layout;
 
@@ -150,7 +150,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
       /**
        * State management.
        */
-      State.getPlugin('geojson_features').collection.on('add', this.addMarker, this);
+      State.getPlugin('geojson_features').collection.on('add', this.addFeature, this);
 
       State.getPlugin('geojson_features').collection.on('remove', this.removeMarker, this);
 
@@ -181,10 +181,10 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
       this.layers = {};
 
       // Iterate over models
-      collection.each(function(feature) {
-        if (!feature.get('spatial') && (!feature.get('latitude') || !feature.get('longitude'))) return false;
+      collection.each(function(featureModel) {
+        if (!featureModel.get('spatial') && (!featureModel.get('latitude') || !featureModel.get('longitude'))) return false;
 
-        self.addMarker(feature);
+        self.addFeature(featureModel);
       });
     },
 
@@ -239,13 +239,22 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
       return geojson;
     },
 
+    addFeature: function(featureModel) {
+      var type = featureModel.get("type");
+      if (type === "marker") {
+        this.addMarker(featureModel);
+      } else if (type === "image") {
+        this.addImage(featureModel);
+      }
+    },
+
     /**
      * Take model of marker and add to map.
      * @param m - model
      */
     addMarker: function(markerModel) {
       var self = this,
-        markerModels = (_.isArray(markerModel)) ? marker : [markerModel],
+        markerModels = (_.isArray(markerModel)) ? markerModel : [markerModel],
         geojson,
         spatial;
 
@@ -258,26 +267,45 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
         }
         geojson = m.convertToGeoJSON();
 
+        var marker = L.mapbox.featureLayer();
+        marker.setGeoJSON(geojson);
+        marker.on("click", function() {
+          if (self.currentImageLayer) {
+            self.currentImageLayer.editing.disable();
+            self.currentImageLayer = null;
+          }
+          Communicator.mediator.trigger("marker:click", m)
+        });
+        self.addMarkerGroup(marker, m.get('layerGroup'));
+
+        self.geometryMap.push({
+          cid: m.cid,
+          layer: marker,
+          type: "marker"
+        });
+      });
+    },
+
+    /**
+     * Take model of image and add to map.
+     * @param m - model
+     */
+    addImage: function(imageModel) {
+      var self = this,
+        imageModels = (_.isArray(imageModel)) ? imageModel : [imageModel],
+        geojson,
+        spatial;
+
+      _.each(imageModels, function(m) {
+        if (_.isEmpty(m.get( 'spatial' )) && (!m.get( 'latitude' ) || !m.get( 'longitude' ))) {
+          console.log('invalid feature model:', m);
+          return false;
+        }
+        geojson = m.convertToGeoJSON();
+
         var marker = null;
         var type = m.get("type");
-        if (type === "marker") {
-          marker = L.mapbox.featureLayer();
-          marker.setGeoJSON(geojson);
-          marker.on("click", function() {
-            if (self.currentImageLayer) {
-              self.currentImageLayer.editing.disable();
-              self.currentImageLayer = null;
-            }
-            Communicator.mediator.trigger("marker:click", m)
-          });
-          self.addMarkerGroup(marker, m.get('layerGroup'));
-
-          self.geometryMap.push({
-            cid: m.cid,
-            layer: marker,
-            type: type
-          });
-        } else if (type === "image") {
+        if (type === "image") {
           var imageUrl = m.get("image");
           if (geojson.geometry.type === "MultiPolygon") {
             var imageLayer;
@@ -390,6 +418,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
     /**
      * Take model of marker and remove it from the map.
      */
+
     removeMarker: function(m) {
       // Retrieve object from geometry mapping
       var marker = _.findWhere(this.geometryMap, { cid: m.cid });
