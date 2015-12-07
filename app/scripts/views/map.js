@@ -27,6 +27,8 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
 
     currentImageLayer: null,
 
+    controlLayer: null,
+
     // Marionette layout instance.
     layout: null,
 
@@ -177,8 +179,15 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
         self.layers[group].clearLayers();
       });
 
+      //clear internal lists
       this.geometryMap.splice(0, this.geometryMap.length);
       this.layers = {};
+
+      //ensure we have an image layer group (needed for the layer control below)
+      if ( _.isUndefined(self.layers["images"]) ) {
+        var layerGroup = L.layerGroup().addTo(this.map);
+        self.layers["images"] = layerGroup;
+      }
 
       // Iterate over models
       collection.each(function(featureModel) {
@@ -187,6 +196,12 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
         self.addFeature(featureModel);
       });
 
+      //add or replace image overlay layer toggle control
+      if (this.controlLayer) {
+        this.controlLayer.removeFrom(this.map);
+      }
+      this.controlLayer = L.control.layers([], { "Oude kaartenlaag" : self.layers.images });
+      this.controlLayer.addTo(this.map);
       this.updateLayerControl();
     },
 
@@ -431,6 +446,8 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
         m.off('change');
         this.removeMarkerGroup(marker.layer, m.get('layerGroup'));
         this.geometryMap = _.without(this.geometryMap, marker);
+
+        this.updateLayerControl();
       }
     },
 
@@ -498,16 +515,6 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
       }
 
       Communicator.mediator.trigger('map:ready', this.map);   //this restores all features
-
-      //ensure we have an image layer group (needed for the layer control below)
-      if ( _.isUndefined(self.layers["images"]) ) {
-        var layerGroup = L.layerGroup().addTo(this.map);
-        self.layers["images"] = layerGroup;
-      }
-
-      //add image overlay layer toggle control
-      L.control.layers([], { "Oude kaartenlaag" : self.layers.images }).addTo(self.map);
-      this.updateLayerControl();
 
       // Event handlers
       this.map.on('click', function(e) {
