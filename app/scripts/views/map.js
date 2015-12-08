@@ -53,22 +53,24 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
        * Event listeners
        */
       Communicator.mediator.on( 'map:fitAll', function(bounds) {
-        bounds = bounds || new L.LatLngBounds();
+        if (!bounds) {
+          bounds = new L.LatLngBounds();
 
-        _.each(self.layers, function(layers) {
-          _.each(layers.getLayers(), function(layer) {
-            if (layer instanceof L.Marker) {
-              bounds.extend(layer.getLatLng());
-            } else if (layer.getBounds) {
-              var validBounds = layer.getBounds();
-              if (validBounds.isValid()) {
-                bounds.extend(validBounds);
+          _.each(self.layers, function(layers) {
+            _.each(layers.getLayers(), function(layer) {
+              if (layer instanceof L.Marker) {
+                bounds.extend(layer.getLatLng());
+              } else if (layer.getBounds) {
+                var validBounds = layer.getBounds();
+                if (validBounds.isValid()) {
+                  bounds.extend(validBounds);
+                }
+              } else if (layer.getCorners) {
+                bounds.extend(layer.getCorners());
               }
-            } else if (layer.getCorners) {
-              bounds.extend(layer.getCorners());
-            }
+            });
           });
-        });
+        }
 
         if (bounds.isValid()) {
           var paddingRight = 0;
