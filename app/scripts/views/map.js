@@ -6,10 +6,10 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
         "config", "jquery", "underscore", "erfgeoviewer.common",
         "leaflet.markercluster", "leaflet.smoothmarkerbouncing", "leaflet.proj",
         "leaflet.fullscreen", "leaflet-toolbar", "leaflet.distortableimage", 'models/state',
-        "tpl!template/map.html", "vendor/sparql-geojson"],
+        "tpl!template/map.html", 'views/date-filter', "vendor/sparql-geojson"],
   function(Backbone, Marionette, L, d3, Communicator, Config, $, _, App,
            LeafletMarkerCluster, LeafletBouncing, LeafletProjections,
-           LeafletFullscreen, LeafletToolbar, LeafletDistortableImage, State, Template) {
+           LeafletFullscreen, LeafletToolbar, LeafletDistortableImage, State, Template, DateFilterView) {
 
   return Marionette.ItemView.extend({
 
@@ -195,6 +195,9 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
 
         self.addFeature(featureModel);
       });
+
+      //temp place to show date filter flyout (so we have some data to filter on)
+      //App.flyouts.getRegion( 'bottom' ).show(new DateFilterView({ collection: collection }));
 
       //add or replace image overlay layer toggle control
       if (this.controlLayer) {
@@ -528,7 +531,6 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
       });
 
       this.map.on('moveend', this.attachMoveEndListener);
-
     },
 
     updateLayerControl: function() {
