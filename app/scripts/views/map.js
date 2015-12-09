@@ -158,6 +158,8 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
 
       State.getPlugin('geojson_features').collection.on('remove', this.removeMarker, this);
 
+      State.getPlugin('geojson_features').collection.on('change:visible', this.updateFeatureVisibility, this);
+
       State.getPlugin('geojson_features').collection.on('reset', this.initFeatures, this);
 
       State.getPlugin('map_settings').model.on('change:primaryColor', this.updatePrimaryColor, this);
@@ -199,7 +201,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
       });
 
       //temp place to show date filter flyout (so we have some data to filter on)
-      //App.flyouts.getRegion( 'bottom' ).show(new DateFilterView({ collection: collection }));
+      App.flyouts.getRegion( 'bottom' ).show(new DateFilterView({ collection: collection }));
 
       //add or replace image overlay layer toggle control
       if (this.controlLayer) {
@@ -435,7 +437,17 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
 
       if (_.isObject(geometryEntry) && geometryEntry.type === "marker") {
         this.removeMarker(m);
-        this.addMarker(m);
+        if (m.get("visible") == undefined || m.get("visible"))
+        {
+          this.addMarker(m);
+        }
+      }
+    },
+
+    updateFeatureVisibility: function(m) {
+      this.removeMarker(m);
+      if (m.get("visible") == undefined || m.get("visible")) {
+        this.addFeature(m);
       }
     },
 
@@ -499,7 +511,6 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
     },
 
     onShow: function() {
-
       var self = this;
 
       // Load map.
