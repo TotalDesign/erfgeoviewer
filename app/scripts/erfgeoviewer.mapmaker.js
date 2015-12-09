@@ -105,7 +105,7 @@ require( [
           if (!searchView || searchView.isDestroyed) {
             searchView = new SearchView({ searchModule: searchModule });
           }
-          App.flyouts.getRegion( 'bottom' ).hideFlyout();
+          //App.flyouts.getRegion( 'bottom' ).hideFlyout();
 
           if (App.flyouts.getRegion( 'right' ).hasView(searchView)) {
             App.flyouts.getRegion( 'right' ).expand();

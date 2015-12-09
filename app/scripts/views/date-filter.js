@@ -3,7 +3,7 @@
  * ItemView for displaying date filter.
  */
 define( ["backbone", 'backbone.marionette', "underscore", "communicator", 'materialize.forms', "d3",
-    "tpl!template/search/date-filter.html"],
+    "tpl!template/date-filter.html"],
   function(Backbone, Marionette, _, Communicator, MaterializeForms, d3,
            DateFilterTemplate) {
 
@@ -11,8 +11,7 @@ define( ["backbone", 'backbone.marionette', "underscore", "communicator", 'mater
 
       template: DateFilterTemplate,
 
-      yearFacet: false,
-
+      collection: null,
 
       events: {
         'keyup #filter-start-date': 'submitOnEnter',
@@ -26,48 +25,50 @@ define( ["backbone", 'backbone.marionette', "underscore", "communicator", 'mater
 
       initialize: function(o) {
         o = o || {};
-        //this.model.set('yearFacet', false);
-        if (o.collection && _.isArray(o.collection.models)) {
-          this.yearFacet = _.findWhere( o.collection.models, { key: "dc:date.year" } );
+        if (o.collection) {
+          this.collection = o.collection;
         }
       },
 
       onShow: function() {
+        if (this.collection && this.collection.models && _.isArray(this.collection.models)) {
+          var self = this;
+          var models = this.collection.models;
+          var hits = [];
+          var years = [];
+          for (var i = 0; i < models.length; i++) {
+            var model = models[i];
+            var year = Number(model.get("year"));
+            var key = '' + year;
+            years.push(year);
+            hits[key] = hits[key] ? ++hits[key] : 1;
+          }
 
-        if (this.yearFacet) {
-
-          var o = this.yearFacet.options;
-
-          var hits = _.pluck(o, 'count'),
-              years = o.map(function (d) {
-                return Number(d.value);
-              }),
-              yearRange = d3.range(d3.min(years), d3.max(years));
+          var minYears = d3.min(years);
+          var maxYears = d3.max(years);
+          //var overshoot = Math.ceil((maxYears - minYears) / 10);
+          var yearRange = d3.range(minYears, maxYears);
 
           var margin = {top: 0, right: 20, bottom: 15, left: 20},
-              height = 40 - margin.top - margin.bottom,
-              width = 215 - margin.left - margin.right;
-
-          var brush = d3.svg.brush()
-              .extent(d3.extent(yearRange))
-              .on("brush", function () {
-
-              });
+              height = 100 - margin.top - margin.bottom,
+              width = this.$el.width() - margin.left - margin.right;
 
           var x = d3.scale.linear()
               .domain(d3.extent(years))
               .range([0, width]);
+              //.nice(14);
 
           var y = d3.scale.linear()
-              .domain([d3.min(hits), d3.max(hits)])
+              .domain([0, d3.max(hits)])
               .range([0, height]);
 
           var xAxis = d3.svg.axis()
               .scale(x)
-              .tickValues(function () {
-                var a = x.domain();
-                return [a[0], Math.round((a[1] - a[0]) / 2 + a[0]), a[1]];
-              })
+              //.tickValues(function () {
+              //  var a = x.domain();
+              //  return [a[0], Math.round((a[1] - a[0]) / 2 + a[0]), a[1]];
+              //})
+              .ticks(14)
               .tickFormat(d3.format("4d"))
               .orient("bottom");
 
@@ -90,20 +91,49 @@ define( ["backbone", 'backbone.marionette', "underscore", "communicator", 'mater
               .attr('x', x)
               .attr('width', width / yearRange.length)
               .each(function (year) {
-
                 var el = d3.select(this);
-                var facet = _.find(o, function (d) {
-                      return Number(d.value) == year;
-                    }) || {count: 0};
-
-                el.attr('height', y(facet.count) < 0 ? 0 : y(facet.count));
-                el.attr('y', height - y(facet.count));
-
+                var value = hits[year] ? y(hits[year]) : 0;
+                el.attr('height', value < 0 ? 0 : value);
+                el.attr('y', height - value);
               });
 
-            // TODO: add brush
-            // https://github.com/square/crossfilter/blob/gh-pages/index.html
+          //add brush for selections
+          var brush = d3.svg.brush()
+            .x(x)
+            .on("brushend", function () {
+              //user selected time frame
+              var extend = brush.extent();
+              if (extend.length > 1) {
+                var clearSelection = extend[0] === extend[1];
+                var start = Math.floor(extend[0]);
+                var end = Math.ceil(extend[1]);
+                if (clearSelection) {
+                  console.log("brush: clear selection");
+                } else {
+                  console.log("brush: selection start year = " + start + ", end year = " + end);
+                }
 
+                //show/hide features based on year
+                self.collection.each(function(model) {
+                  var year = Number(model.get("year"));
+                  if (year && $.isNumeric(year)) {
+                    var visible = clearSelection || (year >= start && year <= end);
+                    model.set("visible", visible);
+                    console.log(year);
+                  }
+                });
+
+                //zoom map to visible features
+                Communicator.mediator.trigger('map:fitAll');
+              }
+            });
+
+          svg.append("g")
+            .attr("class", "x brush")
+            .call(brush)  //call the brush function, causing it to create the rectangles
+            .selectAll("rect") //select all the just-created rectangles
+            .attr("y", -6)
+            .attr("height", height + 7); //set their height
         }
 
         Communicator.mediator.trigger("search:updateTabindices");
