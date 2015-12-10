@@ -39,7 +39,8 @@
     "q": "microjs/q#~0.8.11",
     "fuse.js": "fuse#~1.2.2",
     "Backbone.Mutators": "backbone.mutators#~0.4.5",
-    "Leaflet.DistortableImage": "leaflet.distortableimage#~0.0.25"
+    "Leaflet.DistortableImage": "leaflet.distortableimage#~0.0.25",
+    "Leaflet.EasyButton": "~1.2.0"
   },
   "devDependencies": {
     "susy": "~2.2.2"
