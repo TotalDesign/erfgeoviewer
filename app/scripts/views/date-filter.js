@@ -44,19 +44,19 @@ define( ["backbone", 'backbone.marionette', "underscore", "communicator", 'mater
             hits[key] = hits[key] ? ++hits[key] : 1;
           }
 
-          var minYears = d3.min(years);
-          var maxYears = d3.max(years);
-          //var overshoot = Math.ceil((maxYears - minYears) / 10);
-          var yearRange = d3.range(minYears, maxYears);
 
-          var margin = {top: 0, right: 20, bottom: 15, left: 20},
+          var margin = {top: 15, right: 20, bottom: 15, left: 20},
               height = 100 - margin.top - margin.bottom,
               width = this.$el.width() - margin.left - margin.right;
+
+          var minYears = d3.min(years);
+          var maxYears = d3.max(years);
+          maxYears += width / (maxYears - minYears);    //increase by width of one bar to ensure the last one is visible
+          var yearRange = d3.range(minYears, maxYears);
 
           var x = d3.scale.linear()
               .domain(d3.extent(years))
               .range([0, width]);
-              //.nice(14);
 
           var y = d3.scale.linear()
               .domain([0, d3.max(hits)])
