@@ -119,7 +119,6 @@ define( ["backbone", 'backbone.marionette', "underscore", "communicator", 'mater
                   if (year && $.isNumeric(year)) {
                     var visible = clearSelection || (year >= start && year <= end);
                     model.set("visible", visible);
-                    console.log(year);
                   }
                 });
 
