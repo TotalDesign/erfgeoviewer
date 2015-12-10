@@ -14,7 +14,8 @@ define(['backbone', 'backbone.pageable.collection', 'config', 'communicator', 'p
           externalUrl: fields['edm:isShownAt'],
           isShownBy: fields['edm:isShownBy'],
           objectType: fields['dc:type'],
-          spatial: this.parseDctermsSpatial(fields)
+          spatial: this.parseDctermsSpatial(fields),
+          year: Math.floor(Math.random() * (2015 - 1600)) + 1600    //TODO: get real data from the API
         };
 
         if (_.isArray(f.title)) f.title = f.title.join(', ');

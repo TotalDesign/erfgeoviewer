@@ -5,11 +5,11 @@
 define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
         "config", "jquery", "underscore", "erfgeoviewer.common",
         "leaflet.markercluster", "leaflet.smoothmarkerbouncing", "leaflet.proj",
-        "leaflet.fullscreen", "leaflet-toolbar", "leaflet.distortableimage", 'models/state',
-        "tpl!template/map.html", "vendor/sparql-geojson"],
+        "leaflet.fullscreen", "leaflet-toolbar", "leaflet.distortableimage", "leaflet.easybutton", 'models/state',
+        "tpl!template/map.html", 'views/date-filter', "vendor/sparql-geojson"],
   function(Backbone, Marionette, L, d3, Communicator, Config, $, _, App,
            LeafletMarkerCluster, LeafletBouncing, LeafletProjections,
-           LeafletFullscreen, LeafletToolbar, LeafletDistortableImage, State, Template) {
+           LeafletFullscreen, LeafletToolbar, LeafletDistortableImage, LeafletEasyButton, State, Template, DateFilterView) {
 
   return Marionette.ItemView.extend({
 
@@ -26,6 +26,8 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
     layers: {},
 
     currentImageLayer: null,
+
+    collection: null,
 
     controlLayer: null,
 
@@ -56,8 +58,8 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
         if (!bounds) {
           bounds = new L.LatLngBounds();
 
-          _.each(self.layers, function(layers) {
-            _.each(layers.getLayers(), function(layer) {
+          _.each(self.layers, function (layers) {
+            _.each(layers.getLayers(), function (layer) {
               if (layer instanceof L.Marker) {
                 bounds.extend(layer.getLatLng());
               } else if (layer.getBounds) {
@@ -73,13 +75,19 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
         }
 
         if (bounds.isValid()) {
-          var paddingRight = 0;
-          var flyoutRight = App.flyouts.getRegion('right').$container;
-          if (flyoutRight) {
-            paddingRight = flyoutRight.width() / 2;   //div 2 because the flyout overlaps the map with 50% of its width
+          var paddingRight = 10;
+          var flyoutRight = App.flyouts.getRegion('right');
+          var paddingLeft = 10;
+          if (flyoutRight.isVisible()) {
+            paddingRight += flyoutRight.$container.width() / 2;   //div 2 because the flyout overlaps the map with 50% of its width
+            paddingLeft += 175;                                   //see main.scss body#map.flyout-right-visible
           }
-          var paddingLeft = 175;                      //see main.scss body#map.flyout-right-visible
-          self.map.fitBounds(bounds, { paddingTopLeft: [paddingLeft, 10], paddingBottomRight: [paddingRight, 10] });
+          var paddingBottom = 10;
+          var flyoutBottom = App.flyouts.getRegion("bottom");
+          if (flyoutBottom.isVisible()) {
+            paddingBottom += flyoutBottom.$container.height();
+          }
+          self.map.fitBounds(bounds, { paddingTopLeft: [paddingLeft, 30], paddingBottomRight: [paddingRight, paddingBottom] });
         } else {
           console.warn("map.js map:fitAll no valid bounds found!");
         }
@@ -158,6 +166,8 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
 
       State.getPlugin('geojson_features').collection.on('remove', this.removeMarker, this);
 
+      State.getPlugin('geojson_features').collection.on('change:visible', this.updateFeatureVisibility, this);
+
       State.getPlugin('geojson_features').collection.on('reset', this.initFeatures, this);
 
       State.getPlugin('map_settings').model.on('change:primaryColor', this.updatePrimaryColor, this);
@@ -166,6 +176,19 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
 
       Communicator.mediator.on('map:ready', function() {
         this.initFeatures(State.getPlugin('geojson_features').collection);
+
+        //add custom button for filter flyout
+        L.easyButton('icon-filter', function(btn, map){
+          //toggle visibility
+          var flyoutBottom = App.flyouts.getRegion('bottom');
+          if (flyoutBottom.isVisible()) {
+            flyoutBottom.hideFlyout();
+          } else {
+            //flyoutBottom.show(self.dateFilterView, { preventDestroy: true, forceShow: true });
+            flyoutBottom.show(new DateFilterView({ collection: self.collection }));
+          }
+        }, "Filter").addTo(this.map);
+
       }, this);
 
       this.initMap = _.bind(this._initMap, this);
@@ -175,6 +198,8 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
 
     initFeatures: function(collection) {
       var self = this;
+
+      this.collection = collection;
 
       // Clear map
       _.each(_.keys(self.layers), function(group) {
@@ -205,6 +230,9 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
       this.controlLayer = L.control.layers([], { "Oude kaartenlaag" : self.layers.images });
       this.controlLayer.addTo(this.map);
       this.updateLayerControl();
+
+      //create date filter view flyout with this collection
+      //this.dateFilterView = new DateFilterView({ collection: collection });
     },
 
     _initMap: function() {
@@ -432,7 +460,17 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
 
       if (_.isObject(geometryEntry) && geometryEntry.type === "marker") {
         this.removeMarker(m);
-        this.addMarker(m);
+        if (m.get("visible") == undefined || m.get("visible"))
+        {
+          this.addMarker(m);
+        }
+      }
+    },
+
+    updateFeatureVisibility: function(m) {
+      this.removeMarker(m);
+      if (m.get("visible") == undefined || m.get("visible")) {
+        this.addFeature(m);
       }
     },
 
@@ -496,7 +534,6 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
     },
 
     onShow: function() {
-
       var self = this;
 
       // Load map.
@@ -530,7 +567,6 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
       });
 
       this.map.on('moveend', this.attachMoveEndListener);
-
     },
 
     updateLayerControl: function() {
