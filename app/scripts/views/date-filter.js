@@ -83,7 +83,7 @@ define( ["backbone", 'backbone.marionette', "underscore", "communicator", 'mater
             .attr("height", height)
             .attr("display", "none")
             .attr("xlink:href", "images/left-handle.png")
-            .attr("x-index", 1000)
+            .attr("x-index", 1100)
             .attr("transform", "translate(" + -margin.left + "," + -margin.top + ")");
 
           var rightHandle = focus.append("image")
@@ -91,7 +91,7 @@ define( ["backbone", 'backbone.marionette', "underscore", "communicator", 'mater
             .attr("height", height)
             .attr("display", "none")
             .attr("xlink:href", "images/right-handle.png")
-            .attr("x-index", 1000)
+            .attr("x-index", 1100)
             .attr("transform", "translate(" + -margin.left + "," + -margin.top + ")");
 
           // Render histograph.
@@ -115,20 +115,42 @@ define( ["backbone", 'backbone.marionette', "underscore", "communicator", 'mater
           //add brush for selections
           var brush = d3.svg.brush().x(x);
 
+          //start
+          var startDragging = false;
           brush.on("brushstart", function() {
             var extent = brush.extent();
-            leftHandle.attr("display", "none");
-            rightHandle.attr("display", "none");
+            startDragging = true;
           });
 
+          //moving
           brush.on("brush", function() {
-            var extent = brush.extent();
-            leftHandle.attr("x", x(extent[0]) - 11);
-            rightHandle.attr("x", x(extent[1]) - 4);
-            leftHandle.attr("display", "inherit");
-            rightHandle.attr("display", "inherit");
+            if (startDragging) {
+              leftHandle.attr("display", "none");
+              rightHandle.attr("display", "none");
+              startDragging = false;
+            } else {
+              var extent = brush.extent();
+
+              // if dragging, preserve the width of the extent
+              if (d3.event.mode === "move") {
+                var dist = Math.abs(extent[0] - extent[1]);
+                extent[0] = Math.round(extent[0]);
+                extent[1] = extent[0] + dist;
+              } else {
+                //resizing
+                extent[0] = Math.floor(extent[0]);
+                extent[1] = Math.ceil(extent[1]);
+              }
+              d3.select(this).call(brush.extent(extent));
+
+              leftHandle.attr("x", x(extent[0]) - 11);
+              rightHandle.attr("x", x(extent[1]) - 4);
+              leftHandle.attr("display", "inherit");
+              rightHandle.attr("display", "inherit");
+            }
           });
 
+          //end
           brush.on("brushend", function () {
               //user selected time frame
               var extent = brush.extent();
