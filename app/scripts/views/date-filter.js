@@ -13,16 +13,6 @@ define( ["backbone", 'backbone.marionette', "underscore", "communicator", 'mater
 
       collection: null,
 
-      events: {
-        'keyup #filter-start-date': 'submitOnEnter',
-        'keyup #filter-end-date': 'submitOnEnter'
-      },
-
-      ui: {
-        fromDate: '#filter-start-date',
-        toDate: '#filter-end-date'
-      },
-
       initialize: function(o) {
         o = o || {};
         if (o.collection) {
@@ -34,6 +24,12 @@ define( ["backbone", 'backbone.marionette', "underscore", "communicator", 'mater
         if (this.collection && this.collection.models && _.isArray(this.collection.models)) {
           var self = this;
           var models = this.collection.models;
+
+          //d3 range needs at least two values
+          if (models.length < 2) {
+            return;
+          }
+
           var hits = [];
           var years = [];
           for (var i = 0; i < models.length; i++) {
@@ -44,7 +40,7 @@ define( ["backbone", 'backbone.marionette', "underscore", "communicator", 'mater
             hits[key] = hits[key] ? ++hits[key] : 1;
           }
 
-          var margin = {top: 15, right: 20, bottom: 15, left: 20},
+          var margin = {top: 0, right: 20, bottom: 15, left: 20},
               height = 100 - margin.top - margin.bottom,
               width = this.$el.width() - margin.left - margin.right;
 
@@ -187,28 +183,7 @@ define( ["backbone", 'backbone.marionette', "underscore", "communicator", 'mater
             .attr("y", -6)
             .attr("height", height + 7); //set their height
         }
-
-        Communicator.mediator.trigger("search:updateTabindices");
       },
-
-      submitOnEnter: function(e) {
-        if (e.keyCode == 13) {
-          this.model.set( 'date', {
-            from: this.ui.fromDate.val(),
-            to: this.ui.toDate.val()
-          }, { silent: true });
-          // This is to trigger change also when nothing actually changed
-          this.model.trigger('change:date');
-        }
-      },
-
-      serializeModel: function(model) {
-        var d = new Date();
-
-        return _.extend(model.toJSON.apply(model, _.rest(arguments)), {
-          maxYear: d.getFullYear()
-        });
-      }
 
     });
 
