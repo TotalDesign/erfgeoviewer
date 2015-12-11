@@ -44,7 +44,6 @@ define( ["backbone", 'backbone.marionette', "underscore", "communicator", 'mater
             hits[key] = hits[key] ? ++hits[key] : 1;
           }
 
-
           var margin = {top: 15, right: 20, bottom: 15, left: 20},
               height = 100 - margin.top - margin.bottom,
               width = this.$el.width() - margin.left - margin.right;
@@ -75,9 +74,25 @@ define( ["backbone", 'backbone.marionette', "underscore", "communicator", 'mater
           var svg = d3.select("#resultGraph")
               .append("svg")
               .attr('width', width + margin.left + margin.right)
-              .attr('height', height + margin.left + margin.right)
-              .append("g")
+              .attr('height', height + margin.left + margin.right);
+          var focus = svg.append("g")
               .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+          var leftHandle = focus.append("image")
+            .attr("width", 15)
+            .attr("height", height)
+            .attr("display", "none")
+            .attr("xlink:href", "images/left-handle.png")
+            .attr("x-index", 1000)
+            .attr("transform", "translate(" + -margin.left + "," + -margin.top + ")");
+
+          var rightHandle = focus.append("image")
+            .attr("width", 15)
+            .attr("height", height)
+            .attr("display", "none")
+            .attr("xlink:href", "images/right-handle.png")
+            .attr("x-index", 1000)
+            .attr("transform", "translate(" + -margin.left + "," + -margin.top + ")");
 
           // Render histograph.
           svg.append("g")
@@ -98,17 +113,33 @@ define( ["backbone", 'backbone.marionette', "underscore", "communicator", 'mater
               });
 
           //add brush for selections
-          var brush = d3.svg.brush()
-            .x(x)
-            .on("brushend", function () {
+          var brush = d3.svg.brush().x(x);
+
+          brush.on("brushstart", function() {
+            var extent = brush.extent();
+            leftHandle.attr("display", "none");
+            rightHandle.attr("display", "none");
+          });
+
+          brush.on("brush", function() {
+            var extent = brush.extent();
+            leftHandle.attr("x", x(extent[0]) - 11);
+            rightHandle.attr("x", x(extent[1]) - 4);
+            leftHandle.attr("display", "inherit");
+            rightHandle.attr("display", "inherit");
+          });
+
+          brush.on("brushend", function () {
               //user selected time frame
-              var extend = brush.extent();
-              if (extend.length > 1) {
-                var clearSelection = extend[0] === extend[1];
-                var start = Math.floor(extend[0]);
-                var end = Math.ceil(extend[1]);
+              var extent = brush.extent();
+              if (extent.length > 1) {
+                var clearSelection = extent[0] === extent[1];
+                var start = Math.floor(extent[0]);
+                var end = Math.ceil(extent[1]);
                 if (clearSelection) {
                   console.log("brush: clear selection");
+                  leftHandle.attr("display", "none");
+                  rightHandle.attr("display", "none");
                 } else {
                   console.log("brush: selection start year = " + start + ", end year = " + end);
                 }
