@@ -7,7 +7,7 @@
   @include transition-timing-function(ease-out);
 
   $thumbnail: 128px;
-  $height: $thumbnail + 20px;
+  $height: 120px;
 
   position: fixed;
   bottom: $height * -1;
