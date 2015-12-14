@@ -2,7 +2,8 @@ define("config", function () {
   return {
     "controls": {
       "newMap": false,
-      "openMap": false
+      "openMap": false,
+      "filter": true
     },
     "colors": {
       "primary": "#673ab7",

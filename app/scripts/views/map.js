@@ -178,16 +178,18 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
         this.initFeatures(State.getPlugin('geojson_features').collection);
 
         //add custom button for filter flyout
-        L.easyButton('icon-filter', function(btn, map){
-          //toggle visibility
-          var flyoutBottom = App.flyouts.getRegion('bottom');
-          if (flyoutBottom.isVisible()) {
-            flyoutBottom.hideFlyout();
-          } else {
-            //flyoutBottom.show(self.dateFilterView, { preventDestroy: true, forceShow: true });
-            flyoutBottom.show(new DateFilterView({ collection: self.collection }));
-          }
-        }, "Filter").addTo(this.map);
+        if (Config.controls.filter) {
+          L.easyButton('icon-filter', function(btn, map){
+            //toggle visibility
+            var flyoutBottom = App.flyouts.getRegion('bottom');
+            if (flyoutBottom.isVisible()) {
+              flyoutBottom.hideFlyout();
+            } else {
+              //flyoutBottom.show(self.dateFilterView, { preventDestroy: true, forceShow: true });
+              flyoutBottom.show(new DateFilterView({ collection: self.collection }));
+            }
+          }, "Filter").addTo(this.map);
+        }
 
       }, this);
 
