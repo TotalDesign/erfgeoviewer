@@ -1,7 +1,7 @@
 'use strict';
 //var lrSnippet = require( 'grunt-contrib-livereload/lib/utils' ).livereloadSnippet;
 var mountFolder = function( connect, dir ) {
-  return connect.static( require( 'path' ).resolve( dir ) );
+  return connect.static(require('path').resolve(dir));
 };
 
 // # Globbing
@@ -13,9 +13,9 @@ var mountFolder = function( connect, dir ) {
 
 module.exports = function( grunt ) {
   // load all grunt tasks
-  require( 'matchdep' ).filterDev( 'grunt-*' ).forEach( grunt.loadNpmTasks );
+  require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
   // show elapsed time at the end
-  require( 'time-grunt' )( grunt );
+  require('time-grunt')(grunt);
 
   // configurable paths
   var yeomanConfig = {
@@ -23,7 +23,7 @@ module.exports = function( grunt ) {
     dist: 'dist'
   };
 
-  grunt.initConfig( {
+  grunt.initConfig({
     yeoman: yeomanConfig,
 
     // watch list
@@ -50,13 +50,7 @@ module.exports = function( grunt ) {
           livereload: true
         }
       }
-      /* not used at the moment
-       handlebars: {
-       files: [
-       '<%= yeoman.app %>/templates/*.hbs'
-       ],
-       tasks: ['handlebars']
-       }*/
+
     },
 
     // testing server
@@ -135,7 +129,7 @@ module.exports = function( grunt ) {
     jshint: {
       options: {
         jshintrc: '.jshintrc',
-        reporter: require( 'jshint-stylish' )
+        reporter: require('jshint-stylish')
       },
       all: [
         'Gruntfile.js',
@@ -201,41 +195,13 @@ module.exports = function( grunt ) {
         options: {
           baseUrl: 'app/scripts',
           mainConfigFile: 'app/scripts/build/erfgeoviewer.reader.build.js',
+          name: 'erfgeoviewer.reader',
           optimize: 'uglify',
-          paths: {
-            'templates': '../../.tmp/scripts/templates',
-            'config': 'config/acc'
-          },
           out: '<%= yeoman.dist %>/scripts/erfgeoviewer.reader.js',
           preserveLicenseComments: false,
           useStrict: true,
-          wrap: true,
-          // TODO: split for two different builds
-          name: 'require-config'
+          wrap: true
         }
-      }
-    },
-
-    useminPrepare: {
-      mapmaker: {
-        html: '<%= yeoman.app %>/mapmaker.html',
-        options: {
-          dest: '<%= yeoman.dist %>'
-        }
-      }
-      //reader: {
-      //  html: '<%= yeoman.app %>/reader.html',
-      //  options: {
-      //    dest: '<%= yeoman.dist %>'
-      //  }
-      //}
-    },
-
-    usemin: {
-      html: ['<%= yeoman.dist %>/index.html'],
-      css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
-      options: {
-        dirs: ['<%= yeoman.dist %>']
       }
     },
 
@@ -270,19 +236,6 @@ module.exports = function( grunt ) {
       }
     },
 
-    htmlmin: {
-      dist: {
-        options: {
-        },
-        files: [{
-          expand: true,
-          cwd: '<%= yeoman.app %>',
-          src: '*.html',
-          dest: '<%= yeoman.dist %>'
-        }]
-      }
-    },
-
     copy: {
       dist: {
         files: [{
@@ -309,34 +262,34 @@ module.exports = function( grunt ) {
       }
     }
 
-  } );
+  });
 
   grunt.loadNpmTasks('grunt-sftp-deploy');
-  grunt.registerTask( 'createDefaultTemplate', function() {
-    grunt.file.write( '.tmp/scripts/templates.js', 'this.JST = this.JST || {};' );
-  } );
+  grunt.registerTask('createDefaultTemplate', function() {
+    grunt.file.write('.tmp/scripts/templates.js', 'this.JST = this.JST || {};');
+  });
 
-  grunt.registerTask( 'registerPlugins', function() {
-    var find = require('find'),
-      fs = require('fs'),
-      path = require('path'),
-      util = require('util'),
-      done = this.async(),
-      pluginDir = yeomanConfig.app + '/scripts/plugins',
-      outDir = yeomanConfig.dist + '/scripts/plugin';
+  grunt.registerTask('registerPlugins', function() {
+    var find      = require('find'),
+        fs        = require('fs'),
+        path      = require('path'),
+        util      = require('util'),
+        done      = this.async(),
+        pluginDir = yeomanConfig.app + '/scripts/plugins',
+        outDir    = yeomanConfig.dist + '/scripts/plugin';
 
-    var inspect = function (obj) {
+    var inspect = function( obj ) {
       return util.inspect(obj, false, 4, true);
     };
 
-    find.file(/^erfgeo-grunt-require\.json$/, pluginDir, function(files) {
-      files.forEach(function(file) {
-        var baseUrl = path.dirname(file),
-          pluginName = path.basename(baseUrl),
-          requirejsConfig = JSON.parse(fs.readFileSync(file, 'utf8'));
+    find.file(/^erfgeo-grunt-require\.json$/, pluginDir, function( files ) {
+      files.forEach(function( file ) {
+        var baseUrl         = path.dirname(file),
+            pluginName      = path.basename(baseUrl),
+            requirejsConfig = JSON.parse(fs.readFileSync(file, 'utf8'));
 
         requirejsConfig.options.baseUrl = 'app/scripts';
-        requirejsConfig.options.out = path.join(outDir, pluginName + '.js');
+        requirejsConfig.options.out     = path.join(outDir, pluginName + '.js');
 
         grunt.log.subhead('Register plugin:')
           .subhead('  ' + pluginName + ':')
@@ -350,16 +303,16 @@ module.exports = function( grunt ) {
   });
 
   // starts express server with live testing via testserver
-  grunt.registerTask( 'default', function( target ) {
+  grunt.registerTask('default', function( target ) {
 
     // what is this??
-    if ( target === 'dist' ) {
-      return grunt.task.run( ['build', 'open', 'connect:dist:keepalive'] );
+    if (target === 'dist') {
+      return grunt.task.run(['build', 'open', 'connect:dist:keepalive']);
     }
 
-    grunt.option( 'force', true );
+    grunt.option('force', true);
 
-    grunt.task.run( [
+    grunt.task.run([
       'clean:server',
       'compass:server',
       'env:dev',
@@ -369,19 +322,10 @@ module.exports = function( grunt ) {
       //'exec',
       //'open',
       'watch'
-    ] );
-  } );
+    ]);
+  });
 
-  // todo fix these
-  //grunt.registerTask( 'test', [
-  //  'clean:server',
-  //  'createDefaultTemplate',
-  //  'compass',
-  //  'connect:testserver',
-  //  'exec:mocha'
-  //] );
-
-  grunt.registerTask( 'build', function() {
+  grunt.registerTask('build', function() {
 
     //var buildMode = grunt.option('build') || 'mapmaker';
 
@@ -390,16 +334,13 @@ module.exports = function( grunt ) {
       'clean:dist',
       'env:prod',
       'compass:dist',
-      //'useminPrepare:' + buildMode,
       'registerPlugins',
       'requirejs',//:' + buildMode,
       'imagemin',
-      //'htmlmin',
       //'concat:generated',
       'cssmin:generated',
       //'uglify',
       'preprocess', // :' + buildMode,
-      //'usemin',
       'copy'
     ]);
 
