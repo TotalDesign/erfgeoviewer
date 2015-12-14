@@ -316,7 +316,7 @@ module.exports = function( grunt ) {
       'clean:server',
       'compass:server',
       'env:dev',
-      'preprocess:dev',
+      //'preprocess:dev',
       'connect:testserver',
       'express:dev',
       //'exec',
