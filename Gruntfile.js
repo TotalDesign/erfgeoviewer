@@ -77,7 +77,6 @@ module.exports = function( grunt ) {
       }
     },
 
-
     // express app
     express: {
       options: {
@@ -110,16 +109,15 @@ module.exports = function( grunt ) {
     },
 
     preprocess: {
-      dev: {
-        src: 'app/templates/index.html',
-        dest: 'app/index.html'
+      mapmaker: {
+        src: 'app/templates/index-mapmaker.html',
+        dest: '<%= yeoman.dist %>/index.html'
       },
-      prod: {
-        src: 'app/templates/index.html',
+      reader: {
+        src: 'app/templates/index-reader.html',
         dest: '<%= yeoman.dist %>/index.html'
       }
     },
-
 
     // open app and test page
     open: {
@@ -184,44 +182,58 @@ module.exports = function( grunt ) {
       }
     },
 
-
     // require
     requirejs: {
-      dist: {
+      mapmaker: {
         // Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
         options: {
-          // `name` and `out` is set by grunt-usemin
           baseUrl: 'app/scripts',
+          mainConfigFile: 'app/scripts/build/erfgeoviewer.mapmaker.build.js',
+          name: 'erfgeoviewer.mapmaker',
           optimize: 'none',
+          out: '<%= yeoman.dist %>/scripts/erfgeoviewer.mapmaker.js',
+          preserveLicenseComments: false,
+          useStrict: true,
+          wrap: true
+        }
+      },
+      reader: {
+        // Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
+        options: {
+          baseUrl: 'app/scripts',
+          mainConfigFile: 'app/scripts/require-config.js',
+          optimize: 'uglify',
           paths: {
             'templates': '../../.tmp/scripts/templates',
             'config': 'config/acc'
           },
-          // TODO: Figure out how to make sourcemaps work with grunt-usemin
-          // https://github.com/yeoman/grunt-usemin/issues/30
-          //generateSourceMaps: true,
-          // required to support SourceMaps
-          // http://requirejs.org/docs/errors.html#sourcemapcomments
+          out: '<%= yeoman.dist %>/scripts/erfgeoviewer.reader.js',
           preserveLicenseComments: false,
           useStrict: true,
           wrap: true,
-          mainConfigFile: 'app/scripts/require-config.js',
-
           // TODO: split for two different builds
-          name: 'erfgeoviewer.mapmaker'
+          name: 'require-config'
         }
       }
     },
 
     useminPrepare: {
-      html: '<%= yeoman.app %>/index.html',
-      options: {
-        dest: '<%= yeoman.dist %>'
+      mapmaker: {
+        html: '<%= yeoman.app %>/mapmaker.html',
+        options: {
+          dest: '<%= yeoman.dist %>'
+        }
       }
+      //reader: {
+      //  html: '<%= yeoman.app %>/reader.html',
+      //  options: {
+      //    dest: '<%= yeoman.dist %>'
+      //  }
+      //}
     },
 
     usemin: {
-      html: ['<%= yeoman.dist %>/{,*/}*.html'],
+      html: ['<%= yeoman.dist %>/index.html'],
       css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
       options: {
         dirs: ['<%= yeoman.dist %>']
@@ -240,7 +252,7 @@ module.exports = function( grunt ) {
     },
 
     cssmin: {
-      dist: {
+      generated: {
         files: [
           {
             dest: '<%= yeoman.dist %>/styles/main.css',
@@ -262,15 +274,6 @@ module.exports = function( grunt ) {
     htmlmin: {
       dist: {
         options: {
-          /*removeCommentsFromCDATA: true,
-           // https://github.com/yeoman/grunt-usemin/issues/44
-           //collapseWhitespace: true,
-           collapseBooleanAttributes: true,
-           removeAttributeQuotes: true,
-           removeRedundantAttributes: true,
-           useShortDoctype: true,
-           removeEmptyAttributes: true,
-           removeOptionalTags: true*/
         },
         files: [{
           expand: true,
@@ -305,20 +308,8 @@ module.exports = function( grunt ) {
       all: {
         rjsConfig: '<%= yeoman.app %>/scripts/main.js'
       }
-    },
-
-    // handlebars
-    handlebars: {
-      compile: {
-        options: {
-          namespace: 'JST',
-          amd: true
-        },
-        files: {
-          '.tmp/scripts/templates.js': ['templates/**/*.hbs']
-        }
-      }
     }
+
   } );
 
   grunt.loadNpmTasks('grunt-sftp-deploy');
@@ -383,31 +374,36 @@ module.exports = function( grunt ) {
   } );
 
   // todo fix these
-  grunt.registerTask( 'test', [
-    'clean:server',
-    'createDefaultTemplate',
-    'handlebars',
-    'compass',
-    'connect:testserver',
-    'exec:mocha'
-  ] );
+  //grunt.registerTask( 'test', [
+  //  'clean:server',
+  //  'createDefaultTemplate',
+  //  'compass',
+  //  'connect:testserver',
+  //  'exec:mocha'
+  //] );
 
-  grunt.registerTask( 'build', [
-    'createDefaultTemplate',
-    'clean:dist',
-    'env:prod',
-    'compass:dist',
-    'useminPrepare',
-    'registerPlugins',
-    'requirejs',
-    'imagemin',
-    'htmlmin',
-    'concat',
-    'cssmin',
-    //'uglify',
-    'preprocess:prod',
-    'usemin',
-    'copy'
-  ] );
+  grunt.registerTask( 'build', function() {
+
+    var buildMode = grunt.option('build') || 'mapmaker';
+
+    grunt.task.run([
+      'createDefaultTemplate',
+      'clean:dist',
+      'env:prod',
+      'compass:dist',
+      'useminPrepare:' + buildMode,
+      'registerPlugins',
+      'requirejs:' + buildMode,
+      'imagemin',
+      'htmlmin',
+      //'concat:generated',
+      'cssmin:generated',
+      //'uglify',
+      'preprocess:' + buildMode,
+      //'usemin',
+      'copy'
+    ]);
+
+  });
 
 };
