@@ -1,8 +1,4 @@
-require( [
-    'require-config'
-  ],
-  function() {
-  require(['backbone', 'erfgeoviewer.common', 'communicator', 'jquery', 'config', 'q',
+require(['backbone', 'erfgeoviewer.common', 'communicator', 'jquery', 'config', 'q',
 
     // Views
     'views/map', 'views/layout/header.layout', 'views/new', 'views/open', 'views/search/search', 'views/settings',
@@ -183,7 +179,5 @@ require( [
 
         App.start();
       });
-
-  });
 
 });
