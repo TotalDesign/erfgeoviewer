@@ -111,11 +111,11 @@ module.exports = function( grunt ) {
     preprocess: {
       mapmaker: {
         src: 'app/templates/index-mapmaker.html',
-        dest: '<%= yeoman.dist %>/index.html'
+        dest: '<%= yeoman.dist %>/mapmaker.html'
       },
       reader: {
         src: 'app/templates/index-reader.html',
-        dest: '<%= yeoman.dist %>/index.html'
+        dest: '<%= yeoman.dist %>/reader.html'
       }
     },
 
@@ -190,7 +190,7 @@ module.exports = function( grunt ) {
           baseUrl: 'app/scripts',
           mainConfigFile: 'app/scripts/build/erfgeoviewer.mapmaker.build.js',
           name: 'erfgeoviewer.mapmaker',
-          optimize: 'none',
+          optimize: 'uglify',
           out: '<%= yeoman.dist %>/scripts/erfgeoviewer.mapmaker.js',
           preserveLicenseComments: false,
           useStrict: true,
@@ -198,10 +198,9 @@ module.exports = function( grunt ) {
         }
       },
       reader: {
-        // Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
         options: {
           baseUrl: 'app/scripts',
-          mainConfigFile: 'app/scripts/require-config.js',
+          mainConfigFile: 'app/scripts/build/erfgeoviewer.reader.build.js',
           optimize: 'uglify',
           paths: {
             'templates': '../../.tmp/scripts/templates',
@@ -384,22 +383,22 @@ module.exports = function( grunt ) {
 
   grunt.registerTask( 'build', function() {
 
-    var buildMode = grunt.option('build') || 'mapmaker';
+    //var buildMode = grunt.option('build') || 'mapmaker';
 
     grunt.task.run([
       'createDefaultTemplate',
       'clean:dist',
       'env:prod',
       'compass:dist',
-      'useminPrepare:' + buildMode,
+      //'useminPrepare:' + buildMode,
       'registerPlugins',
-      'requirejs:' + buildMode,
+      'requirejs',//:' + buildMode,
       'imagemin',
-      'htmlmin',
+      //'htmlmin',
       //'concat:generated',
       'cssmin:generated',
       //'uglify',
-      'preprocess:' + buildMode,
+      'preprocess', // :' + buildMode,
       //'usemin',
       'copy'
     ]);
