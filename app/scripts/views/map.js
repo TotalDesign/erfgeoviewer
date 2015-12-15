@@ -389,7 +389,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
 
             //click on image overlay
             imageLayer.on("click", function(distortableImageOverlayClickEvent) {
-              console.log("event.type = " + event.type);
+              //console.log("event.type = " + event.type);
 
               //only in mapmaker mode the image overlay is editable
               if (App.mode === "mapmaker") {
