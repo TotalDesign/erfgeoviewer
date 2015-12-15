@@ -29,7 +29,7 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
           e.preventDefault();
           if (this.addDisabled) return;
           Communicator.mediator.trigger( "marker:addModelId", { cid: this.model.cid, type: "image" } );
-          map.panTo( this.feature.getBounds().getCenter() );
+          Communicator.mediator.trigger("map:fitAll", this.feature.getBounds());
           this.removeMarker();
           this.disableAdd();
         },
