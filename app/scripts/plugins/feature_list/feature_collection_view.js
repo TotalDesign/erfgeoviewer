@@ -89,7 +89,8 @@ define( ['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'co
       tagName: 'li',
 
       events: {
-        'click .edit': 'onClickEdit'
+        'click .edit': 'onClickEdit',
+        'click .open-detail': 'onClickEdit'
       },
 
       initialize: function() {
