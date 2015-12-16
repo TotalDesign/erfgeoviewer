@@ -1,6 +1,8 @@
-var config = {
+require.config({
 
   baseUrl: "/scripts",
+
+  deps: ["erfgeoviewer.mapmaker"],
 
   enforceDefine: false,
 
@@ -194,11 +196,4 @@ var config = {
 
   wrapShim: true
 
-};
-if (window.erfgeoviewer.mode == "mapmaker") {
-  config.deps = ["erfgeoviewer.mapmaker"];
-} else {
-  config.deps = ["erfgeoviewer.reader"];
-}
-
-require.config( config );
+});
