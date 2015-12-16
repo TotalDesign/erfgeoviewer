@@ -35,7 +35,7 @@ define("config", function () {
       "Zwart": "#000000",
       "Wit": "#ffffff"
     },
-    // If any of the tiles require authentication with mapbox, enter those details here.
+    // https://www.mapbox.com/help/create-api-access-token/
     "mapbox": {
       "accessToken": "",
       "baseLayerId": ""
