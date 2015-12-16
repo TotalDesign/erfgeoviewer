@@ -18,12 +18,18 @@
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/admin.css">
 
+  <script>
+    window.erfgeoviewer = {};
+    window.erfgeoviewer.mode = 'reader';
+  </script>
+
 </head>
 
 <body>
 
 <div id="erfgeoviewer"></div>
 
+<!-- build:js scripts/main.js -->
 <!-- browser-update.org check to show a warning message on older browsers -->
 <script>
   var $buoop = { c: 2, reminder: 0 };
@@ -45,19 +51,31 @@
   if (isNaN(versionIE) || versionIE > 8) {
     //we're on a supported browser
     //<!-- build:js scripts/main.js -->
-    document.write('<script data-main="scripts/erfgeoviewer.mapmaker" src="bower_components/requirejs/require.js"><\/script>');
-    //document.write('<script data-main="scripts/erfgeoviewer.reader" src="bower_components/requirejs/require.js"><\/script>');
-    //<script data-main="scripts/erfgeoviewer.mapmaker" src="bower_components/requirejs/require.js"><\/script>
-    //<script data-main="scripts/erfgeoviewer.reader" src="bower_components/requirejs/require.js"><\/script>
+    document.write('<script data-main="scripts/erfgeoviewer.reader" src="bower_components/requirejs/require.js"><\/script>');
     //<!-- endbuild -->
 
-    //<script src="scripts/config/dev.js"><\/script>
+    <!-- @if NODE_ENV == 'DEVELOPMENT' -->
     document.write('<script src="scripts/config/dev.js"><\/script>');
     /*<script>*/document.write( '<script src="http://'
-    + (location.host || 'localhost').split( ':' )[0]
-    + ':35729/livereload.js?snipver=1"><\/script>' );
+            + (location.host || 'localhost').split( ':' )[0]
+            + ':35729/livereload.js?snipver=1"><\/script>' );
     //<\/script>
+    <!-- @endif -->
   }
+</script>
+<!-- endbuild -->
+
+<!-- @if NODE_ENV == 'PRODUCTION' -->
+<script src="scripts/config/acc.js"></script>
+<!-- @endif -->
+
+<!-- @if NODE_ENV == 'DEVELOPMENT' -->
+<script src="scripts/config/dev.js"></script>
+<script>document.write( '<script src="http://'
++ (location.host || 'localhost').split( ':' )[0]
++ ':35729/livereload.js?snipver=1"><\/script>' );
+<!-- @endif -->
+
 </script>
 </body>
 </html>

@@ -18,6 +18,11 @@
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/admin.css">
 
+  <script>
+    window.erfgeoviewer = {};
+    window.erfgeoviewer.mode = 'mapmaker';
+  </script>
+
 </head>
 
 <body>
@@ -47,17 +52,15 @@
     //we're on a supported browser
     //<!-- build:js scripts/main.js -->
     document.write('<script data-main="scripts/erfgeoviewer.mapmaker" src="bower_components/requirejs/require.js"><\/script>');
-    //document.write('<script data-main="scripts/erfgeoviewer.reader" src="bower_components/requirejs/require.js"><\/script>');
-    //<script data-main="scripts/erfgeoviewer.mapmaker" src="bower_components/requirejs/require.js"><\/script>
-    //<script data-main="scripts/erfgeoviewer.reader" src="bower_components/requirejs/require.js"><\/script>
     //<!-- endbuild -->
 
-    //<script src="scripts/config/dev.js"><\/script>
+    <!-- @if NODE_ENV == 'DEVELOPMENT' -->
     document.write('<script src="scripts/config/dev.js"><\/script>');
     /*<script>*/document.write( '<script src="http://'
             + (location.host || 'localhost').split( ':' )[0]
             + ':35729/livereload.js?snipver=1"><\/script>' );
     //<\/script>
+    <!-- @endif -->
   }
 </script>
 <!-- endbuild -->
