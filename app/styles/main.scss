@@ -149,6 +149,9 @@ body {
       font-weight: bold;
       //text-align: center;
       background-color: $primary_500;
+      &:hover {
+        background-color: $primary_500;
+      }
     }
 
   }
