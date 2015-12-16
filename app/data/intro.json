@@ -1,22 +1,7 @@
 [
   {
-    "title": "Titel 1",
-    "imageSrc": "/data/image.jpg",
-    "dataSrc": "/data/erfgeoviewer.json"
-  },
-  {
-    "title": "Titel 2",
-    "imageSrc": "/data/image.jpg",
-    "dataSrc": "/data/erfgeoviewer.json"
-  },
-  {
-    "title": "Titel 3",
-    "imageSrc": "/data/image.jpg",
-    "dataSrc": "/data/erfgeoviewer.json"
-  },
-  {
-    "title": "Titel 4",
-    "imageSrc": "/data/image.jpg",
-    "dataSrc": "/data/erfgeoviewer.json"
+    "title": "Noord-Hollandse museumverhalen",
+    "imageSrc": "/data/voorbeeldkaart-musea.jpg",
+    "dataSrc": "/data/voorbeeldkaart-musea.json"
   }
 ]

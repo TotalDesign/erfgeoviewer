@@ -29,7 +29,7 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
           e.preventDefault();
           if (this.addDisabled) return;
           Communicator.mediator.trigger( "marker:addModelId", { cid: this.model.cid, type: "image" } );
-          map.panTo( this.feature.getBounds().getCenter() );
+          Communicator.mediator.trigger("map:fitAll", this.feature.getBounds());
           this.removeMarker();
           this.disableAdd();
         },
@@ -40,7 +40,7 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
         'click .zoomin': function(e) {
           e.preventDefault();
           if (this.noGeo || !this.feature) return;
-          map.fitBounds( this.feature.getBounds() );
+          Communicator.mediator.trigger('map:fitAll', this.feature.getBounds());
           map.zoomOut();
         },
         'mouseover .card': function(e) {
@@ -182,7 +182,7 @@ define( ["backbone", 'backbone.marionette', "communicator", "materialize.cards",
         // If called immediately, results in error.
         _.delay(function() {
           var bounds = layerGroup.getBounds();
-          if (bounds.isValid()) map.fitBounds( bounds, { padding: [10, 10] } );
+          Communicator.mediator.trigger('map:fitAll', bounds);
         }, 500);
 
       },
