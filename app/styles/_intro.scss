@@ -1,8 +1,13 @@
 #intro-header {
+  text-align: center;
+  a {
+    margin: 0 10px;
+  }
   h1 {
-    text-align: center;
     font-size: 3em;
   }
+}
+#intro-content {
   ul {
     margin: 0;
     li {
@@ -10,12 +15,6 @@
       margin-left: 25px;
       margin-bottom: 10px;
     }
-  }
-}
-#intro-content {
-  text-align: center;
-  a {
-    margin: 0 10px;
   }
 }
 

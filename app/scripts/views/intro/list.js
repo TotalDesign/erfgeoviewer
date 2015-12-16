@@ -1,6 +1,7 @@
-define(['backbone', 'backbone.marionette', 'jquery', 'models/state', 'views/layout/intro.layout',
-      'tpl!template/intro/list.html', 'tpl!template/intro/list-item.html'],
-  function( Backbone, Marionette, $, State, IntroLayout, ListTemplate, ListItemTemplate ) {
+define(['backbone', 'backbone.marionette', 'jquery', 'models/state', 'communicator',
+  'tpl!template/intro/list.html', 'tpl!template/intro/list-item.html'],
+  function( Backbone, Marionette, $, State, Communicator,
+            ListTemplate, ListItemTemplate ) {
 
     var ItemView = Marionette.ItemView.extend({
 
@@ -17,11 +18,11 @@ define(['backbone', 'backbone.marionette', 'jquery', 'models/state', 'views/layo
           .done(function(data) {
             State.set(State.parse(data));
             State.save();
-            IntroLayout.closeModal();
+            Communicator.mediator.trigger("introduction:close");
           })
           .fail(function() {
             alert('Preset niet gevonden');
-            IntroLayout.closeModal();
+            Communicator.mediator.trigger("introduction:close");
           });
       }
 

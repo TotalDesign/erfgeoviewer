@@ -1,5 +1,7 @@
-define(['backbone.marionette', 'erfgeoviewer.common', 'materialize.modal', 'tpl!template/layout/intro.html'],
-  function(Marionette, App, MaterializeModal, Template) {
+define(['backbone.marionette', 'erfgeoviewer.common', 'communicator',
+  'materialize.modal', 'tpl!template/layout/intro.html'],
+  function(Marionette, App, Communicator,
+           MaterializeModal, Template) {
 
     var IntroLayout =  Marionette.LayoutView.extend({
 
@@ -13,6 +15,10 @@ define(['backbone.marionette', 'erfgeoviewer.common', 'materialize.modal', 'tpl!
         footer: "#intro-footer"
       },
 
+      initialize: function() {
+        Communicator.mediator.on("introduction:close", this.closeModal, this);
+      },
+
       onShow: function() {
         this.$el.openModal({
           complete: function() {
@@ -21,8 +27,11 @@ define(['backbone.marionette', 'erfgeoviewer.common', 'materialize.modal', 'tpl!
         });
       },
 
-      closeModal: function() {
+      onClose: function() {
+        Communicator.mediator.off("introduction:close", this.closeModal)
+      },
 
+      closeModal: function() {
         this.$el.closeModal();
       }
 
