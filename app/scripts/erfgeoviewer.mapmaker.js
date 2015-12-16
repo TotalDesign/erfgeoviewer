@@ -135,7 +135,7 @@ require( [
 
     NavBar.addItem('save', {
       fragment: 'export',
-      label: 'Exporteer',
+      label: 'Opslaan',
       weight: 900
     });
 
