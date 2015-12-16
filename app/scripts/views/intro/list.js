@@ -4,7 +4,7 @@ define(['backbone', 'backbone.marionette', 'jquery', 'models/state', 'views/layo
 
     var ItemView = Marionette.ItemView.extend({
 
-      className: "col s3",
+      className: "col s8",
 
       template: ListItemTemplate,
 
