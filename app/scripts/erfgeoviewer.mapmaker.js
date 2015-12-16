@@ -131,7 +131,7 @@ require(['backbone', 'erfgeoviewer.common', 'communicator', 'jquery', 'config', 
 
     NavBar.addItem('save', {
       fragment: 'export',
-      label: 'Exporteer',
+      label: 'Opslaan',
       weight: 900
     });
 

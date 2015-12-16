@@ -16,14 +16,14 @@ define( ["backbone", "backbone.marionette", "views/detail-navigation-item", "mod
 
         if (currentIndex > 0) {
           var previousModel = collection.at(currentIndex -1);
-          previousModel.set({ nav: 'previous' }, { silent: true });
+          previousModel.set({ nav: 'vorige' }, { silent: true });
           data.push(previousModel);
         }
 
         if (currentIndex < collection.length -1) {
           var nextModel = collection.at(currentIndex +1);
           nextModel.set({
-            nav: 'next',
+            nav: 'volgende',
             firstItem: currentIndex == 0
           }, { silent: true });
           data.push(nextModel);
