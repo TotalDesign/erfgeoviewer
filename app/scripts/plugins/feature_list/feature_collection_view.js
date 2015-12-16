@@ -196,10 +196,7 @@ define( ['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'co
       initialize: function( o ) {
 
         this.unfilteredCollection = o.collection;
-        this.unfilteredCollection.on("remove add", function(e) {
-          this.reset(o.collection);
-          this.render();
-        }, this);
+        this.unfilteredCollection.on("remove add", this.refresh, this);
         this.reset( o.collection );
 
       },
@@ -247,9 +244,19 @@ define( ['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'co
         }, 100 );
       },
 
+      onBeforeDestroy: function() {
+        this.unfilteredCollection.off("remove add", this.refresh);
+      },
+
       onDestroy: function() {
         if ( !this.map ) return;
+
         this.map.removeLayer( this.featureGroup );
+      },
+
+      refresh: function(e) {
+        this.reset(this.unfilteredCollection);
+        this.render();
       },
 
       reset: function( collection ) {
