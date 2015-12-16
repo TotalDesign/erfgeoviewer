@@ -5,5 +5,54 @@
 </div>
 <a href="#" class="edit">Bewerken</a>
 <% } else if (mode == 'reader') { %>
-<p><%= title %></p>
+
+<div class="card">
+
+  <div class="card-image waves-effect waves-block waves-light">
+    <% if (image) { %>
+    <img class="activator" src="<%= image %>">
+
+    <% if (mode == 'mapmaker' && _.contains(objectType, 'kaart')) { %>
+    <div class="add-image-container">
+      <a href="#" class="add-image icon-plus" data-model-id="<%= cid %>" title="Voeg kaart toe"></a>
+    </div>
+    <% } %>
+    <% } %>
+  </div>
+
+  <div class="card-content">
+    <span class="card-title activator grey-text text-darken-4"><%= title %></span>
+    <p class="actions">
+      <% if (mode == 'mapmaker') { %>
+      <a href="#" class="add-marker icon-plus" data-model-id="<%= cid %>" title="Voeg toe"></a>
+      <% } else { %>
+      <a href="#" class="open-detail icon-doc-text-inv" data-model-id="<%= cid %>"></a>
+      <% } %>
+      <a href="#" class="zoomin icon-zoom-in" title="Toon locatie"></a>
+      <!--<span class="activator">Beschrijving</span>-->
+    </p>
+  </div>
+
+  <div class="card-reveal">
+    <span class="card-title grey-text text-darken-4"><%= title %><i class="icon-cancel right"></i></span>
+    <% if (description) { %>
+    <p><%= description %></p>
+    <% } else { %>
+    <p class="grey-text text-lighten-1">(Geen omschrijving)</p>
+    <% } %>
+
+    <div class="reveal-icons">
+      <% if (externalUrl) { %>
+      <a href="<%= externalUrl %>" target="_blank" class="link-external link"><i class="icon-link-ext"></i></a>
+      <% } %>
+      <% if (__id__) { %>
+      <a target="_blank" href="http://data.digitalecollectie.nl/recordview?recordId=<%= __id__ %>" class="link-archive link"><i class="icon-archive"></i></a>
+      <% } %>
+    </div>
+
+  </div>
+
+</div>
+
+
 <% } %>
