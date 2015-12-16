@@ -36,11 +36,20 @@ body {
     background-color: #CDD2D4;
     .mapbox-logo { display: none; }
   }
+
+  .leaflet-left {
+    @include transition-property(left);
+    @include transition-duration(400ms);
+    @include transition-timing-function(ease-out);
+  }
   &.flyout-right-visible {
-    #map { transform: translate(-175px); }
+    #map { transform: translate($flyout-right-width / -2); }
+    .leaflet-control-container .leaflet-left {
+      left: $flyout-right-width / 2;
+    }
   }
   &.flyout-left-visible {
-    #map { transform: translate(175px); }
+    #map { transform: translate($flyout-left-width / 2); }
   }
 }
 .hidden { display: none; }
