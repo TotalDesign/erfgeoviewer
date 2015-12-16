@@ -180,7 +180,7 @@ The map has a printer-friendly version.
 
 ### F.20 - Long read view
 
-Markers are linked to one another in sequential order. From the reader view, one can click on a detail view, and click "next" or "previous" to move to the detail screen of another object.
+Markers are linked to one another in sequential order. From the reader view, one can click on a detail view, and click *vorige* or *volgende* to move to the detail screen of another object. The order is based on how models in the collection are ordered. At present, this is only determined by the order in which users add things to the map.
 
 ### F.21 - Address navigation
 
