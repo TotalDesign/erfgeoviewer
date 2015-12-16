@@ -1,5 +1,5 @@
-define(['backbone', 'backbone.marionette', 'views/layout/intro.layout', 'tpl!template/intro/actions.html'],
-  function( Backbone, Marionette, IntroLayout, Template ) {
+define(['backbone', 'backbone.marionette', 'communicator', 'tpl!template/intro/actions.html'],
+  function( Backbone, Marionette, Communicator, Template ) {
 
     return Marionette.ItemView.extend({
 
@@ -12,10 +12,10 @@ define(['backbone', 'backbone.marionette', 'views/layout/intro.layout', 'tpl!tem
           e.preventDefault();
           e.stopPropagation();
 
-          IntroLayout.closeModal();
+          Communicator.mediator.trigger("introduction:close")
         },
         'click .btn-open': function() {
-          IntroLayout.closeModal();
+          Communicator.mediator.trigger("introduction:close")
         }
       }
 

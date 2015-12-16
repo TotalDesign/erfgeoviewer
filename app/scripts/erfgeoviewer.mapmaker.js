@@ -97,8 +97,9 @@ require( [
           App.flyouts.getRegion( 'bottom' ).hideFlyout();
           var layout = new IntroLayout();
           App.layout.getRegion( 'modal' ).show( layout );
-          layout.getRegion( 'header' ).show( new IntroHeaderView( { alreadySeen: true } ) );
-          layout.getRegion( 'content' ).show( new IntroActionsView() );
+
+          layout.getRegion( 'header' ).show( new IntroActionsView() );
+          layout.getRegion( 'content' ).show( new IntroHeaderView( { alreadySeen: true } ) );
           layout.getRegion( 'footer' ).show( new IntroListView() );
         },
         "settings": function() {
@@ -175,8 +176,8 @@ require( [
             var layout = new IntroLayout();
             App.layout.getRegion( 'modal' ).show( layout );
 
-            layout.getRegion( 'header' ).show( new IntroHeaderView() );
-            layout.getRegion( 'content' ).show( new IntroActionsView() );
+            layout.getRegion( 'header' ).show( new IntroActionsView() );
+            layout.getRegion( 'content' ).show( new IntroHeaderView() );
             layout.getRegion( 'footer' ).show( new IntroListView() );
 
             d.resolve(); // Also resolve on error to prevent unhandled exceptions on empty state
