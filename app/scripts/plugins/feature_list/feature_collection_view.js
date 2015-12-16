@@ -90,7 +90,12 @@ define( ['backbone.marionette', 'fuse', 'jquery', 'communicator', 'leaflet', 'co
 
       events: {
         'click .edit': 'onClickEdit',
-        'click .open-detail': 'onClickEdit'
+        'click .open-detail': 'onClickEdit',
+        'click .zoomin': function(e) {
+          e.preventDefault();
+          var layer = Communicator.reqres.request("getMapLayerByCid", this.model.cid);
+          Communicator.mediator.trigger('map:fitAll', layer.getBounds());
+        }
       },
 
       initialize: function() {
