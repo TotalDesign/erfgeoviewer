@@ -55,7 +55,7 @@ define( ["backbone", "backbone.marionette", "communicator", "medium.editor", "co
                 name: 'anchor',
                 aria: 'link',
                 customClassOption: 'btn color-secondary',
-                customClassOptionText: 'Toon als knopje',
+                customClassOptionText: 'Toon als knop',
                 tagNames: ['a'],
                 action: 'createLink',
                 contentDefault: '<b>#</b>'
