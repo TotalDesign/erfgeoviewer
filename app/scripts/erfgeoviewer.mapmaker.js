@@ -89,6 +89,14 @@ require(['backbone', 'erfgeoviewer.common', 'communicator', 'jquery', 'config', 
           App.flyouts.getRegion( 'bottom' ).hideFlyout();
           App.flyouts.getRegion( 'right' ).show(new PublishView());
         },
+        "introduction": function() {
+          App.flyouts.getRegion( 'bottom' ).hideFlyout();
+          var layout = new IntroLayout();
+          App.layout.getRegion( 'modal' ).show( layout );
+          layout.getRegion( 'header' ).show( new IntroHeaderView( { alreadySeen: true } ) );
+          layout.getRegion( 'content' ).show( new IntroActionsView() );
+          layout.getRegion( 'footer' ).show( new IntroListView() );
+        },
         "settings": function() {
           App.flyouts.getRegion( 'bottom' ).hideFlyout();
           App.flyouts.getRegion( 'right' ).show(new SettingsView());
@@ -129,6 +137,12 @@ require(['backbone', 'erfgeoviewer.common', 'communicator', 'jquery', 'config', 
       label: 'Open'
     });
 
+    SideNav.addItem('introduction', {
+      fragment: 'introduction',
+      icon: 'window',
+      label: 'Introductie'
+    });
+
     NavBar.addItem('save', {
       fragment: 'export',
       label: 'Opslaan',
@@ -154,11 +168,12 @@ require(['backbone', 'erfgeoviewer.common', 'communicator', 'jquery', 'config', 
         State.fetch({
           success: d.resolve,
           error: function() {
-            App.layout.getRegion( 'modal' ).show( IntroLayout );
+            var layout = new IntroLayout();
+            App.layout.getRegion( 'modal' ).show( layout );
 
-            IntroLayout.getRegion( 'header' ).show( new IntroHeaderView() );
-            IntroLayout.getRegion( 'content' ).show( new IntroActionsView() );
-            IntroLayout.getRegion( 'footer' ).show( new IntroListView() );
+            layout.getRegion( 'header' ).show( new IntroHeaderView() );
+            layout.getRegion( 'content' ).show( new IntroActionsView() );
+            layout.getRegion( 'footer' ).show( new IntroListView() );
 
             d.resolve(); // Also resolve on error to prevent unhandled exceptions on empty state
           }
