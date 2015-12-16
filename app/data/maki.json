@@ -1,0 +1,1243 @@
+[
+  {
+    "name": "Circel lijn",
+    "tags": [
+      "circle",
+      "disc",
+      "shape",
+      "shapes",
+      "geometric",
+      "stroke",
+      "round"
+    ],
+    "icon": "circle-stroked"
+  },
+  {
+    "name": "Cirkel",
+    "tags": [
+      "circle",
+      "shape",
+      "shapes",
+      "geometric",
+      "round"
+    ],
+    "icon": "circle"
+  },
+  {
+    "name": "Vierkant lijn",
+    "tags": [
+      "box",
+      "square",
+      "shapes",
+      "shape",
+      "geometric",
+      "stroke"
+    ],
+    "icon": "square-stroked"
+  },
+  {
+    "name": "Vierkant",
+    "tags": [
+      "box",
+      "square",
+      "shape",
+      "shapes",
+      "geometric"
+    ],
+    "icon": "square"
+  },
+  {
+    "name": "Driehoek lijn",
+    "tags": [
+      "triangle",
+      "shape",
+      "shapes",
+      "geometric",
+      "stroke"
+    ],
+    "icon": "triangle-stroked"
+  },
+  {
+    "name": "Driehoek",
+    "tags": [
+      "triangle",
+      "shape",
+      "shapes",
+      "geometric"
+    ],
+    "icon": "triangle"
+  },
+  {
+    "name": "Ster lijn",
+    "tags": [
+      "star",
+      "shape",
+      "shapes",
+      "geometric",
+      "stroke"
+    ],
+    "icon": "star-stroked"
+  },
+  {
+    "name": "Ster",
+    "tags": [
+      "star",
+      "shape",
+      "shapes",
+      "geometric"
+    ],
+    "icon": "star"
+  },
+  {
+    "name": "Kruis",
+    "tags": [
+      "cross",
+      "x",
+      "ex",
+      "shape",
+      "shapes",
+      "geometric"
+    ],
+    "icon": "cross"
+  },
+  {
+    "name": "Marker lijn",
+    "tags": [
+      "marker",
+      "point",
+      "shape",
+      "shapes",
+      "stroke"
+    ],
+    "icon": "marker-stroked"
+  },
+  {
+    "name": "Marker",
+    "tags": [
+      "marker",
+      "point",
+      "shape",
+      "shapes"
+    ],
+    "icon": "marker"
+  },
+  {
+    "name": "Davidster",
+    "tags": [
+      "jewish",
+      "judaism",
+      "hebrew",
+      "star",
+      "david",
+      "religious",
+      "religion",
+      "temple",
+      "synagogue"
+    ],
+    "icon": "religious-jewish"
+  },
+  {
+    "name": "Kruis christelijk",
+    "tags": [
+      "christian",
+      "cross",
+      "religious",
+      "religion",
+      "church",
+      "cathedral"
+    ],
+    "icon": "religious-christian"
+  },
+  {
+    "name": "Maan ster islam",
+    "tags": [
+      "muslim",
+      "crescent",
+      "star",
+      "religious",
+      "religion",
+      "mosque"
+    ],
+    "icon": "religious-muslim"
+  },
+  {
+    "name": "Begraafplaats",
+    "tags": [
+      "cemetery",
+      "graveyard",
+      "funeral",
+      "religious",
+      "religion",
+      "memorial"
+    ],
+    "icon": "cemetery"
+  },
+  {
+    "name": "Raket",
+    "tags": [
+      "rocket",
+      "space",
+      "launch",
+      "transportation"
+    ],
+    "icon": "rocket"
+  },
+  {
+    "name": "Vliegveld",
+    "tags": [
+      "airplane",
+      "plane",
+      "airport",
+      "transportation"
+    ],
+    "icon": "airport"
+  },
+  {
+    "name": "Helikopter",
+    "tags": [
+      "heliport",
+      "helicopter",
+      "transportation"
+    ],
+    "icon": "heliport"
+  },
+  {
+    "name": "Trein",
+    "tags": [
+      "rail",
+      "train",
+      "transportation"
+    ],
+    "icon": "rail"
+  },
+  {
+    "name": "Tram",
+    "tags": [
+      "rail",
+      "train",
+      "metro",
+      "subway",
+      "rapid-transit",
+      "transportation"
+    ],
+    "icon": "rail-metro"
+  },
+  {
+    "name": "Metro",
+    "tags": [
+      "rail",
+      "train",
+      "light-rail",
+      "transportation"
+    ],
+    "icon": "rail-light"
+  },
+  {
+    "name": "Bus",
+    "tags": [
+      "vehicle",
+      "bus",
+      "transportation"
+    ],
+    "icon": "bus"
+  },
+  {
+    "name": "Benzinepomp",
+    "tags": [
+      "petrol",
+      "fuel",
+      "gas",
+      "transportation",
+      "station"
+    ],
+    "icon": "fuel"
+  },
+  {
+    "name": "Parkeerplaats",
+    "tags": [
+      "parking",
+      "transportation"
+    ],
+    "icon": "parking"
+  },
+  {
+    "name": "Garage",
+    "tags": [
+      "parking",
+      "transportation",
+      "garage"
+    ],
+    "icon": "parking-garage"
+  },
+  {
+    "name": "Luchtveld",
+    "tags": [
+      "airfield",
+      "airport",
+      "plane",
+      "landing strip"
+    ],
+    "icon": "airfield"
+  },
+  {
+    "name": "Blokkade",
+    "tags": [
+      "roadblock",
+      "stop",
+      "warning",
+      "dead end"
+    ],
+    "icon": "roadblock"
+  },
+  {
+    "name": "Pont",
+    "tags": [
+      "ship",
+      "boat",
+      "water",
+      "ferry",
+      "transportation"
+    ],
+    "icon": "ferry"
+  },
+  {
+    "name": "Haven",
+    "tags": [
+      "marine",
+      "dock",
+      "water",
+      "wharf"
+    ],
+    "icon": "harbor"
+  },
+  {
+    "name": "Fiets",
+    "tags": [
+      "cycling",
+      "cycle",
+      "transportation"
+    ],
+    "icon": "bicycle"
+  },
+  {
+    "name": "Park 1",
+    "tags": [
+      "recreation",
+      "park",
+      "forest",
+      "tree",
+      "green",
+      "woods",
+      "nature"
+    ],
+    "icon": "park"
+  },
+  {
+    "name": "Park 2",
+    "tags": [
+      "recreation",
+      "park",
+      "forest",
+      "tree",
+      "green",
+      "woods",
+      "nature"
+    ],
+    "icon": "park2"
+  },
+  {
+    "name": "Museum",
+    "tags": [
+      "recreation",
+      "museum",
+      "tourism"
+    ],
+    "icon": "museum"
+  },
+  {
+    "name": "Logeerplaats",
+    "tags": [
+      "lodging",
+      "hotel",
+      "recreation",
+      "motel",
+      "tourism"
+    ],
+    "icon": "lodging"
+  },
+  {
+    "name": "Monument",
+    "tags": [
+      "recreation",
+      "statue",
+      "monument",
+      "tourism"
+    ],
+    "icon": "monument"
+  },
+  {
+    "name": "Dierentuin",
+    "tags": [
+      "recreation",
+      "zoo",
+      "animal",
+      "giraffe"
+    ],
+    "icon": "zoo"
+  },
+  {
+    "name": "Tuin",
+    "tags": [
+      "recreation",
+      "garden",
+      "park",
+      "flower",
+      "nature"
+    ],
+    "icon": "garden"
+  },
+  {
+    "name": "Kampeerplaats",
+    "tags": [
+      "recreation",
+      "campsite",
+      "camp",
+      "camping",
+      "tent",
+      "nature"
+    ],
+    "icon": "campsite"
+  },
+  {
+    "name": "Theater",
+    "tags": [
+      "recreation",
+      "theatre",
+      "theater",
+      "entertainment",
+      "play",
+      "performance"
+    ],
+    "icon": "theatre"
+  },
+  {
+    "name": "Kunstgalerie",
+    "tags": [
+      "art",
+      "center",
+      "museum",
+      "gallery",
+      "creative",
+      "recreation",
+      "entertainment",
+      "studio"
+    ],
+    "icon": "art-gallery"
+  },
+  {
+    "name": "Pitch",
+    "tags": [
+      "pitch",
+      "track",
+      "athletic",
+      "sports",
+      "field"
+    ],
+    "icon": "pitch"
+  },
+  {
+    "name": "Voetbal",
+    "tags": [
+      "soccer",
+      "sports"
+    ],
+    "icon": "soccer"
+  },
+  {
+    "name": "American Football",
+    "tags": [
+      "football",
+      "sports"
+    ],
+    "icon": "america-football"
+  },
+  {
+    "name": "Tennis",
+    "tags": [
+      "tennis",
+      "court",
+      "ball",
+      "sports"
+    ],
+    "icon": "tennis"
+  },
+  {
+    "name": "Basketball",
+    "tags": [
+      "basketball",
+      "ball",
+      "sports"
+    ],
+    "icon": "basketball"
+  },
+  {
+    "name": "Softbal",
+    "tags": [
+      "baseball",
+      "softball",
+      "ball",
+      "sports"
+    ],
+    "icon": "baseball"
+  },
+  {
+    "name": "Golf",
+    "tags": [
+      "golf",
+      "sports",
+      "course"
+    ],
+    "icon": "golf"
+  },
+  {
+    "name": "Zwemmen",
+    "tags": [
+      "swimming",
+      "water",
+      "swim",
+      "sports"
+    ],
+    "icon": "swimming"
+  },
+  {
+    "name": "Cricket",
+    "tags": [
+      "cricket",
+      "sports"
+    ],
+    "icon": "cricket"
+  },
+  {
+    "name": "Skiën",
+    "tags": [
+      "winter",
+      "skiing",
+      "ski",
+      "sports"
+    ],
+    "icon": "skiing"
+  },
+  {
+    "name": "School",
+    "tags": [
+      "school",
+      "highschool",
+      "elementary",
+      "children",
+      "amenity",
+      "middle"
+    ],
+    "icon": "school"
+  },
+  {
+    "name": "Universiteit",
+    "tags": [
+      "college",
+      "school",
+      "amenity",
+      "university"
+    ],
+    "icon": "college"
+  },
+  {
+    "name": "Bibliotheek",
+    "tags": [
+      "library",
+      "books",
+      "amenity"
+    ],
+    "icon": "library"
+  },
+  {
+    "name": "Enveloppe",
+    "tags": [
+      "post",
+      "office",
+      "amenity",
+      "mail",
+      "letter"
+    ],
+    "icon": "post"
+  },
+  {
+    "name": "Brandweer",
+    "tags": [
+      "fire",
+      "station",
+      "amenity"
+    ],
+    "icon": "fire-station"
+  },
+  {
+    "name": "Gemeentehuis",
+    "tags": [
+      "townhall",
+      "mayor",
+      "building",
+      "amenity",
+      "government"
+    ],
+    "icon": "town-hall"
+  },
+  {
+    "name": "Politie",
+    "tags": [
+      "police",
+      "jail",
+      "arrest",
+      "amenity",
+      "station"
+    ],
+    "icon": "police"
+  },
+  {
+    "name": "Gevangenis",
+    "tags": [
+      "prison",
+      "jail",
+      "amenity"
+    ],
+    "icon": "prison"
+  },
+  {
+    "name": "Ambassade ",
+    "tags": [
+      "embassy",
+      "diplomacy",
+      "consulate",
+      "amenity",
+      "flag"
+    ],
+    "icon": "embassy"
+  },
+  {
+    "name": "Bier",
+    "tags": [
+      "bar",
+      "beer",
+      "drink",
+      "commercial",
+      "biergarten",
+      "pub"
+    ],
+    "icon": "beer"
+  },
+  {
+    "name": "Restaurant",
+    "tags": [
+      "restaurant",
+      "commercial"
+    ],
+    "icon": "restaurant"
+  },
+  {
+    "name": "Café",
+    "tags": [
+      "cafe",
+      "coffee",
+      "commercial",
+      "tea"
+    ],
+    "icon": "cafe"
+  },
+  {
+    "name": "Winkel",
+    "tags": [
+      "shop",
+      "mall",
+      "commercial",
+      "store"
+    ],
+    "icon": "shop"
+  },
+  {
+    "name": "Fast Food",
+    "tags": [
+      "food",
+      "fast",
+      "commercial",
+      "burger",
+      "drive-through"
+    ],
+    "icon": "fast-food"
+  },
+  {
+    "name": "Bar",
+    "tags": [
+      "bar",
+      "drink",
+      "commercial",
+      "club",
+      "martini",
+      "lounge"
+    ],
+    "icon": "bar"
+  },
+  {
+    "name": "Bank",
+    "tags": [
+      "bank",
+      "atm",
+      "commercial",
+      "money"
+    ],
+    "icon": "bank"
+  },
+  {
+    "name": "Supermarkt",
+    "tags": [
+      "food",
+      "grocery",
+      "commercial",
+      "store",
+      "market"
+    ],
+    "icon": "grocery"
+  },
+  {
+    "name": "Bioscoop",
+    "tags": [
+      "cinema",
+      "theatre",
+      "film",
+      "movie",
+      "commercial",
+      "theater",
+      "entertainment"
+    ],
+    "icon": "cinema"
+  },
+  {
+    "name": "Apotheek",
+    "tags": [
+      "pharmacy",
+      "drugs",
+      "medication",
+      "social",
+      "medicine",
+      "prescription"
+    ],
+    "icon": "pharmacy"
+  },
+  {
+    "name": "Ziekenhuis",
+    "tags": [
+      "hospital",
+      "health",
+      "medication",
+      "social",
+      "medicine",
+      "medical",
+      "clinic"
+    ],
+    "icon": "hospital"
+  },
+  {
+    "name": "Gevaar",
+    "tags": [
+      "minefield",
+      "landmine",
+      "disaster",
+      "dangerous",
+      "hazard"
+    ],
+    "icon": "danger"
+  },
+  {
+    "name": "Industrie",
+    "tags": [
+      "industrial",
+      "factory",
+      "property",
+      "building"
+    ],
+    "icon": "industrial"
+  },
+  {
+    "name": "Pakhuis",
+    "tags": [
+      "warehouse",
+      "property",
+      "storage",
+      "building"
+    ],
+    "icon": "warehouse"
+  },
+  {
+    "name": "Commercieel",
+    "tags": [
+      "commercial",
+      "property",
+      "business",
+      "building"
+    ],
+    "icon": "commercial"
+  },
+  {
+    "name": "Gebouw",
+    "tags": [
+      "building",
+      "property",
+      "structure",
+      "business",
+      "building"
+    ],
+    "icon": "building"
+  },
+  {
+    "name": "Religieuze plek",
+    "tags": [
+      "religion",
+      "ceremony",
+      "religious",
+      "nondenominational",
+      "church",
+      "temple"
+    ],
+    "icon": "place-of-worship"
+  },
+  {
+    "name": "Alcohol",
+    "tags": [
+      "alcohol",
+      "liquor",
+      "store",
+      "shop",
+      "beer",
+      "wine",
+      "vodka"
+    ],
+    "icon": "alcohol-shop"
+  },
+  {
+    "name": "Zagerij",
+    "tags": [
+      "logger",
+      "chainsaw",
+      "woods",
+      "industry"
+    ],
+    "icon": "logging"
+  },
+  {
+    "name": "Olie",
+    "tags": [
+      "oil",
+      "natural",
+      "environment",
+      "industry",
+      "resources"
+    ],
+    "icon": "oil-well"
+  },
+  {
+    "name": "Dieren",
+    "tags": [
+      "cows",
+      "cattle",
+      "food",
+      "meat",
+      "industry",
+      "resources"
+    ],
+    "icon": "slaughterhouse"
+  },
+  {
+    "name": "Dam",
+    "tags": [
+      "water",
+      "natural",
+      "hydro",
+      "hydroelectric",
+      "energy",
+      "environment",
+      "industry",
+      "resources"
+    ],
+    "icon": "dam"
+  },
+  {
+    "name": "Water",
+    "tags": [
+      "water",
+      "natural",
+      "hydro",
+      "lake",
+      "river",
+      "ocean",
+      "resources"
+    ],
+    "icon": "water"
+  },
+  {
+    "name": "Moeras",
+    "tags": [
+      "water",
+      "swamp",
+      "natural"
+    ],
+    "icon": "wetland"
+  },
+  {
+    "name": "Beperking",
+    "tags": [
+      "handicap",
+      "wheelchair",
+      "access"
+    ],
+    "icon": "disability"
+  },
+  {
+    "name": "Telefoon",
+    "tags": [
+      "payphone",
+      "call"
+    ],
+    "icon": "telephone"
+  },
+  {
+    "name": "Telefoon nood",
+    "tags": [
+      "payphone",
+      "danger",
+      "safety",
+      "call"
+    ],
+    "icon": "emergency-telephone"
+  },
+  {
+    "name": "Toiletten",
+    "tags": [
+      "bathroom",
+      "men",
+      "women",
+      "sink",
+      "washroom",
+      "lavatory"
+    ],
+    "icon": "toilets"
+  },
+  {
+    "name": "Afval",
+    "tags": [
+      "trash",
+      "rubbish",
+      "bin",
+      "garbage"
+    ],
+    "icon": "waste-basket"
+  },
+  {
+    "name": "Muziek",
+    "tags": [
+      "stage",
+      "performance",
+      "band",
+      "concert",
+      "venue"
+    ],
+    "icon": "music"
+  },
+  {
+    "name": "Landgebruik",
+    "tags": [
+      "zoning",
+      "usage",
+      "area"
+    ],
+    "icon": "land-use"
+  },
+  {
+    "name": "Stad groot",
+    "tags": [
+      "area",
+      "point",
+      "place",
+      "urban"
+    ],
+    "icon": "city"
+  },
+  {
+    "name": "Stad",
+    "tags": [
+      "area",
+      "point",
+      "place",
+      "small"
+    ],
+    "icon": "town"
+  },
+  {
+    "name": "Dorp",
+    "tags": [
+      "area",
+      "point",
+      "place",
+      "small",
+      "rural"
+    ],
+    "icon": "village"
+  },
+  {
+    "name": "Boerderij",
+    "tags": [
+      "building",
+      "farming",
+      "crops",
+      "plants",
+      "agriculture",
+      "rural"
+    ],
+    "icon": "farm"
+  },
+  {
+    "name": "Bakkerij",
+    "tags": [
+      "bakery",
+      "pastry",
+      "croissant",
+      "food",
+      "shop",
+      "bread"
+    ],
+    "icon": "bakery"
+  },
+  {
+    "name": "Hond",
+    "tags": [
+      "dog",
+      "pet"
+    ],
+    "icon": "dog-park"
+  },
+  {
+    "name": "Vuurtoren",
+    "tags": [
+      "building",
+      "navigation",
+      "nautical",
+      "ocean",
+      "logistics"
+    ],
+    "icon": "lighthouse"
+  },
+  {
+    "name": "Kledingwinkel",
+    "tags": [
+      "clothing",
+      "store",
+      "shop"
+    ],
+    "icon": "clothing-store"
+  },
+  {
+    "name": "Check",
+    "tags": [
+      "poll",
+      "polling",
+      "vote"
+    ],
+    "icon": "polling-place"
+  },
+  {
+    "name": "Speelplaats",
+    "tags": [
+      "playground",
+      "play",
+      "park",
+      "children"
+    ],
+    "icon": "playground"
+  },
+  {
+    "name": "Ingang",
+    "tags": [
+      "entrance",
+      "enter",
+      "subway",
+      "rail"
+    ],
+    "icon": "entrance"
+  },
+  {
+    "name": "Hart",
+    "tags": [
+      "heart",
+      "love",
+      "shape",
+      "shapes",
+      "wedding"
+    ],
+    "icon": "heart"
+  },
+  {
+    "name": "Underground",
+    "tags": [
+      "deprecated"
+    ],
+    "icon": "london-underground"
+  },
+  {
+    "name": "Mijn",
+    "tags": [
+      "deprecated"
+    ],
+    "icon": "minefield"
+  },
+  {
+    "name": "Rails ondergronds",
+    "tags": [
+      "deprecated"
+    ],
+    "icon": "rail-underground"
+  },
+  {
+    "name": "Rails bovengronds",
+    "tags": [
+      "deprecated"
+    ],
+    "icon": "rail-above"
+  },
+  {
+    "name": "Fototoestel",
+    "tags": [
+      "camera",
+      "photo",
+      "commercial",
+      "shop"
+    ],
+    "icon": "camera"
+  },
+  {
+    "name": "Was",
+    "tags": [
+      "laundry",
+      "washing machine",
+      "dry_cleaning",
+      "commercial",
+      "store"
+    ],
+    "icon": "laundry"
+  },
+  {
+    "name": "Auto",
+    "tags": [
+      "car",
+      "auto",
+      "vehicle",
+      "transportation"
+    ],
+    "icon": "car"
+  },
+  {
+    "name": "Koffer",
+    "tags": [
+      "suitcase",
+      "travel",
+      "travel agency",
+      "commercial",
+      "store"
+    ],
+    "icon": "suitcase"
+  },
+  {
+    "name": "Schaar",
+    "tags": [
+      "scissors",
+      "barber shop",
+      "barber",
+      "stylist",
+      "hair",
+      "cut",
+      "salon"
+    ],
+    "icon": "hairdresser"
+  },
+  {
+    "name": "Chemie",
+    "tags": [
+      "shop",
+      "science",
+      "chemistry",
+      "experiment",
+      "research",
+      "pharmacy"
+    ],
+    "icon": "chemist"
+  },
+  {
+    "name": "Mobiele telefoon",
+    "tags": [
+      "phone",
+      "cellphone",
+      "communication",
+      "mobile"
+    ],
+    "icon": "mobilephone"
+  },
+  {
+    "name": "Scooter",
+    "tags": [
+      "bike",
+      "transportation",
+      "vehicle",
+      "route",
+      "moped",
+      "motorcycle"
+    ],
+    "icon": "scooter"
+  },
+  {
+    "name": "Cadeau",
+    "tags": [
+      "gift",
+      "shop",
+      "commercial",
+      "store"
+    ],
+    "icon": "gift"
+  },
+  {
+    "name": "Ijs",
+    "tags": [
+      "ice",
+      "sweets",
+      "food",
+      "shop"
+    ],
+    "icon": "ice-cream"
+  },
+  {
+    "name": "Tanden",
+    "tags": [
+      "dentist",
+      "tooth",
+      "health",
+      "medication",
+      "social",
+      "medicine",
+      "medical"
+    ],
+    "icon": "dentist"
+  },
+  {
+    "name": "Kabelbaan",
+    "tags": [
+      "gondola",
+      "cable_car",
+      "chairlift",
+      "draglift"
+    ],
+    "icon": "aerialway"
+  }
+]
