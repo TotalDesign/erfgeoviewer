@@ -6,6 +6,7 @@
 @import 'bower/leaflet.fullscreen';
 @import 'bower/leaflet.distortableimage';
 @import 'bower/leaflet.toolbar';
+@import 'bower/leaflet.easy-button';
 @import 'bower/backgrid-paginator';
 
 @import "markers";
@@ -20,6 +21,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
+  overflow: hidden;
   font-family: $font_serif;
   text-rendering: geometricPrecision;
   font-size: 15px;
@@ -34,11 +36,20 @@ body {
     background-color: #CDD2D4;
     .mapbox-logo { display: none; }
   }
+
+  .leaflet-left {
+    @include transition-property(left);
+    @include transition-duration(500ms);
+    @include transition-timing-function(ease-out);
+  }
   &.flyout-right-visible {
-    #map { transform: translate(-175px); }
+    #map { transform: translate($flyout-right-width / -2); }
+    .leaflet-control-container .leaflet-left {
+      left: $flyout-right-width / 2;
+    }
   }
   &.flyout-left-visible {
-    #map { transform: translate(175px); }
+    #map { transform: translate($flyout-left-width / 2); }
   }
 }
 .hidden { display: none; }
@@ -138,6 +149,9 @@ body {
       font-weight: bold;
       //text-align: center;
       background-color: $primary_500;
+      &:hover {
+        background-color: $primary_500;
+      }
     }
 
   }
@@ -230,6 +244,9 @@ body {
     .dropdown-content {
       padding: 2rem;
     }
+    .color-box img {
+      width: 26px;
+    }
   }
 }
 
@@ -284,4 +301,31 @@ body {
       width: 100%;
     }
   }
+}
+
+.image-radio-button {
+  $button-color: #f3f3f3;
+  $button-color-hover: darken($button-color, 3%);
+  display: inline-block;
+  padding: 4px;
+  background: $button-color;
+  color: #343434;
+  @include transition( background 0.3s ease );
+  @include transition( color 0.3s ease );
+
+  &:hover {
+    background: $button-color-hover;
+  }
+
+  &.active {
+    background: $accent_300;
+    color: #fff;
+  }
+}
+
+#map .leaflet-control-layers-selector {
+  @extend .leaflet-control-layers-selector;
+
+  position: inherit;
+  left: inherit;
 }

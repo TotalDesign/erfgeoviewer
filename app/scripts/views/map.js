@@ -5,11 +5,11 @@
 define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
         "config", "jquery", "underscore", "erfgeoviewer.common",
         "leaflet.markercluster", "leaflet.smoothmarkerbouncing", "leaflet.proj",
-        "leaflet.fullscreen", "leaflet-toolbar", "leaflet.distortableimage", 'models/state',
-        "tpl!template/map.html", "vendor/sparql-geojson"],
+        "leaflet.fullscreen", "leaflet-toolbar", "leaflet.distortableimage", "leaflet.easybutton", 'models/state',
+        "tpl!template/map.html", 'views/date-filter', "vendor/sparql-geojson"],
   function(Backbone, Marionette, L, d3, Communicator, Config, $, _, App,
            LeafletMarkerCluster, LeafletBouncing, LeafletProjections,
-           LeafletFullscreen, LeafletToolbar, LeafletDistortableImage, State, Template) {
+           LeafletFullscreen, LeafletToolbar, LeafletDistortableImage, LeafletEasyButton, State, Template, DateFilterView) {
 
   return Marionette.ItemView.extend({
 
@@ -25,6 +25,12 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
 
     layers: {},
 
+    currentImageLayer: null,
+
+    collection: null,
+
+    controlLayer: null,
+
     // Marionette layout instance.
     layout: null,
 
@@ -36,7 +42,7 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
     initialize: function(o) {
 
       var self = this;
-      _.bindAll(this, 'updateMapSize', 'addMarker', 'attachMoveEndListener');
+      _.bindAll(this, 'updateMapSize', 'addFeature', 'addMarker', 'addImage', 'attachMoveEndListener');
 
       this.layout = o.layout;
 
@@ -48,25 +54,43 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
       /**
        * Event listeners
        */
-      Communicator.mediator.on( 'map:fitAll', function() {
-        var bounds = new L.LatLngBounds();
+      Communicator.mediator.on( 'map:fitAll', function(bounds) {
+        if (!bounds) {
+          bounds = new L.LatLngBounds();
 
-        _.each(self.layers, function(layers) {
-          _.each(layers.getLayers(), function(layer) {
-            if (layer instanceof L.Marker) {
-              bounds.extend(layer.getLatLng());
-            } else if (layer.getBounds) {
-              var validBounds = layer.getBounds();
-              if (validBounds.isValid()) {
-                bounds.extend(validBounds);
+          _.each(self.layers, function (layers) {
+            _.each(layers.getLayers(), function (layer) {
+              if (layer instanceof L.Marker) {
+                bounds.extend(layer.getLatLng());
+              } else if (layer.getBounds) {
+                var validBounds = layer.getBounds();
+                if (validBounds.isValid()) {
+                  bounds.extend(validBounds);
+                }
+              } else if (layer.getCorners) {
+                bounds.extend(layer.getCorners());
               }
-            } else if (layer.getCorners) {
-              bounds.extend(layer.getCorners());
-            }
+            });
           });
-        });
+        }
 
-        self.map.fitBounds(bounds, { padding: [10, 10] });
+        if (bounds.isValid()) {
+          var paddingRight = 10;
+          var flyoutRight = App.flyouts.getRegion('right');
+          var paddingLeft = 10;
+          if (flyoutRight.isVisible()) {
+            paddingRight += flyoutRight.$container.width() / 2;   //div 2 because the flyout overlaps the map with 50% of its width
+            paddingLeft += 175;                                   //see main.scss body#map.flyout-right-visible
+          }
+          var paddingBottom = 10;
+          var flyoutBottom = App.flyouts.getRegion("bottom");
+          if (flyoutBottom.isVisible()) {
+            paddingBottom += flyoutBottom.$container.height();
+          }
+          self.map.fitBounds(bounds, { paddingTopLeft: [paddingLeft, 30], paddingBottomRight: [paddingRight, paddingBottom] });
+        } else {
+          console.warn("map.js map:fitAll no valid bounds found!");
+        }
       });
       Communicator.mediator.on('map:setPosition', function(options) {
         self.map.setView(options.centerPoint, options.zoom);
@@ -138,9 +162,11 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
       /**
        * State management.
        */
-      State.getPlugin('geojson_features').collection.on('add', this.addMarker, this);
+      State.getPlugin('geojson_features').collection.on('add', this.addFeature, this);
 
       State.getPlugin('geojson_features').collection.on('remove', this.removeMarker, this);
+
+      State.getPlugin('geojson_features').collection.on('change:visible', this.updateFeatureVisibility, this);
 
       State.getPlugin('geojson_features').collection.on('reset', this.initFeatures, this);
 
@@ -150,6 +176,21 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
 
       Communicator.mediator.on('map:ready', function() {
         this.initFeatures(State.getPlugin('geojson_features').collection);
+
+        //add custom button for filter flyout
+        if (Config.controls.filter) {
+          L.easyButton('icon-filter', function(btn, map){
+            //toggle visibility
+            var flyoutBottom = App.flyouts.getRegion('bottom');
+            if (flyoutBottom.isVisible()) {
+              flyoutBottom.hideFlyout();
+            } else {
+              //flyoutBottom.show(self.dateFilterView, { preventDestroy: true, forceShow: true });
+              flyoutBottom.show(new DateFilterView({ collection: self.collection }));
+            }
+          }, "Filter").addTo(this.map);
+        }
+
       }, this);
 
       this.initMap = _.bind(this._initMap, this);
@@ -160,17 +201,40 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
     initFeatures: function(collection) {
       var self = this;
 
+      this.collection = collection;
+
       // Clear map
       _.each(_.keys(self.layers), function(group) {
         self.layers[group].clearLayers();
       });
 
-      // Iterate over models
-      collection.each(function(feature) {
-        if (!feature.get('spatial') && (!feature.get('latitude') || !feature.get('longitude'))) return false;
+      //clear internal lists
+      this.geometryMap.splice(0, this.geometryMap.length);
+      this.layers = {};
 
-        self.addMarker(feature);
+      //ensure we have an image layer group (needed for the layer control below)
+      if ( _.isUndefined(self.layers["images"]) ) {
+        var layerGroup = L.layerGroup().addTo(this.map);
+        self.layers["images"] = layerGroup;
+      }
+
+      // Iterate over models
+      collection.each(function(featureModel) {
+        if (!featureModel.get('spatial') && (!featureModel.get('latitude') || !featureModel.get('longitude'))) return false;
+
+        self.addFeature(featureModel);
       });
+
+      //add or replace image overlay layer toggle control
+      if (this.controlLayer) {
+        this.controlLayer.removeFrom(this.map);
+      }
+      this.controlLayer = L.control.layers([], { "Oude kaartenlaag" : self.layers.images });
+      this.controlLayer.addTo(this.map);
+      this.updateLayerControl();
+
+      //create date filter view flyout with this collection
+      //this.dateFilterView = new DateFilterView({ collection: collection });
     },
 
     _initMap: function() {
@@ -224,13 +288,22 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
       return geojson;
     },
 
+    addFeature: function(featureModel) {
+      var type = featureModel.get("type");
+      if (type === "marker") {
+        this.addMarker(featureModel);
+      } else if (type === "image") {
+        this.addImage(featureModel);
+      }
+    },
+
     /**
      * Take model of marker and add to map.
      * @param m - model
      */
     addMarker: function(markerModel) {
       var self = this,
-        markerModels = (_.isArray(markerModel)) ? marker : [markerModel],
+        markerModels = (_.isArray(markerModel)) ? markerModel : [markerModel],
         geojson,
         spatial;
 
@@ -243,35 +316,63 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
         }
         geojson = m.convertToGeoJSON();
 
+        var marker = L.mapbox.featureLayer();
+        marker.setGeoJSON(geojson);
+        marker.on("click", function() {
+          if (self.currentImageLayer) {
+            self.currentImageLayer.editing.disable();
+            self.currentImageLayer = null;
+          }
+          Communicator.mediator.trigger("marker:click", m)
+        });
+        self.addMarkerGroup(marker, m.get('layerGroup'));
+
+        self.geometryMap.push({
+          cid: m.cid,
+          layer: marker,
+          type: "marker"
+        });
+      });
+    },
+
+    /**
+     * Take model of image and add to map.
+     * @param m - model
+     */
+    addImage: function(imageModel) {
+      var self = this,
+        imageModels = (_.isArray(imageModel)) ? imageModel : [imageModel],
+        geojson,
+        spatial;
+
+      _.each(imageModels, function(m) {
+        if (_.isEmpty(m.get( 'spatial' )) && (!m.get( 'latitude' ) || !m.get( 'longitude' ))) {
+          console.log('invalid feature model:', m);
+          return false;
+        }
+        geojson = m.convertToGeoJSON();
+
         var marker = null;
         var type = m.get("type");
-        if (type === "marker") {
-          marker = L.mapbox.featureLayer();
-          marker.setGeoJSON(geojson);
-          marker.on("click", function() {
-            Communicator.mediator.trigger("marker:click", m)
-          });
-          self.addMarkerGroup(marker, m.get('layerGroup'));
-
-          self.geometryMap.push({
-            cid: m.cid,
-            layer: marker,
-            type: type
-          });
-        } else if (type === "image") {
+        if (type === "image") {
           var imageUrl = m.get("image");
           if (geojson.geometry.type === "MultiPolygon") {
             var imageLayer;
-            var corners = m.get("corners");
             var opacity = m.get("opacity") || 1.0;
-            if (corners) {
-              imageLayer = new L.DistortableImageOverlay(imageUrl, { mode: "distort", corners: corners, opacity: opacity });
-            } else {
+            var corners = m.get("corners");
+            if (!corners) {
               var multipolygon = L.geoJson(geojson);
-              imageLayer = new L.DistortableImageOverlay(imageUrl, multipolygon.getBounds());
-              corners = imageLayer.getCorners();
+              var multipolygonBounds = multipolygon.getBounds();
+              corners = [
+                multipolygonBounds.getNorthWest(),
+                multipolygonBounds.getNorthEast(),
+                multipolygonBounds.getSouthWest(),
+                multipolygonBounds.getSouthEast() ];
               m.set("corners", corners);
             }
+
+            imageLayer = new L.DistortableImageOverlay(imageUrl, { corners: corners, opacity: opacity });
+
             m.set("layerGroup", "images");
             self.addLayer(imageLayer, m.get("layerGroup"));
             self.geometryMap.push({
@@ -281,27 +382,43 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
             });
             $(imageLayer._image).css("z-index", 999);
 
-            //only in mapmaker mode the image overlay is editable
-            if (App.mode === "mapmaker") {
-              L.DomEvent.on(imageLayer._image, 'load', imageLayer.editing.enable, imageLayer.editing);
-            }
+            State.save();
 
-            //imageLayer.on("predrag", function(e) {
-            //  console.log("predrag");
-            //});
-            //L.DomEvent.on(imageLayer._image, 'predrag', function(e) {
-            //  console.log("predrag");
-            //});
+            //diable (non-working) toolbar
+            imageLayer.editing._showToolbar = function() { };
+
+            //click on image overlay
             imageLayer.on("click", function(distortableImageOverlayClickEvent) {
-              console.log("event.type = " + event.type);
+              //console.log("event.type = " + event.type);
+
+              //only in mapmaker mode the image overlay is editable
+              if (App.mode === "mapmaker") {
+                //deselect old image
+                if (self.currentImageLayer) {
+                  self.currentImageLayer.editing.disable();
+                }
+
+                //keep reference of current image
+                self.currentImageLayer = imageLayer;
+
+                //enable edit mode on current image
+                imageLayer.editing.enable();
+
+                //set default editing mode (and refresh handles)
+                self.setEditMode(m, "rotate");
+              }
               Communicator.mediator.trigger("marker:click", m);
               distortableImageOverlayClickEvent.originalEvent.stopPropagation();
             });
+
             imageLayer.on("edit", function(e) {
               var corners = imageLayer.getCorners();
               m.set("corners", corners);
+              State.save();
             });
           }
+
+          self.updateLayerControl();
         }
       });
     },
@@ -345,13 +462,24 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
 
       if (_.isObject(geometryEntry) && geometryEntry.type === "marker") {
         this.removeMarker(m);
-        this.addMarker(m);
+        if (m.get("visible") == undefined || m.get("visible"))
+        {
+          this.addMarker(m);
+        }
+      }
+    },
+
+    updateFeatureVisibility: function(m) {
+      this.removeMarker(m);
+      if (m.get("visible") == undefined || m.get("visible")) {
+        this.addFeature(m);
       }
     },
 
     /**
      * Take model of marker and remove it from the map.
      */
+
     removeMarker: function(m) {
       // Retrieve object from geometry mapping
       var marker = _.findWhere(this.geometryMap, { cid: m.cid });
@@ -360,6 +488,8 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
         m.off('change');
         this.removeMarkerGroup(marker.layer, m.get('layerGroup'));
         this.geometryMap = _.without(this.geometryMap, marker);
+
+        this.updateLayerControl();
       }
     },
 
@@ -372,12 +502,10 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
     addLayer: function(layer, key) {
       key = key || 'default';
       if ( _.isUndefined(this.layers[key]) ) {
-        var layerGroup = L.layerGroup().addTo(this.map);//.bringToFront();//.setZIndex(100);
-        //layerGroup.bringToFront();
+        var layerGroup = L.layerGroup().addTo(this.map);
         this.layers[key] = layerGroup;
       }
       this.layers[key].addLayer(layer);
-      //this.layers[key].bringToFront();
     },
 
     addMarkerGroup: function(layer, key) {
@@ -400,7 +528,6 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
           }
         }).addTo(this.map);
       this.layers[key].addLayer(layer);
-      //this.layers[key].sendToBack();
     },
 
     removeMarkerGroup: function(layer, key) {
@@ -409,7 +536,6 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
     },
 
     onShow: function() {
-
       var self = this;
 
       // Load map.
@@ -429,21 +555,29 @@ define(["backbone", "backbone.marionette", "leaflet", "d3", "communicator",
         this.map.setView( State.getPlugin('map_settings').model.get('centerPoint') || [52.121580, 5.6304], State.getPlugin('map_settings').model.get('zoom') || 8 );
       }
 
-      Communicator.mediator.trigger('map:ready', this.map);
-
-      // Initialize markers
-      this.layers.markers = new L.MarkerClusterGroup().addTo(this.map);
-      this.layers.markers.addTo(this.map);
-
-      // Initialize image overlays
-      this.layers.images = new L.layerGroup().addTo(this.map);
+      Communicator.mediator.trigger('map:ready', this.map);   //this restores all features
 
       // Event handlers
       this.map.on('click', function(e) {
         Communicator.mediator.trigger( "map:tile-layer-clicked" );
-      });
-      this.map.on('moveend', this.attachMoveEndListener);
 
+        //disable editing mode on active image overlay
+        if (self.currentImageLayer) {
+          self.currentImageLayer.editing.disable();
+          self.currentImageLayer = null;
+        }
+      });
+
+      this.map.on('moveend', this.attachMoveEndListener);
+    },
+
+    updateLayerControl: function() {
+      var images = this.layers["images"];
+      if (images && _.isFunction(images.getLayers) && images.getLayers().length > 0) {
+        $(".leaflet-control-layers-toggle").show();
+      } else {
+        $(".leaflet-control-layers-toggle").hide();
+      }
     },
 
     attachMoveEndListener: function(e) {

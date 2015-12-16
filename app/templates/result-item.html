@@ -3,6 +3,12 @@
   <div class="card-image waves-effect waves-block waves-light">
     <% if (image) { %>
       <img class="activator" src="<%= image %>">
+
+      <% if (mode == 'mapmaker' && _.contains(objectType, 'kaart')) { %>
+        <div class="add-image-container">
+          <a href="#" class="add-image icon-plus" data-model-id="<%= cid %>" title="Voeg kaart toe"></a>
+        </div>
+      <% } %>
     <% } %>
   </div>
 
@@ -10,14 +16,11 @@
     <span class="card-title activator grey-text text-darken-4"><%= title %></span>
     <p class="actions">
       <% if (mode == 'mapmaker') { %>
-      <a href="#" class="add-marker" data-model-id="<%= cid %>">Voeg toe</a>
-        <% if (_.contains(objectType, 'kaart')) { %>
-        <a href="#" class="add-image" data-model-id="<%= cid %>">Voeg kaart toe</a>
-        <% } %>
+      <a href="#" class="add-marker icon-plus" data-model-id="<%= cid %>" title="Voeg toe"></a>
       <% } else { %>
-      <a href="#" class="open-detail" data-model-id="<%= cid %>">Meer informatie</a>
+      <a href="#" class="open-detail icon-doc-text-inv" data-model-id="<%= cid %>"></a>
       <% } %>
-      <a href="#" class="zoomin">Inzoomen</a>
+      <a href="#" class="zoomin icon-zoom-in" title="Toon locatie"></a>
       <!--<span class="activator">Beschrijving</span>-->
     </p>
   </div>

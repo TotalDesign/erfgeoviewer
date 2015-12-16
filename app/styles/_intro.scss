@@ -1,0 +1,23 @@
+#intro-header {
+  text-align: center;
+  a {
+    margin: 0 10px;
+  }
+  h1 {
+    font-size: 3em;
+  }
+}
+#intro-content {
+  ul {
+    margin: 0;
+    li {
+      list-style-type: disc;
+      margin-left: 25px;
+      margin-bottom: 10px;
+    }
+  }
+}
+
+#intro-list {
+  margin-top: 0.82rem;
+}
