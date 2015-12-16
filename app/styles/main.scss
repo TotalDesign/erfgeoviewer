@@ -39,7 +39,7 @@ body {
 
   .leaflet-left {
     @include transition-property(left);
-    @include transition-duration(400ms);
+    @include transition-duration(500ms);
     @include transition-timing-function(ease-out);
   }
   &.flyout-right-visible {
