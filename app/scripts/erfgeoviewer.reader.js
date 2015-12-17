@@ -58,7 +58,7 @@ require(['backbone', 'erfgeoviewer.common', 'communicator', 'underscore', 'jquer
          * Share
          */
         if (State.getPlugin('map_settings').model.get('showShare')) {
-          var share = L.control({position: 'bottomright'});
+          var share = L.control({position: 'bottomleft'});
 
           share.onAdd = function( map ) {
             return document.createElement('share-button');
@@ -67,9 +67,10 @@ require(['backbone', 'erfgeoviewer.common', 'communicator', 'underscore', 'jquer
           share.addTo(map);
 
           new ShareButton({
-            title: 'ErfGeoviewer',
+            title: State.getPlugin('map_settings').model.get('title'),
+            description: State.getPlugin('map_settings').model.get('title') + ' #kaart #erfgoed',
             ui: {
-              flyout: 'top left',
+              flyout: 'top right',
               buttonText: 'Delen'
             },
             networks: {
@@ -81,6 +82,9 @@ require(['backbone', 'erfgeoviewer.common', 'communicator', 'underscore', 'jquer
               },
               reddit: {
                 enabled: false
+              },
+              email: {
+                description: "Ik wil graag een kaart met je delen:\n\n" + window.location.href
               }
             }
           });
