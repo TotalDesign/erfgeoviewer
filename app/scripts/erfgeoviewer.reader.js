@@ -182,15 +182,20 @@ require(['backbone', 'erfgeoviewer.common', 'communicator', 'underscore', 'jquer
       .then(function() {
         var d = Q.defer();
 
-        if (typeof erfgeofileDataFile !== "undefined") {
-          $.ajax(erfgeofileDataFile).done(function( data ) {
-            State.set(State.parse(data));
+        if (typeof window.erfgeoviewer !== "undefined" && _.isObject(window.erfgeoviewer)) {
+
+          if (window.erfgeoviewer.dataFile) {
+            // Load a JSON file.
+            $.ajax(erfgeoviewer.dataFile).done(function( data ) {
+              State.set(State.parse(data));
+              d.resolve();
+            });
+          } else if (window.erfgeoviewer.data) {
+            // Digest a JSON object
+            State.set(State.parse(window.erfgeoviewer.data));
             d.resolve();
-          });
-        }
-        else if (typeof erfgeoviewerData !== "undefined") {
-          State.set(State.parse(erfgeoviewerData));
-          d.resolve();
+          }
+
         }
         else {
           State.fetch({

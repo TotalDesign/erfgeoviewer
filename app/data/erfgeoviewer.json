@@ -1,1 +1,747 @@
-{"id":1,"map_settings":{"baseMap":"osm","showMapTitle":true,"showSearchFilter":true,"showShare":true,"showLegend":false,"showList":true,"primaryColor":"#795548","secondaryColor":"#009688","legend":[],"editorCenterPoint":{"lat":52.51265431217234,"lng":5.049081444740295},"editorZoom":18,"centerPoint":{"lat":52.610553302332164,"lng":4.998779296875},"zoom":9,"title":"Noord-Hollandse museumverhalen"},"geojson_features":[{"__id__":"onh:onh_story_8419","title":"Fort bij Aalsmeer: beschermer van inundatiesluis en suikerbieten","image":"http://www.oneindignoordholland.nl/data/uploads/2013022512512b482534404.jpg","description":["<strong>Fort bij Aalsmeer ligt naast de Ringdijk van de Haarlemmermeerpolder en maakt onderdeel uit van het <a href=\"http://www.oneindignoordholland.nl/nl-NL/verhaal/8315/stelling-van-amsterdam-zuidwestfront\">Zuidwestfront</a> binnen de <a href=\"http://onh.nl/nl-NL/partner/52/stelling-van-amsterdam\">Stelling van Amsterdam</a>. Het in 1905 voltooide fort had tot doel om deze dijk en de naastgelegen Ringvaart te verdedigen. Bij het fort ligt een dubbele schutsluis die diende om in oorlogstijd inundatiewater vanuit de Ringvaart het Voorkanaal van de <a href=\"http://onh.nl//nl-NL/verhaal/1711/de-geniedijk-de-groene-ruggengraat-van-de-haarlemmermeer\">Geniedijk </a>in te laten. Het fortterrein is omgeven met een dubbele gracht als extra beveiliging. <strong>Het fort is in 1996 gerestaureerd en biedt sinds 2009 onderdak aan het CRASH Luchtoorlog en Verzetsmuseum 1940-1945. </strong></strong>"],"youtube":false,"externalUrl":["http://onh.nl//nl-NL/verhaal/8419/fort-bij-aalsmeer-beschermer-van-inundatiesluis-en-suikerbieten"],"spatial":["POINT(4.7381252 52.2678737)"],"userColor":null,"icon":"","longitude":null,"latitude":null,"layerGroup":"default","youtubeid":false,"geometryType":"POINT","cid":"c679","type":"marker"},{"__id__":"onh:onh_story_653","title":"Een Nieuwe Kerk voor een groeiende gemeente","image":"http://www.oneindignoordholland.nl/data/uploads/20120620174fe1e8c9e9261.jpg","description":["De hele stad is afgezet, duizenden mensen drommen bijeen achter de hekken om een glimp op te kunnen vangen van het paar. Sommigen staan er al vanaf 7 uur vanochtend en dat terwijl het zo koud is. Eindelijk is het dan zover, na uren wachten rijdt de Rolls-Royce langs. Een minuut, hooguit twee minuten kunnen de omstanders de prins en prinses zien, dan zijn ze alweer voorbij. Ze zijn op weg naar de Nieuwe Kerk op de Dam in Amsterdam voor de huwelijksinzegening. Dit huwelijk van Willem-Alexander en Maxima is voorlopig de laatste koninklijke gebeurtenis in de Nieuwe Kerk."],"youtube":false,"externalUrl":["http://onh.nl//nl-NL/verhaal/653/een-nieuwe-kerk-voor-een-groeiende-gemeente"],"spatial":["POINT(4.892848 52.3731925)"],"userColor":null,"icon":"","longitude":null,"latitude":null,"layerGroup":"default","youtubeid":false,"geometryType":"POINT","cid":"c680","type":"marker"},{"__id__":"onh:onh_story_5303","title":"Hortus Botanicus in de Plantagebuurt","image":"http://onh.nl/data/uploads/2014102916545101647a68d.jpg","description":["De poort van de Hortus Botanicus, van oorsprong een medicinale plantentuin, dateert uit 1716. De hekpijlers zijn versierd met het gebeeldhouwde wapen van Amsterdam met de Andreaskruisen en het oude stadswapen met het Koggeschip. De poort, nu met een getralied hek, maar vroeger met dichte deuren, stond symbool voor een streng toelatingsbeleid. Zo moesten geregelde gebruikers als chirurgijns bij binnenkomst een speciale penning tonen. Andere bezoekers, veelal welgestelde heren uit binnen- en buitenland, mochten tegen betaling naar binnen. Nu is iedereen welkom en kunnen er door particulieren zelfs planten worden gekocht."],"youtube":false,"externalUrl":["http://onh.nl//nl-NL/verhaal/5303/hortus-botanicus-in-de-plantagebuurt"],"spatial":["POINT(4.9077389 52.3671008)"],"userColor":null,"icon":"","longitude":null,"latitude":null,"layerGroup":"default","youtubeid":false,"geometryType":"POINT","cid":"c681","type":"marker"},{"__id__":"onh:onh_story_1967","title":"Groen en rust in de Hortus Botanicus","image":"http://www.oneindignoordholland.nl/data/uploads/20120622124fe44f9b2d278.jpg","description":["Midden in de drukte van de stad ligt één van de oudste botanische tuinen ter wereld. Achter de oude toegangspoort waan je je in het rust en het groen. In 1682 werd op een driehoekig stuk een strak aangelegde tuin in gebruik genomen, met een verzameling medicinale planten die aanvankelijk bestemd waren voor onderzoek-  en onderwijsdoeleinden.  In de tuin en de kassen groeien nu ruim 4000 soorten."],"youtube":false,"externalUrl":["http://onh.nl//nl-NL/verhaal/1967/groen-en-rust-in-de-hortus-botanicus"],"spatial":["POINT(4.9080798 52.3671693)"],"userColor":null,"icon":"","longitude":null,"latitude":null,"layerGroup":"default","youtubeid":false,"geometryType":"POINT","cid":"c682","type":"marker"},{"__id__":"onh:onh_story_1240","title":"Koninklijk en keizerlijk paleis","image":"http://www.oneindignoordholland.nl//data/items/media/images/originals/26354a798a72b4806463e0db4d955bc3286f9591.jpg","description":["In 1808 had koning Lodewijk Napoleon het voormalig stadhuis van Amsterdam een ware metamorfose laten ondergaan. Van ambtelijk kantoorpand werd het een waar stadspaleis, een koning waardig. En twee weken lang, in 1811, ook een keizer waardig."],"youtube":false,"externalUrl":["http://onh.nl//nl-NL/verhaal/1240/koninklijk-en-keizerlijk-paleis"],"spatial":["POINT(4.8927449 52.3730657)"],"userColor":null,"icon":"","longitude":null,"latitude":null,"layerGroup":"default","youtubeid":false,"geometryType":"POINT","cid":"c683","type":"marker"},{"__id__":"onh:onh_story_11814","title":"Herengracht 518, Geelvinck-Hinlopen Huis","image":"http://www.oneindignoordholland.nl/data/uploads/20140217135302054bb0a5e.jpg","description":["In het Grachtenboek heeft het in oorsprong 17de-eeuwse grachtenhuis een 18de-eeuwse lijstgevel in Lodewijk XIV-stijl. De attiek is echter verdwenen (een reconstructie ging in 1989 vooralsnog niet door). In 1813 heeft opnieuw een verbouwing plaatsgevonden. De deur- en raamomlijstingen dateren uit 1762–63, de Empire deur en ramen uit 1813, evenals de vergulde smeedijzeren bordesleuning. Het huis wordt tegenwoordig het Geelvinck-Hinlopen Huis genoemd, naar de bewoners Albert Geelvinck en Sara Hinlopen. Zij woonden in dit huis in 1687."],"youtube":false,"externalUrl":["http://onh.nl//nl-NL/verhaal/11814/herengracht-518-geelvinck-hinlopen-huis"],"spatial":["POINT(4.8946881 52.3647574)"],"userColor":null,"icon":"","longitude":null,"latitude":null,"layerGroup":"default","youtubeid":false,"geometryType":"POINT","cid":"c684","type":"marker"},{"__id__":"onh:onh_story_1998","title":"Industrie uit vervlogen tijden","image":"http://www.oneindignoordholland.nl/data/items/media/images/originals/e3fa78ff6c7d985f5c0fa6aacabb8ed9d0f13c2c.jpg","description":["Waar in de negentiende eeuw hard gewerkt werd door sterke mannen aan grote schepen, is sinds een aantal jaren een bijzondere locatie in Amsterdam gerealiseerd. Hoewel het voortbestaan van deze plek in het verleden bedreigd is, is dit industrieel erfgoed toch bewaard gebleven. De Museumwerf ’t Kromhout is ontstaan op deze plek en vertelt het verhaal van de geschiedenis van de werf en de invloed van de scheepsbouw op de stad Amsterdam."],"youtube":false,"externalUrl":["http://onh.nl//nl-NL/verhaal/1998/industrie-uit-vervlogen-tijden"],"spatial":["POINT(4.9200152 52.3680584)"],"userColor":null,"icon":"","longitude":null,"latitude":null,"layerGroup":"default","youtubeid":false,"geometryType":"POINT","cid":"c685","type":"marker"},{"__id__":"onh:onh_story_8346","title":"Eetcultuur bij de Jonkheren Van Loon","image":"http://www.oneindignoordholland.nl/data/uploads/201211141550a3b0462ced7.jpg","description":["<p>Museum Van Loon is het woonhuis van de Amsterdamse regentenfamilie Van Loon. In 1884 werd het huis Keizersgracht 672 gekocht als huwelijks geschenk door het echtpaar Van Loon – Borski voor hun zoon Willem van Loon en zijn kersverse echtgenote Thora Egidius.  Mede als herinnering aan zijn grootouders besloot Jonkheer Maurits van Loon in 1973 om het huis en de collectie onder te brengen in een stichting en open te stellen voor het publiek. </p>"],"youtube":false,"externalUrl":["http://onh.nl//nl-NL/verhaal/8346/eetcultuur-bij-de-jonkheren-van-loon"],"spatial":["POINT(4.8931565 52.3634835)"],"userColor":null,"icon":"","longitude":null,"latitude":null,"layerGroup":"default","youtubeid":false,"geometryType":"POINT","cid":"c686","type":"marker"},{"__id__":"onh:onh_story_1997","title":"Biografie van een gebouw: van zeemagazijn tot Scheepvaartmuseum","image":"http://www.oneindignoordholland.nl/data/items/media/images/originals/7c309541688d0ada32e8b918f033be8e68b7d2dd.jpg","description":["In de Gouden Eeuw was de handelsvloot van de Republiek der Nederlanden groter dan die van Engeland en Frankrijk bij elkaar. De voorlopers van de Koninklijke Marine, vijf admiraliteitscolleges, moesten deze vloot beschermen tegen buitenlandse oorlogsschepen en kapers. De grootste en machtigste was die van Amsterdam. De oude admiraliteitswerf was echter te klein geworden en de Admiraliteit verhuisde naar een groter terrein op Kattenburg. Daar verrezen werkplaatsen, kantoren, scheepshellingen en een voor die tijd enorm groot pakhuis: ’s Lands Zeemagazijn."],"youtube":false,"externalUrl":["http://onh.nl//nl-NL/verhaal/1997/biografie-van-een-gebouw-van-zeemagazijn-tot-scheepvaartmuseum"],"spatial":["POINT(4.9148225 52.3714712)"],"userColor":null,"icon":"","longitude":null,"latitude":null,"layerGroup":"default","youtubeid":false,"geometryType":"POINT","cid":"c687","type":"marker"},{"__id__":"onh:onh_story_9465","title":"Paviljoen Welgelegen: zetel van kunst, koninklijke macht en provinciaal bestuur","image":"http://www.oneindignoordholland.nl/data/uploads/2013111813528a05766bf4f.jpg","description":["<p><strong>Het imposante Paviljoen Welgelegen kent een bijzondere geschiedenis. Nu zetelt er het provinciebestuur. Maar voordat het de functie van provinciehuis kreeg, was het paleis en museum. De moeder van koning Willem I, prinses Wilhelmina van Pruisen, heeft hier gewoond. Menig maal zocht de koning zijn moeder hier op.</strong></p>"],"youtube":false,"externalUrl":["http://onh.nl//nl-NL/verhaal/9465/paviljoen-welgelegen-zetel-van-kunst-koninklijke-macht-en-provinciaal-bestuur"],"spatial":["POINT(4.6321321 52.3717346)"],"userColor":null,"icon":"","longitude":null,"latitude":null,"layerGroup":"default","youtubeid":false,"geometryType":"POINT","cid":"c688","type":"marker"},{"__id__":"onh:onh_story_1530","title":"Verzetsmuseum in Amsterdam: alsof je er zelf bij was","image":"http://www.oneindignoordholland.nl/data/items/media/images/originals/a50d37e0aee0eb269e87e70c3473daa10d7271cc.jpg","description":["\"Hé, die herken ik nog! Dat was me toch wat hè?\" Een oude man met rollator komt vrolijk aanrollen tussen de vitrines met voedselbonnen en afscheidsbrieven, gegooid uit de trein die duizenden joden naar Auschwitz bracht. In het <a href=\"http://onh.nl/VerzetsmuseumAmsterdam\">Verzetsmuseum</a> herleven de herinneringen aan de Tweede Wereldoorlog."],"youtube":false,"externalUrl":["http://onh.nl//nl-NL/verhaal/1530/verzetsmuseum-in-amsterdam-alsof-je-er-zelf-bij-was"],"spatial":["POINT(4.911421 52.3660105)"],"userColor":null,"icon":"","longitude":null,"latitude":null,"layerGroup":"default","youtubeid":false,"geometryType":"POINT","cid":"c689","type":"marker"},{"__id__":"onh:onh_story_3253","title":"Kranenburg","image":"http://www.oneindignoordholland.nl/data/items/media/images/originals/f83f540eb3cd85707aeeaae9f8201f1d21be066a.jpg","description":["In 1882 liet Jacob van Reenen (1859-1951) Villa Kranenburg bouwen voor hem en zijn Duitse vrouw Maria Völter. Het echtpaar heeft grote invloed gehad op de ruimtelijke en sociale ontwikkeling van Bergen door onder andere de stichting van Bergen aan Zee en de ontwikkeling van het Van Reenenpark. Sinds 1993 is Museum Kranenburgh in de villa gevestigd. <a href=\"http://www.oneindignoordholland.nl/nl-NL/verhaal/5358/villa-kranenburg\">Lees meer</a>"],"youtube":false,"externalUrl":["http://onh.nl//nl-NL/verhaal/3253/kranenburg"],"spatial":["POINT(4.6955923 52.6680117)"],"userColor":null,"icon":"","longitude":null,"latitude":null,"layerGroup":"default","youtubeid":false,"geometryType":"POINT","cid":"c690","type":"marker"},{"__id__":"onh:onh_story_2056","title":"Museum Cruquius","image":"http://www.oneindignoordholland.nl//data/items/media/images/originals/8526252aae43d804bcc5c178b77af7f5cbd88b1e.jpg","description":["Tussen 1849 en 1852 was De Cruquius bij Heemstede één van de drie stoomgemalen die het gigantische Haarlemmermeer hebben drooggemaakt. De drie stoomgemalen waren een spannend experiment, want bij het leegmalen van meren gebruikte men eerder windmolens. De twee andere stoommachines waren: De Leeghwater in het zuiden van het Haarlemmermeer en De Lijnden in het noorden. De stoommachines waren vernoemd naar waterbouwkundigen, die alle drie plannen hadden opgesteld om het Haarlemmermeer te dempen. In 1849 begonnen de machines te pompen. Drie jaar later, in het voorjaar van 1852, kwam de bodem van het meer in zicht. De stoomgemalen hadden samen 833 miljoen kubieke meter weggewerkt."],"youtube":false,"externalUrl":["http://www.oneindignoordholland.nl/nl-NL/verhaal/2056/museum-cruquius"],"spatial":["POINT(4.6380273 52.3382379)"],"userColor":null,"icon":"","longitude":null,"latitude":null,"layerGroup":"default","youtubeid":false,"geometryType":"POINT","cid":"c691","type":"marker"},{"__id__":"onh:onh_story_15691","title":"Drijvende kelder en sitsen stoffen in Edams Museum","image":"http://onh.nl/data/uploads/20150527145565b615cea73.jpg","description":["Een schilderij van een Edams meisje uit de zeventiende eeuw dat 2,5 meter lang was, een drijvende kelder en een winkeltje in sitsen stoffen, er zijn saaiere musea dan het dit voorjaar heropende <a href=\"http://onh.nl/EdamsMuseum\">Edams Museum</a>."],"youtube":false,"externalUrl":["http://onh.nl//nl-NL/verhaal/15691/drijvende-kelder-en-sitsen-stoffen-in-edams-museum"],"spatial":["POINT(5.0490863 52.5126432)"],"userColor":null,"icon":"","longitude":null,"latitude":null,"layerGroup":"default","youtubeid":false,"geometryType":"POINT","cid":"c692","type":"marker"},{"__id__":"onh:onh_story_12158","title":"Het Steenen Coopmanshuys in Edam","image":"http://onh.nl/data/uploads/2014050815536b7ff3de946.jpg","description":["<p>Dit huis werd in 1550 gebouwd en was het eerste stenen koopmanshuis van Edam. Het was voor Edam in die tijd een bijzonder 'rijk' huis. Prominent gelegen aan de Damsluis is het oudste stenen huis van Edam een indrukwekkende verschijning. Al meer dan een eeuw is hier het <a href=\"http://onh.nl/EdamsMuseum\">Edams Museum </a>gevestigd.</p>"],"youtube":false,"externalUrl":["http://onh.nl//nl-NL/verhaal/12158/het-steenen-coopmanshuys-in-edam"],"spatial":["POINT(5.0490803 52.5126607)"],"userColor":null,"icon":"","longitude":null,"latitude":null,"layerGroup":"default","youtubeid":false,"geometryType":"POINT","cid":"c693","type":"marker"},{"__id__":"onh:onh_story_1518","title":"Het Frans Hals Museum dankt zijn ontstaan aan een rederijkersfeest","image":"http://www.oneindignoordholland.nl/data/items/media/images/originals/adb155d13180d557031af443eec3138e66fb0c96.jpg","description":["Het Frans Hals Museum is gevestigd in een gebouw dat zijn ontstaan dankt aan een rederijkersfeest: het Landjuweel uit 1606. Op initiatief van de Haarlemse rederijkerskamer De Pellicaen (beter bekend onder zijn motto: ‘Trou moet Blycken’) werd een feest georganiseerd ten bate van het oudemannenhuis. Met de opbrengst uit een grote loterij kon het oudemannenhuis vervolgens worden gebouwd. Het was destijds een van de vroegste bejaardentehuizen ter wereld; tegenwoordig is het een prachtige setting voor de collectie oude kunst van het museum."],"youtube":false,"externalUrl":["http://onh.nl//nl-NL/verhaal/1518/het-frans-hals-museum-dankt-zijn-ontstaan-aan-een-rederijkersfeest"],"spatial":["POINT(4.6336815 52.3765006)"],"userColor":null,"icon":"","longitude":null,"latitude":null,"layerGroup":"default","youtubeid":false,"geometryType":"POINT","cid":"c694","type":"marker"},{"__id__":"onh:onh_story_9201","title":"Frans Hals Museum","image":"http://www.oneindignoordholland.nl/data/uploads/201309021452248a637740a.jpg","description":["<p>Het gebouw waarin het Frans Hals Museum is gevestigd heeft al een lange geschiedenis. Het werd gebouwd als Oude mannenhuis, een tehuis waar mannen van boven de 60 hun laatste dagen konden slijten. Het tehuis opende in 1609 haar deuren voor de eerste bewoners. De mannen woonden twee aan twee in kleine huisjes die rond de binnenplaats lagen. Gezamenlijk gebruikten zij de maaltijden, in de grote zaal in het hoofdgebouw, die er nog steeds is, maar nu is ingericht als museumzaal. </p>"],"youtube":false,"externalUrl":["http://onh.nl//nl-NL/verhaal/9201/frans-hals-museum"],"spatial":["POINT(4.6338809 52.3768927)"],"userColor":null,"icon":"","longitude":null,"latitude":null,"layerGroup":"default","youtubeid":false,"geometryType":"POINT","cid":"c695","type":"marker"},{"__id__":"onh:onh_story_2428","title":"Fort Kijkduin","image":"http://www.oneindignoordholland.nl/data/items/media/images/originals/c29c085cc171c3f7945e10978c46a20b60a0dbf8.jpg","description":["Adres: Admiraal Verhuellplein 1, Huisduinen GPS-coördinaten: 52.95139, 4.72150. Fort Kijkduin nabij Huisduinen dateert van 1810 en dankt haar naam aan de hoge duintop waarop het is gebouwd: een  ideale plek voor de kustbewaking van Den Helder. <a href=\"http://www.oneindignoordholland.nl/nl-NL/verhaal/1190/ruim-zicht-op-fort-kijkduin\">Lees meer</a>"],"youtube":false,"externalUrl":["http://onh.nl//nl-NL/verhaal/2428/fort-kijkduin"],"spatial":["POINT(4.721995 52.9507821)"],"userColor":null,"icon":"","longitude":null,"latitude":null,"layerGroup":"default","youtubeid":false,"geometryType":"POINT","cid":"c696","type":"marker"},{"__id__":"onh:onh_story_12576","title":"Het Singer museum te Laren","image":"http://onh.nl/data/uploads/201409011254044ee08f6e9.jpg","description":["In Parijs had het echtpaar voor het eerst van Laren gehoord en toen 'moesten ze er wel heen'. Zoals zovele artistiekelingen begin 20e eeuw was het echtpaar Singer na aankomst getroffen door de natuur en de sfeer in het onbedorven Laren en vestigden zij zich hier voor lange tijd. De steenrijke miljonairs bouwden hier een uitgebreide kunstcollectie op die Anna na de dood van haar man William in 1943 onderbracht in een stichting. In de jaren 50 groeide dit uit in het uitgebreide kunst- en cultuur centrum dat het Singer Laren dezer dagen is."],"youtube":false,"externalUrl":["http://onh.nl//nl-NL/verhaal/12576/het-singer-museum-te-laren"],"spatial":["POINT(5.2238274 52.2571852)"],"userColor":null,"icon":"","longitude":null,"latitude":null,"layerGroup":"default","youtubeid":false,"geometryType":"POINT","cid":"c697","type":"marker"},{"__id__":"onh:onh_story_1957","title":"Kasteel Sypesteyn: bijna nooit iets veranderd","image":"http://www.oneindignoordholland.nl/data/items/media/images/originals/ce5a86c80fa2276b1fcf7f396a355baa0543643a.jpg","description":["Stel je voor dat de Jonkheer van Sypesteyn (1857 – 1937) uit de dood zou herrijzen. Hij ziet dan dat zijn tuin nog nagenoeg hetzelfde is, zoals hij dat rond 1902 aan had laten leggen. Veel van de bijzondere bomen die in de tuin staan, zoals de Japanse Treurhoningboom (zie afbeelding) en de Moerascipres (een subtropische naaldboomsoort) zijn nog in zijn opdracht geplant. Ook de indeling van de tuin, met al haar zichtlijnen, is in hoofdlijnen onveranderd gebleven. De bomen zijn ondertussen wel ouder geworden en veranderd in oude krasse knarren. Dat we de tuin anno 2012 in zijn nagenoeg originele staat kunnen zien, is te danken aan tuinbazin Henny van der Wilt. Zij is de tuinbazin (hovenier) van de kasteeltuin en degene die er de afgelopen achttien jaar samen met vele vrijwilligers voor heeft gezorgd dat de tuin van Jonkeer van Sypesteyn er nagenoeg nog net zo uit ziet als honderd jaar geleden. De tuin is een levend monument."],"youtube":false,"externalUrl":["http://onh.nl//nl-NL/verhaal/1957/kasteel-sypesteyn-bijna-nooit-iets-veranderd"],"spatial":["POINT(5.1229341 52.193484)"],"userColor":null,"icon":"","longitude":null,"latitude":null,"layerGroup":"default","youtubeid":false,"geometryType":"POINT","cid":"c698","type":"marker"},{"__id__":"onh:onh_story_8904","title":"Museum de Speeltoren: geschiedenis van Waterland en Monnickendam","image":"http://www.oneindignoordholland.nl/data/uploads/201306281851cdb9e53ca96.jpg","description":["<p><strong>De geschiedenis van de Speeltoren is met raadselen omgeven. Het stadje Monnickendam werd rond 1500 twee keer door een fikse stadsbrand getroffen waardoor archieven en documenten uit die tijd zijn verdwenen. De toren werd begin 16e eeuw naar alle waarschijnlijkheid gebouwd op de restanten van een door brand verwoeste kerk. Het carillon van de Speeltoren heeft een opmerkelijke reputatie: het is het valste klokkenspel van Nederland! De vijftien klokken dateren uit 1595 en zijn nooit vervangen of aangepast om zuiverder te klinken. Werd er vroeger nog gelachen om de valse Speeltoren, nu heeft Monnickendam een uniek geluid waar men trots op is. </strong></p>"],"youtube":false,"externalUrl":["http://onh.nl//nl-NL/verhaal/8904/museum-de-speeltoren-geschiedenis-van-waterland-en-monnickendam"],"spatial":["POINT(5.0356747 52.4593311)"],"userColor":null,"icon":"","longitude":null,"latitude":null,"layerGroup":"default","youtubeid":false,"geometryType":"POINT","cid":"c699","type":"marker"},{"__id__":"onh:onh_story_8516","title":"Het Muiderslot: middeleeuwse waterburcht verdedigt Amsterdam","image":"http://www.oneindignoordholland.nl/data/uploads/2013032213514c4f318c236.jpg","description":["Het Muiderslot bestond al eeuwen voordat de forten van de Stelling van Amsterdam werden aangelegd. Muiden lag op een strategisch belangrijke plek: aan de monding van de Vecht – de rivier verbond Utrecht met de Zuiderzee – en langs de oude Zuiderzeedijk, eeuwenlang de enige weg over land tussen Amsterdam en Naarden. In de zestiende en zeventiende eeuw groeide Muiden uit tot een belangrijke vestingstad. Samen met het dichtbij gelegen Weesp verdedigde het Amsterdam voor een aanval vanuit het oosten. Muiden behield deze militaire functie tot diep in de negentiende eeuw. Eerst als onderdeel van de Nieuwe Hollandse Waterlinie en vanaf 1892 bij het <a href=\"http://www.oneindignoordholland.nl/nl-NL/verhaal/8137/stelling-van-amsterdam-zuidoostfront\">Zuidoostfront</a> van de Stelling van Amsterdam. Het belang van het Muiderslot lag voornamelijk in waterstaatkundig opzicht: via de holle sluisbeer achter het slot kon het omringende polderland onder water worden gezet. Sinds het voorjaar van 2012 kan men op het kasteelterrein het ‘Waterschild’ bezoeken. In dit moderne bouwwerk wordt de waterstaatkundige functie van het Muiderslot voor de Hollandse Waterlinie en de Stelling van Amsterdam toegelicht in een multimediale presentatie."],"youtube":false,"externalUrl":["http://onh.nl//nl-NL/verhaal/8516/het-muiderslot-middeleeuwse-waterburcht-verdedigt-amsterdam"],"spatial":["POINT(5.0712419 52.334395)"],"userColor":null,"icon":"","longitude":null,"latitude":null,"layerGroup":"default","youtubeid":false,"geometryType":"POINT","cid":"c700","type":"marker"},{"__id__":"onh:onh_story_1353","title":"De Weeshuiskazerne in Naarden","image":"http://www.oneindignoordholland.nl/data/items/media/images/originals/538367ff59779951c4285b48c2fff54364ef13e3.jpg","description":["Het Comenius Museum aan de Kloosterstraat was ooit een klooster, daarna een weeshuis en vervolgens lange tijd een kazerne. Niet alleen werden er Nederlandse soldaten gelegerd maar ook Fransen, Belgen en Duitsers. Het waren de Fransen die het weeshuis aanwezen als een kazerne."],"youtube":false,"externalUrl":["http://onh.nl//nl-NL/verhaal/1353/de-weeshuiskazerne-in-naarden"],"spatial":["POINT(5.164467 52.2973087)"],"userColor":null,"icon":"","longitude":null,"latitude":null,"layerGroup":"default","youtubeid":false,"geometryType":"POINT","cid":"c701","type":"marker"},{"__id__":"onh:onh_story_1362","title":"Het Nederlands Vestingmuseum","image":"http://www.oneindignoordholland.nl/data/items/media/images/originals/3fe72adfaa6ec7b4719d1d35a385fbf7d7f2021d.jpg","description":["De vestingstad Naarden is nu een groene parel in het Gooi, een oase van rust in de jachtige Randstad, met prachtige huizen, stoere kazernes en begroeide wallen. Maar eens was Naarden een moderne militaire verdedigingspost, om de toegangsweg tot het rijke gewest Holland en de koopmansstad Amsterdam tegen een mogelijke vijand te verdedigen."],"youtube":false,"externalUrl":["http://onh.nl//nl-NL/verhaal/1362/het-nederlands-vestingmuseum"],"spatial":["POINT(5.160528 52.293376)"],"userColor":null,"icon":"","longitude":null,"latitude":null,"layerGroup":"default","youtubeid":false,"geometryType":"POINT","cid":"c702","type":"marker"},{"__id__":"onh:onh_story_2289","title":"Jac. Jongert (Purmerends Museum)","image":"http://www.oneindignoordholland.nl/data/items/media/images/originals/9c1757fd745221cbb52f7eadb19805e3ebc1c61d.jpg","description":["In het Purmerends museum is voorts veel aandacht voor de graficus Jac. Jongert, een van de belangrijkste kunstenaars die Purmerend heeft voortgebracht. Dit object maakt onderdeel uit van de QR route door Historisch Purmerend.<br /><br /><a href=\"http://www.oneindignoordholland.nl/nl-NL/verhaal/811/purmerends-museum\">Lees meer</a>"],"youtube":false,"externalUrl":["http://www.oneindignoordholland.nl/nl-NL/verhaal/2289/jac-jongert-purmerends-museum"],"spatial":["POINT(4.946239 52.5099523)"],"userColor":null,"icon":"","longitude":null,"latitude":null,"layerGroup":"default","youtubeid":false,"geometryType":"POINT","cid":"c703","type":"marker"},{"__id__":"onh:onh_story_8130","title":"Fort bij Vijfhuizen: vervallen fort wordt creatief bolwerk","image":"http://www.oneindignoordholland.nl/data/uploads/20120906095048564385094.jpg","description":["Fort bij Vijfhuizen, gelegen in het <a href=\"http://www.oneindignoordholland.nl/nl-NL/verhaal/8315/stelling-van-amsterdam-zuidwestfront\">Zuidwestfront</a> van de Stelling, is om een aantal redenen een bijzonder fort. Vanuit historisch perspectief omdat het fort als eerste gebouwd is volgens een nieuw standaardtype. Het Fort bij Vijfhuizen kan beschouwd worden als een 'voorbeeld fort' voor de eerste reeks van forten die aan de west- en zuidkant van Amsterdam in de jaren 1897-1907 werden gebouwd. Ten tweede omdat het een inspirerend voorbeeld is van een geslaagde herbestemming van een oud fort.  In de jaren vijftig verloren de stellingforten hun militaire status. Een meerderheid van de forten ging dienst doen als opslagplaats voor Defensie. Naar vele andere forten werd nauwelijks omgekeken. Decennia lang stonden deze overblijfselen uit een militair verleden weg te kwijnen. Maar vanaf eind jaren tachtig groeide het besef om de oude forten een tweede leven te geven. Het is mede te danken aan de drijvende kracht van een buurtbewoner dat het verlaten Fort bij Vijfhuizen werd omgetoverd tot een creatief bolwerk."],"youtube":false,"externalUrl":["http://onh.nl//nl-NL/verhaal/8130/fort-bij-vijfhuizen-vervallen-fort-wordt-creatief-bolwerk"],"spatial":["POINT(4.6702191 52.3471904)"],"userColor":null,"icon":"","longitude":null,"latitude":null,"layerGroup":"default","youtubeid":false,"geometryType":"POINT","cid":"c704","type":"marker"},{"__id__":"onh:onh_story_15466","title":"Stadhuis van het welvarende Weesp uit de 18e eeuw","image":"http://onh.nl/data/uploads/20150409105526387aeab32.jpg","description":["<p>Bij het Grote Plein staat het stadhuis van een onmiskenbaar trotse stad. Het stadsbestuur wilde er bij de bouw van dit stadhuis geen twijfel over laten bestaan: Weesp is een <a href=\"http://onh.nl//nl-NL/verhaal/9577/weesp-werd-groot-door-genot\">welvarende stad</a>. Een stad met allure. Hier trokken de bouwvakkers een stoer gebouw op dat de bezoeker imponeert. Althans van buiten, want wie binnentreedt, ziet daar een zwierige rococostijl.</p>"],"youtube":false,"externalUrl":["http://onh.nl//nl-NL/verhaal/15466/stadhuis-van-het-welvarende-weesp-uit-de-18e-eeuw"],"spatial":["POINT(5.0427501 52.3067339)"],"userColor":null,"icon":"","longitude":null,"latitude":null,"layerGroup":"default","youtubeid":false,"geometryType":"POINT","cid":"c705","type":"marker"},{"__id__":"onh:onh_story_1852","title":"Bakkerijmuseum ‘In de Gecroonde Duyvekater’","image":"http://www.oneindignoordholland.nl/data/items/media/images/originals/68e5466272cf90cd7b073f23a1a932114340b04e.jpg","description":["Het bakkerijmuseum aan het Zeilenmakerspad is gevestigd in een 17e-eeuws pand. Het stamt uit 1658, was aanvankelijk een woonhuis maar werd in 1758 verbouwd tot bakkerij. Bijna twee eeuwen, tot 1956, zijn de ovens in gebruik geweest."],"youtube":false,"externalUrl":["http://onh.nl//nl-NL/verhaal/1852/bakkerijmuseum-in-de-gecroonde-duyvekater"],"spatial":["POINT(4.8178474 52.4730078)"],"userColor":null,"icon":"","longitude":null,"latitude":null,"layerGroup":"default","youtubeid":false,"geometryType":"POINT","cid":"c706","type":"marker"},{"__id__":"onh:onh_story_5352","title":"Tsaar Peterhuisje in Zaandam","image":"http://www.oneindignoordholland.nl/data/uploads/201210221550854bac305bf.jpg","description":["‘Waar is nou dat oude scheefgezakte houten huisje? Ik zie niks.’ Menig kind op schoolreisje naar Zaandam (eerst per boot en later met de bus) zal ter plekke deze vraag aan meester of juf hebben gesteld. En inderdaad, op het eerste gezicht is het zeventiende-eeuwse Tsaar Peterhuisje niet te zien. Het kleine werkmanshuisje - het oudste in zijn soort in Nederland – is in 1895 stevig verpakt in een stenen omhulsel, naar een ontwerp van het Amsterdamse architectenbureau Salm. Hun schepping is inmiddels ook tot monument verklaard, net zoals het naar tsaar Peter de Grote vernoemde huisje dat zich in haar binnenste bevindt."],"youtube":false,"externalUrl":["http://onh.nl//nl-NL/verhaal/5352/tsaar-peterhuisje-in-zaandam"],"spatial":["POINT(4.8235438 52.4373189)"],"userColor":null,"icon":"","longitude":null,"latitude":null,"layerGroup":"default","youtubeid":false,"geometryType":"POINT","cid":"c707","type":"marker"},{"__id__":"onh:onh_story_8186","title":"Honig Breethuis: thuis bij een Zaans koopmansgezin","image":"http://www.oneindignoordholland.nl/data/uploads/20120918155058794471818.jpg","description":["Eind 1999 heropende het voormalige Zaans Historisch Museum zijn deuren als <a href=\"http://onh.nl/HonigBreethuis\">Honig Breethuis</a>. De nieuwe naam verwijst naar de geschiedenis van het museumpand, dat tussen 1710 en 1892 werd bewoond door leden van de bekende ondernemersfamilies Honig en Breet. De inrichting van het Honig Breethuis vormt een nauwgezette reconstructie van de bewoningsfase tijdens de Biedermeiertijd (het tweede kwart van de 19e eeuw), toen het gezin Breet-de Jager er zijn intrek nam. C &amp; J Honig (Breet) was de bedrijfsnaam van het familiebedrijf dat met behulp van molens hoogwaardig papier vervaardigde in de achttiende en negentiende eeuw. In die tijd bezat het bedrijf een wereldwijde reputatie voor kwalitatief hoogwaardig papier."],"youtube":false,"externalUrl":["http://onh.nl//nl-NL/verhaal/8186/honig-breethuis-thuis-bij-een-zaans-koopmansgezin"],"spatial":["POINT(4.813292 52.4734103)"],"userColor":null,"icon":"","longitude":null,"latitude":null,"layerGroup":"default","youtubeid":false,"geometryType":"POINT","cid":"c708","type":"marker"}]}
+{
+  "id": 1,
+  "map_settings": {
+    "baseMap": "osm",
+    "showMapTitle": true,
+    "showSearchFilter": true,
+    "showShare": true,
+    "showLegend": false,
+    "showList": true,
+    "primaryColor": "#795548",
+    "secondaryColor": "#009688",
+    "legend": [],
+    "editorCenterPoint": {
+      "lat": 52.51265431217234,
+      "lng": 5.049081444740295
+    },
+    "editorZoom": 18,
+    "centerPoint": {
+      "lat": 52.610553302332164,
+      "lng": 4.998779296875
+    },
+    "zoom": 9,
+    "title": "Noord-Hollandse museumverhalen"
+  },
+  "geojson_features": [
+    {
+      "__id__": "onh:onh_story_8419",
+      "title": "Fort bij Aalsmeer: beschermer van inundatiesluis en suikerbieten",
+      "image": "http://www.oneindignoordholland.nl/data/uploads/2013022512512b482534404.jpg",
+      "description": [
+        "<strong>Fort bij Aalsmeer ligt naast de Ringdijk van de Haarlemmermeerpolder en maakt onderdeel uit van het <a href=\"http://www.oneindignoordholland.nl/nl-NL/verhaal/8315/stelling-van-amsterdam-zuidwestfront\">Zuidwestfront</a> binnen de <a href=\"http://onh.nl/nl-NL/partner/52/stelling-van-amsterdam\">Stelling van Amsterdam</a>. Het in 1905 voltooide fort had tot doel om deze dijk en de naastgelegen Ringvaart te verdedigen. Bij het fort ligt een dubbele schutsluis die diende om in oorlogstijd inundatiewater vanuit de Ringvaart het Voorkanaal van de <a href=\"http://onh.nl//nl-NL/verhaal/1711/de-geniedijk-de-groene-ruggengraat-van-de-haarlemmermeer\">Geniedijk </a>in te laten. Het fortterrein is omgeven met een dubbele gracht als extra beveiliging. <strong>Het fort is in 1996 gerestaureerd en biedt sinds 2009 onderdak aan het CRASH Luchtoorlog en Verzetsmuseum 1940-1945. </strong></strong>"
+      ],
+      "youtube": false,
+      "externalUrl": [
+        "http://onh.nl//nl-NL/verhaal/8419/fort-bij-aalsmeer-beschermer-van-inundatiesluis-en-suikerbieten"
+      ],
+      "spatial": [
+        "POINT(4.7381252 52.2678737)"
+      ],
+      "userColor": null,
+      "icon": "",
+      "longitude": null,
+      "latitude": null,
+      "layerGroup": "default",
+      "youtubeid": false,
+      "geometryType": "POINT",
+      "cid": "c679",
+      "type": "marker"
+    },
+    {
+      "__id__": "onh:onh_story_653",
+      "title": "Een Nieuwe Kerk voor een groeiende gemeente",
+      "image": "http://www.oneindignoordholland.nl/data/uploads/20120620174fe1e8c9e9261.jpg",
+      "description": [
+        "De hele stad is afgezet, duizenden mensen drommen bijeen achter de hekken om een glimp op te kunnen vangen van het paar. Sommigen staan er al vanaf 7 uur vanochtend en dat terwijl het zo koud is. Eindelijk is het dan zover, na uren wachten rijdt de Rolls-Royce langs. Een minuut, hooguit twee minuten kunnen de omstanders de prins en prinses zien, dan zijn ze alweer voorbij. Ze zijn op weg naar de Nieuwe Kerk op de Dam in Amsterdam voor de huwelijksinzegening. Dit huwelijk van Willem-Alexander en Maxima is voorlopig de laatste koninklijke gebeurtenis in de Nieuwe Kerk."
+      ],
+      "youtube": false,
+      "externalUrl": [
+        "http://onh.nl//nl-NL/verhaal/653/een-nieuwe-kerk-voor-een-groeiende-gemeente"
+      ],
+      "spatial": [
+        "POINT(4.892848 52.3731925)"
+      ],
+      "userColor": null,
+      "icon": "",
+      "longitude": null,
+      "latitude": null,
+      "layerGroup": "default",
+      "youtubeid": false,
+      "geometryType": "POINT",
+      "cid": "c680",
+      "type": "marker"
+    },
+    {
+      "__id__": "onh:onh_story_5303",
+      "title": "Hortus Botanicus in de Plantagebuurt",
+      "image": "http://onh.nl/data/uploads/2014102916545101647a68d.jpg",
+      "description": [
+        "De poort van de Hortus Botanicus, van oorsprong een medicinale plantentuin, dateert uit 1716. De hekpijlers zijn versierd met het gebeeldhouwde wapen van Amsterdam met de Andreaskruisen en het oude stadswapen met het Koggeschip. De poort, nu met een getralied hek, maar vroeger met dichte deuren, stond symbool voor een streng toelatingsbeleid. Zo moesten geregelde gebruikers als chirurgijns bij binnenkomst een speciale penning tonen. Andere bezoekers, veelal welgestelde heren uit binnen- en buitenland, mochten tegen betaling naar binnen. Nu is iedereen welkom en kunnen er door particulieren zelfs planten worden gekocht."
+      ],
+      "youtube": false,
+      "externalUrl": [
+        "http://onh.nl//nl-NL/verhaal/5303/hortus-botanicus-in-de-plantagebuurt"
+      ],
+      "spatial": [
+        "POINT(4.9077389 52.3671008)"
+      ],
+      "userColor": null,
+      "icon": "",
+      "longitude": null,
+      "latitude": null,
+      "layerGroup": "default",
+      "youtubeid": false,
+      "geometryType": "POINT",
+      "cid": "c681",
+      "type": "marker"
+    },
+    {
+      "__id__": "onh:onh_story_1967",
+      "title": "Groen en rust in de Hortus Botanicus",
+      "image": "http://www.oneindignoordholland.nl/data/uploads/20120622124fe44f9b2d278.jpg",
+      "description": [
+        "Midden in de drukte van de stad ligt één van de oudste botanische tuinen ter wereld. Achter de oude toegangspoort waan je je in het rust en het groen. In 1682 werd op een driehoekig stuk een strak aangelegde tuin in gebruik genomen, met een verzameling medicinale planten die aanvankelijk bestemd waren voor onderzoek-  en onderwijsdoeleinden.  In de tuin en de kassen groeien nu ruim 4000 soorten."
+      ],
+      "youtube": false,
+      "externalUrl": [
+        "http://onh.nl//nl-NL/verhaal/1967/groen-en-rust-in-de-hortus-botanicus"
+      ],
+      "spatial": [
+        "POINT(4.9080798 52.3671693)"
+      ],
+      "userColor": null,
+      "icon": "",
+      "longitude": null,
+      "latitude": null,
+      "layerGroup": "default",
+      "youtubeid": false,
+      "geometryType": "POINT",
+      "cid": "c682",
+      "type": "marker"
+    },
+    {
+      "__id__": "onh:onh_story_1240",
+      "title": "Koninklijk en keizerlijk paleis",
+      "image": "http://www.oneindignoordholland.nl//data/items/media/images/originals/26354a798a72b4806463e0db4d955bc3286f9591.jpg",
+      "description": [
+        "In 1808 had koning Lodewijk Napoleon het voormalig stadhuis van Amsterdam een ware metamorfose laten ondergaan. Van ambtelijk kantoorpand werd het een waar stadspaleis, een koning waardig. En twee weken lang, in 1811, ook een keizer waardig."
+      ],
+      "youtube": false,
+      "externalUrl": [
+        "http://onh.nl//nl-NL/verhaal/1240/koninklijk-en-keizerlijk-paleis"
+      ],
+      "spatial": [
+        "POINT(4.8927449 52.3730657)"
+      ],
+      "userColor": null,
+      "icon": "",
+      "longitude": null,
+      "latitude": null,
+      "layerGroup": "default",
+      "youtubeid": false,
+      "geometryType": "POINT",
+      "cid": "c683",
+      "type": "marker"
+    },
+    {
+      "__id__": "onh:onh_story_11814",
+      "title": "Herengracht 518, Geelvinck-Hinlopen Huis",
+      "image": "http://www.oneindignoordholland.nl/data/uploads/20140217135302054bb0a5e.jpg",
+      "description": [
+        "In het Grachtenboek heeft het in oorsprong 17de-eeuwse grachtenhuis een 18de-eeuwse lijstgevel in Lodewijk XIV-stijl. De attiek is echter verdwenen (een reconstructie ging in 1989 vooralsnog niet door). In 1813 heeft opnieuw een verbouwing plaatsgevonden. De deur- en raamomlijstingen dateren uit 1762–63, de Empire deur en ramen uit 1813, evenals de vergulde smeedijzeren bordesleuning. Het huis wordt tegenwoordig het Geelvinck-Hinlopen Huis genoemd, naar de bewoners Albert Geelvinck en Sara Hinlopen. Zij woonden in dit huis in 1687."
+      ],
+      "youtube": false,
+      "externalUrl": [
+        "http://onh.nl//nl-NL/verhaal/11814/herengracht-518-geelvinck-hinlopen-huis"
+      ],
+      "spatial": [
+        "POINT(4.8946881 52.3647574)"
+      ],
+      "userColor": null,
+      "icon": "",
+      "longitude": null,
+      "latitude": null,
+      "layerGroup": "default",
+      "youtubeid": false,
+      "geometryType": "POINT",
+      "cid": "c684",
+      "type": "marker"
+    },
+    {
+      "__id__": "onh:onh_story_1998",
+      "title": "Industrie uit vervlogen tijden",
+      "image": "http://www.oneindignoordholland.nl/data/items/media/images/originals/e3fa78ff6c7d985f5c0fa6aacabb8ed9d0f13c2c.jpg",
+      "description": [
+        "Waar in de negentiende eeuw hard gewerkt werd door sterke mannen aan grote schepen, is sinds een aantal jaren een bijzondere locatie in Amsterdam gerealiseerd. Hoewel het voortbestaan van deze plek in het verleden bedreigd is, is dit industrieel erfgoed toch bewaard gebleven. De Museumwerf ’t Kromhout is ontstaan op deze plek en vertelt het verhaal van de geschiedenis van de werf en de invloed van de scheepsbouw op de stad Amsterdam."
+      ],
+      "youtube": false,
+      "externalUrl": [
+        "http://onh.nl//nl-NL/verhaal/1998/industrie-uit-vervlogen-tijden"
+      ],
+      "spatial": [
+        "POINT(4.9200152 52.3680584)"
+      ],
+      "userColor": null,
+      "icon": "",
+      "longitude": null,
+      "latitude": null,
+      "layerGroup": "default",
+      "youtubeid": false,
+      "geometryType": "POINT",
+      "cid": "c685",
+      "type": "marker"
+    },
+    {
+      "__id__": "onh:onh_story_8346",
+      "title": "Eetcultuur bij de Jonkheren Van Loon",
+      "image": "http://www.oneindignoordholland.nl/data/uploads/201211141550a3b0462ced7.jpg",
+      "description": [
+        "<p>Museum Van Loon is het woonhuis van de Amsterdamse regentenfamilie Van Loon. In 1884 werd het huis Keizersgracht 672 gekocht als huwelijks geschenk door het echtpaar Van Loon – Borski voor hun zoon Willem van Loon en zijn kersverse echtgenote Thora Egidius.  Mede als herinnering aan zijn grootouders besloot Jonkheer Maurits van Loon in 1973 om het huis en de collectie onder te brengen in een stichting en open te stellen voor het publiek. </p>"
+      ],
+      "youtube": false,
+      "externalUrl": [
+        "http://onh.nl//nl-NL/verhaal/8346/eetcultuur-bij-de-jonkheren-van-loon"
+      ],
+      "spatial": [
+        "POINT(4.8931565 52.3634835)"
+      ],
+      "userColor": null,
+      "icon": "",
+      "longitude": null,
+      "latitude": null,
+      "layerGroup": "default",
+      "youtubeid": false,
+      "geometryType": "POINT",
+      "cid": "c686",
+      "type": "marker"
+    },
+    {
+      "__id__": "onh:onh_story_1997",
+      "title": "Biografie van een gebouw: van zeemagazijn tot Scheepvaartmuseum",
+      "image": "http://www.oneindignoordholland.nl/data/items/media/images/originals/7c309541688d0ada32e8b918f033be8e68b7d2dd.jpg",
+      "description": [
+        "In de Gouden Eeuw was de handelsvloot van de Republiek der Nederlanden groter dan die van Engeland en Frankrijk bij elkaar. De voorlopers van de Koninklijke Marine, vijf admiraliteitscolleges, moesten deze vloot beschermen tegen buitenlandse oorlogsschepen en kapers. De grootste en machtigste was die van Amsterdam. De oude admiraliteitswerf was echter te klein geworden en de Admiraliteit verhuisde naar een groter terrein op Kattenburg. Daar verrezen werkplaatsen, kantoren, scheepshellingen en een voor die tijd enorm groot pakhuis: ’s Lands Zeemagazijn."
+      ],
+      "youtube": false,
+      "externalUrl": [
+        "http://onh.nl//nl-NL/verhaal/1997/biografie-van-een-gebouw-van-zeemagazijn-tot-scheepvaartmuseum"
+      ],
+      "spatial": [
+        "POINT(4.9148225 52.3714712)"
+      ],
+      "userColor": null,
+      "icon": "",
+      "longitude": null,
+      "latitude": null,
+      "layerGroup": "default",
+      "youtubeid": false,
+      "geometryType": "POINT",
+      "cid": "c687",
+      "type": "marker"
+    },
+    {
+      "__id__": "onh:onh_story_9465",
+      "title": "Paviljoen Welgelegen: zetel van kunst, koninklijke macht en provinciaal bestuur",
+      "image": "http://www.oneindignoordholland.nl/data/uploads/2013111813528a05766bf4f.jpg",
+      "description": [
+        "<p><strong>Het imposante Paviljoen Welgelegen kent een bijzondere geschiedenis. Nu zetelt er het provinciebestuur. Maar voordat het de functie van provinciehuis kreeg, was het paleis en museum. De moeder van koning Willem I, prinses Wilhelmina van Pruisen, heeft hier gewoond. Menig maal zocht de koning zijn moeder hier op.</strong></p>"
+      ],
+      "youtube": false,
+      "externalUrl": [
+        "http://onh.nl//nl-NL/verhaal/9465/paviljoen-welgelegen-zetel-van-kunst-koninklijke-macht-en-provinciaal-bestuur"
+      ],
+      "spatial": [
+        "POINT(4.6321321 52.3717346)"
+      ],
+      "userColor": null,
+      "icon": "",
+      "longitude": null,
+      "latitude": null,
+      "layerGroup": "default",
+      "youtubeid": false,
+      "geometryType": "POINT",
+      "cid": "c688",
+      "type": "marker"
+    },
+    {
+      "__id__": "onh:onh_story_1530",
+      "title": "Verzetsmuseum in Amsterdam: alsof je er zelf bij was",
+      "image": "http://www.oneindignoordholland.nl/data/items/media/images/originals/a50d37e0aee0eb269e87e70c3473daa10d7271cc.jpg",
+      "description": [
+        "\"Hé, die herken ik nog! Dat was me toch wat hè?\" Een oude man met rollator komt vrolijk aanrollen tussen de vitrines met voedselbonnen en afscheidsbrieven, gegooid uit de trein die duizenden joden naar Auschwitz bracht. In het <a href=\"http://onh.nl/VerzetsmuseumAmsterdam\">Verzetsmuseum</a> herleven de herinneringen aan de Tweede Wereldoorlog."
+      ],
+      "youtube": false,
+      "externalUrl": [
+        "http://onh.nl//nl-NL/verhaal/1530/verzetsmuseum-in-amsterdam-alsof-je-er-zelf-bij-was"
+      ],
+      "spatial": [
+        "POINT(4.911421 52.3660105)"
+      ],
+      "userColor": null,
+      "icon": "",
+      "longitude": null,
+      "latitude": null,
+      "layerGroup": "default",
+      "youtubeid": false,
+      "geometryType": "POINT",
+      "cid": "c689",
+      "type": "marker"
+    },
+    {
+      "__id__": "onh:onh_story_3253",
+      "title": "Kranenburg",
+      "image": "http://www.oneindignoordholland.nl/data/items/media/images/originals/f83f540eb3cd85707aeeaae9f8201f1d21be066a.jpg",
+      "description": [
+        "In 1882 liet Jacob van Reenen (1859-1951) Villa Kranenburg bouwen voor hem en zijn Duitse vrouw Maria Völter. Het echtpaar heeft grote invloed gehad op de ruimtelijke en sociale ontwikkeling van Bergen door onder andere de stichting van Bergen aan Zee en de ontwikkeling van het Van Reenenpark. Sinds 1993 is Museum Kranenburgh in de villa gevestigd. <a href=\"http://www.oneindignoordholland.nl/nl-NL/verhaal/5358/villa-kranenburg\">Lees meer</a>"
+      ],
+      "youtube": false,
+      "externalUrl": [
+        "http://onh.nl//nl-NL/verhaal/3253/kranenburg"
+      ],
+      "spatial": [
+        "POINT(4.6955923 52.6680117)"
+      ],
+      "userColor": null,
+      "icon": "",
+      "longitude": null,
+      "latitude": null,
+      "layerGroup": "default",
+      "youtubeid": false,
+      "geometryType": "POINT",
+      "cid": "c690",
+      "type": "marker"
+    },
+    {
+      "__id__": "onh:onh_story_2056",
+      "title": "Museum Cruquius",
+      "image": "http://www.oneindignoordholland.nl//data/items/media/images/originals/8526252aae43d804bcc5c178b77af7f5cbd88b1e.jpg",
+      "description": [
+        "Tussen 1849 en 1852 was De Cruquius bij Heemstede één van de drie stoomgemalen die het gigantische Haarlemmermeer hebben drooggemaakt. De drie stoomgemalen waren een spannend experiment, want bij het leegmalen van meren gebruikte men eerder windmolens. De twee andere stoommachines waren: De Leeghwater in het zuiden van het Haarlemmermeer en De Lijnden in het noorden. De stoommachines waren vernoemd naar waterbouwkundigen, die alle drie plannen hadden opgesteld om het Haarlemmermeer te dempen. In 1849 begonnen de machines te pompen. Drie jaar later, in het voorjaar van 1852, kwam de bodem van het meer in zicht. De stoomgemalen hadden samen 833 miljoen kubieke meter weggewerkt."
+      ],
+      "youtube": false,
+      "externalUrl": [
+        "http://www.oneindignoordholland.nl/nl-NL/verhaal/2056/museum-cruquius"
+      ],
+      "spatial": [
+        "POINT(4.6380273 52.3382379)"
+      ],
+      "userColor": null,
+      "icon": "",
+      "longitude": null,
+      "latitude": null,
+      "layerGroup": "default",
+      "youtubeid": false,
+      "geometryType": "POINT",
+      "cid": "c691",
+      "type": "marker"
+    },
+    {
+      "__id__": "onh:onh_story_15691",
+      "title": "Drijvende kelder en sitsen stoffen in Edams Museum",
+      "image": "http://onh.nl/data/uploads/20150527145565b615cea73.jpg",
+      "description": [
+        "Een schilderij van een Edams meisje uit de zeventiende eeuw dat 2,5 meter lang was, een drijvende kelder en een winkeltje in sitsen stoffen, er zijn saaiere musea dan het dit voorjaar heropende <a href=\"http://onh.nl/EdamsMuseum\">Edams Museum</a>."
+      ],
+      "youtube": false,
+      "externalUrl": [
+        "http://onh.nl//nl-NL/verhaal/15691/drijvende-kelder-en-sitsen-stoffen-in-edams-museum"
+      ],
+      "spatial": [
+        "POINT(5.0490863 52.5126432)"
+      ],
+      "userColor": null,
+      "icon": "",
+      "longitude": null,
+      "latitude": null,
+      "layerGroup": "default",
+      "youtubeid": false,
+      "geometryType": "POINT",
+      "cid": "c692",
+      "type": "marker"
+    },
+    {
+      "__id__": "onh:onh_story_12158",
+      "title": "Het Steenen Coopmanshuys in Edam",
+      "image": "http://onh.nl/data/uploads/2014050815536b7ff3de946.jpg",
+      "description": [
+        "<p>Dit huis werd in 1550 gebouwd en was het eerste stenen koopmanshuis van Edam. Het was voor Edam in die tijd een bijzonder 'rijk' huis. Prominent gelegen aan de Damsluis is het oudste stenen huis van Edam een indrukwekkende verschijning. Al meer dan een eeuw is hier het <a href=\"http://onh.nl/EdamsMuseum\">Edams Museum </a>gevestigd.</p>"
+      ],
+      "youtube": false,
+      "externalUrl": [
+        "http://onh.nl//nl-NL/verhaal/12158/het-steenen-coopmanshuys-in-edam"
+      ],
+      "spatial": [
+        "POINT(5.0490803 52.5126607)"
+      ],
+      "userColor": null,
+      "icon": "",
+      "longitude": null,
+      "latitude": null,
+      "layerGroup": "default",
+      "youtubeid": false,
+      "geometryType": "POINT",
+      "cid": "c693",
+      "type": "marker"
+    },
+    {
+      "__id__": "onh:onh_story_1518",
+      "title": "Het Frans Hals Museum dankt zijn ontstaan aan een rederijkersfeest",
+      "image": "http://www.oneindignoordholland.nl/data/items/media/images/originals/adb155d13180d557031af443eec3138e66fb0c96.jpg",
+      "description": [
+        "Het Frans Hals Museum is gevestigd in een gebouw dat zijn ontstaan dankt aan een rederijkersfeest: het Landjuweel uit 1606. Op initiatief van de Haarlemse rederijkerskamer De Pellicaen (beter bekend onder zijn motto: ‘Trou moet Blycken’) werd een feest georganiseerd ten bate van het oudemannenhuis. Met de opbrengst uit een grote loterij kon het oudemannenhuis vervolgens worden gebouwd. Het was destijds een van de vroegste bejaardentehuizen ter wereld; tegenwoordig is het een prachtige setting voor de collectie oude kunst van het museum."
+      ],
+      "youtube": false,
+      "externalUrl": [
+        "http://onh.nl//nl-NL/verhaal/1518/het-frans-hals-museum-dankt-zijn-ontstaan-aan-een-rederijkersfeest"
+      ],
+      "spatial": [
+        "POINT(4.6336815 52.3765006)"
+      ],
+      "userColor": null,
+      "icon": "",
+      "longitude": null,
+      "latitude": null,
+      "layerGroup": "default",
+      "youtubeid": false,
+      "geometryType": "POINT",
+      "cid": "c694",
+      "type": "marker"
+    },
+    {
+      "__id__": "onh:onh_story_9201",
+      "title": "Frans Hals Museum",
+      "image": "http://www.oneindignoordholland.nl/data/uploads/201309021452248a637740a.jpg",
+      "description": [
+        "<p>Het gebouw waarin het Frans Hals Museum is gevestigd heeft al een lange geschiedenis. Het werd gebouwd als Oude mannenhuis, een tehuis waar mannen van boven de 60 hun laatste dagen konden slijten. Het tehuis opende in 1609 haar deuren voor de eerste bewoners. De mannen woonden twee aan twee in kleine huisjes die rond de binnenplaats lagen. Gezamenlijk gebruikten zij de maaltijden, in de grote zaal in het hoofdgebouw, die er nog steeds is, maar nu is ingericht als museumzaal. </p>"
+      ],
+      "youtube": false,
+      "externalUrl": [
+        "http://onh.nl//nl-NL/verhaal/9201/frans-hals-museum"
+      ],
+      "spatial": [
+        "POINT(4.6338809 52.3768927)"
+      ],
+      "userColor": null,
+      "icon": "",
+      "longitude": null,
+      "latitude": null,
+      "layerGroup": "default",
+      "youtubeid": false,
+      "geometryType": "POINT",
+      "cid": "c695",
+      "type": "marker"
+    },
+    {
+      "__id__": "onh:onh_story_2428",
+      "title": "Fort Kijkduin",
+      "image": "http://www.oneindignoordholland.nl/data/items/media/images/originals/c29c085cc171c3f7945e10978c46a20b60a0dbf8.jpg",
+      "description": [
+        "Adres: Admiraal Verhuellplein 1, Huisduinen GPS-coördinaten: 52.95139, 4.72150. Fort Kijkduin nabij Huisduinen dateert van 1810 en dankt haar naam aan de hoge duintop waarop het is gebouwd: een  ideale plek voor de kustbewaking van Den Helder. <a href=\"http://www.oneindignoordholland.nl/nl-NL/verhaal/1190/ruim-zicht-op-fort-kijkduin\">Lees meer</a>"
+      ],
+      "youtube": false,
+      "externalUrl": [
+        "http://onh.nl//nl-NL/verhaal/2428/fort-kijkduin"
+      ],
+      "spatial": [
+        "POINT(4.721995 52.9507821)"
+      ],
+      "userColor": null,
+      "icon": "",
+      "longitude": null,
+      "latitude": null,
+      "layerGroup": "default",
+      "youtubeid": false,
+      "geometryType": "POINT",
+      "cid": "c696",
+      "type": "marker"
+    },
+    {
+      "__id__": "onh:onh_story_12576",
+      "title": "Het Singer museum te Laren",
+      "image": "http://onh.nl/data/uploads/201409011254044ee08f6e9.jpg",
+      "description": [
+        "In Parijs had het echtpaar voor het eerst van Laren gehoord en toen 'moesten ze er wel heen'. Zoals zovele artistiekelingen begin 20e eeuw was het echtpaar Singer na aankomst getroffen door de natuur en de sfeer in het onbedorven Laren en vestigden zij zich hier voor lange tijd. De steenrijke miljonairs bouwden hier een uitgebreide kunstcollectie op die Anna na de dood van haar man William in 1943 onderbracht in een stichting. In de jaren 50 groeide dit uit in het uitgebreide kunst- en cultuur centrum dat het Singer Laren dezer dagen is."
+      ],
+      "youtube": false,
+      "externalUrl": [
+        "http://onh.nl//nl-NL/verhaal/12576/het-singer-museum-te-laren"
+      ],
+      "spatial": [
+        "POINT(5.2238274 52.2571852)"
+      ],
+      "userColor": null,
+      "icon": "",
+      "longitude": null,
+      "latitude": null,
+      "layerGroup": "default",
+      "youtubeid": false,
+      "geometryType": "POINT",
+      "cid": "c697",
+      "type": "marker"
+    },
+    {
+      "__id__": "onh:onh_story_1957",
+      "title": "Kasteel Sypesteyn: bijna nooit iets veranderd",
+      "image": "http://www.oneindignoordholland.nl/data/items/media/images/originals/ce5a86c80fa2276b1fcf7f396a355baa0543643a.jpg",
+      "description": [
+        "Stel je voor dat de Jonkheer van Sypesteyn (1857 – 1937) uit de dood zou herrijzen. Hij ziet dan dat zijn tuin nog nagenoeg hetzelfde is, zoals hij dat rond 1902 aan had laten leggen. Veel van de bijzondere bomen die in de tuin staan, zoals de Japanse Treurhoningboom (zie afbeelding) en de Moerascipres (een subtropische naaldboomsoort) zijn nog in zijn opdracht geplant. Ook de indeling van de tuin, met al haar zichtlijnen, is in hoofdlijnen onveranderd gebleven. De bomen zijn ondertussen wel ouder geworden en veranderd in oude krasse knarren. Dat we de tuin anno 2012 in zijn nagenoeg originele staat kunnen zien, is te danken aan tuinbazin Henny van der Wilt. Zij is de tuinbazin (hovenier) van de kasteeltuin en degene die er de afgelopen achttien jaar samen met vele vrijwilligers voor heeft gezorgd dat de tuin van Jonkeer van Sypesteyn er nagenoeg nog net zo uit ziet als honderd jaar geleden. De tuin is een levend monument."
+      ],
+      "youtube": false,
+      "externalUrl": [
+        "http://onh.nl//nl-NL/verhaal/1957/kasteel-sypesteyn-bijna-nooit-iets-veranderd"
+      ],
+      "spatial": [
+        "POINT(5.1229341 52.193484)"
+      ],
+      "userColor": null,
+      "icon": "",
+      "longitude": null,
+      "latitude": null,
+      "layerGroup": "default",
+      "youtubeid": false,
+      "geometryType": "POINT",
+      "cid": "c698",
+      "type": "marker"
+    },
+    {
+      "__id__": "onh:onh_story_8904",
+      "title": "Museum de Speeltoren: geschiedenis van Waterland en Monnickendam",
+      "image": "http://www.oneindignoordholland.nl/data/uploads/201306281851cdb9e53ca96.jpg",
+      "description": [
+        "<p><strong>De geschiedenis van de Speeltoren is met raadselen omgeven. Het stadje Monnickendam werd rond 1500 twee keer door een fikse stadsbrand getroffen waardoor archieven en documenten uit die tijd zijn verdwenen. De toren werd begin 16e eeuw naar alle waarschijnlijkheid gebouwd op de restanten van een door brand verwoeste kerk. Het carillon van de Speeltoren heeft een opmerkelijke reputatie: het is het valste klokkenspel van Nederland! De vijftien klokken dateren uit 1595 en zijn nooit vervangen of aangepast om zuiverder te klinken. Werd er vroeger nog gelachen om de valse Speeltoren, nu heeft Monnickendam een uniek geluid waar men trots op is. </strong></p>"
+      ],
+      "youtube": false,
+      "externalUrl": [
+        "http://onh.nl//nl-NL/verhaal/8904/museum-de-speeltoren-geschiedenis-van-waterland-en-monnickendam"
+      ],
+      "spatial": [
+        "POINT(5.0356747 52.4593311)"
+      ],
+      "userColor": null,
+      "icon": "",
+      "longitude": null,
+      "latitude": null,
+      "layerGroup": "default",
+      "youtubeid": false,
+      "geometryType": "POINT",
+      "cid": "c699",
+      "type": "marker"
+    },
+    {
+      "__id__": "onh:onh_story_8516",
+      "title": "Het Muiderslot: middeleeuwse waterburcht verdedigt Amsterdam",
+      "image": "http://www.oneindignoordholland.nl/data/uploads/2013032213514c4f318c236.jpg",
+      "description": [
+        "Het Muiderslot bestond al eeuwen voordat de forten van de Stelling van Amsterdam werden aangelegd. Muiden lag op een strategisch belangrijke plek: aan de monding van de Vecht – de rivier verbond Utrecht met de Zuiderzee – en langs de oude Zuiderzeedijk, eeuwenlang de enige weg over land tussen Amsterdam en Naarden. In de zestiende en zeventiende eeuw groeide Muiden uit tot een belangrijke vestingstad. Samen met het dichtbij gelegen Weesp verdedigde het Amsterdam voor een aanval vanuit het oosten. Muiden behield deze militaire functie tot diep in de negentiende eeuw. Eerst als onderdeel van de Nieuwe Hollandse Waterlinie en vanaf 1892 bij het <a href=\"http://www.oneindignoordholland.nl/nl-NL/verhaal/8137/stelling-van-amsterdam-zuidoostfront\">Zuidoostfront</a> van de Stelling van Amsterdam. Het belang van het Muiderslot lag voornamelijk in waterstaatkundig opzicht: via de holle sluisbeer achter het slot kon het omringende polderland onder water worden gezet. Sinds het voorjaar van 2012 kan men op het kasteelterrein het ‘Waterschild’ bezoeken. In dit moderne bouwwerk wordt de waterstaatkundige functie van het Muiderslot voor de Hollandse Waterlinie en de Stelling van Amsterdam toegelicht in een multimediale presentatie."
+      ],
+      "youtube": false,
+      "externalUrl": [
+        "http://onh.nl//nl-NL/verhaal/8516/het-muiderslot-middeleeuwse-waterburcht-verdedigt-amsterdam"
+      ],
+      "spatial": [
+        "POINT(5.0712419 52.334395)"
+      ],
+      "userColor": null,
+      "icon": "",
+      "longitude": null,
+      "latitude": null,
+      "layerGroup": "default",
+      "youtubeid": false,
+      "geometryType": "POINT",
+      "cid": "c700",
+      "type": "marker"
+    },
+    {
+      "__id__": "onh:onh_story_1353",
+      "title": "De Weeshuiskazerne in Naarden",
+      "image": "http://www.oneindignoordholland.nl/data/items/media/images/originals/538367ff59779951c4285b48c2fff54364ef13e3.jpg",
+      "description": [
+        "Het Comenius Museum aan de Kloosterstraat was ooit een klooster, daarna een weeshuis en vervolgens lange tijd een kazerne. Niet alleen werden er Nederlandse soldaten gelegerd maar ook Fransen, Belgen en Duitsers. Het waren de Fransen die het weeshuis aanwezen als een kazerne."
+      ],
+      "youtube": false,
+      "externalUrl": [
+        "http://onh.nl//nl-NL/verhaal/1353/de-weeshuiskazerne-in-naarden"
+      ],
+      "spatial": [
+        "POINT(5.164467 52.2973087)"
+      ],
+      "userColor": null,
+      "icon": "",
+      "longitude": null,
+      "latitude": null,
+      "layerGroup": "default",
+      "youtubeid": false,
+      "geometryType": "POINT",
+      "cid": "c701",
+      "type": "marker"
+    },
+    {
+      "__id__": "onh:onh_story_1362",
+      "title": "Het Nederlands Vestingmuseum",
+      "image": "http://www.oneindignoordholland.nl/data/items/media/images/originals/3fe72adfaa6ec7b4719d1d35a385fbf7d7f2021d.jpg",
+      "description": [
+        "De vestingstad Naarden is nu een groene parel in het Gooi, een oase van rust in de jachtige Randstad, met prachtige huizen, stoere kazernes en begroeide wallen. Maar eens was Naarden een moderne militaire verdedigingspost, om de toegangsweg tot het rijke gewest Holland en de koopmansstad Amsterdam tegen een mogelijke vijand te verdedigen."
+      ],
+      "youtube": false,
+      "externalUrl": [
+        "http://onh.nl//nl-NL/verhaal/1362/het-nederlands-vestingmuseum"
+      ],
+      "spatial": [
+        "POINT(5.160528 52.293376)"
+      ],
+      "userColor": null,
+      "icon": "",
+      "longitude": null,
+      "latitude": null,
+      "layerGroup": "default",
+      "youtubeid": false,
+      "geometryType": "POINT",
+      "cid": "c702",
+      "type": "marker"
+    },
+    {
+      "__id__": "onh:onh_story_2289",
+      "title": "Jac. Jongert (Purmerends Museum)",
+      "image": "http://www.oneindignoordholland.nl/data/items/media/images/originals/9c1757fd745221cbb52f7eadb19805e3ebc1c61d.jpg",
+      "description": [
+        "In het Purmerends museum is voorts veel aandacht voor de graficus Jac. Jongert, een van de belangrijkste kunstenaars die Purmerend heeft voortgebracht. Dit object maakt onderdeel uit van de QR route door Historisch Purmerend.<br /><br /><a href=\"http://www.oneindignoordholland.nl/nl-NL/verhaal/811/purmerends-museum\">Lees meer</a>"
+      ],
+      "youtube": false,
+      "externalUrl": [
+        "http://www.oneindignoordholland.nl/nl-NL/verhaal/2289/jac-jongert-purmerends-museum"
+      ],
+      "spatial": [
+        "POINT(4.946239 52.5099523)"
+      ],
+      "userColor": null,
+      "icon": "",
+      "longitude": null,
+      "latitude": null,
+      "layerGroup": "default",
+      "youtubeid": false,
+      "geometryType": "POINT",
+      "cid": "c703",
+      "type": "marker"
+    },
+    {
+      "__id__": "onh:onh_story_8130",
+      "title": "Fort bij Vijfhuizen: vervallen fort wordt creatief bolwerk",
+      "image": "http://www.oneindignoordholland.nl/data/uploads/20120906095048564385094.jpg",
+      "description": [
+        "Fort bij Vijfhuizen, gelegen in het <a href=\"http://www.oneindignoordholland.nl/nl-NL/verhaal/8315/stelling-van-amsterdam-zuidwestfront\">Zuidwestfront</a> van de Stelling, is om een aantal redenen een bijzonder fort. Vanuit historisch perspectief omdat het fort als eerste gebouwd is volgens een nieuw standaardtype. Het Fort bij Vijfhuizen kan beschouwd worden als een 'voorbeeld fort' voor de eerste reeks van forten die aan de west- en zuidkant van Amsterdam in de jaren 1897-1907 werden gebouwd. Ten tweede omdat het een inspirerend voorbeeld is van een geslaagde herbestemming van een oud fort.  In de jaren vijftig verloren de stellingforten hun militaire status. Een meerderheid van de forten ging dienst doen als opslagplaats voor Defensie. Naar vele andere forten werd nauwelijks omgekeken. Decennia lang stonden deze overblijfselen uit een militair verleden weg te kwijnen. Maar vanaf eind jaren tachtig groeide het besef om de oude forten een tweede leven te geven. Het is mede te danken aan de drijvende kracht van een buurtbewoner dat het verlaten Fort bij Vijfhuizen werd omgetoverd tot een creatief bolwerk."
+      ],
+      "youtube": false,
+      "externalUrl": [
+        "http://onh.nl//nl-NL/verhaal/8130/fort-bij-vijfhuizen-vervallen-fort-wordt-creatief-bolwerk"
+      ],
+      "spatial": [
+        "POINT(4.6702191 52.3471904)"
+      ],
+      "userColor": null,
+      "icon": "",
+      "longitude": null,
+      "latitude": null,
+      "layerGroup": "default",
+      "youtubeid": false,
+      "geometryType": "POINT",
+      "cid": "c704",
+      "type": "marker"
+    },
+    {
+      "__id__": "onh:onh_story_15466",
+      "title": "Stadhuis van het welvarende Weesp uit de 18e eeuw",
+      "image": "http://onh.nl/data/uploads/20150409105526387aeab32.jpg",
+      "description": [
+        "<p>Bij het Grote Plein staat het stadhuis van een onmiskenbaar trotse stad. Het stadsbestuur wilde er bij de bouw van dit stadhuis geen twijfel over laten bestaan: Weesp is een <a href=\"http://onh.nl//nl-NL/verhaal/9577/weesp-werd-groot-door-genot\">welvarende stad</a>. Een stad met allure. Hier trokken de bouwvakkers een stoer gebouw op dat de bezoeker imponeert. Althans van buiten, want wie binnentreedt, ziet daar een zwierige rococostijl.</p>"
+      ],
+      "youtube": false,
+      "externalUrl": [
+        "http://onh.nl//nl-NL/verhaal/15466/stadhuis-van-het-welvarende-weesp-uit-de-18e-eeuw"
+      ],
+      "spatial": [
+        "POINT(5.0427501 52.3067339)"
+      ],
+      "userColor": null,
+      "icon": "",
+      "longitude": null,
+      "latitude": null,
+      "layerGroup": "default",
+      "youtubeid": false,
+      "geometryType": "POINT",
+      "cid": "c705",
+      "type": "marker"
+    },
+    {
+      "__id__": "onh:onh_story_1852",
+      "title": "Bakkerijmuseum ‘In de Gecroonde Duyvekater’",
+      "image": "http://www.oneindignoordholland.nl/data/items/media/images/originals/68e5466272cf90cd7b073f23a1a932114340b04e.jpg",
+      "description": [
+        "Het bakkerijmuseum aan het Zeilenmakerspad is gevestigd in een 17e-eeuws pand. Het stamt uit 1658, was aanvankelijk een woonhuis maar werd in 1758 verbouwd tot bakkerij. Bijna twee eeuwen, tot 1956, zijn de ovens in gebruik geweest."
+      ],
+      "youtube": false,
+      "externalUrl": [
+        "http://onh.nl//nl-NL/verhaal/1852/bakkerijmuseum-in-de-gecroonde-duyvekater"
+      ],
+      "spatial": [
+        "POINT(4.8178474 52.4730078)"
+      ],
+      "userColor": null,
+      "icon": "",
+      "longitude": null,
+      "latitude": null,
+      "layerGroup": "default",
+      "youtubeid": false,
+      "geometryType": "POINT",
+      "cid": "c706",
+      "type": "marker"
+    },
+    {
+      "__id__": "onh:onh_story_5352",
+      "title": "Tsaar Peterhuisje in Zaandam",
+      "image": "http://www.oneindignoordholland.nl/data/uploads/201210221550854bac305bf.jpg",
+      "description": [
+        "‘Waar is nou dat oude scheefgezakte houten huisje? Ik zie niks.’ Menig kind op schoolreisje naar Zaandam (eerst per boot en later met de bus) zal ter plekke deze vraag aan meester of juf hebben gesteld. En inderdaad, op het eerste gezicht is het zeventiende-eeuwse Tsaar Peterhuisje niet te zien. Het kleine werkmanshuisje - het oudste in zijn soort in Nederland – is in 1895 stevig verpakt in een stenen omhulsel, naar een ontwerp van het Amsterdamse architectenbureau Salm. Hun schepping is inmiddels ook tot monument verklaard, net zoals het naar tsaar Peter de Grote vernoemde huisje dat zich in haar binnenste bevindt."
+      ],
+      "youtube": false,
+      "externalUrl": [
+        "http://onh.nl//nl-NL/verhaal/5352/tsaar-peterhuisje-in-zaandam"
+      ],
+      "spatial": [
+        "POINT(4.8235438 52.4373189)"
+      ],
+      "userColor": null,
+      "icon": "",
+      "longitude": null,
+      "latitude": null,
+      "layerGroup": "default",
+      "youtubeid": false,
+      "geometryType": "POINT",
+      "cid": "c707",
+      "type": "marker"
+    },
+    {
+      "__id__": "onh:onh_story_8186",
+      "title": "Honig Breethuis: thuis bij een Zaans koopmansgezin",
+      "image": "http://www.oneindignoordholland.nl/data/uploads/20120918155058794471818.jpg",
+      "description": [
+        "Eind 1999 heropende het voormalige Zaans Historisch Museum zijn deuren als <a href=\"http://onh.nl/HonigBreethuis\">Honig Breethuis</a>. De nieuwe naam verwijst naar de geschiedenis van het museumpand, dat tussen 1710 en 1892 werd bewoond door leden van de bekende ondernemersfamilies Honig en Breet. De inrichting van het Honig Breethuis vormt een nauwgezette reconstructie van de bewoningsfase tijdens de Biedermeiertijd (het tweede kwart van de 19e eeuw), toen het gezin Breet-de Jager er zijn intrek nam. C &amp; J Honig (Breet) was de bedrijfsnaam van het familiebedrijf dat met behulp van molens hoogwaardig papier vervaardigde in de achttiende en negentiende eeuw. In die tijd bezat het bedrijf een wereldwijde reputatie voor kwalitatief hoogwaardig papier."
+      ],
+      "youtube": false,
+      "externalUrl": [
+        "http://onh.nl//nl-NL/verhaal/8186/honig-breethuis-thuis-bij-een-zaans-koopmansgezin"
+      ],
+      "spatial": [
+        "POINT(4.813292 52.4734103)"
+      ],
+      "userColor": null,
+      "icon": "",
+      "longitude": null,
+      "latitude": null,
+      "layerGroup": "default",
+      "youtubeid": false,
+      "geometryType": "POINT",
+      "cid": "c708",
+      "type": "marker"
+    }
+  ]
+}
