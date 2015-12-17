@@ -25,4 +25,3 @@ reach a wider audience.
 npm install && bower install
 grunt 
 ```
- 

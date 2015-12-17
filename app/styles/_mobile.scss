@@ -1,0 +1,25 @@
+@import "init";
+@media screen and (max-width: $screen-sm-min) {
+
+  body {
+
+    #header-title div {
+      height: 62px;
+    }
+    #header h1  {
+      margin-left: 10px;
+      font-size: 14px;
+      max-width: 200px;
+      line-height: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      position: relative;
+    }
+
+    #header #primary-actions li a {
+      margin-right: 10px;
+      padding: 0 12px;
+    }
+  }
+
+}
