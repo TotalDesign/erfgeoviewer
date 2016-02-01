@@ -45,7 +45,7 @@
         if (externalUrl) {
 %><div class="row <%= field.key %>"><div class="col s12">
 <% if (field.label) { %><label><%= field.label %></label> <% } %>
-<div class="editable"><a id="edit-externalUrl" href="<%= externalUrl %>" class="btn color-secondary"><%= ui.moreInfo %></a></div>
+    <a id="edit-externalUrl" href="<%= externalUrl %>" class="btn color-secondary"><div class="editable"><%= ui.moreInfo %></div></a>
 </div></div><%
         }
         break;

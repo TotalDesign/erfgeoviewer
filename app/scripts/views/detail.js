@@ -15,6 +15,9 @@ define( ["backbone", "backbone.marionette", "communicator", "medium.editor", "co
         },
         "click .change-style": function(e) {
           e.preventDefault();
+        },
+        "click #edit-externalUrl": function(e) {
+          e.preventDefault();
         }
       },
 
@@ -51,15 +54,16 @@ define( ["backbone", "backbone.marionette", "communicator", "medium.editor", "co
 
           this.singleLineEditor = new MediumEditor(singleLiners, {
             toolbar: {
-              buttons: ['bold', 'italic', 'underline', {
-                name: 'anchor',
-                aria: 'link',
-                customClassOption: 'btn color-secondary',
-                customClassOptionText: 'Toon als knop',
-                tagNames: ['a'],
-                action: 'createLink',
-                contentDefault: '<b>#</b>'
-              }]
+              buttons: ['bold', 'italic', 'underline']
+              /* , {
+               name: 'anchor',
+               aria: 'link',
+               customClassOption: 'btn color-secondary',
+               customClassOptionText: 'Toon als knop',
+               tagNames: ['a'],
+               action: 'createLink',
+               contentDefault: '<b>#</b>'
+               } */
             },
             disableReturn: true,
             imageDragging: false
